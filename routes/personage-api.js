@@ -23,6 +23,7 @@ router.get('/personages', function(req, res) {
     models.Personage.findAll({
         include: [ models.Race ]
     }).then(function(personages) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
         return res.send({records:personages});
     });
 });
