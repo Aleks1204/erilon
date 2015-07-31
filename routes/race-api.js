@@ -8,12 +8,14 @@ router.post('/races', function(req, res) {
             name: req.body.name,
             max_age: req.body.max_age
         }).then(function(race) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
             res.send({ status: 'CREATED', race:race })
         });
 });
 
 router.get('/races', function(req, res) {
     models.Race.findAll().then(function(races) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
         return res.send(races);
     });
 });
@@ -22,9 +24,11 @@ router.get('/races/:id', function(req, res) {
     models.Race.findById(req.params.id).then(function (race) {
         if(!race) {
             res.statusCode = 404;
+            res.setHeader('Access-Control-Allow-Origin', '*');
             return res.send({ error: 'Not found' });
         }
 
+        res.setHeader('Access-Control-Allow-Origin', '*');
         return res.send({ status: 'OK', race: race });
     });
 });
@@ -42,6 +46,7 @@ router.put('/races/:id', function (req, res){
             name: req.body.name,
             max_age: req.body.max_age
         }).then(function(race) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
             res.send({ status: 'UPDATED', race:race })
         });
     });
@@ -51,10 +56,12 @@ router.delete('/races/:id', function (req, res){
     models.Race.findById(req.params.id).then(function (race) {
         if(!race) {
             res.statusCode = 404;
+            res.setHeader('Access-Control-Allow-Origin', '*');
             return res.send({ error: 'Not found' });
         }
 
         return race.destroy().then(function () {
+            res.setHeader('Access-Control-Allow-Origin', '*');
             return res.send({ status: 'REMOVED' });
         });
     });
