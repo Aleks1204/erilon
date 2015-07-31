@@ -16,6 +16,8 @@
     "sequelize": "^3.5.1",
     "mysql": "^2.8.0",
     "winston": "^1.0.1",
-    "angular": "^1.4.3"
+    "angular": "^1.4.3",
+    "pg": "^4.4.0",
+    "pg-hstore": "^2.3.2"
   }
 }
