@@ -19,7 +19,7 @@ router.post('/personages', function(req, res) {
     });
 });
 
-router.get('/personages.php', function(req, res) {
+router.get('/personages', function(req, res) {
     models.Personage.findAll({
         include: [ models.Race ]
     }).then(function(personages) {
