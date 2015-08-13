@@ -33,30 +33,32 @@
 
 <h2>Add race</h2>
 
-<form ng-controller="addRaceController"
-      name="createRaceForm" novalidate>
+<nav>
+    <form ng-controller="addRaceController"
+          name="createRaceForm" novalidate>
 
-    <p>Race name:<br>
-        <input type="text" name="race_name" ng-model="race_name" required>
+        <p>Race name:<br>
+            <input type="text" name="race_name" ng-model="race_name" required>
         <span style="color:red" ng-show="createRaceForm.race_name.$dirty && createRaceForm.race_name.$invalid">
             <span ng-show="createRaceForm.race_name.$error.required">Race name is required.</span>
         </span>
-    </p>
+        </p>
 
-    <p>Max age:<br>
-        <input type="number" name="max_age" ng-model="max_age" min="0" required>
+        <p>Max age:<br>
+            <input type="number" name="max_age" ng-model="max_age" min="0" required>
         <span style="color:red" ng-show="createRaceForm.max_age.$dirty && createRaceForm.max_age.$invalid">
             <span ng-show="createRaceForm.max_age.$error.required">Max age is required and should be numeric.</span>
         </span>
-    </p>
+        </p>
 
-    <p>
-        <input type="submit" ng-click="createRace()" value="Add race"
-               ng-disabled="createRaceForm.race_name.$dirty && createRaceForm.race_name.$invalid ||
+        <p>
+            <input type="submit" ng-click="createRace()" value="Add race"
+                   ng-disabled="createRaceForm.race_name.$dirty && createRaceForm.race_name.$invalid ||
                 createRaceForm.max_age.$dirty && createRaceForm.max_age.$invalid">
-    </p>
+        </p>
 
-</form>
+    </form>
+</nav>
 
 <script>
     var app = angular.module("raceController", []);
