@@ -25,6 +25,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', raceApi);
 app.use('/', personageApi);
 
+app.use(express.static(__dirname + '../public'));
+app.set('views', __dirname + '/public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
+
+app.get('/', function(req, res){
+    res.render('index.html');
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

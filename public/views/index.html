@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<style>
+    table, th, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+</style>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<body ng-app="raceController">
+
+<div ng-controller="racesController">
+
+    <table>
+        <tr ng-repeat="race in races | orderBy : 'id'">
+            <td>{{ race.id }}</td>
+            <td>{{ race.name }}</td>
+            <td>{{ race.max_age }}</td>
+            <td><a href="" ng-click="deleteRace(race.id)">Удалить</a></td>
+        </tr>
+    </table>
+</div>
+
+<h2>Add race</h2>
+
+<form ng-controller="addRaceController"
+      name="createRaceForm" novalidate>
+
+    <p>Race name:<br>
+        <input type="text" name="race_name" ng-model="race_name" required>
+        <span style="color:red" ng-show="createRaceForm.race_name.$dirty && createRaceForm.race_name.$invalid">
+            <span ng-show="createRaceForm.race_name.$error.required">Race name is required.</span>
+        </span>
+    </p>
+
+    <p>Max age:<br>
+        <input type="number" name="max_age" ng-model="max_age" min="0" required>
+        <span style="color:red" ng-show="createRaceForm.max_age.$dirty && createRaceForm.max_age.$invalid">
+            <span ng-show="createRaceForm.max_age.$error.required">Max age is required and should be numeric.</span>
+        </span>
+    </p>
+
+    <p>
+        <input type="submit" ng-click="createRace()" value="Add race"
+               ng-disabled="createRaceForm.race_name.$dirty && createRaceForm.race_name.$invalid ||
+                createRaceForm.max_age.$dirty && createRaceForm.max_age.$invalid">
+    </p>
+
+</form>
+
+<script>
+    var app = angular.module("raceController", []);
+
+    app.controller("addRaceController", function ($scope, $http) {
+        $scope.race_name = 'Human';
+        $scope.max_age = 100;
+
+        $scope.createRace = function () {
+            $http.post('/races', {name: $scope.race_name, max_age: $scope.max_age}).
+                    success(function (data) {
+                        location.reload();
+                    });
+        };
+    });
+
+    app.controller("racesController", function ($scope, $http) {
+        $http.get('/races').
+                success(function (data) {
+                    $scope.races = data.races;
+                });
+
+        $scope.deleteRace = function (id) {
+            $http.delete('/races/' + id).
+                    success(function (data) {
+                        location.reload();
+                    });
+        };
+    });
+
+    app.directive('toNumber', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                ctrl.$parsers.push(function (value) {
+                    return parseFloat(value || '');
+                });
+            }
+        };
+    });
+
+
+</script>
+
+</body>
+</html>

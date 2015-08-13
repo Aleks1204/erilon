@@ -15,7 +15,6 @@ router.post('/personages', function(req, res) {
         experience: req.body.experience
 
     }).then(function(personage) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
         res.send({ status: 'CREATED', personage:personage })
     });
 });
@@ -24,8 +23,7 @@ router.get('/personages', function(req, res) {
     models.Personage.findAll({
         include: [ models.Race ]
     }).then(function(personages) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        return res.send({records:personages});
+        return res.send({personages:personages});
     });
 });
 
@@ -37,7 +35,6 @@ router.get('/personages/:id', function(req, res) {
             return res.send({ error: 'Not found' });
         }
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
         return res.send({ status: 'OK', personage: personage });
     });
 });
@@ -58,7 +55,6 @@ router.put('/personages/:id', function (req, res){
             generated: req.body.generated,
             experience: req.body.experience
         }).then(function(personage) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
             res.send({ status: 'UPDATED', personage:personage })
         });
     });
@@ -72,7 +68,6 @@ router.delete('/personages/:id', function (req, res){
         }
 
         return personage.destroy().then(function () {
-            res.setHeader('Access-Control-Allow-Origin', '*');
             return res.send({ status: 'REMOVED' });
         });
     });
