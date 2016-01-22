@@ -36,13 +36,15 @@ models.sequelize.sync().then(function () {
     });
 });
 
+debug('Server started on http://localhost:' + app.get('port'));
+
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
-
+  debug('normalizePort on ' + port);
   if (isNaN(port)) {
     // named pipe
     return val;
