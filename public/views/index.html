@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Персонаж</title>
+    <title>Персонажи</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -11,36 +11,83 @@
 </head>
 
 <body ng-app="personageManagerApp">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Эрилон</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/views/race_manager.html">Расы</a></li>
+            <li><a href="/views/attribute_manager.html">Аттрибуты</a></li>
+            <li class="active"><a href="/">Персонажи</a></li>
+        </ul>
+    </div>
+</nav>
 <div ng-controller="personageListController">
 
     <table class="table table-striped">
         <tr ng-repeat="personage in personages | orderBy : 'id'">
             <td style="vertical-align:middle;">{{ personage.id }}</td>
-            <td style="vertical-align:middle;">{{ personage.name }}</td>
+            <td style="vertical-align:middle;">
+                <a href="/views/personage.html?id={{personage.id}}" class="btn btn-link" role="button">{{ personage.name
+                    }}</a>
+            </td>
+            <td style="vertical-align:middle;">{{ personage.Race.name }}</td>
             <td style="vertical-align:middle;">{{ personage.age }}</td>
             <td style="vertical-align:middle;">{{ personage.experience }}</td>
-            <td><button type="button" class="btn btn-link" ng-click="deletePersonage(personage.id)">Удалить</button></td>
+            <td>
+                <button type="button" class="btn btn-link" ng-click="deletePersonage(personage.id)">Удалить</button>
+            </td>
         </tr>
     </table>
 </div>
 
 <div class="container">
     <h2>Добавить персонажа</h2>
+
     <form class="form-horizontal" role="form" ng-controller="addPersonageController"
           name="createPersonageForm">
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Имя:</label>
+
             <div class="col-sm-10">
                 <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="race_id">Раса: </label>
 
+            <div class="col-sm-10">
+                <select class="form-control"
+                        ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races" required>
+                    <option style="display:none" value="">Выберите расу...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="age">Возраст:</label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="age" placeholder="25" ng-model="age" min="0" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
+                       min="0" required>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" ng-click="createPersonage()"
-                        ng-disabled="createPersonageForm.$invalid">Добавить</button>
+                        ng-disabled="createPersonageForm.$invalid">Добавить
+                </button>
             </div>
         </div>
     </form>
@@ -51,9 +98,23 @@
 
     app.controller("addPersonageController", function ($scope, $http) {
         $scope.createPersonage = function () {
-            $http.post('/personages', {name: $scope.name}).
-            success(function (data) {
-                location.reload();
+            $http.post('/personages', {
+                name: $scope.name,
+                race_id: $scope.race_id,
+                age: $scope.age,
+                experience: $scope.experience,
+                generated: false
+            }).success(function (result) {
+                $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).
+                success(function (results) {
+                    for (var i = 0; i < results.raceAttributes.length; i++) {
+                        $http.post('/personageAttributes', {
+                            personage_id: result.personage.id,
+                            attribute_id: results.raceAttributes[i].AttributeId,
+                            value: 1
+                        });
+                    }
+                });
             });
         };
 

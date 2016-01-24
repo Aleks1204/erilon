@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Персонаж</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="personageApp">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Эрилон</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/views/race_manager.html">Расы</a></li>
+            <li><a href="/views/attribute_manager.html">Аттрибуты</a></li>
+            <li><a href="/">Персонажи</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div ng-controller="personageAttributeListController">
+    <h3 class="text-center">{{personage.name}}</h3>
+    <div class="row" ng-repeat="personageAttribute in personageAttributes">
+        <div style="background-color:aquamarine;" class="col-xs-6 col-md-6">personageAttribute.Attribute.name</div>
+        <div style="background-color:aliceblue;" class="col-xs-6 col-md-6">personageAttribute.value</div>
+    </div>
+</div>
+
+<script>
+    var personageId = /id=(\d+)/.exec(window.location.href)[1];
+    var app = angular.module("personageApp", []);
+
+    app.controller("personageAttributeListController", function ($scope, $http) {
+        $http.get('/personageAttributes').
+        success(function (data) {
+            $scope.personageAttributes = data.personageAttributes;
+        });
+
+        $http.get('/personages/' + personageId).
+        success(function (data) {
+            $scope.personage = data.personage;
+        });
+    });
+
+</script>
+
+</body>
+</html>

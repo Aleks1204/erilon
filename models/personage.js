@@ -13,6 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Personage.belongsTo(models.Race, {foreignKeyConstraint: true});
+                Personage.hasMany(models.PersonageAttribute);
             }
         }
     });

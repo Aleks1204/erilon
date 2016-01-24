@@ -11,6 +11,17 @@ router.get('/raceAttributes', function(req, res) {
     });
 });
 
+router.get('/raceAttributesByRaceId/:id', function(req, res) {
+    models.RaceAttribute.findAll({
+        where: {
+            RaceId: req.params.id
+        }
+        //include: [ models.Attribute ]
+    }).then(function(raceAttributes) {
+            return res.send({raceAttributes:raceAttributes});
+        });
+});
+
 router.post('/raceAttributes', function(req, res) {
     models.RaceAttribute.create({
         RaceId: req.body.race_id,
