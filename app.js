@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var raceApi = require('./routes/race-api');
 var personageApi = require('./routes/personage-api');
+var attributeApi = require('./routes/attribute-api');
+var raceAttributeApi = require('./routes/race-attribute-api');
 
 var app = express();
 
@@ -24,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', raceApi);
 app.use('/', personageApi);
+app.use('/', attributeApi);
+app.use('/', raceAttributeApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

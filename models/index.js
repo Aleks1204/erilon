@@ -32,7 +32,9 @@ if (!global.hasOwnProperty('db')) {
         Sequelize: Sequelize,
         sequelize: sequelize,
         Race:      sequelize.import(__dirname + '/race'),
-        Personage:      sequelize.import(__dirname + '/personage')
+        Personage:      sequelize.import(__dirname + '/personage'),
+        Attribute:      sequelize.import(__dirname + '/attribute'),
+        RaceAttribute:      sequelize.import(__dirname + '/RaceAttribute')
         // add your other models here
     };
 

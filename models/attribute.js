@@ -5,18 +5,17 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Race = sequelize.define("Race", {
+    var Attribute = sequelize.define("Attribute", {
         name: DataTypes.STRING,
-        max_age: DataTypes.INTEGER
+        action_level_bonus: DataTypes.STRING
     }, {
         classMethods: {
             associate: function(models) {
-                Race.hasMany(models.Personage);
-                Race.hasMany(models.RaceAttribute);
+                Attribute.hasMany(models.RaceAttribute);
             }
         }
     });
 
-    return Race;
+    return Attribute;
 };
 
