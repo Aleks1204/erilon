@@ -25,9 +25,60 @@
 
 <div ng-controller="personageAttributeListController">
     <h3 class="text-center">{{personage.name}}</h3>
-    <div class="row" ng-repeat="personageAttribute in personageAttributes">
-        <div style="background-color:aquamarine;" class="col-xs-6 col-md-6">personageAttribute.Attribute.name</div>
-        <div style="background-color:aliceblue;" class="col-xs-6 col-md-6">personageAttribute.value</div>
+
+    <div>
+        <!-- Навигация -->
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#attributes"  data-toggle="tab">Характеристики</a>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Навыки
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#triggerSkills" data-toggle="tab">Триггерные</a></li>
+                    <li><a href="#attachedSkills"  data-toggle="tab">Прикрепленные</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a id="advantages" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Особенности
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#positiveAdvanatges" data-toggle="tab">Положительные</a></li>
+                    <li><a href="#negativeAdvanatges" data-toggle="tab">Отрицательные</a></li>
+                    <li><a href="#inherentAdvanatges" data-toggle="tab">Врожденные</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#inventory"  data-toggle="tab">Шмот</a>
+            </li>
+        </ul>
+        <!-- Содержимое вкладок -->
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="attributes">
+                <div class="row" ng-repeat="personageAttribute in personageAttributes">
+                    <div style="background-color:aquamarine;" class="col-xs-6 col-md-6">
+                        {{personageAttribute.Attribute.name}}
+                    </div>
+                    <div style="background-color:aliceblue;" class="col-xs-6 col-md-6">
+                        {{personageAttribute.value}}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="triggerSkills">Скилы триг</div>
+            <div class="tab-pane fade" id="attachedSkills">Скилы прикреп</div>
+            <div class="tab-pane fade" id="positiveAdvanatges">advantages</div>
+            <div class="tab-pane fade" id="negativeAdvanatges">disadvantages</div>
+            <div class="tab-pane fade" id="inherentAdvanatges">врожденные особ</div>
+            <div class="tab-pane fade" id="inventory">шмотки</div>
+        </div>
     </div>
 </div>
 
