@@ -16,57 +16,115 @@
     <h3 class="text-center">{{personage.name}}</h3>
 
     <div>
-        <!-- Навигация -->
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#attributes"  data-toggle="tab">Характеристики</a>
-            </li>
+        <div class="panel-group" id="accordion">
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    Навыки
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#triggerSkills" data-toggle="tab">Триггерные</a></li>
-                    <li><a href="#attachedSkills"  data-toggle="tab">Прикрепленные</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a id="advantages" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    Особенности
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#positiveAdvanatges" data-toggle="tab">Положительные</a></li>
-                    <li><a href="#negativeAdvanatges" data-toggle="tab">Отрицательные</a></li>
-                    <li><a href="#inherentAdvanatges" data-toggle="tab">Врожденные</a></li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#inventory"  data-toggle="tab">Шмот</a>
-            </li>
-        </ul>
-        <!-- Содержимое вкладок -->
-        <div class="tab-content">
-            <div class="tab-pane fade active in" id="attributes">
-                <div class="row" ng-repeat="personageAttribute in personageAttributes">
-                    <div style="background-color:aquamarine;" class="col-xs-6 col-md-6">
-                        {{personageAttribute.Attribute.name}}
-                    </div>
-                    <div style="background-color:aliceblue;" class="col-xs-6 col-md-6">
-                        {{personageAttribute.value}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#attributes">Характеристики</a>
+                    </h4>
+                </div>
+                <div id="attributes" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
+                                <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="triggerSkills">Скилы триг</div>
-            <div class="tab-pane fade" id="attachedSkills">Скилы прикреп</div>
-            <div class="tab-pane fade" id="positiveAdvanatges">advantages</div>
-            <div class="tab-pane fade" id="negativeAdvanatges">disadvantages</div>
-            <div class="tab-pane fade" id="inherentAdvanatges">врожденные особ</div>
-            <div class="tab-pane fade" id="inventory">шмотки</div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#skills">Навыки</a>
+                    </h4>
+                </div>
+                <div id="skills" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Здесь пробовать варики с навыками
+                        <div>
+                            <div class="panel-group" id="skillsAccordeon">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attached">Прикрепленные</a>
+                                        </h4>
+                                    </div>
+                                    <div id="attached" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Навык
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#trigger">Триггерные</a>
+                                        </h4>
+                                    </div>
+                                    <div id="trigger" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Навык
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#perks">Особенности</a>
+                    </h4>
+                </div>
+                <div id="perks" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Особенности
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#inventory">Инвентарь</a>
+                    </h4>
+                </div>
+                <div id="inventory" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Инвентарь
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
