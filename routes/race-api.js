@@ -4,7 +4,7 @@ var router  = express.Router();
 var log = require('../log')(module);
 
 router.post('/races', function(req, res) {
-        var race = models.Race.create({
+        models.Race.create({
             name: req.body.name,
             max_age: req.body.max_age.toString()
         }).then(function(race) {

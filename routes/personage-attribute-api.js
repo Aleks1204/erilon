@@ -34,4 +34,21 @@ router.delete('/personageAttributes/:id', function (req, res){
     });
 });
 
+router.put('/personageAttributes/:id', function (req, res){
+    models.PersonageAttribute.findById(req.params.id).then(function (personageAttribute) {
+        if(!personageAttribute) {
+            res.statusCode = 404;
+            return res.send({ error: 'Not found' });
+        }
+
+        personageAttribute.value = req.body.value;
+
+        return personageAttribute.update({
+            value: req.body.value
+        }).then(function(race) {
+            res.send({ status: 'UPDATED', race:personageAttribute })
+        });
+    });
+});
+
 module.exports = router;

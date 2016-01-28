@@ -32,6 +32,16 @@
                         <table class="table table-striped">
                             <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
                                 <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
+                                <td style="vertical-align:middle;">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="increaseAttribute(personageAttribute.id)">
+                                        <span class="glyphicon glyphicon-triangle-top"/>
+                                    </button>
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="decreaseAttribute(personageAttribute.id)">
+                                        <span class="glyphicon glyphicon-triangle-bottom"/>
+                                    </button>
+                                </td>
                                 <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
                             </tr>
                         </table>
@@ -101,7 +111,6 @@
                                     </div>
                                 </div>
 
-
                             </div>
                         </div>
                     </div>
@@ -140,11 +149,17 @@
 
         </div>
     </div>
+
+    <button type="button" class="btn btn-default btn-block" ng-click="savePersonage()">
+        Сохранить
+    </button>
+
 </div>
 
 <script>
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
+
 
     app.controller("personageAttributeListController", function ($scope, $http) {
         $http.get('/personageAttributes').
@@ -156,6 +171,33 @@
         success(function (data) {
             $scope.personage = data.personage;
         });
+
+        $scope.increaseAttribute = function (id) {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id) {
+                    personageAttribute.value++;
+                }
+            });
+        };
+
+        $scope.decreaseAttribute = function (id) {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id && personageAttribute.value > 1) {
+                    personageAttribute.value--;
+                }
+            });
+        };
+
+        $scope.savePersonage = function () {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                $http.put('/personageAttributes/' + personageAttribute.id, {
+                    value: personageAttribute.value
+                }).
+                success(function (data) {
+                    location.reload();
+                });
+            });
+        }
     });
 
 </script>
