@@ -173,9 +173,30 @@
         });
 
         $scope.increaseAttribute = function (id) {
+            var primaryAttributesSum = 0;
+            var isPrimaryAttributeSet = false;
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                if (personageAttribute.id == id) {
-                    personageAttribute.value++;
+                if (personageAttribute.value > 3) {
+                    primaryAttributesSum = primaryAttributesSum + personageAttribute.value;
+                }
+                if (personageAttribute.value == 5) {
+                    isPrimaryAttributeSet = true;
+                }
+            });
+
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id && personageAttribute.value < 5) {
+                    if (personageAttribute.value < 3) {
+                        personageAttribute.value++;
+                    } else {
+                        if (personageAttribute.value == 3 && primaryAttributesSum < 12) {
+                            personageAttribute.value++;
+                        } else {
+                            if (!isPrimaryAttributeSet) {
+                                personageAttribute.value++;
+                            }
+                        }
+                    }
                 }
             });
         };
