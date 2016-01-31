@@ -18,8 +18,8 @@ router.get('/personageMeritsByPersonageId/:id', function(req, res) {
     models.PersonageMerit.findAll({
         where: {
             PersonageId: req.params.id
-        }
-        //include: [ models.Merit ]
+        },
+        include: [ models.Merit ]
     }).then(function(personageMerits) {
         return res.send({personageMerits:personageMerits});
     });
@@ -28,7 +28,8 @@ router.get('/personageMeritsByPersonageId/:id', function(req, res) {
 router.post('/personageMerits', function(req, res) {
     models.PersonageMerit.create({
         PersonageId: req.body.personage_id,
-        MeritId: req.body.merit_id
+        MeritId: req.body.merit_id,
+        unremovable: req.body.unremovable
     }).then(function(personageMerit) {
         res.send({ status: 'CREATED', personageMerit:personageMerit})
     });

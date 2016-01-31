@@ -3,8 +3,9 @@
  */
 "use strict";
 
-module.exports = function(sequelize) {
+module.exports = function(sequelize, DataTypes) {
     var PersonageMerit = sequelize.define("PersonageMerit", {
+        unremovable: DataTypes.BOOLEAN
     }, {
         classMethods: {
             associate: function(models) {

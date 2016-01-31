@@ -170,12 +170,16 @@
                                                     <td style="vertical-align:middle;">
                                                         {{personageMerit.Merit.name}}
                                                     </td>
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageMerit.Merit.cost}}
-                                                    </td>
+                                                    <div ng-if="!personageMerit.unremovable">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageMerit.Merit.cost}}
+                                                        </td>
+                                                    </div>
                                                     <td>
-                                                        <a class="btn btn-link"
-                                                           ng-click="deletePersonageMerit(personageMerit)">Удалить</a>
+                                                        <div ng-if="!personageMerit.unremovable">
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageMerit(personageMerit)">Удалить</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -203,13 +207,19 @@
                                                                            for="merit_id">Достоинство: </label>
 
                                                                     <div class="col-sm-10">
+                                                                        <!--<select class="form-control"-->
+                                                                                <!--ng-model="merit_id" id="merit_id"-->
+                                                                                <!--ng-options="selectMerit.id as selectMerit.name for selectMerit in selectMerits"-->
+                                                                                <!--required>-->
+                                                                            <!--<option style="display:none" value="">-->
+                                                                                <!--Выберите достоинство...-->
+                                                                            <!--</option>-->
+                                                                        <!--</select>-->
+
                                                                         <select class="form-control"
-                                                                                ng-model="merit_id" id="merit_id"
-                                                                                ng-options="selectMerit.id as selectMerit.name for selectMerit in selectMerits"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите достоинство...
-                                                                            </option>
+                                                                                ng-model="merit_id" id="merit_id" required>
+                                                                            <option ng-repeat="selectMerit in selectMerits" value="{{selectMerit.id}}">{{selectMerit.name}} {{selectMerit.cost}}</option>
+                                                                            <option ng-repeat="cheaperForRaceMerit in cheaperForRaceMerits" value="{{cheaperForRaceMerit.Merit.id}}">{{cheaperForRaceMerit.Merit.name}} {{cheaperForRaceMerit.race_cost}}</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -309,7 +319,7 @@
             $scope.personageAttributes = data.personageAttributes;
         });
 
-        $http.get('/personageMerits').
+        $http.get('/personageMeritsByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageMerits = data.personageMerits;
         });
@@ -376,7 +386,8 @@
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     $http.post('/personageMerits', {
                         merit_id: personageMerit.Merit.id,
-                        personage_id: personageId
+                        personage_id: personageId,
+                        unremovable: personageMerit.unremovable
                     })
                 });
                 location.reload();
@@ -413,6 +424,22 @@
                     $scope.selectMerits.push(merit);
                 }
             });
+
+            $scope.cheaperForRaceMerits = [];
+            $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
+            success(function (results) {
+                angular.forEach(results.raceMerits, function (raceMerit) {
+                    if (!raceMerit.race_default && raceMerit.race_cost != 0) {
+                        angular.forEach($scope.merits, function (merit) {
+                            if (raceMerit.Merit.id == merit.id &&
+                                    raceMerit.race_cost != merit.cost) {
+                                $scope.cheaperForRaceMerits.push(raceMerit);
+                            }
+                        });
+                    }
+                });
+            });
+
         };
     });
 
