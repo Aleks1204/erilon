@@ -18,8 +18,8 @@ router.get('/raceMeritsByRaceId/:id', function(req, res) {
     models.RaceMerit.findAll({
         where: {
             RaceId: req.params.id
-        }
-        //include: [ models.Merit ]
+        },
+        include: [ models.Merit ]
     }).then(function(raceMerits) {
         return res.send({raceMerits:raceMerits});
     });
