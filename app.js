@@ -10,6 +10,9 @@ var personageApi = require('./routes/personage-api');
 var attributeApi = require('./routes/attribute-api');
 var raceAttributeApi = require('./routes/race-attribute-api');
 var personageAttributeApi = require('./routes/personage-attribute-api');
+var meritApi = require('./routes/merit-api');
+var raceMeritApi = require('./routes/race-merit-api');
+var personageMeritApi = require('./routes/personage-merit-api');
 
 var app = express();
 
@@ -30,6 +33,9 @@ app.use('/', personageApi);
 app.use('/', attributeApi);
 app.use('/', raceAttributeApi);
 app.use('/', personageAttributeApi);
+app.use('/', meritApi);
+app.use('/', raceMeritApi);
+app.use('/', personageMeritApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

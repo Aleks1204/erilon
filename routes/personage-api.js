@@ -28,7 +28,11 @@ router.get('/personages', function(req, res) {
 });
 
 router.get('/personages/:id', function(req, res) {
-    models.Personage.findById(req.params.id, {include: [ models.Race ]}).
+    models.Personage.findById(req.params.id, {include: [
+        models.Race,
+        models.PersonageMerit,
+        models.PersonageAttribute
+    ]}).
         then(function (personage) {
         if(!personage) {
             res.statusCode = 404;

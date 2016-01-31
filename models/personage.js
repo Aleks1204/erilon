@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Personage.belongsTo(models.Race, {foreignKeyConstraint: true});
                 Personage.hasMany(models.PersonageAttribute);
+                Personage.hasMany(models.PersonageMerit);
             }
         }
     });

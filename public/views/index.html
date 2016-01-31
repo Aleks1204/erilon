@@ -15,17 +15,33 @@
 <div ng-controller="personageListController">
 
     <table class="table table-striped">
+        <!--<tr>-->
+            <!--<th style="text-align: center;">Имя</th>-->
+            <!--<th style="text-align: center;">Раса</th>-->
+            <!--<th style="text-align: center;">Возраст</th>-->
+            <!--<th style="text-align: center;">XP</th>-->
+            <!--<th style="text-align: center;"></th>-->
+        <!--</tr>-->
         <tr ng-repeat="personage in personages | orderBy : 'id'">
-            <td style="vertical-align:middle;">{{ personage.id }}</td>
-            <td style="vertical-align:middle;">
-                <a href="/views/personage.html?id={{personage.id}}" class="btn btn-link" role="button">{{ personage.name
-                    }}</a>
+            <td style="vertical-align:middle; text-align: center;">
+                <a href="/views/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
+                    {{ personage.name }}
+                </a>
             </td>
-            <td style="vertical-align:middle;">{{ personage.Race.name }}</td>
-            <td style="vertical-align:middle;">{{ personage.age }}</td>
-            <td style="vertical-align:middle;">{{ personage.experience }}</td>
-            <td>
-                <button type="button" class="btn btn-link" ng-click="deletePersonage(personage.id)">Удалить</button>
+            <td style="vertical-align:middle; text-align: center;">{{ personage.Race.name }}</td>
+            <td style="vertical-align:middle;text-align: center;">{{ personage.age }} лет</td>
+            <td style="vertical-align:middle;text-align: center;">{{ personage.experience }} XP</td>
+
+            <td style="text-align: right;">
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="/views/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
+                    <li><a href="#">Редактировать</a></li>
+                    <li><a href="#" ng-click="deletePersonage(personage.id)">Удалить</a></li>
+                </ul>
+            </div>
             </td>
         </tr>
     </table>

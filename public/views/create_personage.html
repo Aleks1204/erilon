@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Персонаж</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="personageApp">
+
+<div ng-controller="personageController">
+    <div data-ng-include data-src="'main-menu.html'"></div>
+    <h3 class="text-center">{{personage.name}}</h3>
+
+    <div>
+        <div class="panel-group" id="accordion">
+
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#attributes">
+                        <div class="panel-heading">
+                            Характеристики
+                        </div>
+                    </a>
+                </h4>
+
+                <div id="attributes" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'name'">
+                                <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
+                                <td style="vertical-align:middle;">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="increaseAttribute(personageAttribute.id)">
+                                        <span class="glyphicon glyphicon-triangle-top"/>
+                                    </button>
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="decreaseAttribute(personageAttribute.id)">
+                                        <span class="glyphicon glyphicon-triangle-bottom"/>
+                                    </button>
+                                </td>
+                                <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#skills">
+                        <div class="panel-heading">
+                            Навыки
+                        </div>
+                    </a>
+                </h4>
+                <div id="skills" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div>
+                            <div class="panel-group" id="skillsAccordeon">
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attached">
+                                            <div class="panel-heading">
+                                                Прикрепленные
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="attached" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Навык
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#trigger">
+                                            <div class="panel-heading">
+                                                Триггерные
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="trigger" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Навык
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#perks">
+                        <div class="panel-heading">
+                            Особенности
+                        </div>
+                    </a>
+                </h4>
+                <div id="perks" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div>
+                            <div class="panel-group" id="perkAccordeon">
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                            <div class="panel-heading">
+                                                Врожденные
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="inherents" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Врожденная
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits">
+                                            <div class="panel-heading">
+                                                Достоинства
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="merits" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageMerit in personageMerits | orderBy : 'name'">
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageMerit.Merit.name}}
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageMerit.Merit.cost}}
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-link"
+                                                           ng-click="deletePersonageMerit(personageMerit)">Удалить</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <button type="button" class="btn btn-default pull-right"
+                                                    data-toggle="modal" data-target="#addMeritDialog"
+                                                    ng-click="calculateSelectOptions()">Добавить
+                                                достоинство
+                                            </button>
+
+                                            <div id="addMeritDialog" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Добавить достоинство</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form"
+                                                                  name="addPersonageMeritForm">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2"
+                                                                           for="merit_id">Достоинство: </label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control"
+                                                                                ng-model="merit_id" id="merit_id"
+                                                                                ng-options="selectMerit.id as selectMerit.name for selectMerit in selectMerits"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите достоинство...
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                            <button type="button"
+                                                                                    class="btn btn-default pull-right"
+                                                                                    data-dismiss="modal">
+                                                                                Отмена
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-md-3 col-xs-1">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-success pull-left"
+                                                                                    ng-click="addPersonageMerit(merit_id)"
+                                                                                    ng-disabled="addPersonageMeritForm.$invalid">
+                                                                                Добавить
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                            <div class="panel-heading">
+                                                Недостатки
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="flaws" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                    <td style="vertical-align:middle;">
+                                                        Недостаток
+                                                    </td>
+                                                    <td style="vertical-align:middle;">
+                                                        Значение
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
+                        <div class="panel-heading">
+                            Инвентарь
+                        </div>
+                    </a>
+                </h4>
+                <div id="inventory" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Инвентарь
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-default btn-block" ng-click="savePersonage()">
+        Сохранить
+    </button>
+
+</div>
+
+<script>
+    var personageId = /id=(\d+)/.exec(window.location.href)[1];
+    var app = angular.module("personageApp", []);
+
+    app.controller("personageController", function ($scope, $http) {
+        $http.get('/personageAttributes').
+        success(function (data) {
+            $scope.personageAttributes = data.personageAttributes;
+        });
+
+        $http.get('/personageMerits').
+        success(function (data) {
+            $scope.personageMerits = data.personageMerits;
+        });
+
+        $http.get('/personages/' + personageId).
+        success(function (data) {
+            $scope.personage = data.personage;
+        });
+
+        $scope.deletePersonageMerit = function (personageMerit) {
+            var index = $scope.personageMerits.indexOf(personageMerit);
+            $scope.personageMerits.splice(index, 1);
+        };
+
+        $scope.increaseAttribute = function (id) {
+            var primaryAttributesSum = 0;
+            var isPrimaryAttributeSet = false;
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.value > 3) {
+                    primaryAttributesSum = primaryAttributesSum + personageAttribute.value;
+                }
+                if (personageAttribute.value == 5) {
+                    isPrimaryAttributeSet = true;
+                }
+            });
+
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id && personageAttribute.value < 5) {
+                    if (personageAttribute.value < 3) {
+                        personageAttribute.value++;
+                    } else {
+                        if (personageAttribute.value == 3 && primaryAttributesSum < 12) {
+                            personageAttribute.value++;
+                        } else {
+                            if (!isPrimaryAttributeSet) {
+                                personageAttribute.value++;
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        $scope.decreaseAttribute = function (id) {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id && personageAttribute.value > 1) {
+                    personageAttribute.value--;
+                }
+            });
+        };
+
+        $scope.savePersonage = function () {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                $http.put('/personageAttributes/' + personageAttribute.id, {
+                    value: personageAttribute.value
+                });
+            });
+
+            $http.get('/personageMerits').success(function (results) {
+                angular.forEach(results.personageMerits, function (personageMerit) {
+                    $http.delete('/personageMerits/' + personageMerit.id);
+                });
+
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    $http.post('/personageMerits', {
+                        merit_id: personageMerit.Merit.id,
+                        personage_id: personageId
+                    })
+                });
+                location.reload();
+            });
+        };
+
+        $http.get('/merits').
+        success(function (results) {
+            $scope.merits = results.merits;
+        });
+
+        $scope.addPersonageMerit = function (merit_id) {
+            $http.get('/merits/' + merit_id).
+            success(function (result) {
+                $scope.personageMerits.push({
+                    Merit: result.merit,
+                    MeritId: merit_id,
+                    PersonageId: personageId
+                });
+                jQuery('#addMeritDialog').modal('hide');
+            });
+        };
+
+        $scope.calculateSelectOptions = function () {
+            $scope.selectMerits = [];
+            angular.forEach($scope.merits, function (merit) {
+                var contains = false;
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    if (merit.id == personageMerit.Merit.id) {
+                        contains = true;
+                    }
+                });
+                if (!contains) {
+                    $scope.selectMerits.push(merit);
+                }
+            });
+        };
+    });
+
+</script>
+
+</body>
+</html>
