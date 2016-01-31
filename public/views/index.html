@@ -15,13 +15,6 @@
 <div ng-controller="personageListController">
 
     <table class="table table-striped">
-        <!--<tr>-->
-            <!--<th style="text-align: center;">Имя</th>-->
-            <!--<th style="text-align: center;">Раса</th>-->
-            <!--<th style="text-align: center;">Возраст</th>-->
-            <!--<th style="text-align: center;">XP</th>-->
-            <!--<th style="text-align: center;"></th>-->
-        <!--</tr>-->
         <tr ng-repeat="personage in personages | orderBy : 'id'">
             <td style="vertical-align:middle; text-align: center;">
                 <a href="/views/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
@@ -91,7 +84,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" ng-click="createPersonage()"
-                        ng-disabled="createPersonageForm.$invalid">Добавить
+                        ng-disabled="createPersonageForm.$invalid" href="">Добавить
                 </button>
             </div>
         </div>
@@ -101,7 +94,7 @@
 <script>
     var app = angular.module("personageManagerApp", []);
 
-    app.controller("addPersonageController", function ($scope, $http) {
+    app.controller("addPersonageController", function ($scope, $http, $window) {
         $scope.createPersonage = function () {
             $http.post('/personages', {
                 name: $scope.name,
@@ -119,7 +112,7 @@
                             value: 1
                         });
                     }
-                    location.reload();
+                    $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
                 });
             });
         };

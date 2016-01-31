@@ -147,7 +147,7 @@
 
 
     app.controller("personageAttributeListController", function ($scope, $http) {
-        $http.get('/personageAttributes').
+        $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageAttributes = data.personageAttributes;
         });

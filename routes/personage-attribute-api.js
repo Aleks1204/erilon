@@ -11,6 +11,17 @@ router.get('/personageAttributes', function(req, res) {
     });
 });
 
+router.get('/personageAttributesByPersonageId/:id', function(req, res) {
+    models.PersonageAttribute.findAll({
+        where: {
+            PersonageId: req.params.id
+        },
+        include: [ models.Attribute ]
+    }).then(function(personageAttributes) {
+        return res.send({personageAttributes:personageAttributes});
+    });
+});
+
 router.post('/personageAttributes', function(req, res) {
     models.PersonageAttribute.create({
         PersonageId: req.body.personage_id,
