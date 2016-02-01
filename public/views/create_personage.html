@@ -170,11 +170,16 @@
                                                     <td style="vertical-align:middle;">
                                                         {{personageMerit.Merit.name}}
                                                     </td>
-                                                    <div ng-if="!personageMerit.unremovable">
-                                                        <td style="vertical-align:middle;">
+
+                                                    <td style="vertical-align:middle;">
+                                                        <div ng-if="!personageMerit.unremovable">
                                                             {{personageMerit.Merit.cost}}
-                                                        </td>
-                                                    </div>
+                                                        </div>
+                                                        <div ng-if="personageMerit.unremovable">
+                                                            По умолчанию
+                                                        </div>
+                                                    </td>
+
                                                     <td>
                                                         <div ng-if="!personageMerit.unremovable">
                                                             <a class="btn btn-link"
