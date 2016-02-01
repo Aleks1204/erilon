@@ -120,7 +120,7 @@
 
             <div class="panel panel-default">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#perks">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#perks" ng-click="calculateShowMerits()">
                         <div class="panel-heading">
                             Особенности
                         </div>
@@ -204,22 +204,20 @@
                                                                   name="addPersonageMeritForm">
                                                                 <div class="form-group">
                                                                     <label class="control-label col-sm-2"
-                                                                           for="merit_id">Достоинство: </label>
+                                                                           for="merit">Достоинство: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <!--<select class="form-control"-->
-                                                                                <!--ng-model="merit_id" id="merit_id"-->
-                                                                                <!--ng-options="selectMerit.id as selectMerit.name for selectMerit in selectMerits"-->
-                                                                                <!--required>-->
-                                                                            <!--<option style="display:none" value="">-->
-                                                                                <!--Выберите достоинство...-->
-                                                                            <!--</option>-->
-                                                                        <!--</select>-->
-
                                                                         <select class="form-control"
-                                                                                ng-model="merit_id" id="merit_id" required>
-                                                                            <option ng-repeat="selectMerit in selectMerits" value="{{selectMerit.id}}">{{selectMerit.name}} {{selectMerit.cost}}</option>
-                                                                            <option ng-repeat="cheaperForRaceMerit in cheaperForRaceMerits" value="{{cheaperForRaceMerit.Merit.id}}">{{cheaperForRaceMerit.Merit.name}} {{cheaperForRaceMerit.race_cost}}</option>
+                                                                                ng-model="merit" id="merit"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите достоинство...
+                                                                            </option>
+                                                                            <option ng-repeat="selectMerit in selectMerits"
+                                                                                    value="{{selectMerit}}">
+                                                                                {{selectMerit.name}}
+                                                                                {{selectMerit.cost}}
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -237,7 +235,7 @@
                                                                         <div class="col-md-3 col-xs-1">
                                                                             <button type="submit"
                                                                                     class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageMerit(merit_id)"
+                                                                                    ng-click="addPersonageMerit(merit)"
                                                                                     ng-disabled="addPersonageMeritForm.$invalid">
                                                                                 Добавить
                                                                             </button>
@@ -399,15 +397,28 @@
             $scope.merits = results.merits;
         });
 
-        $scope.addPersonageMerit = function (merit_id) {
-            $http.get('/merits/' + merit_id).
-            success(function (result) {
-                $scope.personageMerits.push({
-                    Merit: result.merit,
-                    MeritId: merit_id,
-                    PersonageId: personageId
+        $scope.addPersonageMerit = function (merit) {
+            var meritObject = angular.fromJson(merit);
+
+            $scope.personageMerits.push({
+                Merit: meritObject,
+                MeritId: meritObject.id,
+                PersonageId: personageId
+            });
+
+            jQuery('#addMeritDialog').modal('hide');
+        };
+
+        $scope.calculateShowMerits = function () {
+            $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
+            success(function (results) {
+                angular.forEach(results.raceMerits, function (raceMerit) {
+                    for (var i = 0; i < $scope.personageMerits.length; i++) {
+                        if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == $scope.personageMerits[i].Merit.id) {
+                            $scope.personageMerits[i].Merit.cost = raceMerit.race_cost;
+                        }
+                    }
                 });
-                jQuery('#addMeritDialog').modal('hide');
             });
         };
 
@@ -420,26 +431,20 @@
                         contains = true;
                     }
                 });
+
+                $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
+                success(function (results) {
+                    angular.forEach(results.raceMerits, function (raceMerit) {
+                        if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == merit.id) {
+                            merit.cost = raceMerit.race_cost;
+                        }
+                    });
+                });
+
                 if (!contains) {
                     $scope.selectMerits.push(merit);
                 }
             });
-
-            $scope.cheaperForRaceMerits = [];
-            $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
-            success(function (results) {
-                angular.forEach(results.raceMerits, function (raceMerit) {
-                    if (!raceMerit.race_default && raceMerit.race_cost != 0) {
-                        angular.forEach($scope.merits, function (merit) {
-                            if (raceMerit.Merit.id == merit.id &&
-                                    raceMerit.race_cost != merit.cost) {
-                                $scope.cheaperForRaceMerits.push(raceMerit);
-                            }
-                        });
-                    }
-                });
-            });
-
         };
     });
 

@@ -94,7 +94,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="race_cost">Расовая стоимость:</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="race_cost" placeholder="5" ng-model="race_cost" min="0" required>
+                <input type="number" class="form-control" id="race_cost" ng-disabled="isCheckboxChecked()" ng-model="race_cost" min="0">
             </div>
         </div>
 
@@ -172,6 +172,7 @@
 
     app.controller("addRaceMeritController", function ($scope, $http) {
         $scope.race_default = false;
+        $scope.race_cost = 0;
 
         $scope.createRaceMerit = function () {
             $http.post('/raceMerits', {
@@ -189,6 +190,10 @@
         success(function (data) {
             $scope.merits = data.merits;
         });
+
+        $scope.isCheckboxChecked = function () {
+            return $scope.race_default;
+        }
     });
 
 
