@@ -36,10 +36,10 @@
                 </div>
                 <div class="col-xs-offset-2 col-xs-4">
                     <input type="number" class="form-control" id="age" name="age" placeholder="25" ng-model="age"
-                           min="0" max="{{personage.Race.max_age}}" required>
+                           min="0" max="{{max_age}}" required>
                 <span style="color:red" ng-show="ageForm.age.$invalid && ageForm.age.$dirty">
                     <span ng-show="ageForm.age.$error.required">Введите текущий возраст</span>
-                    <span ng-show="ageForm.age.$error.max">Возраст персонажа больше максимального для расы</span>
+                    <span ng-show="ageForm.age.$error.max">Текущий возраст персонажа больше максимального</span>
                 </span>
                 </div>
             </div>
@@ -354,7 +354,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-default btn-block" ng-click="savePersonage()">
+    <button type="submit" ng-disabled="ageForm.$invalid" class="btn btn-default btn-block" ng-click="savePersonage()">
         Сохранить
     </button>
 
@@ -379,7 +379,11 @@
         success(function (data) {
             $scope.personage = data.personage;
             $scope.age = data.personage.age;
-            $scope.max_age = data.personage.max_age;
+            if (data.personage.max_age != 0) {
+                $scope.max_age = data.personage.max_age;
+            } else {
+                $scope.max_age = data.personage.Race.max_age;
+            }
         });
 
         $scope.deletePersonageMerit = function (personageMerit) {
