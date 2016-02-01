@@ -11,6 +11,7 @@ router.post('/personages', function(req, res) {
         RaceId: req.body.race_id,
         name: req.body.name,
         age: req.body.age,
+        max_age: req.body.max_age,
         generated: req.body.generated,
         experience: req.body.experience
 
@@ -56,6 +57,7 @@ router.put('/personages/:id', function (req, res){
             race_id: req.body.race_id,
             name: req.body.name,
             age: req.body.age,
+            max_age: req.body.max_age,
             generated: req.body.generated,
             experience: req.body.experience
         }).then(function(personage) {

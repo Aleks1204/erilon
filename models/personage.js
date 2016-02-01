@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     var Personage = sequelize.define("Personage", {
         name: DataTypes.STRING,
         age: DataTypes.INTEGER,
+        max_age: DataTypes.INTEGER,
         generated: DataTypes.BOOLEAN,
         experience: DataTypes.INTEGER
     }, {
