@@ -33,6 +33,20 @@ router.post('/raceAttributes', function(req, res) {
     });
 });
 
+router.put('/raceAttributes/:id', function (req, res){
+    models.RaceAttribute.findById(req.params.id).then(function (raceAttribute) {
+        if(!raceAttribute) {
+            res.statusCode = 404;
+            return res.send({ error: 'Not found' });
+        }
+        return raceAttribute.update({
+            base_cost: req.body.base_cost
+        }).then(function(personage) {
+            res.send({ status: 'UPDATED', personage:personage })
+        });
+    });
+});
+
 router.delete('/raceAttributes/:id', function (req, res){
     models.RaceAttribute.findById(req.params.id).then(function (raceAttributes) {
         if(!raceAttributes) {

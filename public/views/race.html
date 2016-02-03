@@ -17,50 +17,20 @@
     <table class="table table-striped">
         <tr ng-repeat="raceAttribute in raceAttributes | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ raceAttribute.Attribute.name}}</td>
-            <td style="vertical-align:middle;">{{ raceAttribute.base_cost }}</td>
-            <td style="vertical-align:middle;">{{ raceAttribute.max_value }}</td>
-            <td>
-                <a class="btn btn-link" ng-click="deleteRaceAttribute(raceAttribute.id)">Удалить</a>
+            <td ng-if="show(raceAttribute.id)">
+                <input type="number" ng-model="raceAttribute.base_cost"
+                       class="form-control" id="base_cost">
+            </td>
+
+            <td ng-if="!show(raceAttribute.id)" style="vertical-align:middle;">{{ raceAttribute.base_cost }}</td>
+            <td ng-show="!show(raceAttribute.id)">
+                <a class="btn btn-link" ng-click="changeRaceAttribute(raceAttribute.id)">Изменить</a>
+            </td>
+            <td ng-show="show(raceAttribute.id)">
+                <a class="btn btn-link" ng-click="saveRaceAttribute(raceAttribute.id)">Сохранить</a>
             </td>
         </tr>
     </table>
-</div>
-
-<div class="container">
-    <h2>Привязать аттрибут</h2>
-    <form class="form-horizontal" role="form" ng-controller="addRaceAttributeController"
-          name="addRaceAttributeForm">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="attribute_id">Аттрибут: </label>
-            <div class="col-sm-10">
-                <select class="form-control"
-                        ng-model="attribute_id" id="attribute_id" ng-options="attribute.id as attribute.name for attribute in attributes" required>
-                    <option style="display:none" value="">Выберите аттрибут...</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="base_cost">Базовая стоимость:</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="base_cost" placeholder="5" ng-model="base_cost" min="0" required>
-            </div>
-         </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="max_value">Максимальное значение:</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="max_value" placeholder="12" ng-model="max_value" min="0" required>
-            </div>
-         </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" ng-click="createRaceAttribute()"
-                        ng-disabled="addRaceAttributeForm.$invalid">Привязать</button>
-            </div>
-        </div>
-    </form>
 </div>
 
 <div ng-controller="raceMeritListController">
@@ -173,12 +143,34 @@
             $scope.race = data.race;
         });
 
-        $scope.deleteRaceAttribute = function (id) {
-            $http.delete('/raceAttributes/' + id).
-            success(function (data) {
-                location.reload();
+        var changingAttributeIds = [];
+        $scope.show = function (id) {
+            var show = false;
+            angular.forEach(changingAttributeIds, function (changingAttributeId) {
+                if(changingAttributeId == id) {
+                    show = true;
+                }
             });
+            return show;
         };
+
+        $scope.changeRaceAttribute = function (id) {
+            changingAttributeIds.push(id);
+        };
+
+        $scope.saveRaceAttribute = function (id) {
+
+            angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                if (raceAttribute.id == id) {
+                    $http.put('/raceAttributes/' + id, {
+                        base_cost: raceAttribute.base_cost
+                    });
+                }
+            });
+
+            var index = changingAttributeIds.indexOf(id);
+            changingAttributeIds.splice(index, 1);
+        }
     });
 
     app.controller("raceMeritListController", function ($scope, $http) {
@@ -207,25 +199,6 @@
                 location.reload();
             });
         };
-    });
-
-    app.controller("addRaceAttributeController", function ($scope, $http) {
-        $scope.createRaceAttribute = function () {
-            $http.post('/raceAttributes', {
-                attribute_id: $scope.attribute_id,
-                race_id: raceId,
-                base_cost: $scope.base_cost,
-                max_value: $scope.max_value
-            }).
-            success(function (data) {
-                location.reload();
-            });
-        };
-
-        $http.get('/attributes').
-        success(function (data) {
-            $scope.attributes = data.attributes;
-        });
     });
 
     app.controller("addRaceMeritController", function ($scope, $http) {
