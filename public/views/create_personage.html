@@ -51,7 +51,8 @@
                     </p>
                 </div>
                 <div class="col-xs-offset-2 col-xs-4">
-                    <input type="number" class="form-control" id="max_age" name="max_age" placeholder="25" ng-model="max_age"
+                    <input type="number" class="form-control" id="max_age" name="max_age" placeholder="25"
+                           ng-model="max_age"
                            min="0" max="{{personage.Race.max_age}}" required>
                 <span style="color:red" ng-show="ageForm.max_age.$invalid && ageForm.max_age.$dirty">
                     <span ng-show="ageForm.max_age.$error.required">Введите максимальный возраст</span>
@@ -168,7 +169,7 @@
 
             <div class="panel panel-default">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#perks" ng-click="calculateShowMerits()">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#perks">
                         <div class="panel-heading">
                             Особенности
                         </div>
@@ -188,24 +189,103 @@
                                         </a>
                                     </h4>
                                     <div id="inherents" class="panel-collapse collapse">
+
+
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr ng-repeat="personageInherent in personageInherents | orderBy : 'name'">
                                                     <td style="vertical-align:middle;">
-                                                        Врожденная
+                                                        {{personageInherent.Inherent.name}}
                                                     </td>
+
                                                     <td style="vertical-align:middle;">
-                                                        Значение
+                                                        <div ng-if="!personageInherent.value != 0">
+                                                            {{personageInherent.Inherent.value}}
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <a class="btn btn-link"
+                                                           ng-click="deletePersonageInherent(personageInherent)">Удалить</a>
                                                     </td>
                                                 </tr>
                                             </table>
+
+                                            <button type="button" class="btn btn-default pull-right"
+                                                    ng-click="calculateInherentSelectOptions()"
+                                                    data-toggle="modal"
+                                                    data-target="#addInherentDialog">Добавить
+                                                врожденное
+                                            </button>
+
+                                            <div id="addInherentDialog" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Добавить врожденное</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form"
+                                                                  name="addPersonageInherentForm">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2"
+                                                                           for="merit">Врожденное: </label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control"
+                                                                                ng-model="inherent_id" id="inherent_id"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите врожденное...
+                                                                            </option>
+                                                                            <option ng-repeat="selectInherent in selectInherents"
+                                                                                    value="{{selectInherent.id}}">
+                                                                                {{selectInherent.name}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                            <button type="button"
+                                                                                    class="btn btn-default pull-right"
+                                                                                    data-dismiss="modal">
+                                                                                Отмена
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-md-3 col-xs-1">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-success pull-left"
+                                                                                    ng-click="addPersonageInherent(inherent_id)"
+                                                                                    ng-disabled="addPersonageInherentForm.$invalid">
+                                                                                Добавить
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
+                                           ng-click="calculateShowMerits()">
                                             <div class="panel-heading">
                                                 Достоинства
                                             </div>
@@ -238,7 +318,7 @@
                                             </table>
                                             <button type="button" class="btn btn-default pull-right"
                                                     data-toggle="modal" data-target="#addMeritDialog"
-                                                    ng-click="calculateSelectOptions()">Добавить
+                                                    ng-click="calculateMeritSelectOptions()">Добавить
                                                 достоинство
                                             </button>
 
@@ -375,6 +455,21 @@
             $scope.personageMerits = data.personageMerits;
         });
 
+        $http.get('/personageInherentsByPersonageId/' + personageId).
+        success(function (data) {
+            $scope.personageInherents = data.personageInherents;
+        });
+
+        $http.get('/merits').
+        success(function (results) {
+            $scope.merits = results.merits;
+        });
+
+        $http.get('/inherents').
+        success(function (results) {
+            $scope.inherents = results.inherents;
+        });
+
         $http.get('/personages/' + personageId).
         success(function (data) {
             $scope.personage = data.personage;
@@ -385,11 +480,6 @@
                 $scope.max_age = data.personage.Race.max_age;
             }
         });
-
-        $scope.deletePersonageMerit = function (personageMerit) {
-            var index = $scope.personageMerits.indexOf(personageMerit);
-            $scope.personageMerits.splice(index, 1);
-        };
 
         $scope.increaseAttribute = function (id) {
             var primaryAttributesSum = 0;
@@ -428,43 +518,6 @@
             });
         };
 
-        $scope.savePersonage = function () {
-            $http.put('/personages/' + personageId, {
-                race_id: $scope.personage.RaceId,
-                name: $scope.personage.name,
-                age: $scope.age,
-                max_age: $scope.max_age,
-                generated: false,
-                experience: $scope.personage.experience
-            });
-
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                $http.put('/personageAttributes/' + personageAttribute.id, {
-                    value: personageAttribute.value
-                });
-            });
-
-            $http.get('/personageMerits').success(function (results) {
-                angular.forEach(results.personageMerits, function (personageMerit) {
-                    $http.delete('/personageMerits/' + personageMerit.id);
-                });
-
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    $http.post('/personageMerits', {
-                        merit_id: personageMerit.Merit.id,
-                        personage_id: personageId,
-                        unremovable: personageMerit.unremovable
-                    })
-                });
-                location.reload();
-            });
-        };
-
-        $http.get('/merits').
-        success(function (results) {
-            $scope.merits = results.merits;
-        });
-
         $scope.addPersonageMerit = function (merit) {
             var meritObject = angular.fromJson(merit);
 
@@ -475,6 +528,31 @@
             });
 
             jQuery('#addMeritDialog').modal('hide');
+        };
+
+        $scope.deletePersonageMerit = function (personageMerit) {
+            var index = $scope.personageMerits.indexOf(personageMerit);
+            $scope.personageMerits.splice(index, 1);
+        };
+
+
+        $scope.addPersonageInherent = function (inherent_id) {
+
+            $http.get('/inherents/' + inherent_id).
+            success(function (result) {
+                $scope.personageInherents.push({
+                    Inherent: result.inherent,
+                    InherentId: inherent_id,
+                    PersonageId: personageId
+                });
+            }).success(function () {
+                jQuery('#addInherentDialog').modal('hide');
+            });
+        };
+
+        $scope.deletePersonageInherent = function (personageInherent) {
+            var index = $scope.personageInherents.indexOf(personageInherent);
+            $scope.personageInherents.splice(index, 1);
         };
 
         $scope.calculateShowMerits = function () {
@@ -490,7 +568,7 @@
             });
         };
 
-        $scope.calculateSelectOptions = function () {
+        $scope.calculateMeritSelectOptions = function () {
             $scope.selectMerits = [];
             angular.forEach($scope.merits, function (merit) {
                 var contains = false;
@@ -512,6 +590,69 @@
                 if (!contains) {
                     $scope.selectMerits.push(merit);
                 }
+            });
+        };
+
+        $scope.calculateInherentSelectOptions = function () {
+            $scope.selectInherents = [];
+            angular.forEach($scope.inherents, function (inherent) {
+                var contains = false;
+                angular.forEach($scope.personageInherents, function (personageInherent) {
+                    if (inherent.id == personageInherent.Inherent.id) {
+                        contains = true;
+                    }
+                });
+
+                if (!contains) {
+                    $scope.selectInherents.push(inherent);
+                }
+            });
+        };
+
+        $scope.savePersonage = function () {
+            $http.put('/personages/' + personageId, {
+                race_id: $scope.personage.RaceId,
+                name: $scope.personage.name,
+                age: $scope.age,
+                max_age: $scope.max_age,
+                generated: false,
+                experience: $scope.personage.experience
+            });
+
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                $http.put('/personageAttributes/' + personageAttribute.id, {
+                    value: personageAttribute.value
+                });
+            });
+
+            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
+                angular.forEach(results.personageMerits, function (personageMerit) {
+                    $http.delete('/personageMerits/' + personageMerit.id);
+                });
+
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    $http.post('/personageMerits', {
+                        merit_id: personageMerit.Merit.id,
+                        personage_id: personageId,
+                        unremovable: personageMerit.unremovable
+                    })
+                });
+
+                $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
+                    angular.forEach(results.personageInherents, function (personageInherent) {
+                        $http.delete('/personageInherents/' + personageInherent.id);
+                    });
+
+                    angular.forEach($scope.personageInherents, function (personageInherent) {
+                        $http.post('/personageInherents', {
+                            inherent_id: personageInherent.Inherent.id,
+                            personage_id: personageId,
+                            value: personageInherent.value
+                        })
+                    });
+
+                    location.reload();
+                });
             });
         };
     });

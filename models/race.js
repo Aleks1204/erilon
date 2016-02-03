@@ -13,6 +13,8 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Race.hasMany(models.Personage);
                 Race.hasMany(models.RaceAttribute);
+                Race.hasMany(models.RaceMerit);
+                Race.hasMany(models.RaceInherent);
             }
         }
     });

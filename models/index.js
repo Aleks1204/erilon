@@ -36,7 +36,10 @@ if (!global.hasOwnProperty('db')) {
         PersonageAttribute:      sequelize.import(__dirname + '/PersonageAttribute'),
         Merit:      sequelize.import(__dirname + '/Merit'),
         RaceMerit:      sequelize.import(__dirname + '/RaceMerit'),
-        PersonageMerit:      sequelize.import(__dirname + '/PersonageMerit')
+        PersonageMerit:      sequelize.import(__dirname + '/PersonageMerit'),
+        Inherent:      sequelize.import(__dirname + '/inherent'),
+        PersonageInherent:      sequelize.import(__dirname + '/personageInherent'),
+        RaceInherent:      sequelize.import(__dirname + '/raceInherent')
         // add your other models here
     };
 

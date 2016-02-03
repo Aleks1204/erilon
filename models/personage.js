@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
                 Personage.belongsTo(models.Race, {foreignKeyConstraint: true});
                 Personage.hasMany(models.PersonageAttribute);
                 Personage.hasMany(models.PersonageMerit);
+                Personage.hasMany(models.PersonageInherent);
             }
         }
     });

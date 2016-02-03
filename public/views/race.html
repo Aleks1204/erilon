@@ -114,6 +114,50 @@
     </form>
 </div>
 
+<div ng-controller="raceInherentListController">
+    <h3 class="text-center">Врожденные достоинства</h3>
+    <table class="table table-striped">
+        <tr ng-repeat="raceInherent in raceInherents | orderBy : 'name'">
+            <td style="vertical-align:middle;">{{ raceInherent.Inherent.name}}</td>
+            <td style="vertical-align:middle;">{{ raceInherent.race_probability }}</td>
+            <td>
+                <a class="btn btn-link" ng-click="deleteRaceInherent(raceInherent.id)">Удалить</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="container">
+    <h2>Привязать врожденное</h2>
+    <form class="form-horizontal" role="form" ng-controller="addRaceInherentController"
+          name="addRaceInherentForm">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="inherent_id">Достоинство: </label>
+            <div class="col-sm-10">
+                <select class="form-control"
+                        ng-model="inherent_id" id="inherent_id" ng-options="inherent.id as inherent.name for inherent in inherents" required>
+                    <option style="display:none" value="">Выберите достоинство...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="race_probability">Расовая вероятность:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="race_probability" ng-model="race_probability" min="0">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="createRaceInherent()"
+                        ng-disabled="addRaceInherentForm.$invalid">Привязать</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <script>
     var raceId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("raceApp", []);
@@ -145,6 +189,20 @@
 
         $scope.deleteRaceMerit = function (id) {
             $http.delete('/raceMerits/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+    });
+
+    app.controller("raceInherentListController", function ($scope, $http) {
+        $http.get('/raceInherentsByRaceId/' + raceId).
+        success(function (data) {
+            $scope.raceInherents = data.raceInherents;
+        });
+
+        $scope.deleteRaceInherent = function (id) {
+            $http.delete('/raceInherents/' + id).
             success(function (data) {
                 location.reload();
             });
@@ -194,6 +252,27 @@
         $scope.isCheckboxChecked = function () {
             return $scope.race_default;
         }
+    });
+
+    app.controller("addRaceInherentController", function ($scope, $http) {
+        $scope.race_default = false;
+        $scope.race_cost = 0;
+
+        $scope.createRaceInherent = function () {
+            $http.post('/raceInherents', {
+                inherent_id: $scope.inherent_id,
+                race_id: raceId,
+                race_probability: 1/$scope.race_probability
+            }).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $http.get('/inherents').
+        success(function (data) {
+            $scope.inherents = data.inherents;
+        });
     });
 
 

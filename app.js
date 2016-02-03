@@ -13,6 +13,9 @@ var personageAttributeApi = require('./routes/personage-attribute-api');
 var meritApi = require('./routes/merit-api');
 var raceMeritApi = require('./routes/race-merit-api');
 var personageMeritApi = require('./routes/personage-merit-api');
+var inherentApi = require('./routes/inherent-api');
+var personageInherentApi = require('./routes/personage-inherent-api');
+var raceInherentApi = require('./routes/race-inherent-api');
 
 var app = express();
 
@@ -36,6 +39,9 @@ app.use('/', personageAttributeApi);
 app.use('/', meritApi);
 app.use('/', raceMeritApi);
 app.use('/', personageMeritApi);
+app.use('/', inherentApi);
+app.use('/', personageInherentApi);
+app.use('/', raceInherentApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');
