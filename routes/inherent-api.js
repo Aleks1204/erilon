@@ -14,6 +14,8 @@ router.post('/inherents', function(req, res) {
     models.Inherent.create({
         name: req.body.name,
         probability: req.body.probability,
+        min_limit: req.body.min_limit,
+        max_limit: req.body.max_limit,
         description: req.body.description,
         action_level_bonus: req.body.action_level_bonus
     }).then(function(inherent) {
@@ -48,10 +50,14 @@ router.put('/inherents/:id', function (req, res){
         inherent.name = req.body.name;
         inherent.probability = req.body.probability;
         inherent.description = req.body.description;
+        inherent.max_limit = req.body.max_limit;
+        inherent.min_limit = req.body.min_limit;
         inherent.action_level_bonus = req.body.action_level_bonus;
         return inherent.update({
             name: req.body.name,
-            cost: req.body.cost,
+            probability: req.body.probability,
+            max_limit: req.body.max_limit,
+            min_limit: req.body.min_limit,
             description: req.body.description,
             action_level_bonus: req.body.action_level_bonus
         }).then(function(inherent) {

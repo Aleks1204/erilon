@@ -199,8 +199,9 @@
                                                     </td>
 
                                                     <td style="vertical-align:middle;">
-                                                        <div ng-if="!personageInherent.value != 0">
-                                                            {{personageInherent.Inherent.value}}
+                                                        <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                                            <input type="number" ng-model="personageInherent.value"
+                                                                   id="inherent_value">
                                                         </div>
                                                     </td>
 

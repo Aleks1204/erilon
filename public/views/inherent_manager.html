@@ -17,84 +17,128 @@
     <table class="table table-striped">
         <tr ng-repeat="inherent in inherents | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ inherent.name }}</td>
-            <td style="vertical-align:middle;">{{ inherent.probability }}</td>
-            <td><button type="button" class="btn btn-link" ng-click="deleteInherent(inherent.id)">Удалить</button></td>
+            <td style="vertical-align:middle;">1/{{ inherent.probability }}</td>
+            <td style="vertical-align:middle;">{{ inherent.min_limit}}</td>
+            <td style="vertical-align:middle;">{{ inherent.max_limit }}</td>
+            <td>
+                <button type="button" class="btn btn-link" ng-click="deleteInherent(inherent.id)">Удалить</button>
+            </td>
         </tr>
     </table>
-</div>
+    </div>
 
-<div class="container">
-    <h2>Добавить врожденную особенность</h2>
-    <form class="form-horizontal" role="form" ng-controller="addInherentController"
-          name="createInherentForm">
+    <div class="container">
+        <h2>Добавить врожденную особенность</h2>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="inherent_name">Название особенности:</label>
-            <div class="col-sm-10">
-                <input type="text" ng-model="inherent_name" class="form-control" id="inherent_name" placeholder="Сопротивление ядам" required>
+        <form class="form-horizontal" role="form" ng-controller="addInherentController"
+              name="createInherentForm">
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="inherent_name">Название особенности:</label>
+
+                <div class="col-sm-10">
+                    <input type="text" ng-model="inherent_name" class="form-control" id="inherent_name"
+                           placeholder="Сопротивление ядам" required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="probability">Вероятность 1/x: </label>
-            <div class="col-sm-10">
-                <input type="number" ng-model="probability" class="form-control" id="probability" placeholder="6">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="probability">Вероятность 1/x: </label>
+
+                <div class="col-sm-10">
+                    <input type="number" ng-model="probability" class="form-control" id="probability" placeholder="6">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="description">Описание:</label>
-            <div class="col-sm-10">
-                <input type="text" ng-model="description" class="form-control" id="description" placeholder="Описание здесь">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="hasValue">Имеет числовое значение</label>
+
+                <div class="col-sm-1">
+                    <div class="pull-left">
+                        <input type="checkbox" ng-model="hasValue" class="form-control pull-left" id="hasValue"/>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="action_level_bonus">Бонус на действия:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="action_level_bonus" placeholder="Бонус" ng-model="action_level_bonus">
+
+            <div ng-show="hasValue">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="min_limit">Минимальное значение: </label>
+
+                    <div class="col-sm-10">
+                        <input type="number" ng-model="min_limit" class="form-control" id="min_limit" placeholder="-3">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="max_limit">Максимальное значение: </label>
+
+                    <div class="col-sm-10">
+                        <input type="number" ng-model="max_limit" class="form-control" id="max_limit" placeholder="6">
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" ng-click="createInherent()"
-                        ng-disabled="createInherentForm.$invalid">Добавить</button>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="description">Описание:</label>
+
+                <div class="col-sm-10">
+                    <input type="text" ng-model="description" class="form-control" id="description"
+                           placeholder="Описание здесь">
+                </div>
             </div>
-        </div>
-    </form>
-</div>
 
-<script>
-    var app = angular.module("inherentManagerApp", []);
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="action_level_bonus">Бонус на действия:</label>
 
-    app.controller("addInherentController", function ($scope, $http) {
-        $scope.createInherent = function () {
-            $http.post('/inherents', {
-                name: $scope.inherent_name,
-                probability: 1/$scope.probability,
-                description: $scope.description,
-                action_level_bonus: $scope.action_level_bonus
-            }).success(function (data) {
-                location.reload();
-            });
-        };
-    });
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="action_level_bonus" placeholder="Бонус"
+                           ng-model="action_level_bonus">
+                </div>
+            </div>
 
-    app.controller("inherentListController", function ($scope, $http) {
-        $http.get('/inherents').
-        success(function (data) {
-            $scope.inherents = data.inherents.sort();
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createInherent()"
+                            ng-disabled="createInherentForm.$invalid">Добавить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var app = angular.module("inherentManagerApp", []);
+
+        app.controller("addInherentController", function ($scope, $http) {
+            $scope.createInherent = function () {
+                $http.post('/inherents', {
+                    name: $scope.inherent_name,
+                    probability: $scope.probability,
+                    max_limit: $scope.max_limit,
+                    min_limit: $scope.min_limit,
+                    description: $scope.description,
+                    action_level_bonus: $scope.action_level_bonus
+                }).success(function (data) {
+                    location.reload();
+                });
+            };
         });
 
-        $scope.deleteInherent = function (id) {
-            $http.delete('/inherents/' + id).
+        app.controller("inherentListController", function ($scope, $http) {
+            $http.get('/inherents').
             success(function (data) {
-                location.reload();
+                $scope.inherents = data.inherents.sort();
             });
-        };
-    });
-</script>
+
+            $scope.deleteInherent = function (id) {
+                $http.delete('/inherents/' + id).
+                success(function (data) {
+                    location.reload();
+                });
+            };
+        });
+    </script>
 
 </body>
 </html>

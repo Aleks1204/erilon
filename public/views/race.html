@@ -119,7 +119,7 @@
     <table class="table table-striped">
         <tr ng-repeat="raceInherent in raceInherents | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ raceInherent.Inherent.name}}</td>
-            <td style="vertical-align:middle;">{{ raceInherent.race_probability }}</td>
+            <td style="vertical-align:middle;">1/{{ raceInherent.race_probability }}</td>
             <td>
                 <a class="btn btn-link" ng-click="deleteRaceInherent(raceInherent.id)">Удалить</a>
             </td>
@@ -262,7 +262,7 @@
             $http.post('/raceInherents', {
                 inherent_id: $scope.inherent_id,
                 race_id: raceId,
-                race_probability: 1/$scope.race_probability
+                race_probability: $scope.race_probability
             }).
             success(function (data) {
                 location.reload();
