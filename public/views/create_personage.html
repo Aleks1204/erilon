@@ -644,6 +644,7 @@
                         $http.delete('/personageInherents/' + personageInherent.id);
                     });
 
+
                     angular.forEach($scope.personageInherents, function (personageInherent) {
                         $http.post('/personageInherents', {
                             inherent_id: personageInherent.Inherent.id,
