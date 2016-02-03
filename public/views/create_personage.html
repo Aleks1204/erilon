@@ -201,7 +201,7 @@
                                                     <td style="vertical-align:middle;">
                                                         <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
                                                             <input type="number" ng-model="personageInherent.value"
-                                                                   id="inherent_value">
+                                                                   class="form-control" id="inherent_value">
                                                         </div>
                                                     </td>
 
@@ -435,6 +435,23 @@
         </div>
     </div>
 
+    <form name="expirienceForm">
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-4">
+                <p class="lead">
+                    <strong>Очки опыта:</strong>
+                </p>
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                <div id="expirience" ng-model="expirience">
+                    <p class="lead">
+                        <strong>{{personage.experience}}</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <button type="submit" ng-disabled="ageForm.$invalid" class="btn btn-default btn-block" ng-click="savePersonage()">
         Сохранить
     </button>
@@ -446,6 +463,8 @@
     var app = angular.module("personageApp", []);
 
     app.controller("personageController", function ($scope, $http) {
+        var sumMaxPrice = 28;
+
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageAttributes = data.personageAttributes;
