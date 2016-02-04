@@ -29,6 +29,9 @@
             <td ng-show="show(raceAttribute.id)">
                 <a class="btn btn-link" ng-click="saveRaceAttribute(raceAttribute.id)">Сохранить</a>
             </td>
+            <td>
+                <a class="btn btn-link" ng-click="deleteRaceAttribute(raceAttribute.id)">Х</a>
+            </td>
         </tr>
     </table>
 </div>
@@ -170,6 +173,13 @@
 
             var index = changingAttributeIds.indexOf(id);
             changingAttributeIds.splice(index, 1);
+        };
+
+        $scope.deleteRaceAttribute = function (id) {
+            $http.delete('/raceAttributes/' + id).
+            success(function (data) {
+                location.reload();
+            });
         }
     });
 
