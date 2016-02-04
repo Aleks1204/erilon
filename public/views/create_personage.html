@@ -463,8 +463,6 @@
     var app = angular.module("personageApp", []);
 
     app.controller("personageController", function ($scope, $http) {
-        var sumMaxPrice = 28;
-
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageAttributes = data.personageAttributes;
@@ -499,33 +497,53 @@
             } else {
                 $scope.max_age = data.personage.Race.max_age;
             }
+            $http.get('/raceAttributesByRaceId/' + data.personage.RaceId).
+            success(function (data) {
+                $scope.raceAttributes = data.raceAttributes;
+            });
         });
 
         $scope.increaseAttribute = function (id) {
-            var primaryAttributesSum = 0;
+            var maxPrice = 8;
             var isPrimaryAttributeSet = false;
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                if (personageAttribute.value > 3) {
-                    primaryAttributesSum = primaryAttributesSum + personageAttribute.value;
-                }
-                if (personageAttribute.value == 5) {
-                    isPrimaryAttributeSet = true;
-                }
-            });
+            var isSecondaryAttributeSet = 0;
 
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                if (personageAttribute.id == id && personageAttribute.value < 5) {
-                    if (personageAttribute.value < 3) {
-                        personageAttribute.value++;
-                    } else {
-                        if (personageAttribute.value == 3 && primaryAttributesSum < 12) {
-                            personageAttribute.value++;
-                        } else {
-                            if (!isPrimaryAttributeSet) {
-                                personageAttribute.value++;
-                            }
+            angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                    if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
+                        if (personageAttribute.value > maxPrice - raceAttribute.base_cost) {
+                            isSecondaryAttributeSet++;
+                        }
+                        if (personageAttribute.value > maxPrice - raceAttribute.base_cost + 1) {
+                            isPrimaryAttributeSet = true;
                         }
                     }
+                });
+            });
+
+
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.id == id) {
+                    angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                        if (raceAttribute.Attribute.id == personageAttribute.Attribute.id && personageAttribute.value < maxPrice - raceAttribute.base_cost + 2) {
+                            if (personageAttribute.value < maxPrice - raceAttribute.base_cost) {
+                                personageAttribute.value++;
+                                $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                            } else {
+                                if (personageAttribute.value == maxPrice - raceAttribute.base_cost + 1) {
+                                    if (!isPrimaryAttributeSet) {
+                                        personageAttribute.value++;
+                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                    }
+                                } else {
+                                    if (isSecondaryAttributeSet < 3) {
+                                        personageAttribute.value++;
+                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             });
         };
@@ -534,6 +552,11 @@
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
                     personageAttribute.value--;
+                    angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                        if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
+                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
+                        }
+                    });
                 }
             });
         };
