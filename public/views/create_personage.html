@@ -452,7 +452,11 @@
         </div>
     </form>
 
-    <button type="submit" ng-disabled="ageForm.$invalid" class="btn btn-default btn-block" ng-click="savePersonage()">
+    <div class="alert alert-danger" ng-show="experienceValid()">
+        Вы потратили больше опыта, чем у вас есть!
+    </div>
+
+    <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block" ng-click="savePersonage()">
         Сохранить
     </button>
 
@@ -559,6 +563,10 @@
                     });
                 }
             });
+        };
+
+        $scope.experienceValid = function () {
+            return $scope.personage.experience < 0;
         };
 
         $scope.addPersonageMerit = function (merit) {
