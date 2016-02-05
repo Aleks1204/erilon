@@ -108,20 +108,19 @@
                             value: 1
                         });
                     }
-                });
-
-                $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
-                success(function (results) {
-                    for (var i = 0; i < results.raceMerits.length; i++) {
-                        if(results.raceMerits[i].race_default) {
-                            $http.post('/personageMerits', {
-                                personage_id: result.personage.id,
-                                merit_id: results.raceMerits[i].MeritId,
-                                unremovable: true
-                            });
+                    $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
+                    success(function (results) {
+                        for (var i = 0; i < results.raceMerits.length; i++) {
+                            if(results.raceMerits[i].race_default) {
+                                $http.post('/personageMerits', {
+                                    personage_id: result.personage.id,
+                                    merit_id: results.raceMerits[i].MeritId,
+                                    unremovable: true
+                                });
+                            }
                         }
-                    }
-                    $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                        $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                    });
                 });
             });
         };
