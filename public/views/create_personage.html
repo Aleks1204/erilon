@@ -578,12 +578,14 @@
                 PersonageId: personageId
             });
 
+            $scope.personage.experience = $scope.personage.experience - meritObject.cost;
             jQuery('#addMeritDialog').modal('hide');
         };
 
         $scope.deletePersonageMerit = function (personageMerit) {
             var index = $scope.personageMerits.indexOf(personageMerit);
             $scope.personageMerits.splice(index, 1);
+            $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
         };
 
 
