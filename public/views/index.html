@@ -13,9 +13,13 @@
 
 <body ng-app="personageManagerApp">
 <div data-ng-include data-src="'views/main-menu.html'"></div>
-<div ng-controller="personageListController">
 
-    <table class="table table-striped">
+<div ng-controller="personageListController">
+    <div style="font-size: x-large" ng-show="loader">
+        LOADING...
+    </div>
+
+    <table class="table table-striped" ng-hide="loader">
         <tr ng-repeat="personage in personages | orderBy : 'id'">
             <td style="vertical-align:middle; text-align: center;">
                 <a href="/views/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
@@ -28,15 +32,15 @@
             <td style="vertical-align:middle;text-align: center;">{{ personage.experience }} XP</td>
 
             <td style="text-align: right;">
-            <div class="dropdown">
-                <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="/views/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
-                    <li><a href="#">Редактировать</a></li>
-                    <li><a href="#" ng-click="deletePersonage(personage.id)">Удалить</a></li>
-                </ul>
-            </div>
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="/views/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
+                        <li><a href="#">Редактировать</a></li>
+                        <li><a href="#" ng-click="deletePersonage(personage.id)">Удалить</a></li>
+                    </ul>
+                </div>
             </td>
         </tr>
     </table>
@@ -89,7 +93,10 @@
     var app = angular.module("personageManagerApp", []);
 
     app.controller("addPersonageController", function ($scope, $http, $window) {
+        $scope.loader = false;
+
         $scope.createPersonage = function () {
+            $scope.loader = true;
             $http.post('/personages', {
                 name: $scope.name,
                 race_id: $scope.race_id,
@@ -111,7 +118,7 @@
                     $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
                     success(function (results) {
                         for (var i = 0; i < results.raceMerits.length; i++) {
-                            if(results.raceMerits[i].race_default) {
+                            if (results.raceMerits[i].race_default) {
                                 $http.post('/personageMerits', {
                                     personage_id: result.personage.id,
                                     merit_id: results.raceMerits[i].MeritId,
@@ -119,7 +126,17 @@
                                 });
                             }
                         }
-                        $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                        $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).
+                        success(function (results) {
+                            for (var i = 0; i < results.raceFlaws.length; i++) {
+                                    $http.post('/personageFlaws', {
+                                        personage_id: result.personage.id,
+                                        flaw_id: results.raceFlaws[i].FlawId,
+                                        unremovable: true
+                                    });
+                            }
+                            $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                        });
                     });
                 });
             });

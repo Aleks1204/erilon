@@ -17,6 +17,7 @@ module.exports = function(sequelize, DataTypes) {
                 Personage.hasMany(models.PersonageAttribute);
                 Personage.hasMany(models.PersonageMerit);
                 Personage.hasMany(models.PersonageInherent);
+                Personage.hasMany(models.PersonageFlaw);
             }
         }
     });

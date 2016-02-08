@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
                 Race.hasMany(models.RaceAttribute);
                 Race.hasMany(models.RaceMerit);
                 Race.hasMany(models.RaceInherent);
+                Race.hasMany(models.RaceFlaw);
             }
         }
     });

@@ -79,7 +79,7 @@
                 <div id="attributes" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <table class="table table-striped">
-                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'name'">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
                                 <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
                                 <td style="vertical-align:middle;">
                                     <button type="button" class="btn btn-default"
@@ -193,7 +193,7 @@
 
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageInherent in personageInherents | orderBy : 'name'">
+                                                <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
                                                     <td style="vertical-align:middle;">
                                                         {{personageInherent.Inherent.name}}
                                                     </td>
@@ -295,7 +295,7 @@
                                     <div id="merits" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageMerit in personageMerits | orderBy : 'name'">
+                                                <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
                                                     <td style="vertical-align:middle;">
                                                         {{personageMerit.Merit.name}}
                                                     </td>
@@ -398,15 +398,94 @@
                                     <div id="flaws" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
                                                     <td style="vertical-align:middle;">
-                                                        Недостаток
+                                                        {{personageFlaw.Flaw.name}}
                                                     </td>
+
                                                     <td style="vertical-align:middle;">
-                                                        Значение
+                                                        <div ng-if="!personageFlaw.unremovable">
+                                                            {{personageFlaw.Flaw.cost}}
+                                                        </div>
+                                                        <div ng-if="personageFlaw.unremovable">
+                                                            По умолчанию
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div ng-if="!personageFlaw.unremovable">
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageFlaw(personageFlaw)">Удалить</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <button type="button" class="btn btn-default pull-right"
+                                                    data-toggle="modal" data-target="#addFlawDialog"
+                                                    ng-click="calculateFlawSelectOptions()">Добавить
+                                                недостаток
+                                            </button>
+
+                                            <div id="addFlawDialog" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Добавить недостаток</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form"
+                                                                  name="addPersonageFlawForm">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2"
+                                                                           for="flaw">Недостаток: </label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control"
+                                                                                ng-model="flaw" id="flaw"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите недостаток...
+                                                                            </option>
+                                                                            <option ng-repeat="selectFlaw in selectFlaws"
+                                                                                    value="{{selectFlaw.id}}">
+                                                                                {{selectFlaw.name}}
+                                                                                {{selectFlaw.cost}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                            <button type="button"
+                                                                                    class="btn btn-default pull-right"
+                                                                                    data-dismiss="modal">
+                                                                                Отмена
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-md-3 col-xs-1">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-success pull-left"
+                                                                                    ng-click="addPersonageFlaw(flaw)"
+                                                                                    ng-disabled="addPersonageFlawForm.$invalid">
+                                                                                Добавить
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +535,8 @@
         Вы потратили больше опыта, чем у вас есть!
     </div>
 
-    <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block" ng-click="savePersonage()">
+    <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block"
+            ng-click="savePersonage()">
         Сохранить
     </button>
 
@@ -482,6 +562,12 @@
             $scope.personageInherents = data.personageInherents;
         });
 
+
+        $http.get('/personageFlawsByPersonageId/' + personageId).
+        success(function (data) {
+            $scope.personageFlaws = data.personageFlaws;
+        });
+
         $http.get('/merits').
         success(function (results) {
             $scope.merits = results.merits;
@@ -490,6 +576,11 @@
         $http.get('/inherents').
         success(function (results) {
             $scope.inherents = results.inherents;
+        });
+
+        $http.get('/flaws').
+        success(function (results) {
+            $scope.flaws = results.flaws;
         });
 
         $http.get('/personages/' + personageId).
@@ -607,6 +698,24 @@
             $scope.personageInherents.splice(index, 1);
         };
 
+        $scope.addPersonageFlaw = function (flaw_id) {
+            $http.get('/flaws/' + flaw_id).
+            success(function (result) {
+                $scope.personageFlaws.push({
+                    Flaw: result.flaw,
+                    FlawId: flaw_id,
+                    PersonageId: personageId
+                });
+            }).success(function () {
+                jQuery('#addFlawDialog').modal('hide');
+            });
+        };
+
+        $scope.deletePersonageFlaw = function (personageFlaw) {
+            var index = $scope.personageFlaws.indexOf(personageFlaw);
+            $scope.personageFlaws.splice(index, 1);
+        };
+
         $scope.calculateShowMerits = function () {
             $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
             success(function (results) {
@@ -645,6 +754,22 @@
             });
         };
 
+        $scope.calculateFlawSelectOptions = function () {
+            $scope.selectFlaws = [];
+            angular.forEach($scope.flaws, function (flaw) {
+                var contains = false;
+                angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                    if (flaw.id == personageFlaw.Flaw.id) {
+                        contains = true;
+                    }
+                });
+
+                if (!contains) {
+                    $scope.selectFlaws.push(flaw);
+                }
+            });
+        };
+
         $scope.calculateInherentSelectOptions = function () {
             $scope.selectInherents = [];
             angular.forEach($scope.inherents, function (inherent) {
@@ -669,42 +794,57 @@
                 max_age: $scope.max_age,
                 generated: false,
                 experience: $scope.personage.experience
-            });
-
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                $http.put('/personageAttributes/' + personageAttribute.id, {
-                    value: personageAttribute.value
-                });
-            });
-
-            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
-                angular.forEach(results.personageMerits, function (personageMerit) {
-                    $http.delete('/personageMerits/' + personageMerit.id);
+            }).success(function(result) {
+                angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                    $http.put('/personageAttributes/' + personageAttribute.id, {
+                        value: personageAttribute.value
+                    });
                 });
 
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    $http.post('/personageMerits', {
-                        merit_id: personageMerit.Merit.id,
-                        personage_id: personageId,
-                        unremovable: personageMerit.unremovable
-                    })
-                });
-
-                $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
-                    angular.forEach(results.personageInherents, function (personageInherent) {
-                        $http.delete('/personageInherents/' + personageInherent.id);
+                $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
+                    angular.forEach(results.personageMerits, function (personageMerit) {
+                        $http.delete('/personageMerits/' + personageMerit.id);
                     });
 
-
-                    angular.forEach($scope.personageInherents, function (personageInherent) {
-                        $http.post('/personageInherents', {
-                            inherent_id: personageInherent.Inherent.id,
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        $http.post('/personageMerits', {
+                            merit_id: personageMerit.Merit.id,
                             personage_id: personageId,
-                            value: personageInherent.value
+                            unremovable: personageMerit.unremovable
                         })
                     });
 
-                    location.reload();
+                    $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
+                        angular.forEach(results.personageInherents, function (personageInherent) {
+                            $http.delete('/personageInherents/' + personageInherent.id);
+                        });
+
+
+                        angular.forEach($scope.personageInherents, function (personageInherent) {
+                            $http.post('/personageInherents', {
+                                inherent_id: personageInherent.Inherent.id,
+                                personage_id: personageId,
+                                value: personageInherent.value
+                            })
+                        });
+
+                        $http.get('/personageFlawsByPersonageId/' + personageId).success(function (results) {
+                            angular.forEach(results.personageFlaws, function (personageFlaw) {
+                                $http.delete('/personageFlaws/' + personageFlaw.id);
+                            });
+
+
+                            angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                                $http.post('/personageFlaws', {
+                                    flaw_id: personageFlaw.Flaw.id,
+                                    personage_id: personageId,
+                                    unremovable: personageFlaw.unremovable
+                                })
+                            });
+
+                            location.reload();
+                        });
+                    });
                 });
             });
         };

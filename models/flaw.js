@@ -1,11 +1,10 @@
 /**
- * Created by artemk on 1/29/16.
+ * Created by artemk on 2/8/16.
  */
-
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Merit = sequelize.define("Merit", {
+    var Flaw = sequelize.define("Flaw", {
         name: DataTypes.STRING,
         cost: DataTypes.INTEGER,
         description: DataTypes.STRING,
@@ -13,11 +12,11 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Merit.hasMany(models.RaceMerit);
-                Merit.hasMany(models.PersonageMerit);
+                Flaw.hasMany(models.RaceFlaw);
+                Flaw.hasMany(models.PersonageFlaw);
             }
         }
     });
 
-    return Merit;
+    return Flaw;
 };

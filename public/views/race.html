@@ -15,7 +15,7 @@
     <h2 class="text-center">{{race.name}}</h2>
     <h3 class="text-center">Аттрибуты</h3>
     <table class="table table-striped">
-        <tr ng-repeat="raceAttribute in raceAttributes | orderBy : 'name'">
+        <tr ng-repeat="raceAttribute in raceAttributes | orderBy : 'Attribute.name'">
             <td style="vertical-align:middle;">{{ raceAttribute.Attribute.name}}</td>
             <td ng-if="show(raceAttribute.id)">
                 <input type="number" ng-model="raceAttribute.base_cost"
@@ -39,7 +39,7 @@
 <div ng-controller="raceMeritListController">
     <h3 class="text-center">Достоинства</h3>
     <table class="table table-striped">
-        <tr ng-repeat="raceMerit in raceMerits | orderBy : 'name'">
+        <tr ng-repeat="raceMerit in raceMerits | orderBy : 'Merit.name'">
             <td style="vertical-align:middle;">{{ raceMerit.Merit.name}}</td>
             <td style="vertical-align:middle;">{{ raceMerit.race_cost }}</td>
             <td style="vertical-align:middle;">{{ raceMerit.race_default }}</td>
@@ -90,7 +90,7 @@
 <div ng-controller="raceInherentListController">
     <h3 class="text-center">Врожденные достоинства</h3>
     <table class="table table-striped">
-        <tr ng-repeat="raceInherent in raceInherents | orderBy : 'name'">
+        <tr ng-repeat="raceInherent in raceInherents | orderBy : 'Inherent.name'">
             <td style="vertical-align:middle;">{{ raceInherent.Inherent.name}}</td>
             <td style="vertical-align:middle;">1/{{ raceInherent.race_probability }}</td>
             <td>
@@ -126,6 +126,43 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" ng-click="createRaceInherent()"
                         ng-disabled="addRaceInherentForm.$invalid">Привязать</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div ng-controller="raceFlawListController">
+    <h3 class="text-center">Недостатки</h3>
+    <table class="table table-striped">
+        <tr ng-repeat="raceFlaw in raceFlaws | orderBy : 'Flaw.name'">
+            <td style="vertical-align:middle;">{{ raceFlaw.Flaw.name}}</td>
+            <td style="vertical-align:middle;">{{ raceFlaw.race_probability }}</td>
+            <td>
+                <a class="btn btn-link" ng-click="deleteRaceFlaw(raceFlaw.id)">Удалить</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="container">
+    <h2>Привязать недостаток</h2>
+    <form class="form-horizontal" role="form" ng-controller="addRaceFlawController"
+          name="addRaceFlawForm">
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="flaw_id">Недостаток: </label>
+            <div class="col-sm-8">
+                <select class="form-control"
+                        ng-model="flaw_id" id="flaw_id" ng-options="flaw.id as flaw.name for flaw in flaws" required>
+                    <option style="display:none" value="">Выберите недостаток...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="createRaceFlaw()"
+                        ng-disabled="addRaceFlawForm.$invalid">Привязать</button>
             </div>
         </div>
     </form>
@@ -197,6 +234,20 @@
         };
     });
 
+    app.controller("raceFlawListController", function ($scope, $http) {
+        $http.get('/raceFlawsByRaceId/' + raceId).
+        success(function (data) {
+            $scope.raceFlaws = data.raceFlaws;
+        });
+
+        $scope.deleteRaceFlaw = function (id) {
+            $http.delete('/raceFlaws/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+    });
+
     app.controller("raceInherentListController", function ($scope, $http) {
         $http.get('/raceInherentsByRaceId/' + raceId).
         success(function (data) {
@@ -235,6 +286,24 @@
         $scope.isCheckboxChecked = function () {
             return $scope.race_default;
         }
+    });
+
+    app.controller("addRaceFlawController", function ($scope, $http) {
+
+        $scope.createRaceFlaw = function () {
+            $http.post('/raceFlaws', {
+                flaw_id: $scope.flaw_id,
+                race_id: raceId
+            }).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $http.get('/flaws').
+        success(function (data) {
+            $scope.flaws = data.flaws;
+        });
     });
 
     app.controller("addRaceInherentController", function ($scope, $http) {

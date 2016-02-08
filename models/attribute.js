@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Attribute.hasMany(models.RaceAttribute);
+                Attribute.hasMany(models.PersonageAttribute);
             }
         }
     });
