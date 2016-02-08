@@ -505,6 +505,9 @@
             success(function (data) {
                 $scope.raceAttributes = data.raceAttributes;
             });
+            $scope.experienceValid = function () {
+                return $scope.personage.experience < 0;
+            };
         });
 
         $scope.increaseAttribute = function (id) {
@@ -563,10 +566,6 @@
                     });
                 }
             });
-        };
-
-        $scope.experienceValid = function () {
-            return $scope.personage.experience < 0;
         };
 
         $scope.addPersonageMerit = function (merit) {
