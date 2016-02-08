@@ -706,6 +706,7 @@
                     FlawId: flaw_id,
                     PersonageId: personageId
                 });
+                $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
             }).success(function () {
                 jQuery('#addFlawDialog').modal('hide');
             });
@@ -714,6 +715,7 @@
         $scope.deletePersonageFlaw = function (personageFlaw) {
             var index = $scope.personageFlaws.indexOf(personageFlaw);
             $scope.personageFlaws.splice(index, 1);
+            $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
         };
 
         $scope.calculateShowMerits = function () {
