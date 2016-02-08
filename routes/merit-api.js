@@ -11,6 +11,7 @@ router.post('/merits', function(req, res) {
     models.Merit.create({
         name: req.body.name,
         cost: req.body.cost,
+        creation_only: req.body.creation_only,
         description: req.body.description,
         action_level_bonus: req.body.action_level_bonus
     }).then(function(merit) {

@@ -18,49 +18,70 @@
         <tr ng-repeat="merit in merits | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ merit.name }}</td>
             <td style="vertical-align:middle;">{{ merit.cost }}</td>
-            <td><button type="button" class="btn btn-link" ng-click="deleteMerit(merit.id)">Удалить</button></td>
+            <td>
+                <button type="button" class="btn btn-link" ng-click="deleteMerit(merit.id)">Удалить</button>
+            </td>
         </tr>
     </table>
 </div>
 
 <div class="container">
     <h2>Добавить достоинство</h2>
+
     <form class="form-horizontal" role="form" ng-controller="addMeritController"
           name="createMeritForm">
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="merit_name">Название достоинства:</label>
+
             <div class="col-sm-10">
-                <input type="text" ng-model="merit_name" class="form-control" id="merit_name" placeholder="Амбидекстр" required>
+                <input type="text" ng-model="merit_name" class="form-control" id="merit_name" placeholder="Амбидекстр"
+                       required>
             </div>
         </div>
 
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="cost">Стоимость:</label>
+
             <div class="col-sm-10">
                 <input type="number" ng-model="cost" class="form-control" id="cost" placeholder="5" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="description">Описание:</label>
+            <label class="control-label col-sm-2" for="creation_only">Только при создании:</label>
+
             <div class="col-sm-10">
-                <input type="text" ng-model="description" class="form-control" id="description" placeholder="Описание здесь">
+                <div class="pull-left">
+                    <input type="checkbox" class="form-control" id="creation_only" ng-model="creation_only">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Описание:</label>
+
+            <div class="col-sm-10">
+                <input type="text" ng-model="description" class="form-control" id="description"
+                       placeholder="Описание здесь">
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="action_level_bonus">Бонус на действия:</label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="action_level_bonus" placeholder="Бонус" ng-model="action_level_bonus">
+                <input type="text" class="form-control" id="action_level_bonus" placeholder="Бонус"
+                       ng-model="action_level_bonus">
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" ng-click="createMerit()"
-                        ng-disabled="createMeritForm.$invalid">Добавить</button>
+                        ng-disabled="createMeritForm.$invalid">Добавить
+                </button>
             </div>
         </div>
     </form>
@@ -70,10 +91,13 @@
     var app = angular.module("meritManagerApp", []);
 
     app.controller("addMeritController", function ($scope, $http) {
+        $scope.creation_only = false;
+
         $scope.createMerit = function () {
             $http.post('/merits', {
                 name: $scope.merit_name,
                 cost: $scope.cost,
+                creation_only: $scope.creation_only,
                 description: $scope.description,
                 action_level_bonus: $scope.action_level_bonus
             }).success(function (data) {
