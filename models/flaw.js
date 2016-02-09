@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     var Flaw = sequelize.define("Flaw", {
         name: DataTypes.STRING,
         cost: DataTypes.INTEGER,
+        unremovable: DataTypes.BOOLEAN,
         description: DataTypes.STRING,
         action_level_bonus: DataTypes.STRING
     }, {
