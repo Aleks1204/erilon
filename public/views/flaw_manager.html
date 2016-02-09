@@ -86,7 +86,7 @@
             $http.post('/flaws', {
                 name: $scope.flaw_name,
                 cost: $scope.cost,
-                unremovable: unremovable,
+                unremovable: $scope.unremovable,
                 description: $scope.description,
                 action_level_bonus: $scope.action_level_bonus
             }).success(function (data) {
