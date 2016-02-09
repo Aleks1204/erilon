@@ -5,7 +5,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var PersonageFlaw = sequelize.define("PersonageFlaw", {
-        unremovable: DataTypes.BOOLEAN
+        personage_race_default: DataTypes.BOOLEAN
     }, {
         classMethods: {
             associate: function(models) {

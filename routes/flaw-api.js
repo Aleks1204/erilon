@@ -11,6 +11,7 @@ router.post('/flaws', function(req, res) {
     models.Flaw.create({
         name: req.body.name,
         cost: req.body.cost,
+        unremovable: req.body.unremovable,
         description: req.body.description,
         action_level_bonus: req.body.action_level_bonus
     }).then(function(flaw) {
@@ -44,11 +45,13 @@ router.put('/flaws/:id', function (req, res){
 
         flaw.name = req.body.name;
         flaw.cost = req.body.cost;
+        flaw.unremovable = req.body.unremovable;
         flaw.description = req.body.description;
         flaw.action_level_bonus = req.body.action_level_bonus;
         return flaw.update({
             name: req.body.name,
             cost: req.body.cost,
+            unremovable: req.body.unremovable,
             description: req.body.description,
             action_level_bonus: req.body.action_level_bonus
         }).then(function(flaw) {

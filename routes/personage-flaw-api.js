@@ -30,7 +30,7 @@ router.post('/personageFlaws', function(req, res) {
     models.PersonageFlaw.create({
         PersonageId: req.body.personage_id,
         FlawId: req.body.flaw_id,
-        unremovable: req.body.unremovable
+        personage_race_default: req.body.personage_race_default
     }).then(function(personageFlaw) {
         res.send({ status: 'CREATED', personageFlaw:personageFlaw})
     });

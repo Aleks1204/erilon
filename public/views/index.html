@@ -132,7 +132,7 @@
                                     $http.post('/personageFlaws', {
                                         personage_id: result.personage.id,
                                         flaw_id: results.raceFlaws[i].FlawId,
-                                        unremovable: true
+                                        personage_race_default: true
                                     });
                             }
                             $window.location.href = '/views/create_personage.html?id=' + result.personage.id;

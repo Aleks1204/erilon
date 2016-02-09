@@ -404,19 +404,22 @@
                                                     </td>
 
                                                     <td style="vertical-align:middle;">
-                                                        <div ng-if="!personageFlaw.unremovable">
-                                                            {{personageFlaw.Flaw.cost}}
-                                                        </div>
-                                                        <div ng-if="personageFlaw.unremovable">
-                                                            По умолчанию
-                                                        </div>
+                                                        {{personageFlaw.Flaw.cost}}
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;"
+                                                        ng-if="personageFlaw.personage_race_default">
+                                                        По умолчанию
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;"
+                                                        ng-if="!personageFlaw.personage_race_default">
+                                                        <span class="glyphicon glyphicon-ok"/>
                                                     </td>
 
                                                     <td>
-                                                        <div ng-if="!personageFlaw.unremovable">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageFlaw(personageFlaw)">Удалить</a>
-                                                        </div>
+                                                        <a class="btn btn-link"
+                                                           ng-click="deletePersonageFlaw(personageFlaw)">Удалить</a>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -796,7 +799,7 @@
                 max_age: $scope.max_age,
                 generated: false,
                 experience: $scope.personage.experience
-            }).success(function(result) {
+            }).success(function (result) {
                 angular.forEach($scope.personageAttributes, function (personageAttribute) {
                     $http.put('/personageAttributes/' + personageAttribute.id, {
                         value: personageAttribute.value
@@ -840,7 +843,7 @@
                                 $http.post('/personageFlaws', {
                                     flaw_id: personageFlaw.Flaw.id,
                                     personage_id: personageId,
-                                    unremovable: personageFlaw.unremovable
+                                    personage_race_default: personageFlaw.personage_race_default
                                 })
                             });
 
