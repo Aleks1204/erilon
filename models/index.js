@@ -42,7 +42,9 @@ if (!global.hasOwnProperty('db')) {
         RaceInherent:      sequelize.import(__dirname + '/raceInherent'),
         Flaw:      sequelize.import(__dirname + '/flaw'),
         RaceFlaw:      sequelize.import(__dirname + '/raceFlaw'),
-        PersonageFlaw:      sequelize.import(__dirname + '/personageFlaw')
+        PersonageFlaw:      sequelize.import(__dirname + '/personageFlaw'),
+        AttachedSkill:      sequelize.import(__dirname + '/attachedSkill'),
+        PersonageAttachedSkill:      sequelize.import(__dirname + '/personageAttachedSkill')
         // add your other models here
     };
 

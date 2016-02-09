@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Список прикрепленных навыков</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body ng-app="attachedSkillManagerApp">
+<div data-ng-include data-src="'main-menu.html'"></div>
+<div ng-controller="attachedSkillListController">
+
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Сл.</th>
+            <th>Теор.</th>
+            <th>Деф.</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="attachedSkill in attachedSkills | orderBy : 'name'">
+            <td style="vertical-align:middle;">{{ attachedSkill.name }}</td>
+            <td style="vertical-align:middle;">
+                <div ng-if="attachedSkill.difficult">
+                    <span class="glyphicon glyphicon-ok"/>
+                </div>
+                <div ng-if="!attachedSkill.difficult">
+                    <span class="glyphicon glyphicon-remove"/>
+                </div>
+            </td>
+            <td style="vertical-align:middle;">
+                <div ng-if="attachedSkill.theoretical">
+                    <span class="glyphicon glyphicon-ok"/>
+                </div>
+                <div ng-if="!attachedSkill.theoretical">
+                    <span class="glyphicon glyphicon-remove"/>
+                </div>
+            </td>
+            <td style="vertical-align:middle;">
+                <div ng-if="attachedSkill.default_skill">
+                    <span class="glyphicon glyphicon-ok"/>
+                </div>
+                <div ng-if="!attachedSkill.default_skill">
+                    <span class="glyphicon glyphicon-remove"/>
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-link" ng-click="deleteAttachedSkill(attachedSkill.id)">Удалить
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Добавить навык</h2>
+
+    <form class="form-horizontal" role="form" ng-controller="addAttachedSkillController"
+          name="createAttachedSkillForm">
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="attachedSkill_name">Название навыка:</label>
+
+            <div class="col-sm-10">
+                <input type="text" ng-model="attachedSkill_name" class="form-control" id="attachedSkill_name"
+                       placeholder="Лидерство" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="difficult">Сложный:</label>
+
+            <div class="col-sm-10">
+                <div class="pull-left">
+                    <input type="checkbox" class="form-control" id="difficult" ng-model="difficult">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="theoretical">Теоретический:</label>
+
+            <div class="col-sm-10">
+                <div class="pull-left">
+                    <input type="checkbox" class="form-control" id="theoretical" ng-model="theoretical">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="default_skill">Дефолтный:</label>
+
+            <div class="col-sm-10">
+                <div class="pull-left">
+                    <input type="checkbox" class="form-control" id="default_skill" ng-model="default_skill">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Описание:</label>
+
+            <div class="col-sm-10">
+                <input type="text" ng-model="description" class="form-control" id="description"
+                       placeholder="Описание здесь">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="createAttachedSkill()"
+                        ng-disabled="createAttachedSkillForm.$invalid">Добавить
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var app = angular.module("attachedSkillManagerApp", []);
+
+    app.controller("addAttachedSkillController", function ($scope, $http) {
+        $scope.difficult = false;
+        $scope.theoretical = false;
+        $scope.default_skill = false;
+
+        $scope.createAttachedSkill = function () {
+            $http.post('/attachedSkills', {
+                name: $scope.attachedSkill_name,
+                description: $scope.description,
+                difficult: $scope.difficult,
+                theoretical: $scope.theoretical,
+                default_skill: $scope.default_skill
+            }).success(function (data) {
+                location.reload();
+            });
+        };
+    });
+
+    app.controller("attachedSkillListController", function ($scope, $http) {
+        $http.get('/attachedSkills').
+        success(function (data) {
+            $scope.attachedSkills = data.attachedSkills.sort();
+        });
+
+        $scope.deleteAttachedSkill = function (id) {
+            $http.delete('/attachedSkills/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+    });
+</script>
+
+</body>
+</html>

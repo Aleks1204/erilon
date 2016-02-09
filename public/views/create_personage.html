@@ -114,24 +114,109 @@
 
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attached">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attachedSkills">
                                             <div class="panel-heading">
                                                 Прикрепленные
                                             </div>
                                         </a>
                                     </h4>
-                                    <div id="attached" class="panel-collapse collapse">
+                                    <div id="attachedSkills" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : 'AttachedSkill.name'">
                                                     <td style="vertical-align:middle;">
-                                                        Навык
+                                                        {{personageAttachedSkill.AttachedSkill.name}}
                                                     </td>
+
                                                     <td style="vertical-align:middle;">
-                                                        Значение
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
+                                                            <span class="glyphicon glyphicon-triangle-top"/>
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
+                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
+                                                        </button>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageAttachedSkill.value}}
+                                                    </td>
+
+                                                    <td>
+                                                        <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">Удалить</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <button type="button" class="btn btn-default pull-right"
+                                                    data-toggle="modal" data-target="#addAttachedSkillDialog"
+                                                    ng-click="calculateAttachedSkillSelectOptions()">Добавить
+                                                прикрепленный навык
+                                            </button>
+
+                                            <div id="addAttachedSkillDialog" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Добавить прикрепленный навык</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form"
+                                                                  name="addPersonageAttachedSkillForm">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2"
+                                                                           for="attachedSkill_id">Навык: </label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control"
+                                                                                ng-model="attachedSkill_id"
+                                                                                id="attachedSkill_id"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите навык...
+                                                                            </option>
+                                                                            <option ng-repeat="selectAttachedSkill in selectAttachedSkills"
+                                                                                    value="{{selectAttachedSkill.id}}">
+                                                                                {{selectAttachedSkill.name}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                            <button type="button"
+                                                                                    class="btn btn-default pull-right"
+                                                                                    data-dismiss="modal">
+                                                                                Отмена
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-md-3 col-xs-1">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-success pull-left"
+                                                                                    ng-click="addPersonageAttachedSkill(attachedSkill_id)"
+                                                                                    ng-disabled="addPersonageAttachedSkillForm.$invalid">
+                                                                                Добавить
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -444,11 +529,11 @@
                                                                   name="addPersonageFlawForm">
                                                                 <div class="form-group">
                                                                     <label class="control-label col-sm-2"
-                                                                           for="flaw">Недостаток: </label>
+                                                                           for="flaw_id">Недостаток: </label>
 
                                                                     <div class="col-sm-10">
                                                                         <select class="form-control"
-                                                                                ng-model="flaw" id="flaw"
+                                                                                ng-model="flaw_id" id="flaw_id"
                                                                                 required>
                                                                             <option style="display:none" value="">
                                                                                 Выберите недостаток...
@@ -475,7 +560,7 @@
                                                                         <div class="col-md-3 col-xs-1">
                                                                             <button type="submit"
                                                                                     class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageFlaw(flaw)"
+                                                                                    ng-click="addPersonageFlaw(flaw_id)"
                                                                                     ng-disabled="addPersonageFlawForm.$invalid">
                                                                                 Добавить
                                                                             </button>
@@ -565,10 +650,14 @@
             $scope.personageInherents = data.personageInherents;
         });
 
-
         $http.get('/personageFlawsByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageFlaws = data.personageFlaws;
+        });
+
+        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).
+        success(function (data) {
+            $scope.personageAttachedSkills = data.personageAttachedSkills;
         });
 
         $http.get('/merits').
@@ -584,6 +673,11 @@
         $http.get('/flaws').
         success(function (results) {
             $scope.flaws = results.flaws;
+        });
+
+        $http.get('/attachedSkills').
+        success(function (results) {
+            $scope.attachedSkills = results.attachedSkills;
         });
 
         $http.get('/personages/' + personageId).
@@ -649,6 +743,97 @@
             });
         };
 
+
+        $scope.increaseAttachedSkill = function (id) {
+            var isPrimaryAttributeSet = false;
+            var isSecondaryAttributeSet = 0;
+            var wisdomDoubleValue = 0;
+
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                if (personageAttribute.Attribute.name == 'Мудрость') {
+                    wisdomDoubleValue = personageAttribute.value * 2;
+                }
+            });
+
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (personageAttachedSkill.value > 3) {
+                    isSecondaryAttributeSet++;
+                }
+                if (personageAttachedSkill.value > 4) {
+                    isPrimaryAttributeSet = true;
+                }
+            });
+
+
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (personageAttachedSkill.AttachedSkill.id == id) {
+                    if (personageAttachedSkill.value < 5) {
+                        if (personageAttachedSkill.value < 3) {
+                            if (!personageAttachedSkill.AttachedSkill.theoretical) {
+                                personageAttachedSkill.value++;
+                                if (personageAttachedSkill.AttachedSkill.difficult) {
+                                    $scope.personage.experience = $scope.personage.experience - 2;
+                                } else {
+                                    $scope.personage.experience = $scope.personage.experience - 1;
+                                }
+                            } else {
+                                if (personageAttachedSkill.value < wisdomDoubleValue) {
+                                    personageAttachedSkill.value++;
+                                    if (personageAttachedSkill.AttachedSkill.difficult) {
+                                        $scope.personage.experience = $scope.personage.experience - 2;
+                                    } else {
+                                        $scope.personage.experience = $scope.personage.experience - 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            if (personageAttachedSkill.value == 4) {
+                                if (!isPrimaryAttributeSet) {
+                                    if (!personageAttachedSkill.AttachedSkill.theoretical) {
+                                        personageAttachedSkill.value++;
+                                        if (personageAttachedSkill.AttachedSkill.difficult) {
+                                            $scope.personage.experience = $scope.personage.experience - 2;
+                                        } else {
+                                            $scope.personage.experience = $scope.personage.experience - 1;
+                                        }
+                                    } else {
+                                        if (personageAttachedSkill.value < wisdomDoubleValue) {
+                                            personageAttachedSkill.value++;
+                                            if (personageAttachedSkill.AttachedSkill.difficult) {
+                                                $scope.personage.experience = $scope.personage.experience - 2;
+                                            } else {
+                                                $scope.personage.experience = $scope.personage.experience - 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (isSecondaryAttributeSet < 3) {
+                                    if (!personageAttachedSkill.AttachedSkill.theoretical) {
+                                        personageAttachedSkill.value++;
+                                        if (personageAttachedSkill.AttachedSkill.difficult) {
+                                            $scope.personage.experience = $scope.personage.experience - 2;
+                                        } else {
+                                            $scope.personage.experience = $scope.personage.experience - 1;
+                                        }
+                                    } else {
+                                        if (personageAttachedSkill.value < wisdomDoubleValue) {
+                                            personageAttachedSkill.value++;
+                                            if (personageAttachedSkill.AttachedSkill.difficult) {
+                                                $scope.personage.experience = $scope.personage.experience - 2;
+                                            } else {
+                                                $scope.personage.experience = $scope.personage.experience - 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
         $scope.decreaseAttribute = function (id) {
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
@@ -658,6 +843,19 @@
                             $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
                         }
                     });
+                }
+            });
+        };
+
+        $scope.decreaseAttachedSkill = function (id) {
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
+                    personageAttachedSkill.value--;
+                    if (personageAttachedSkill.AttachedSkill.difficult) {
+                        $scope.personage.experience = $scope.personage.experience + 2;
+                    } else {
+                        $scope.personage.experience = $scope.personage.experience + 1;
+                    }
                 }
             });
         };
@@ -719,6 +917,36 @@
             var index = $scope.personageFlaws.indexOf(personageFlaw);
             $scope.personageFlaws.splice(index, 1);
             $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
+        };
+
+        $scope.addPersonageAttachedSkill = function (attachedSkill_id) {
+            $http.get('/attachedSkills/' + attachedSkill_id).
+            success(function (result) {
+                $scope.personageAttachedSkills.push({
+                    AttachedSkill: result.attachedSkill,
+                    AttachedSkillId: attachedSkill_id,
+                    PersonageId: personageId,
+                    value: 1
+                });
+                if (result.attachedSkill.difficult) {
+                    $scope.personage.experience = $scope.personage.experience - 2;
+                } else {
+                    $scope.personage.experience = $scope.personage.experience - 1;
+                }
+            }).success(function () {
+                jQuery('#addAttachedSkillDialog').modal('hide');
+            });
+        };
+
+        $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
+            var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
+            $scope.personageAttachedSkills.splice(index, 1);
+
+            if (personageAttachedSkill.AttachedSkill.difficult) {
+                $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
+            } else {
+                $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+            }
         };
 
         $scope.calculateShowMerits = function () {
@@ -791,6 +1019,22 @@
             });
         };
 
+        $scope.calculateAttachedSkillSelectOptions = function () {
+            $scope.selectAttachedSkills = [];
+            angular.forEach($scope.attachedSkills, function (attachedSkill) {
+                var contains = false;
+                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                    if (attachedSkill.id == personageAttachedSkill.AttachedSkill.id) {
+                        contains = true;
+                    }
+                });
+
+                if (!contains) {
+                    $scope.selectAttachedSkills.push(attachedSkill);
+                }
+            });
+        };
+
         $scope.savePersonage = function () {
             $http.put('/personages/' + personageId, {
                 race_id: $scope.personage.RaceId,
@@ -847,7 +1091,22 @@
                                 })
                             });
 
-                            location.reload();
+                            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (results) {
+                                angular.forEach(results.personageAttachedSkills, function (personageAttachedSkill) {
+                                    $http.delete('/personageAttachedSkills/' + personageAttachedSkill.id);
+                                });
+
+
+                                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                                    $http.post('/personageAttachedSkills', {
+                                        attachedSkill_id: personageAttachedSkill.AttachedSkill.id,
+                                        personage_id: personageId,
+                                        value: personageAttachedSkill.value
+                                    })
+                                });
+
+                                location.reload();
+                            });
                         });
                     });
                 });

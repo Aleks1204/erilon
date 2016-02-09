@@ -40,10 +40,23 @@
 <div ng-controller="raceMeritListController">
     <h3 class="text-center">Достоинства</h3>
     <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Ст.</th>
+            <th>Деф.</th>
+            <th></th>
+        </tr>
         <tr ng-repeat="raceMerit in raceMerits | orderBy : 'Merit.name'">
             <td style="vertical-align:middle;">{{ raceMerit.Merit.name}}</td>
             <td style="vertical-align:middle;">{{ raceMerit.race_cost }}</td>
-            <td style="vertical-align:middle;">{{ raceMerit.race_default }}</td>
+            <td style="vertical-align:middle;">
+                <div ng-if="raceMerit.race_default">
+                    <span class="glyphicon glyphicon-ok"/>
+                </div>
+                <div ng-if="!raceMerit.race_default">
+                    <span class="glyphicon glyphicon-remove"/>
+                </div>
+            </td>
             <td>
                 <a class="btn btn-link" ng-click="deleteRaceMerit(raceMerit.id)">Удалить</a>
             </td>

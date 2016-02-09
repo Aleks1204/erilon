@@ -135,7 +135,19 @@
                                         personage_race_default: true
                                     });
                             }
-                            $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                            $http.get('/attachedSkills/').
+                            success(function (results) {
+                                angular.forEach(results.attachedSkills, function (attachedSkill) {
+                                    if(attachedSkill.default_skill) {
+                                    $http.post('/personageAttachedSkills', {
+                                        personage_id: result.personage.id,
+                                        attachedSkill_id: attachedSkill.id,
+                                        value: 0
+                                    });
+                                    }
+                                });
+                                $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
+                            });
                         });
                     });
                 });
