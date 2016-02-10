@@ -18,6 +18,7 @@
         <tr ng-repeat="flaw in flaws | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ flaw.name }}</td>
             <td style="vertical-align:middle;">{{ flaw.cost }}</td>
+            <td style="vertical-align:middle;">{{ flaw.unremovable }}</td>
             <td><button type="button" class="btn btn-link" ng-click="deleteFlaw(flaw.id)">Удалить</button></td>
         </tr>
     </table>
