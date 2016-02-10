@@ -15,10 +15,20 @@
 <div ng-controller="flawListController">
 
     <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Ст.</th>
+            <th>Неоткл.</th>
+            <th></th>
+        </tr>
         <tr ng-repeat="flaw in flaws | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ flaw.name }}</td>
             <td style="vertical-align:middle;">{{ flaw.cost }}</td>
-            <td style="vertical-align:middle;">{{ flaw.unremovable }}</td>
+            <td style="vertical-align:middle;">
+                <div ng-if="flaw.unremovable">
+                    <span class="glyphicon glyphicon-ok"/>
+                </div>
+            </td>
             <td><button type="button" class="btn btn-link" ng-click="deleteFlaw(flaw.id)">Удалить</button></td>
         </tr>
     </table>
