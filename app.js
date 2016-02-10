@@ -21,6 +21,8 @@ var raceFlawApi = require('./routes/race-flaw-api');
 var personageFlawApi = require('./routes/personage-flaw-api');
 var attachedSkillApi = require('./routes/attached-skill-api');
 var personageAttachedSkillApi = require('./routes/personage-attached-skill-api');
+var triggerSkillApi = require('./routes/trigger-skill-api');
+var skillLevelApi = require('./routes/skill-level-api');
 
 var app = express();
 
@@ -52,6 +54,8 @@ app.use('/', raceFlawApi);
 app.use('/', personageFlawApi);
 app.use('/', attachedSkillApi);
 app.use('/', personageAttachedSkillApi);
+app.use('/', triggerSkillApi);
+app.use('/', skillLevelApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

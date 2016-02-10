@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Скилл</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="triggerApp">
+<div data-ng-include data-src="'main-menu.html'"></div>
+
+<div ng-controller="skillLevelListController">
+    <h2 class="text-center">{{triggerSkill.name}}</h2>
+
+    <h3 class="text-center">Уровни</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Ур.</th>
+            <th>Ст.</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="skillLevel in skillLevels | orderBy : 'id'">
+            <td style="vertical-align:middle;">{{ skillLevel.name}}</td>
+            <td style="vertical-align:middle;">{{ skillLevel.level}}</td>
+            <td style="vertical-align:middle;">{{ skillLevel.cost}}</td>
+            <td>
+                <button type="button" class="btn btn-link" ng-click="deleteSkillLevel(skillLevel.id)">Удалить</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Создать уровень</h2>
+
+    <form class="form-horizontal" role="form" ng-controller="addSkillLevelController"
+          name="addSkillLevelForm">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="level">Уровень: </label>
+
+            <div class="col-sm-10">
+                <select class="form-control"
+                        ng-model="level" id="level" ng-options="level.id as level.name for level in levels"
+                        required>
+                    <option style="display:none" value="">Выберите уровень...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="skillLevel_name">Название уровня:</label>
+
+            <div class="col-sm-10">
+                <input type="text" ng-model="skillLevel_name" class="form-control" id="skillLevel_name"
+                       placeholder="Эксперт" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="cost">Стоимость:</label>
+
+            <div class="col-sm-10">
+                <input type="number" ng-model="cost" class="form-control" id="cost" placeholder="5" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Описание:</label>
+
+            <div class="col-sm-10">
+                <input type="text" ng-model="description" class="form-control" id="description"
+                       placeholder="Описание здесь">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="createSkillLevel()"
+                        ng-disabled="addSkillLevelForm.$invalid">Создать
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var triggerSkillId = /id=(\d+)/.exec(window.location.href)[1];
+    var app = angular.module("triggerApp", []);
+
+    app.controller("skillLevelListController", function ($scope, $http) {
+        $http.get('/skillLevelsByTriggerSkillId/' + triggerSkillId).
+        success(function (data) {
+            $scope.skillLevels = data.skillLevels;
+        });
+
+        $http.get('/triggerSkills/' + triggerSkillId).
+        success(function (data) {
+            $scope.triggerSkill = data.triggerSkill;
+        });
+
+        $scope.deleteSkillLevel = function (id) {
+            $http.delete('/skillLevels/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+    });
+
+    app.controller("addSkillLevelController", function ($scope, $http) {
+        $scope.levels = [
+            {
+                "name" : "Эксперт",
+                "id" : 1
+            }, {
+                "name" : "Мастер",
+                "id" : 2
+            }, {
+                "name" : "Магистр",
+                "id" : 3
+            }, {
+                "name" : "ГроссМейстер",
+                "id" : 4
+            }
+        ];
+
+        $scope.createSkillLevel = function () {
+            $http.post('/skillLevels', {
+                TriggerSkillId: triggerSkillId,
+                name: $scope.skillLevel_name,
+                cost: $scope.cost,
+                level: $scope.level,
+                description: $scope.description
+            }).
+            success(function (result) {
+                location.reload();
+            });
+        }
+    });
+
+</script>
+</body>
+</html>
