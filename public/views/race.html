@@ -14,7 +14,7 @@
 <div ng-controller="raceAttributeListController">
     <h2 class="text-center">{{race.name}}</h2>
 
-    <h3 class="text-center">Аттрибуты</h3>
+    <h3 class="text-center">Атрибуты</h3>
     <table class="table table-striped">
         <tr ng-repeat="raceAttribute in raceAttributes | orderBy : 'Attribute.name'">
             <td style="vertical-align:middle;">{{ raceAttribute.Attribute.name}}</td>
