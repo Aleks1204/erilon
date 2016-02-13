@@ -223,24 +223,133 @@
 
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#trigger">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#triggerSkills">
                                             <div class="panel-heading">
                                                 Триггерные
                                             </div>
                                         </a>
                                     </h4>
-                                    <div id="trigger" class="panel-collapse collapse">
+                                    <div id="triggerSkills" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
                                                     <td style="vertical-align:middle;">
-                                                        Навык
+                                                        {{personageTriggerSkill.TriggerSkill.name}}
                                                     </td>
+
                                                     <td style="vertical-align:middle;">
-                                                        Значение
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
+                                                            <span class="glyphicon glyphicon-triangle-top"/>
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
+                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
+                                                        </button>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;">
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                            База
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                            Эксперт
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                            Мастер
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                            Магистр
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                            Гроссмейстер
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="checkbox" class="form-control" id="talented"
+                                                               ng-model="personageTriggerSkill.talented">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="checkbox" class="form-control" id="tutored"
+                                                               ng-model="personageTriggerSkill.tutored">
+                                                    </td>
+
+                                                    <td>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">Удалить</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <button type="button" class="btn btn-default pull-right"
+                                                    data-toggle="modal" data-target="#addTriggerSkillDialog"
+                                                    ng-click="calculateTriggerSkillSelectOptions()">Добавить
+                                                тригерный навык
+                                            </button>
+
+                                            <div id="addTriggerSkillDialog" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Добавить тригерный навык</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form"
+                                                                  name="addPersonageTriggerSkillForm">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-2"
+                                                                           for="triggerSkill_id">Навык: </label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control"
+                                                                                ng-model="triggerSkill_id"
+                                                                                id="triggerSkill_id"
+                                                                                required>
+                                                                            <option style="display:none" value="">
+                                                                                Выберите навык...
+                                                                            </option>
+                                                                            <option ng-repeat="selectTriggerSkill in selectTriggerSkills"
+                                                                                    value="{{selectTriggerSkill.id}}">
+                                                                                {{selectTriggerSkill.name}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                            <button type="button"
+                                                                                    class="btn btn-default pull-right"
+                                                                                    data-dismiss="modal">
+                                                                                Отмена
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div class="col-md-3 col-xs-1">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-success pull-left"
+                                                                                    ng-click="addPersonageTriggerSkill(triggerSkill_id)"
+                                                                                    ng-disabled="addPersonageTriggerSkillForm.$invalid">
+                                                                                Добавить
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -660,6 +769,11 @@
             $scope.personageAttachedSkills = data.personageAttachedSkills;
         });
 
+        $http.get('/personageTriggerSkillsByPersonageId/' + personageId).
+        success(function (data) {
+            $scope.personageTriggerSkills = data.personageTriggerSkills;
+        });
+
         $http.get('/merits').
         success(function (results) {
             $scope.merits = results.merits;
@@ -678,6 +792,11 @@
         $http.get('/attachedSkills').
         success(function (results) {
             $scope.attachedSkills = results.attachedSkills;
+        });
+
+        $http.get('/triggerSkills').
+        success(function (results) {
+            $scope.triggerSkills = results.triggerSkills;
         });
 
         $http.get('/personages/' + personageId).
@@ -834,6 +953,22 @@
             });
         };
 
+        $scope.increaseTriggerSkillLevel = function (id) {
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (personageTriggerSkill.TriggerSkill.id == id) {
+                    var nextLevel = personageTriggerSkill.currentLevel + 1;
+                    $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                        angular.forEach(results.skillLevels, function (skillLevel) {
+                            if (skillLevel.level == nextLevel) {
+                                personageTriggerSkill.currentLevel++;
+                                $scope.personage.experience = $scope.personage.experience - skillLevel.cost;
+                            }
+                        });
+                    });
+                }
+            });
+        };
+
         $scope.decreaseAttribute = function (id) {
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
@@ -856,6 +991,28 @@
                     } else {
                         $scope.personage.experience = $scope.personage.experience + 1;
                     }
+                }
+            });
+        };
+
+        $scope.decreaseTriggerSkillLevel = function (id) {
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (personageTriggerSkill.TriggerSkill.id == id) {
+                    var previousLevel = personageTriggerSkill.currentLevel - 1;
+                    var currentLevel = personageTriggerSkill.currentLevel;
+                    $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                        if (previousLevel == 0) {
+                            personageTriggerSkill.currentLevel--;
+                        }
+                        angular.forEach(results.skillLevels, function (skillLevel) {
+                            if (skillLevel.level == previousLevel) {
+                                personageTriggerSkill.currentLevel--;
+                            }
+                            if (skillLevel.level == currentLevel) {
+                                $scope.personage.experience = $scope.personage.experience + skillLevel.cost;
+                            }
+                        });
+                    });
                 }
             });
         };
@@ -938,6 +1095,23 @@
             });
         };
 
+        $scope.addPersonageTriggerSkill = function (triggerSkill_id) {
+            $http.get('/triggerSkills/' + triggerSkill_id).
+            success(function (result) {
+                $scope.personageTriggerSkills.push({
+                    TriggerSkill: result.triggerSkill,
+                    TriggerSkillId: triggerSkill_id,
+                    PersonageId: personageId,
+                    currentLevel: 0,
+                    talented: false,
+                    tutored: false
+                });
+                $scope.personage.experience = $scope.personage.experience - result.triggerSkill.cost;
+            }).success(function () {
+                jQuery('#addTriggerSkillDialog').modal('hide');
+            });
+        };
+
         $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
             var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
             $scope.personageAttachedSkills.splice(index, 1);
@@ -947,6 +1121,14 @@
             } else {
                 $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
             }
+        };
+
+        $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
+            var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
+            $scope.personageTriggerSkills.splice(index, 1);
+
+            $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
+
         };
 
         $scope.calculateShowMerits = function () {
@@ -1035,6 +1217,23 @@
             });
         };
 
+        $scope.calculateTriggerSkillSelectOptions = function () {
+            $scope.selectTriggerSkills = [];
+            angular.forEach($scope.triggerSkills, function (triggerSkill) {
+                var contains = false;
+                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                    if (triggerSkill.id == personageTriggerSkill.TriggerSkill.id) {
+                        contains = true;
+                    }
+                });
+
+                if (!contains) {
+                    $scope.selectTriggerSkills.push(triggerSkill);
+                }
+            });
+        };
+
+
         $scope.savePersonage = function () {
             $http.put('/personages/' + personageId, {
                 race_id: $scope.personage.RaceId,
@@ -1096,7 +1295,6 @@
                                     $http.delete('/personageAttachedSkills/' + personageAttachedSkill.id);
                                 });
 
-
                                 angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                                     $http.post('/personageAttachedSkills', {
                                         attachedSkill_id: personageAttachedSkill.AttachedSkill.id,
@@ -1105,7 +1303,23 @@
                                     })
                                 });
 
-                                location.reload();
+                                $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (results) {
+                                    angular.forEach(results.personageTriggerSkills, function (personageTriggerSkill) {
+                                        $http.delete('/personageTriggerSkills/' + personageTriggerSkill.id);
+                                    });
+
+                                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                                        $http.post('/personageTriggerSkills', {
+                                            trigger_skill_id: personageTriggerSkill.TriggerSkill.id,
+                                            personage_id: personageId,
+                                            currentLevel: personageTriggerSkill.currentLevel,
+                                            talented: personageTriggerSkill.talented,
+                                            tutored: personageTriggerSkill.tutored
+                                        })
+                                    });
+
+                                    location.reload();
+                                });
                             });
                         });
                     });

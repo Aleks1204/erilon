@@ -19,13 +19,17 @@ router.post('/triggerSkills', function(req, res) {
 });
 
 router.get('/triggerSkills', function(req, res) {
-    models.TriggerSkill.findAll().then(function(triggerSkills) {
+    models.TriggerSkill.findAll({
+        include: [models.SkillLevel]
+    }).then(function(triggerSkills) {
         return res.send({triggerSkills:triggerSkills});
     });
 });
 
 router.get('/triggerSkills/:id', function(req, res) {
-    models.TriggerSkill.findById(req.params.id).then(function (triggerSkill) {
+    models.TriggerSkill.findById(req.params.id, {
+        include: [models.SkillLevel]
+    }).then(function (triggerSkill) {
         if(!triggerSkill) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
