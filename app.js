@@ -25,6 +25,8 @@ var triggerSkillApi = require('./routes/trigger-skill-api');
 var skillLevelApi = require('./routes/skill-level-api');
 var personageTriggerSkillApi = require('./routes/personage-trigger-skill-api');
 
+var isMobile = require('ismobilejs');
+
 var app = express();
 
 // view engine setup
@@ -58,6 +60,7 @@ app.use('/', personageAttachedSkillApi);
 app.use('/', triggerSkillApi);
 app.use('/', skillLevelApi);
 app.use('/', personageTriggerSkillApi);
+app.use('', personageTriggerSkillApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

@@ -146,7 +146,7 @@
                                                     <td>
                                                         <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
                                                             <a class="btn btn-link"
-                                                               ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">Удалить</a>
+                                                               ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">х</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -232,12 +232,23 @@
                                     <div id="triggerSkills" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
+                                                <tr>
+                                                    <th style="vertical-align:middle; text-align: center"></th>
+                                                    <th style="vertical-align:middle; text-align: center"></th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Уровень</th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Ур</th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Талант</th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Тл</th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Учитель</th>
+                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Уч</th>
+                                                    <th style="vertical-align:middle; text-align: center"></th>
+                                                </tr>
                                                 <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
                                                     <td style="vertical-align:middle;">
                                                         {{personageTriggerSkill.TriggerSkill.name}}
                                                     </td>
 
-                                                    <td style="vertical-align:middle;">
+                                                    <td style="vertical-align:middle; text-align: center">
                                                         <button type="button" class="btn btn-default"
                                                                 ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
                                                             <span class="glyphicon glyphicon-triangle-top"/>
@@ -248,10 +259,7 @@
                                                         </button>
                                                     </td>
 
-                                                    <td style="vertical-align:middle;">
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                            База
-                                                        </div>
+                                                    <td style="vertical-align:middle; text-align: center" ng-if="!isMobile">
                                                         <div ng-if="personageTriggerSkill.currentLevel == 1">
                                                             Эксперт
                                                         </div>
@@ -263,6 +271,21 @@
                                                         </div>
                                                         <div ng-if="personageTriggerSkill.currentLevel == 4">
                                                             Гроссмейстер
+                                                        </div>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;" ng-if="isMobile">
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                            Э
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                            М
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                            Мг
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                            Г
                                                         </div>
                                                     </td>
 
@@ -279,7 +302,7 @@
                                                     <td>
                                                         <div ng-if="personageTriggerSkill.currentLevel == 0">
                                                             <a class="btn btn-link"
-                                                               ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">Удалить</a>
+                                                               ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">х</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -401,7 +424,7 @@
 
                                                     <td>
                                                         <a class="btn btn-link"
-                                                           ng-click="deletePersonageInherent(personageInherent)">Удалить</a>
+                                                           ng-click="deletePersonageInherent(personageInherent)">х</a>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -506,7 +529,7 @@
                                                     <td>
                                                         <div ng-if="!personageMerit.unremovable">
                                                             <a class="btn btn-link"
-                                                               ng-click="deletePersonageMerit(personageMerit)">Удалить</a>
+                                                               ng-click="deletePersonageMerit(personageMerit)">х</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -613,7 +636,7 @@
 
                                                     <td ng-hide="personageFlaw.personage_race_default && personageFlaw.Flaw.unremovable">
                                                         <a class="btn btn-link"
-                                                           ng-click="deletePersonageFlaw(personageFlaw)">Удалить</a>
+                                                           ng-click="deletePersonageFlaw(personageFlaw)">х</a>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -740,10 +763,14 @@
 </div>
 
 <script>
+    (function(i){var e=/iPhone/i,n=/iPod/i,o=/iPad/i,t=/(?=.*\bAndroid\b)(?=.*\bMobile\b)/i,r=/Android/i,d=/BlackBerry/i,s=/Opera Mini/i,a=/IEMobile/i,b=/(?=.*\bFirefox\b)(?=.*\bMobile\b)/i,h=RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)","i"),c=function(i,e){return i.test(e)},l=function(i){var l=i||navigator.userAgent;this.apple={phone:c(e,l),ipod:c(n,l),tablet:c(o,l),device:c(e,l)||c(n,l)||c(o,l)},this.android={phone:c(t,l),tablet:!c(t,l)&&c(r,l),device:c(t,l)||c(r,l)},this.other={blackberry:c(d,l),opera:c(s,l),windows:c(a,l),firefox:c(b,l),device:c(d,l)||c(s,l)||c(a,l)||c(b,l)},this.seven_inch=c(h,l),this.any=this.apple.device||this.android.device||this.other.device||this.seven_inch},v=i.isMobile=new l;v.Class=l})(window);
+
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
 
     app.controller("personageController", function ($scope, $http) {
+        $scope.isMobile = isMobile.android.phone;
+
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageAttributes = data.personageAttributes;
@@ -962,6 +989,9 @@
                             if (skillLevel.level == nextLevel) {
                                 personageTriggerSkill.currentLevel++;
                                 $scope.personage.experience = $scope.personage.experience - skillLevel.cost;
+                                if(personageTriggerSkill.tutored) {
+                                    personageTriggerSkill.tutored = false;
+                                }
                             }
                         });
                     });

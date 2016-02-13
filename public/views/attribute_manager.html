@@ -18,7 +18,7 @@
         <tr ng-repeat="attribute in attributes | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ attribute.name }}</td>
             <td style="vertical-align:middle;">{{ attribute.action_level_bonus }}</td>
-            <td><button type="button" class="btn btn-link" ng-click="deleteAttribute(attribute.id)">Удалить</button></td>
+            <td><button type="button" class="btn btn-link" ng-click="deleteAttribute(attribute.id)">х</button></td>
         </tr>
     </table>
 </div>
