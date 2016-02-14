@@ -5,7 +5,6 @@
 
 module.exports = function(sequelize, DataTypes) {
     var SkillLevel = sequelize.define("SkillLevel", {
-        name: DataTypes.STRING,
         cost: DataTypes.INTEGER,
         level: DataTypes.INTEGER,
         description: DataTypes.STRING

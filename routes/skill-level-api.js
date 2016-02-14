@@ -16,7 +16,6 @@ router.get('/skillLevels', function(req, res) {
 router.post('/skillLevels', function(req, res) {
     models.SkillLevel.create({
         TriggerSkillId: req.body.TriggerSkillId,
-        name: req.body.name,
         cost: req.body.cost,
         level: req.body.level,
         description: req.body.description

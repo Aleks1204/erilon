@@ -18,16 +18,27 @@
     <h3 class="text-center">Уровни</h3>
     <table class="table table-striped">
         <tr>
-            <th>Имя</th>
-            <th>Ур.</th>
-            <th>Ст.</th>
+            <th style="text-align: center">Уровень</th>
+            <th style="text-align: center">Стоимость</th>
             <th></th>
         </tr>
         <tr ng-repeat="skillLevel in skillLevels | orderBy : 'id'">
-            <td style="vertical-align:middle;">{{ skillLevel.name}}</td>
-            <td style="vertical-align:middle;">{{ skillLevel.level}}</td>
-            <td style="vertical-align:middle;">{{ skillLevel.cost}}</td>
-            <td>
+            <td style="vertical-align:middle; text-align: center">
+                <div ng-if="skillLevel.level == 1">
+                    Эксперт
+                </div>
+                <div ng-if="skillLevel.level == 2">
+                    Мастер
+                </div>
+                <div ng-if="skillLevel.level == 3">
+                    Магистр
+                </div>
+                <div ng-if="skillLevel.level == 4">
+                    Гроссмейстер
+                </div>
+            </td>
+            <td style="vertical-align:middle; text-align: center">{{ skillLevel.cost }}</td>
+            <td style="vertical-align:middle; text-align: center">
                 <button type="button" class="btn btn-link" ng-click="deleteSkillLevel(skillLevel.id)">х</button>
             </td>
         </tr>
@@ -48,15 +59,6 @@
                         required>
                     <option style="display:none" value="">Выберите уровень...</option>
                 </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="skillLevel_name">Название уровня:</label>
-
-            <div class="col-sm-10">
-                <input type="text" ng-model="skillLevel_name" class="form-control" id="skillLevel_name"
-                       placeholder="Эксперт" required>
             </div>
         </div>
 
@@ -130,7 +132,6 @@
         $scope.createSkillLevel = function () {
             $http.post('/skillLevels', {
                 TriggerSkillId: triggerSkillId,
-                name: $scope.skillLevel_name,
                 cost: $scope.cost,
                 level: $scope.level,
                 description: $scope.description
