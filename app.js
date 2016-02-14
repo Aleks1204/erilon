@@ -24,6 +24,7 @@ var personageAttachedSkillApi = require('./routes/personage-attached-skill-api')
 var triggerSkillApi = require('./routes/trigger-skill-api');
 var skillLevelApi = require('./routes/skill-level-api');
 var personageTriggerSkillApi = require('./routes/personage-trigger-skill-api');
+var historyApi = require('./routes/history-api');
 
 var isMobile = require('ismobilejs');
 
@@ -61,6 +62,7 @@ app.use('/', triggerSkillApi);
 app.use('/', skillLevelApi);
 app.use('/', personageTriggerSkillApi);
 app.use('', personageTriggerSkillApi);
+app.use('', historyApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

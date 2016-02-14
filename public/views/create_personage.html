@@ -987,11 +987,21 @@
                     $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
                         angular.forEach(results.skillLevels, function (skillLevel) {
                             if (skillLevel.level == nextLevel) {
+                                var cost = skillLevel.cost;
                                 personageTriggerSkill.currentLevel++;
-                                $scope.personage.experience = $scope.personage.experience - skillLevel.cost;
-                                if(personageTriggerSkill.tutored) {
+                                if(personageTriggerSkill.talented){
+                                    cost =  Math.ceil(cost/1.5);
+                                }
+                                if(!personageTriggerSkill.tutored) {
+                                    cost = cost*2;
+                                } else {
                                     personageTriggerSkill.tutored = false;
                                 }
+                                $scope.personage.experience = $scope.personage.experience - cost;
+                                $http.post('/history', {
+                                    key: skillLevel.level.toString() + 'UP',
+                                    value: cost.toString()
+                                })
                             }
                         });
                     });
@@ -1039,7 +1049,9 @@
                                 personageTriggerSkill.currentLevel--;
                             }
                             if (skillLevel.level == currentLevel) {
-                                $scope.personage.experience = $scope.personage.experience + skillLevel.cost;
+                                $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
+                                    $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                                });
                             }
                         });
                     });
