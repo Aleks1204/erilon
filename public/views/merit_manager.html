@@ -16,7 +16,11 @@
 
     <table class="table table-striped">
         <tr ng-repeat="merit in merits | orderBy : 'name'">
-            <td style="vertical-align:middle;">{{ merit.name }}</td>
+            <td style="vertical-align:middle;">
+                <a href="/views/merit.html?id={{merit.id}}" class="btn btn-link" role="button">
+                    {{ merit.name }}
+                </a>
+            </td>
             <td style="vertical-align:middle;">{{ merit.cost }}</td>
             <td>
                 <button type="button" class="btn btn-link" ng-click="deleteMerit(merit.id)">х</button>

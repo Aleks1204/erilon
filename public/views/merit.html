@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Достоинство</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="meritApp">
+<div data-ng-include data-src="'main-menu.html'"></div>
+
+<div ng-controller="prerequisitesListController">
+    <h2 class="text-center">{{merit.name}}</h2>
+
+    <h3 class="text-center">Пререквизиты</h3>
+
+    <div>
+        <h4 class="text-center">Пререквизиты-атрибуты</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Атрибут</th>
+                <th style="text-align: center">Не меньше чем</th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritAttribute in meritAttributes | orderBy : 'meritAttribute.Attribute.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritAttribute.Attribute.name}}</td>
+                <td style="vertical-align:middle; text-align: center">{{meritAttribute.value}}</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link" ng-click="deleteMeritAttribute(meritAttribute.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h4 class="text-center">Пререквизиты-прикрепленные навыки</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Навык</th>
+                <th style="text-align: center">Не меньше чем</th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritAttachedSkill in meritAttachedSkills | orderBy : 'meritAttachedSkill.AttachedSkill.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritAttachedSkill.AttachedSkill.name}}</td>
+                <td style="vertical-align:middle; text-align: center">{{meritAttachedSkill.value}}</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link" ng-click="deleteMeritAttachedSkill(meritAttachedSkill.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+        <h2>Создать пререквизит</h2>
+
+        <form class="form-horizontal" role="form" name="addPrerequisiteForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="type">Тип пререквизита: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="type" id="type" ng-options="type.id as type.name for type in types"
+                            required>
+                        <option style="display:none" value="">Выберите тип...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-hide="type != 1">
+                <label class="control-label col-sm-2" for="attribute_id">Атрибут: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="attribute_id" id="attribute_id"
+                            ng-options="attribute.id as attribute.name for attribute in attributes  | orderBy : 'name'">
+                        <option style="display:none" value="">Выберите атрибут...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-hide="type != 2">
+                <label class="control-label col-sm-2" for="attached_skill_id">Навык: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="attached_skill_id" id="attached_skill_id"
+                            ng-options="attachedSkill.id as attachedSkill.name for attachedSkill in attachedSkills  | orderBy : 'name'">
+                        <option style="display:none" value="">Выберите навык...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="type == 1 || type == 2">
+                <label class="control-label col-sm-2" for="value">Не меньше чем:</label>
+
+                <div class="col-sm-10">
+                    <input type="number" ng-model="value" class="form-control" id="value" placeholder="2">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createPrerequisite()"
+                            ng-disabled="addPrerequisiteForm.$invalid">Создать
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var meritId = /id=(\d+)/.exec(window.location.href)[1];
+    var app = angular.module("meritApp", []);
+
+    app.controller("prerequisitesListController", function ($scope, $http) {
+        $scope.types = [
+            {
+                "name": "Атрибут",
+                "id": 1
+            }, {
+                "name": "Прикрепленный навык",
+                "id": 2
+            }, {
+                "name": "Атрибут+навык",
+                "id": 3
+            }, {
+                "name": "Врожденная",
+                "id": 4
+            }, {
+                "name": "Тригерный навык",
+                "id": 5
+            }, {
+                "name": "Достоинство",
+                "id": 6
+            }, {
+                "name": "Недостаток",
+                "id": 7
+            }
+        ];
+
+        $http.get('/merits/' + meritId).
+        success(function (data) {
+            $scope.merit = data.merit;
+        });
+
+        $http.get('/attributes').
+        success(function (data) {
+            $scope.attributes = data.attributes;
+        });
+
+        $http.get('/attachedSkills').
+        success(function (data) {
+            $scope.attachedSkills = data.attachedSkills;
+        });
+
+        $http.get('/meritAttributesByMeritId/' + meritId).
+        success(function (data) {
+            $scope.meritAttributes = data.meritAttributes;
+        });
+
+        $http.get('/meritAttachedSkillsByMeritId/' + meritId).
+        success(function (data) {
+            $scope.meritAttachedSkills = data.meritAttachedSkills;
+        });
+
+
+        $scope.createPrerequisite = function () {
+            switch ($scope.type) {
+                case 1:
+                    $http.post('/meritAttributes', {
+                        merit_id: meritId,
+                        attribute_id: $scope.attribute_id,
+                        value: $scope.value
+                    }).success(function (data) {
+                        location.reload();
+                    });
+                    break;
+                case 2:
+                    $http.post('/meritAttachedSkills', {
+                        merit_id: meritId,
+                        attached_skill_id: $scope.attached_skill_id,
+                        value: $scope.value
+                    }).success(function (data) {
+                        location.reload();
+                    });
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+            }
+        };
+
+        $scope.deleteMeritAttribute = function (id) {
+            $http.delete('/meritAttributes/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $scope.deleteMeritAttachedSkill = function (id) {
+            $http.delete('/meritAttachedSkills/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

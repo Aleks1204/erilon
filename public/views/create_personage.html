@@ -235,12 +235,24 @@
                                                 <tr>
                                                     <th style="vertical-align:middle; text-align: center"></th>
                                                     <th style="vertical-align:middle; text-align: center"></th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Уровень</th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Ур</th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Талант</th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Тл</th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="!isMobile">Учитель</th>
-                                                    <th style="vertical-align:middle; text-align: center" ng-if="isMobile">Уч</th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">Уровень
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="isMobile">Ур
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">Талант
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="isMobile">Тл
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">Учитель
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="isMobile">Уч
+                                                    </th>
                                                     <th style="vertical-align:middle; text-align: center"></th>
                                                 </tr>
                                                 <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
@@ -259,7 +271,8 @@
                                                         </button>
                                                     </td>
 
-                                                    <td style="vertical-align:middle; text-align: center" ng-if="!isMobile">
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">
                                                         <div ng-if="personageTriggerSkill.currentLevel == 1">
                                                             Эксперт
                                                         </div>
@@ -536,7 +549,7 @@
                                             </table>
                                             <button type="button" class="btn btn-default pull-right"
                                                     data-toggle="modal" data-target="#addMeritDialog"
-                                                    ng-click="calculateMeritSelectOptions()">Добавить
+                                                    ng-click="calculateMeritSelectOptions();validatePrerequisites(merit);">Добавить
                                                 достоинство
                                             </button>
 
@@ -560,6 +573,7 @@
                                                                     <div class="col-sm-10">
                                                                         <select class="form-control"
                                                                                 ng-model="merit" id="merit"
+                                                                                ng-change="validatePrerequisites(merit)"
                                                                                 required>
                                                                             <option style="display:none" value="">
                                                                                 Выберите достоинство...
@@ -572,6 +586,8 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
+
+                                                                <span style="color: red" ng-hide="meritAvailable">Требования не выполнены!</span>
 
                                                                 <div class="form-group">
                                                                     <div class="row">
@@ -763,13 +779,37 @@
 </div>
 
 <script>
-    (function(i){var e=/iPhone/i,n=/iPod/i,o=/iPad/i,t=/(?=.*\bAndroid\b)(?=.*\bMobile\b)/i,r=/Android/i,d=/BlackBerry/i,s=/Opera Mini/i,a=/IEMobile/i,b=/(?=.*\bFirefox\b)(?=.*\bMobile\b)/i,h=RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)","i"),c=function(i,e){return i.test(e)},l=function(i){var l=i||navigator.userAgent;this.apple={phone:c(e,l),ipod:c(n,l),tablet:c(o,l),device:c(e,l)||c(n,l)||c(o,l)},this.android={phone:c(t,l),tablet:!c(t,l)&&c(r,l),device:c(t,l)||c(r,l)},this.other={blackberry:c(d,l),opera:c(s,l),windows:c(a,l),firefox:c(b,l),device:c(d,l)||c(s,l)||c(a,l)||c(b,l)},this.seven_inch=c(h,l),this.any=this.apple.device||this.android.device||this.other.device||this.seven_inch},v=i.isMobile=new l;v.Class=l})(window);
+    (function (i) {
+        var e = /iPhone/i, n = /iPod/i, o = /iPad/i, t = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, r = /Android/i, d = /BlackBerry/i, s = /Opera Mini/i, a = /IEMobile/i, b = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, h = RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), c = function (i, e) {
+            return i.test(e)
+        }, l = function (i) {
+            var l = i || navigator.userAgent;
+            this.apple = {
+                phone: c(e, l),
+                ipod: c(n, l),
+                tablet: c(o, l),
+                device: c(e, l) || c(n, l) || c(o, l)
+            }, this.android = {
+                phone: c(t, l),
+                tablet: !c(t, l) && c(r, l),
+                device: c(t, l) || c(r, l)
+            }, this.other = {
+                blackberry: c(d, l),
+                opera: c(s, l),
+                windows: c(a, l),
+                firefox: c(b, l),
+                device: c(d, l) || c(s, l) || c(a, l) || c(b, l)
+            }, this.seven_inch = c(h, l), this.any = this.apple.device || this.android.device || this.other.device || this.seven_inch
+        }, v = i.isMobile = new l;
+        v.Class = l
+    })(window);
 
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
 
     app.controller("personageController", function ($scope, $http) {
         $scope.isMobile = isMobile.android.phone;
+        $scope.meritAvailable = true;
 
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
@@ -989,11 +1029,11 @@
                             if (skillLevel.level == nextLevel) {
                                 var cost = skillLevel.cost;
                                 personageTriggerSkill.currentLevel++;
-                                if(personageTriggerSkill.talented){
-                                    cost =  Math.ceil(cost/1.5);
+                                if (personageTriggerSkill.talented) {
+                                    cost = Math.ceil(cost / 1.5);
                                 }
-                                if(!personageTriggerSkill.tutored) {
-                                    cost = cost*2;
+                                if (!personageTriggerSkill.tutored) {
+                                    cost = cost * 2;
                                 } else {
                                     personageTriggerSkill.tutored = false;
                                 }
@@ -1059,17 +1099,61 @@
             });
         };
 
-        $scope.addPersonageMerit = function (merit) {
+        $scope.validatePrerequisites = function (merit) {
+            $scope.meritAvailable = true;
             var meritObject = angular.fromJson(merit);
 
-            $scope.personageMerits.push({
-                Merit: meritObject,
-                MeritId: meritObject.id,
-                PersonageId: personageId
-            });
+            var attachedSkillSatisfied = true;
+            var attachedSkillExist = false;
+            var attributeSatisfied = true;
 
-            $scope.personage.experience = $scope.personage.experience - meritObject.cost;
-            jQuery('#addMeritDialog').modal('hide');
+            $http.get('/meritAttributesByMeritId/' + meritObject.id).
+            success(function (results) {
+                angular.forEach(results.meritAttributes, function (meritAttribute) {
+                    angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                        if (meritAttribute.AttributeId == personageAttribute.AttributeId) {
+                            if (personageAttribute.value < meritAttribute.value) {
+                                attributeSatisfied = false;
+                            }
+                        }
+                    });
+                });
+                $http.get('/meritAttachedSkillsByMeritId/' + meritObject.id).
+                success(function (results) {
+                    if (results.meritAttachedSkills.length == 0) {
+                        attachedSkillExist = true;
+                    }
+                    angular.forEach(results.meritAttachedSkills, function (meritAttachedSkill) {
+                        angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                            if (meritAttachedSkill.AttachedSkillId == personageAttachedSkill.AttachedSkillId) {
+                                attachedSkillExist = true;
+                                if (personageAttachedSkill.value < meritAttachedSkill.value) {
+                                    attachedSkillSatisfied = false;
+                                }
+                            }
+                        });
+                    });
+                    if (!attachedSkillSatisfied || !attributeSatisfied || !attachedSkillExist) {
+                        $scope.meritAvailable = false;
+                    }
+                });
+            });
+        };
+
+        $scope.addPersonageMerit = function (merit) {
+            if ($scope.meritAvailable) {
+                var meritObject = angular.fromJson(merit);
+
+
+                $scope.personageMerits.push({
+                    Merit: meritObject,
+                    MeritId: meritObject.id,
+                    PersonageId: personageId
+                });
+
+                $scope.personage.experience = $scope.personage.experience - meritObject.cost;
+                jQuery('#addMeritDialog').modal('hide');
+            }
         };
 
         $scope.deletePersonageMerit = function (personageMerit) {
@@ -1189,10 +1273,10 @@
         $scope.calculateMeritSelectOptions = function () {
             $scope.selectMerits = [];
             angular.forEach($scope.merits, function (merit) {
-                var contains = false;
+                var alreadyAdded = false;
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     if (merit.id == personageMerit.Merit.id) {
-                        contains = true;
+                        alreadyAdded = true;
                     }
                 });
 
@@ -1205,7 +1289,7 @@
                     });
                 });
 
-                if (!contains) {
+                if (!alreadyAdded) {
                     $scope.selectMerits.push(merit);
                 }
             });
