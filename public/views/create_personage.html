@@ -811,7 +811,10 @@
     app.controller("personageController", function ($scope, $http) {
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
-        $scope.prerequisites = {};
+        $scope.prerequisites = {
+            attributePrerequisites: {},
+            attachedSkillsPrerequisites: {}
+        };
 
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
