@@ -549,7 +549,8 @@
                                             </table>
                                             <button type="button" class="btn btn-default pull-right"
                                                     data-toggle="modal" data-target="#addMeritDialog"
-                                                    ng-click="calculateMeritSelectOptions();validatePrerequisites(merit);">Добавить
+                                                    ng-click="calculateMeritSelectOptions();validatePrerequisites(merit);">
+                                                Добавить
                                                 достоинство
                                             </button>
 
@@ -810,6 +811,7 @@
     app.controller("personageController", function ($scope, $http) {
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
+        $scope.prerequisites = {};
 
         $http.get('/personageAttributesByPersonageId/' + personageId).
         success(function (data) {
@@ -819,6 +821,26 @@
         $http.get('/personageMeritsByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageMerits = data.personageMerits;
+
+            angular.forEach(data.personageMerits, function (personageMerit) {
+                $http.get('/meritAttributesByMeritId/' + personageMerit.Merit.id).
+                success(function (results) {
+                    $scope.prerequisites.attributePrerequisites = {
+                        meritAttributes: results.meritAttributes,
+                        personageMerit: personageMerit
+                    };
+                });
+
+                $http.get('/meritAttachedSkillsByMeritId/' + personageMerit.Merit.id).
+                success(function (results) {
+                    $scope.prerequisites.attachedSkillsPrerequisites = {
+                        meritAttachedSkills: results.meritAttachedSkills,
+                        personageMerit: personageMerit
+                    };
+                });
+            });
+
+
         });
 
         $http.get('/personageInherentsByPersonageId/' + personageId).
@@ -1051,6 +1073,14 @@
 
         $scope.decreaseAttribute = function (id) {
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                angular.forEach($scope.prerequisites.attributePrerequisites.meritAttributes, function (meritAttribute) {
+                    if (personageAttribute.Attribute.id == meritAttribute.Attribute.id) {
+                        if (personageAttribute.value <= meritAttribute.value) {
+                            $scope.deletePersonageMerit($scope.prerequisites.attributePrerequisites.personageMerit);
+                        }
+                    }
+                });
+
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
                     personageAttribute.value--;
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
@@ -1064,6 +1094,14 @@
 
         $scope.decreaseAttachedSkill = function (id) {
             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                angular.forEach($scope.prerequisites.attachedSkillsPrerequisites.meritAttachedSkills, function (meritAttachedSkill) {
+                    if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
+                        if (personageAttachedSkill.value <= meritAttachedSkill.value) {
+                            $scope.deletePersonageMerit($scope.prerequisites.attachedSkillsPrerequisites.personageMerit);
+                        }
+                    }
+                });
+
                 if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
                     personageAttachedSkill.value--;
                     if (personageAttachedSkill.AttachedSkill.difficult) {
@@ -1241,6 +1279,12 @@
         $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
             var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
             $scope.personageAttachedSkills.splice(index, 1);
+
+            angular.forEach($scope.prerequisites.attachedSkillsPrerequisites.meritAttachedSkills, function (meritAttachedSkill) {
+                if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
+                    $scope.deletePersonageMerit($scope.prerequisites.attachedSkillsPrerequisites.personageMerit);
+                }
+            });
 
             if (personageAttachedSkill.AttachedSkill.difficult) {
                 $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
