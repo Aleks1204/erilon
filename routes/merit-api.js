@@ -20,7 +20,12 @@ router.post('/merits', function(req, res) {
 });
 
 router.get('/merits', function(req, res) {
-    models.Merit.findAll().then(function(merits) {
+    models.Merit.findAll({
+        include: [
+            { model: models.MeritAttachedSkill, include: [ models.AttachedSkill ] },
+            { model: models.MeritAttribute, include: [ models.Attribute ] }
+        ]
+    }).then(function(merits) {
         return res.send({merits:merits});
     });
 });

@@ -1184,13 +1184,23 @@
         $scope.addPersonageMerit = function (merit) {
             if ($scope.meritAvailable) {
                 var meritObject = angular.fromJson(merit);
-
-
-                $scope.personageMerits.push({
+                var personageMerit = {
                     Merit: meritObject,
                     MeritId: meritObject.id,
                     PersonageId: personageId
-                });
+                };
+
+                $scope.personageMerits.push(personageMerit);
+
+                $scope.prerequisites.attributePrerequisites = {
+                    meritAttributes: meritObject.MeritAttributes,
+                    personageMerit: personageMerit
+                };
+
+                $scope.prerequisites.attachedSkillsPrerequisites = {
+                    meritAttachedSkills: meritObject.MeritAttachedSkills,
+                    personageMerit: personageMerit
+                };
 
                 $scope.personage.experience = $scope.personage.experience - meritObject.cost;
                 jQuery('#addMeritDialog').modal('hide');
