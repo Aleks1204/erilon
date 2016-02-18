@@ -77,6 +77,7 @@
                 <div class="col-sm-10">
                     <select class="form-control"
                             ng-model="attribute_id" id="attribute_id"
+                            ng-required="type == 1"
                             ng-options="attribute.id as attribute.name for attribute in attributes  | orderBy : 'name'">
                         <option style="display:none" value="">Выберите атрибут...</option>
                     </select>
@@ -89,6 +90,7 @@
                 <div class="col-sm-10">
                     <select class="form-control"
                             ng-model="attached_skill_id" id="attached_skill_id"
+                            ng-required="type == 2"
                             ng-options="attachedSkill.id as attachedSkill.name for attachedSkill in attachedSkills  | orderBy : 'name'">
                         <option style="display:none" value="">Выберите навык...</option>
                     </select>
@@ -99,7 +101,7 @@
                 <label class="control-label col-sm-2" for="value">Не меньше чем:</label>
 
                 <div class="col-sm-10">
-                    <input type="number" ng-model="value" class="form-control" id="value" placeholder="2">
+                    <input type="number" ng-model="value" class="form-control" id="value" placeholder="2" ng-required="type == 1 || type == 2">
                 </div>
             </div>
 
