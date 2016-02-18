@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 AttachedSkill.hasMany(models.PersonageAttachedSkill);
                 AttachedSkill.hasMany(models.MeritAttachedSkill);
+                AttachedSkill.hasMany(models.MeritAttributeAttachedSkill);
             }
         }
     });

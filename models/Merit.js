@@ -18,6 +18,7 @@ module.exports = function(sequelize, DataTypes) {
                 Merit.hasMany(models.PersonageMerit);
                 Merit.hasMany(models.MeritAttribute);
                 Merit.hasMany(models.MeritAttachedSkill);
+                Merit.hasMany(models.MeritAttributeAttachedSkill);
             }
         }
     });

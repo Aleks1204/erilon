@@ -30,7 +30,41 @@ router.get('/personages', function (req, res) {
 
 router.get('/personages/:id', function (req, res) {
     models.Personage.findById(req.params.id, {
-        include: [models.Race]
+        include: [
+            models.Race,
+            {
+                model: models.PersonageTriggerSkill,
+                include: [models.TriggerSkill]
+            }, {
+                model: models.PersonageAttachedSkill,
+                include: [models.AttachedSkill]
+            }, {
+                model: models.PersonageAttribute,
+                include: [models.Attribute]
+            }, {
+                model: models.PersonageInherent,
+                include: [models.Inherent]
+            }, {
+                model: models.PersonageFlaw,
+                include: [models.Flaw]
+            }, {
+                model: models.PersonageMerit,
+                include: [
+                    {
+                        model: models.Merit,
+                        include: [
+                            {
+                                model: models.MeritAttachedSkill,
+                                include: [models.AttachedSkill]
+                            }, {
+                                model: models.MeritAttribute,
+                                include: [models.Attribute]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }).
     then(function (personage) {
         if (!personage) {
