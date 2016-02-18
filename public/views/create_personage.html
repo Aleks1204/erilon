@@ -1028,18 +1028,17 @@
 
         $scope.decreaseAttribute = function (id) {
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
-
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    angular.forEach(personageMerit.Merit.MeritAttributes, function (meritAttribute) {
-                        if (personageAttribute.Attribute.id == meritAttribute.Attribute.id) {
-                            if (personageAttribute.value <= meritAttribute.value) {
-                                $scope.deletePersonageMerit(personageMerit);
-                            }
-                        }
-                    });
-                });
-
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        angular.forEach(personageMerit.Merit.MeritAttributes, function (meritAttribute) {
+                            if (personageAttribute.Attribute.id == meritAttribute.Attribute.id) {
+                                if (personageAttribute.value <= meritAttribute.value) {
+                                    $scope.deletePersonageMerit(personageMerit);
+                                }
+                            }
+                        });
+                    });
+
                     personageAttribute.value--;
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
@@ -1053,17 +1052,17 @@
         $scope.decreaseAttachedSkill = function (id) {
             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
 
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
-                        if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
-                            if (personageAttachedSkill.value <= meritAttachedSkill.value) {
-                                $scope.deletePersonageMerit(personageMerit);
-                            }
-                        }
-                    });
-                });
-
                 if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
+                            if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
+                                if (personageAttachedSkill.value <= meritAttachedSkill.value) {
+                                    $scope.deletePersonageMerit(personageMerit);
+                                }
+                            }
+                        });
+                    });
+
                     personageAttachedSkill.value--;
                     if (personageAttachedSkill.AttachedSkill.difficult) {
                         $scope.personage.experience = $scope.personage.experience + 2;
