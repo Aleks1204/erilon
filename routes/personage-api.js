@@ -59,6 +59,12 @@ router.get('/personages/:id', function (req, res) {
                             }, {
                                 model: models.MeritAttribute,
                                 include: [models.Attribute]
+                            }, {
+                                model: models.MeritAttributeAttachedSkill,
+                                include: [
+                                    models.AttachedSkill,
+                                    models.Attribute
+                                ]
                             }
                         ]
                     }

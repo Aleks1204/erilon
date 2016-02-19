@@ -10,6 +10,7 @@ router.get('/meritAttributeAttachedSkills', function (req, res) {
     models.MeritAttributeAttachedSkill.findAll({
         include: [
             models.Attribute,
+            models.AttachedSkill,
             models.Merit
         ]
     }).then(function (meritAttributeAttachedSkills) {
