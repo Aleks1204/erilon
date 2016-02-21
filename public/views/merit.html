@@ -48,7 +48,8 @@
                 <td style="vertical-align:middle; text-align: center">{{meritAttachedSkill.AttachedSkill.name}}</td>
                 <td style="vertical-align:middle; text-align: center">{{meritAttachedSkill.value}}</td>
                 <td style="vertical-align:middle; text-align: center">
-                    <button type="button" class="btn btn-link" ng-click="deleteMeritAttachedSkill(meritAttachedSkill.id)">х
+                    <button type="button" class="btn btn-link"
+                            ng-click="deleteMeritAttachedSkill(meritAttachedSkill.id)">х
                     </button>
                 </td>
             </tr>
@@ -65,11 +66,51 @@
                 <th style="text-align: center"></th>
             </tr>
             <tr ng-repeat="meritAttributeAttachedSkill in meritAttributeAttachedSkills | orderBy : 'id'">
-                <td style="vertical-align:middle; text-align: center">{{meritAttributeAttachedSkill.Attribute.name}}</td>
-                <td style="vertical-align:middle; text-align: center">{{meritAttributeAttachedSkill.AttachedSkill.name}}</td>
+                <td style="vertical-align:middle; text-align: center">{{meritAttributeAttachedSkill.Attribute.name}}
+                </td>
+                <td style="vertical-align:middle; text-align: center">
+                    {{meritAttributeAttachedSkill.AttachedSkill.name}}
+                </td>
                 <td style="vertical-align:middle; text-align: center">{{meritAttributeAttachedSkill.value}}</td>
                 <td style="vertical-align:middle; text-align: center">
-                    <button type="button" class="btn btn-link" ng-click="deleteMeritAttributeAttachedSkill(meritAttributeAttachedSkill.id)">х
+                    <button type="button" class="btn btn-link"
+                            ng-click="deleteMeritAttributeAttachedSkill(meritAttributeAttachedSkill.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h4 class="text-center">Пререквизиты-тригереные навыки</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Навык</th>
+                <th style="text-align: center">Уровень</th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritTriggerSkill in meritTriggerSkills | orderBy : 'meritTriggerSkill.TriggerSkill.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritTriggerSkill.TriggerSkill.name}}</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <div ng-if="meritTriggerSkill.level == 0">
+                        База
+                    </div>
+                    <div ng-if="meritTriggerSkill.level == 1">
+                        Эксперт
+                    </div>
+                    <div ng-if="meritTriggerSkill.level == 2">
+                        Мастер
+                    </div>
+                    <div ng-if="meritTriggerSkill.level == 3">
+                        Магистр
+                    </div>
+                    <div ng-if="meritTriggerSkill.level == 4">
+                        Гроссмейстер
+                    </div>
+                </td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link" ng-click="deleteMeritTriggerSkill(meritTriggerSkill.id)">
+                        х
                     </button>
                 </td>
             </tr>
@@ -119,11 +160,40 @@
             </div>
 
             <div class="form-group" ng-show="type == 1 || type == 2 || type == 3">
-                <label class="control-label col-sm-2" for="value" ng-show="type == 1 || type == 2">Не меньше чем:</label>
+                <label class="control-label col-sm-2" for="value" ng-show="type == 1 || type == 2">Не меньше
+                    чем:</label>
                 <label class="control-label col-sm-2" for="value" ng-show="type == 3">Сумма не меньше чем:</label>
 
                 <div class="col-sm-10">
-                    <input type="number" ng-model="value" class="form-control" id="value" placeholder="2" ng-required="type == 1 || type == 2">
+                    <input type="number" ng-model="value" class="form-control" id="value" placeholder="2"
+                           ng-required="type == 1 || type == 2">
+                </div>
+            </div>
+
+            <div ng-show="type == 4">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="trigger_skill_id">Навык: </label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control"
+                                ng-model="trigger_skill_id" id="trigger_skill_id"
+                                ng-required="type == 4"
+                                ng-options="triggerSkill.id as triggerSkill.name for triggerSkill in triggerSkills  | orderBy : 'name'">
+                            <option style="display:none" value="">Выберите навык...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="level">Уровень: </label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control"
+                                ng-model="level" id="level" ng-options="level.id as level.name for level in levels"
+                                required>
+                            <option style="display:none" value="">Выберите уровень...</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -154,10 +224,10 @@
                 "name": "Атрибут+навык",
                 "id": 3
             }, {
-                "name": "Врожденная",
+                "name": "Тригерный навык",
                 "id": 4
             }, {
-                "name": "Тригерный навык",
+                "name": "Врожденная",
                 "id": 5
             }, {
                 "name": "Достоинство",
@@ -168,12 +238,32 @@
             }
         ];
 
+        $scope.levels = [
+            {
+                "name": "База",
+                "id": 0
+            }, {
+                "name": "Эксперт",
+                "id": 1
+            }, {
+                "name": "Мастер",
+                "id": 2
+            }, {
+                "name": "Магистр",
+                "id": 3
+            }, {
+                "name": "ГроссМейстер",
+                "id": 4
+            }
+        ];
+
         $http.get('/merits/' + meritId).
         success(function (data) {
             $scope.merit = data.merit;
             $scope.meritAttributes = data.merit.MeritAttributes;
             $scope.meritAttachedSkills = data.merit.MeritAttachedSkills;
             $scope.meritAttributeAttachedSkills = data.merit.MeritAttributeAttachedSkills;
+            $scope.meritTriggerSkills = data.merit.MeritTriggerSkills;
         });
 
         $http.get('/attributes').
@@ -184,6 +274,11 @@
         $http.get('/attachedSkills').
         success(function (data) {
             $scope.attachedSkills = data.attachedSkills;
+        });
+
+        $http.get('/triggerSkills').
+        success(function (data) {
+            $scope.triggerSkills = data.triggerSkills;
         });
 
         $scope.createPrerequisite = function () {
@@ -217,6 +312,13 @@
                     });
                     break;
                 case 4:
+                    $http.post('/meritTriggerSkills', {
+                        merit_id: meritId,
+                        attached_skill_id: $scope.trigger_skill_id,
+                        level: $scope.level
+                    }).success(function (data) {
+                        location.reload();
+                    });
                     break;
                 case 5:
                     break;
@@ -243,6 +345,13 @@
 
         $scope.deleteMeritAttributeAttachedSkill = function (id) {
             $http.delete('/meritAttributeAttachedSkills/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $scope.deleteMeritTriggerSkill = function (id) {
+            $http.delete('/meritTriggerSkills/' + id).
             success(function (data) {
                 location.reload();
             });

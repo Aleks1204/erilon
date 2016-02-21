@@ -28,6 +28,7 @@ var historyApi = require('./routes/history-api');
 var meritAttributeApi = require('./routes/merit-attribute-api');
 var meritAttachedSkillApi = require('./routes/merit-attached-skill-api');
 var meritAttributeAttachedSkillApi = require('./routes/merit-attribute-attached-skill-api');
+var meritTriggerSkillApi = require('./routes/merit-trigger-skill-api');
 
 var isMobile = require('ismobilejs');
 
@@ -69,6 +70,7 @@ app.use('', historyApi);
 app.use('', meritAttributeApi);
 app.use('', meritAttachedSkillApi);
 app.use('', meritAttributeAttachedSkillApi);
+app.use('', meritTriggerSkillApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

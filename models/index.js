@@ -51,7 +51,8 @@ if (!global.hasOwnProperty('db')) {
         History:      sequelize.import(__dirname + '/history'),
         MeritAttachedSkill:      sequelize.import(__dirname + '/meritAttachedSkill'),
         MeritAttribute:      sequelize.import(__dirname + '/meritAttribute'),
-        MeritAttributeAttachedSkill:      sequelize.import(__dirname + '/meritAttributeAttachedSkill')
+        MeritAttributeAttachedSkill:      sequelize.import(__dirname + '/meritAttributeAttachedSkill'),
+        MeritTriggerSkill:      sequelize.import(__dirname + '/meritTriggerSkill')
         // add your other models here
     };
 

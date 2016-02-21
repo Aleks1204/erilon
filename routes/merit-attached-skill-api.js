@@ -36,8 +36,8 @@ router.post('/meritAttachedSkills', function(req, res) {
         MeritId: req.body.merit_id,
         AttachedSkillId: req.body.attached_skill_id,
         value: req.body.value
-    }).then(function(personageFlaw) {
-        res.send({ status: 'CREATED', personageFlaw:personageFlaw})
+    }).then(function(meritAttachedSkill) {
+        res.send({ status: 'CREATED', meritAttachedSkill:meritAttachedSkill})
     });
 });
 

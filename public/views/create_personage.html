@@ -1079,7 +1079,7 @@
                         });
 
                         angular.forEach(personageMerit.Merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
-                            if(personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
+                            if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
                                 angular.forEach($scope.personageAttributes, function (personageAttribute) {
                                     if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
                                         if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
@@ -1104,8 +1104,23 @@
         $scope.decreaseTriggerSkillLevel = function (id) {
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (personageTriggerSkill.TriggerSkill.id == id) {
+
                     var previousLevel = personageTriggerSkill.currentLevel - 1;
                     var currentLevel = personageTriggerSkill.currentLevel;
+
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                            if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
+                                if (currentLevel != 0) {
+                                    if (meritTriggerSkill.level == currentLevel) {
+                                        $scope.deletePersonageMerit(personageMerit);
+                                    }
+                                }
+
+                            }
+                        });
+                    });
+
                     $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
                         if (previousLevel == 0) {
                             personageTriggerSkill.currentLevel--;
@@ -1132,8 +1147,10 @@
             var attachedSkillSatisfied = true;
             var attributeSatisfied = true;
             var attributeAttachedSkillSatisfied = true;
+            var triggerSkillSatisfied = true;
             var attachedSkillExist = false;
             var attributeAttachedSkillExist = false;
+            var triggerSkillExist = false;
 
             $http.get('/meritAttributesByMeritId/' + meritObject.id).
             success(function (results) {
@@ -1180,11 +1197,28 @@
                                 }
                             });
                         });
-                        if (!attachedSkillSatisfied || !attributeSatisfied
-                                || !attachedSkillExist || !attributeAttachedSkillSatisfied
-                                || !attributeAttachedSkillExist) {
-                            $scope.meritAvailable = false;
-                        }
+                        $http.get('/meritTriggerSkillsByMeritId/' + meritObject.id).
+                        success(function (results) {
+                            if (results.meritTriggerSkills.length == 0) {
+                                triggerSkillExist = true;
+                            }
+                            angular.forEach(results.meritTriggerSkills, function (meritTriggerSkill) {
+                                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                                    if (meritTriggerSkill.TriggerSkillId == personageTriggerSkill.TriggerSkillId) {
+                                        triggerSkillExist = true;
+                                        if (personageTriggerSkill.currentLevel < meritTriggerSkill.level) {
+                                            triggerSkillSatisfied = false;
+                                        }
+                                    }
+                                });
+                            });
+                            if (!attachedSkillSatisfied || !attributeSatisfied
+                                    || !attachedSkillExist || !attributeAttachedSkillSatisfied
+                                    || !attributeAttachedSkillExist || !triggerSkillSatisfied
+                                    || !triggerSkillExist) {
+                                $scope.meritAvailable = false;
+                            }
+                        });
                     });
                 });
             });
@@ -1310,6 +1344,14 @@
         $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
             var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
             $scope.personageTriggerSkills.splice(index, 1);
+
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                    if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
+                        $scope.deletePersonageMerit(personageMerit);
+                    }
+                });
+            });
 
             $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
 

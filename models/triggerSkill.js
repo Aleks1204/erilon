@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 TriggerSkill.hasMany(models.PersonageTriggerSkill);
                 TriggerSkill.hasMany(models.SkillLevel);
+                TriggerSkill.hasMany(models.MeritTriggerSkill);
             }
         }
     });
