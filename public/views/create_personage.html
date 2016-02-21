@@ -1041,6 +1041,18 @@
                                 }
                             }
                         });
+
+                        angular.forEach(personageMerit.Merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                            if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
+                                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                                    if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
+                                        if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
+                                            $scope.deletePersonageMerit(personageMerit);
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     });
 
                     personageAttribute.value--;
@@ -1063,6 +1075,18 @@
                                 if (personageAttachedSkill.value <= meritAttachedSkill.value) {
                                     $scope.deletePersonageMerit(personageMerit);
                                 }
+                            }
+                        });
+
+                        angular.forEach(personageMerit.Merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                            if(personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
+                                angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                                    if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
+                                        if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
+                                            $scope.deletePersonageMerit(personageMerit);
+                                        }
+                                    }
+                                });
                             }
                         });
                     });
