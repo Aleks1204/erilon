@@ -47,28 +47,6 @@ router.get('/personages/:id', function (req, res) {
             }, {
                 model: models.PersonageFlaw,
                 include: [models.Flaw]
-            }, {
-                model: models.PersonageMerit,
-                include: [
-                    {
-                        model: models.Merit,
-                        include: [
-                            {
-                                model: models.MeritAttachedSkill,
-                                include: [models.AttachedSkill]
-                            }, {
-                                model: models.MeritAttribute,
-                                include: [models.Attribute]
-                            }, {
-                                model: models.MeritAttributeAttachedSkill,
-                                include: [
-                                    models.AttachedSkill,
-                                    models.Attribute
-                                ]
-                            }
-                        ]
-                    }
-                ]
             }
         ]
     }).
