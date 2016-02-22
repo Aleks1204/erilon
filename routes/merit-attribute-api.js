@@ -36,8 +36,8 @@ router.post('/meritAttributes', function (req, res) {
         MeritId: req.body.merit_id,
         AttributeId: req.body.attribute_id,
         value: req.body.value
-    }).then(function (meritAttributeAttachedSkill) {
-        res.send({status: 'CREATED', meritAttributeAttachedSkill: meritAttributeAttachedSkill})
+    }).then(function (meritAttribute) {
+        res.send({status: 'CREATED', meritAttribute: meritAttribute})
     });
 });
 

@@ -117,6 +117,32 @@
         </table>
     </div>
 
+
+    <div>
+        <h4 class="text-center">Пререквизиты-врожеднные особенности</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Врожденная</th>
+                <th style="text-align: center"></th>
+                <th style="text-align: center"></th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritInherent in meritInherents | orderBy : 'meritInherent.Inherent.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritInherent.Inherent.name}}</td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=null"></td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=1">НЕ МЕНЕЕ</td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=0">РАВНО</td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=-1">НЕ БОЛЕЕ</td>
+                <td style="vertical-align:middle; text-align: center">{{meritInherent.value}}</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link"
+                            ng-click="deleteMeritInherent(meritInherent.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="container">
         <h2>Создать пререквизит</h2>
 
@@ -190,9 +216,61 @@
                     <div class="col-sm-10">
                         <select class="form-control"
                                 ng-model="level" id="level" ng-options="level.id as level.name for level in levels"
-                                required>
+                                ng-required="type == 4">
                             <option style="display:none" value="">Выберите уровень...</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="type == 5">
+                <label class="control-label col-sm-2" for="inherent_id">Врожденная: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="inherent_id" id="inherent_id"
+                            ng-required="type == 5"
+                            ng-change="isValuePresent()"
+                            ng-options="inherent.id as inherent.name for inherent in inherents  | orderBy : 'name'">
+                        <option style="display:none" value="">Выберите особенность...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div ng-show="isInherentValueRequired">
+                <div class="row">
+                    <label class="control-label col-sm-2" for="more">Не менее: </label>
+
+                    <div class="col-sm-2">
+                        <div class="pull-left">
+                            <input type="radio" ng-model="lessMoreEqual" class="form-control" id="more" ng-value="1"/>
+                        </div>
+                    </div>
+
+                    <label class="control-label col-sm-2" for="equal">Равно: </label>
+
+                    <div class="col-sm-2">
+                        <div class="pull-left">
+                            <input type="radio" ng-model="lessMoreEqual" class="form-control" id="equal" ng-value="0" ng-checked="true"/>
+                        </div>
+                    </div>
+
+                    <label class="control-label col-sm-2" for="less">Не более: </label>
+
+                    <div class="col-sm-2">
+                        <div class="pull-left">
+                            <input type="radio" ng-model="lessMoreEqual" class="form-control" id="less" ng-value="-1"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="inherentValue"></label>
+
+                    <div class="col-sm-10">
+                        <input type="number" ng-model="inherentValue" class="form-control" id="inherentValue"
+                               placeholder="2"
+                               ng-required="isInherentValueRequired">
                     </div>
                 </div>
             </div>
@@ -264,6 +342,7 @@
             $scope.meritAttachedSkills = data.merit.MeritAttachedSkills;
             $scope.meritAttributeAttachedSkills = data.merit.MeritAttributeAttachedSkills;
             $scope.meritTriggerSkills = data.merit.MeritTriggerSkills;
+            $scope.meritInherents = data.merit.MeritInherents;
         });
 
         $http.get('/attributes').
@@ -279,6 +358,11 @@
         $http.get('/triggerSkills').
         success(function (data) {
             $scope.triggerSkills = data.triggerSkills;
+        });
+
+        $http.get('/inherents').
+        success(function (data) {
+            $scope.inherents = data.inherents;
         });
 
         $scope.createPrerequisite = function () {
@@ -321,12 +405,33 @@
                     });
                     break;
                 case 5:
+                    $http.post('/meritInherents', {
+                        merit_id: meritId,
+                        inherent_id: $scope.inherent_id,
+                        lessMoreEqual: $scope.lessMoreEqual,
+                        value: $scope.inherentValue
+                    }).success(function (data) {
+                        location.reload();
+                    });
                     break;
                 case 6:
                     break;
                 case 7:
                     break;
             }
+        };
+
+        $scope.isInherentValueRequired = false;
+
+        $scope.isValuePresent = function () {
+            $http.get('/inherents/' + $scope.inherent_id).
+            success(function (result) {
+                if (result.inherent.max_limit != null && result.inherent.min_limit != null) {
+                    $scope.isInherentValueRequired = true;
+                } else {
+                    $scope.isInherentValueRequired = false;
+                }
+            });
         };
 
         $scope.deleteMeritAttribute = function (id) {
@@ -352,6 +457,13 @@
 
         $scope.deleteMeritTriggerSkill = function (id) {
             $http.delete('/meritTriggerSkills/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $scope.deleteMeritInherent = function (id) {
+            $http.delete('/meritInherents/' + id).
             success(function (data) {
                 location.reload();
             });

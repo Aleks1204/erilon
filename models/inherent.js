@@ -17,6 +17,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Inherent.hasMany(models.PersonageInherent);
                 Inherent.hasMany(models.RaceInherent);
+                Inherent.hasMany(models.MeritInherent);
             }
         }
     });

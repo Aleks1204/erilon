@@ -27,6 +27,9 @@ router.get('/personageMerits', function (req, res) {
                     }, {
                         model: models.MeritTriggerSkill,
                         include: [models.TriggerSkill]
+                    }, {
+                        model: models.MeritInherent,
+                        include: [models.Inherent]
                     }
                 ]
             }
@@ -60,6 +63,9 @@ router.get('/personageMeritsByPersonageId/:id', function (req, res) {
                     }, {
                         model: models.MeritTriggerSkill,
                         include: [models.TriggerSkill]
+                    }, {
+                        model: models.MeritInherent,
+                        include: [models.Inherent]
                     }
                 ]
             }

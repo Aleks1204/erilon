@@ -1148,9 +1148,11 @@
             var attributeSatisfied = true;
             var attributeAttachedSkillSatisfied = true;
             var triggerSkillSatisfied = true;
+            var inherentSatisfied = true;
             var attachedSkillExist = false;
             var attributeAttachedSkillExist = false;
             var triggerSkillExist = false;
+            var inherentExist = false;
 
             $http.get('/meritAttributesByMeritId/' + meritObject.id).
             success(function (results) {
@@ -1212,12 +1214,49 @@
                                     }
                                 });
                             });
-                            if (!attachedSkillSatisfied || !attributeSatisfied
-                                    || !attachedSkillExist || !attributeAttachedSkillSatisfied
-                                    || !attributeAttachedSkillExist || !triggerSkillSatisfied
-                                    || !triggerSkillExist) {
-                                $scope.meritAvailable = false;
-                            }
+                            $http.get('/meritInherentsByMeritId/' + meritObject.id).
+                            success(function (results) {
+                                if (results.meritInherents.length == 0) {
+                                    inherentExist = true;
+                                }
+                                angular.forEach(results.meritInherents, function (meritInherent) {
+                                    angular.forEach($scope.personageInherents, function (personageInherent) {
+                                        if (meritInherent.InherentId == personageInherent.InherentId) {
+                                            inherentExist = true;
+                                            if (meritInherent.Inherent.min_limit != null && meritInherent.Inherent.max_limit != null) {
+                                                if (personageInherent.value == null) {
+                                                    inherentSatisfied = false;
+                                                } else {
+                                                    switch (meritInherent.lessMoreEqual) {
+                                                        case 1:
+                                                            if (personageInherent.value < meritInherent.value) {
+                                                                inherentSatisfied = false;
+                                                            }
+                                                            break;
+                                                        case 0:
+                                                            if (personageInherent.value != meritInherent.value) {
+                                                                inherentSatisfied = false;
+                                                            }
+                                                            break;
+                                                        case -1:
+                                                            if (personageInherent.value > meritInherent.value) {
+                                                                inherentSatisfied = false;
+                                                            }
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                                if (!attachedSkillSatisfied || !attributeSatisfied
+                                        || !attachedSkillExist || !attributeAttachedSkillSatisfied
+                                        || !attributeAttachedSkillExist || !triggerSkillSatisfied
+                                        || !triggerSkillExist || !inherentExist
+                                        || !inherentSatisfied) {
+                                    $scope.meritAvailable = false;
+                                }
+                            });
                         });
                     });
                 });
@@ -1262,6 +1301,14 @@
         };
 
         $scope.deletePersonageInherent = function (personageInherent) {
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                angular.forEach(personageMerit.Merit.MeritInherents, function (meritInherent) {
+                    if (personageInherent.Inherent.id == meritInherent.Inherent.id) {
+                        $scope.deletePersonageMerit(personageMerit);
+                    }
+                });
+            });
+
             var index = $scope.personageInherents.indexOf(personageInherent);
             $scope.personageInherents.splice(index, 1);
         };
