@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Flaw.hasMany(models.RaceFlaw);
                 Flaw.hasMany(models.PersonageFlaw);
+                Flaw.hasMany(models.MeritFlaw);
             }
         }
     });

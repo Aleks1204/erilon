@@ -143,6 +143,28 @@
         </table>
     </div>
 
+
+    <div>
+        <h4 class="text-center">Пререквизиты-недостатки</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Недостаток</th>
+                <th style="text-align: center">Присутствует/Отсутствует</th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritFlaw in meritFlaws | orderBy : 'meritFlaw.Flaw.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritFlaw.Flaw.name}}</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="meritFlaw.presentAbsent">Присутствует</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="!meritFlaw.presentAbsent">Отсутствует</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link"
+                            ng-click="deleteMeritFlaw(meritFlaw.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="container">
         <h2>Создать пререквизит</h2>
 
@@ -275,6 +297,37 @@
                 </div>
             </div>
 
+            <div class="form-group" ng-show="type == 7">
+                <label class="control-label col-sm-2" for="trigger_skill_id">Недостаток: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="flaw_id" id="flaw_id"
+                            ng-required="type == 7"
+                            ng-options="flaw.id as flaw.name for flaw in flaws  | orderBy : 'name'">
+                        <option style="display:none" value="">Выберите недостаток...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row" ng-show="type == 7">
+                <label class="control-label col-sm-2" for="present">Присутствует</label>
+
+                <div class="col-sm-2">
+                    <div class="pull-left">
+                        <input type="radio" ng-model="presentAbsent" class="form-control" id="present" ng-value="true"/>
+                    </div>
+                </div>
+
+                <label class="control-label col-sm-2" for="absent">Отсутствует</label>
+
+                <div class="col-sm-2">
+                    <div class="pull-left">
+                        <input type="radio" ng-model="presentAbsent" class="form-control" id="absent" ng-value="false" ng-checked="true"/>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default" ng-click="createPrerequisite()"
@@ -291,6 +344,8 @@
     var app = angular.module("meritApp", []);
 
     app.controller("prerequisitesListController", function ($scope, $http) {
+        $scope.lessMoreEqual = 0;
+        $scope.presentAbsent = false;
         $scope.types = [
             {
                 "name": "Атрибут",
@@ -343,6 +398,7 @@
             $scope.meritAttributeAttachedSkills = data.merit.MeritAttributeAttachedSkills;
             $scope.meritTriggerSkills = data.merit.MeritTriggerSkills;
             $scope.meritInherents = data.merit.MeritInherents;
+            $scope.meritFlaws = data.merit.MeritFlaws;
         });
 
         $http.get('/attributes').
@@ -363,6 +419,11 @@
         $http.get('/inherents').
         success(function (data) {
             $scope.inherents = data.inherents;
+        });
+
+        $http.get('/flaws').
+        success(function (data) {
+            $scope.flaws = data.flaws;
         });
 
         $scope.createPrerequisite = function () {
@@ -417,6 +478,13 @@
                 case 6:
                     break;
                 case 7:
+                    $http.post('/meritFlaws', {
+                        merit_id: meritId,
+                        flaw_id: $scope.flaw_id,
+                        presentAbsent: $scope.presentAbsent
+                    }).success(function (data) {
+                        location.reload();
+                    });
                     break;
             }
         };
@@ -464,6 +532,13 @@
 
         $scope.deleteMeritInherent = function (id) {
             $http.delete('/meritInherents/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $scope.deleteMeritFlaw = function (id) {
+            $http.delete('/meritFlaws/' + id).
             success(function (data) {
                 location.reload();
             });

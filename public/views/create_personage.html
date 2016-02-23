@@ -1149,6 +1149,7 @@
             var attributeAttachedSkillSatisfied = true;
             var triggerSkillSatisfied = true;
             var inherentSatisfied = true;
+            var flawSatisfied = true;
             var attachedSkillExist = false;
             var attributeAttachedSkillExist = false;
             var triggerSkillExist = false;
@@ -1249,13 +1250,36 @@
                                         }
                                     });
                                 });
-                                if (!attachedSkillSatisfied || !attributeSatisfied
-                                        || !attachedSkillExist || !attributeAttachedSkillSatisfied
-                                        || !attributeAttachedSkillExist || !triggerSkillSatisfied
-                                        || !triggerSkillExist || !inherentExist
-                                        || !inherentSatisfied) {
-                                    $scope.meritAvailable = false;
-                                }
+                                $http.get('/meritFlawsByMeritId/' + meritObject.id).
+                                success(function (results) {
+                                    var personageHasFlaw = false;
+
+                                    angular.forEach(results.meritFlaws, function (meritFlaw) {
+                                        personageHasFlaw = false;
+                                        angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                                            if (meritFlaw.FlawId == personageFlaw.FlawId) {
+                                                personageHasFlaw = true;
+                                            }
+                                        });
+                                        if (meritFlaw.presentAbsent) {
+                                            if (!personageHasFlaw) {
+                                                flawSatisfied = false;
+                                            }
+                                        }
+                                        if (!meritFlaw.presentAbsent) {
+                                            if (personageHasFlaw) {
+                                                flawSatisfied = false;
+                                            }
+                                        }
+                                    });
+                                    if (!attachedSkillSatisfied || !attributeSatisfied
+                                            || !attachedSkillExist || !attributeAttachedSkillSatisfied
+                                            || !attributeAttachedSkillExist || !triggerSkillSatisfied
+                                            || !triggerSkillExist || !inherentExist
+                                            || !inherentSatisfied || !flawSatisfied) {
+                                        $scope.meritAvailable = false;
+                                    }
+                                });
                             });
                         });
                     });
@@ -1314,6 +1338,16 @@
         };
 
         $scope.addPersonageFlaw = function (flaw_id) {
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
+                    if (flaw_id == meritFlaw.Flaw.id) {
+                        if (!meritFlaw.presentAbsent) {
+                            $scope.deletePersonageMerit(personageMerit);
+                        }
+                    }
+                });
+            });
+
             $http.get('/flaws/' + flaw_id).
             success(function (result) {
                 $scope.personageFlaws.push({
@@ -1328,6 +1362,16 @@
         };
 
         $scope.deletePersonageFlaw = function (personageFlaw) {
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
+                    if (personageFlaw.Flaw.id == meritFlaw.Flaw.id) {
+                        if (meritFlaw.presentAbsent) {
+                            $scope.deletePersonageMerit(personageMerit);
+                        }
+                    }
+                });
+            });
+
             var index = $scope.personageFlaws.indexOf(personageFlaw);
             $scope.personageFlaws.splice(index, 1);
             $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;

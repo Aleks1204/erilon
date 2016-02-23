@@ -40,6 +40,9 @@ router.get('/merits', function (req, res) {
             }, {
                 model: models.MeritInherent,
                 include: [models.Inherent]
+            }, {
+                model: models.MeritFlaw,
+                include: [models.Flaw]
             }
         ]
     }).then(function (merits) {
@@ -68,6 +71,9 @@ router.get('/merits/:id', function (req, res) {
             }, {
                 model: models.MeritInherent,
                 include: [models.Inherent]
+            }, {
+                model: models.MeritFlaw,
+                include: [models.Flaw]
             }
         ]
     }).then(function (merit) {
