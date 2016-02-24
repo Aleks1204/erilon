@@ -17,7 +17,7 @@
 
     <h3 class="text-center">Пререквизиты</h3>
 
-    <div>
+    <div ng-hide="meritAttributes.length == 0">
         <h4 class="text-center">Пререквизиты-атрибуты</h4>
         <table class="table table-striped">
             <tr>
@@ -36,7 +36,7 @@
         </table>
     </div>
 
-    <div>
+    <div ng-hide="meritAttachedSkills.length == 0">
         <h4 class="text-center">Пререквизиты-прикрепленные навыки</h4>
         <table class="table table-striped">
             <tr>
@@ -56,7 +56,7 @@
         </table>
     </div>
 
-    <div>
+    <div ng-hide="meritAttributeAttachedSkills.length == 0">
         <h4 class="text-center">Пререквизиты-прикрепленные навыки+атрибуты</h4>
         <table class="table table-striped">
             <tr>
@@ -81,7 +81,7 @@
         </table>
     </div>
 
-    <div>
+    <div ng-hide="meritTriggerSkills.length == 0">
         <h4 class="text-center">Пререквизиты-тригереные навыки</h4>
         <table class="table table-striped">
             <tr>
@@ -118,7 +118,7 @@
     </div>
 
 
-    <div>
+    <div ng-hide="meritInherents.length == 0">
         <h4 class="text-center">Пререквизиты-врожеднные особенности</h4>
         <table class="table table-striped">
             <tr>
@@ -144,7 +144,7 @@
     </div>
 
 
-    <div>
+    <div ng-hide="meritFlaws.length == 0">
         <h4 class="text-center">Пререквизиты-недостатки</h4>
         <table class="table table-striped">
             <tr>
@@ -159,6 +159,28 @@
                 <td style="vertical-align:middle; text-align: center">
                     <button type="button" class="btn btn-link"
                             ng-click="deleteMeritFlaw(meritFlaw.id)">х
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div ng-hide="meritMerits.length == 0">
+        <h4 class="text-center">Пререквизиты-достоинства</h4>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center">Достоинство</th>
+                <th style="text-align: center">Присутствует/Отсутствует</th>
+                <th style="text-align: center"></th>
+            </tr>
+            <tr ng-repeat="meritMerit in meritMerits | orderBy : 'meritMerit.MeritPrerequisite.name'">
+                <td style="vertical-align:middle; text-align: center">{{meritMerit.MeritPrerequisite.name}}</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="meritMerit.presentAbsent">Присутствует</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="!meritMerit.presentAbsent">Отсутствует</td>
+                <td style="vertical-align:middle; text-align: center">
+                    <button type="button" class="btn btn-link"
+                            ng-click="deleteMeritMerit(meritMerit.id)">х
                     </button>
                 </td>
             </tr>
@@ -298,7 +320,7 @@
             </div>
 
             <div class="form-group" ng-show="type == 7">
-                <label class="control-label col-sm-2" for="trigger_skill_id">Недостаток: </label>
+                <label class="control-label col-sm-2" for="flaw_id">Недостаток: </label>
 
                 <div class="col-sm-10">
                     <select class="form-control"
@@ -310,7 +332,20 @@
                 </div>
             </div>
 
-            <div class="row" ng-show="type == 7">
+            <div class="form-group" ng-show="type == 6">
+                <label class="control-label col-sm-2" for="merit_id">Достоинство: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="merit_id" id="merit_id"
+                            ng-required="type == 6"
+                            ng-options="merit.id as merit.name for merit in merits  | orderBy : 'name'">
+                        <option style="display:none" value="">Выберите достоинство...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row" ng-show="type == 7 || type == 6">
                 <label class="control-label col-sm-2" for="present">Присутствует</label>
 
                 <div class="col-sm-2">
@@ -399,6 +434,7 @@
             $scope.meritTriggerSkills = data.merit.MeritTriggerSkills;
             $scope.meritInherents = data.merit.MeritInherents;
             $scope.meritFlaws = data.merit.MeritFlaws;
+            $scope.meritMerits = data.merit.MeritMerits;
         });
 
         $http.get('/attributes').
@@ -424,6 +460,16 @@
         $http.get('/flaws').
         success(function (data) {
             $scope.flaws = data.flaws;
+        });
+
+        $http.get('/merits').
+        success(function (data) {
+            $scope.merits = [];
+            angular.forEach(data.merits, function(merit) {
+                if (merit.id != meritId) {
+                    $scope.merits.push(merit);
+                }
+            });
         });
 
         $scope.createPrerequisite = function () {
@@ -476,6 +522,13 @@
                     });
                     break;
                 case 6:
+                    $http.post('/meritMerits', {
+                        merit_id: meritId,
+                        prerequisite_merit_id: $scope.merit_id,
+                        presentAbsent: $scope.presentAbsent
+                    }).success(function (data) {
+                        location.reload();
+                    });
                     break;
                 case 7:
                     $http.post('/meritFlaws', {
@@ -539,6 +592,13 @@
 
         $scope.deleteMeritFlaw = function (id) {
             $http.delete('/meritFlaws/' + id).
+            success(function (data) {
+                location.reload();
+            });
+        };
+
+        $scope.deleteMeritMerit = function (id) {
+            $http.delete('/meritMerits/' + id).
             success(function (data) {
                 location.reload();
             });

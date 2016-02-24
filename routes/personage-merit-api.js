@@ -33,6 +33,13 @@ router.get('/personageMerits', function (req, res) {
                     }, {
                         model: models.MeritFlaw,
                         include: [models.Flaw]
+                    }, {
+                        model: models.MeritMerit,
+                        include: [
+                            {
+                                model: models.Merit, as: 'MeritPrerequisite'
+                            }
+                        ]
                     }
                 ]
             }
@@ -72,6 +79,13 @@ router.get('/personageMeritsByPersonageId/:id', function (req, res) {
                     }, {
                         model: models.MeritFlaw,
                         include: [models.Flaw]
+                    }, {
+                        model: models.MeritMerit,
+                        include: [
+                            {
+                                model: models.Merit, as: 'MeritPrerequisite'
+                            }
+                        ]
                     }
                 ]
             }

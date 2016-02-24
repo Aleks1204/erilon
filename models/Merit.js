@@ -22,6 +22,8 @@ module.exports = function(sequelize, DataTypes) {
                 Merit.hasMany(models.MeritTriggerSkill);
                 Merit.hasMany(models.MeritInherent);
                 Merit.hasMany(models.MeritFlaw);
+                Merit.hasMany(models.MeritMerit, {as: 'MeritPrerequisite', foreignKey: 'PrerequisiteMeritId'});
+                Merit.hasMany(models.MeritMerit, {foreignKey: 'MeritId'});
             }
         }
     });

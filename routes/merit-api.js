@@ -43,6 +43,13 @@ router.get('/merits', function (req, res) {
             }, {
                 model: models.MeritFlaw,
                 include: [models.Flaw]
+            }, {
+                model: models.MeritMerit,
+                include: [
+                    {
+                        model: models.Merit, as: 'MeritPrerequisite'
+                    }
+                ]
             }
         ]
     }).then(function (merits) {
@@ -74,6 +81,13 @@ router.get('/merits/:id', function (req, res) {
             }, {
                 model: models.MeritFlaw,
                 include: [models.Flaw]
+            }, {
+                model: models.MeritMerit,
+                include: [
+                    {
+                        model: models.Merit, as: 'MeritPrerequisite'
+                    }
+                ]
             }
         ]
     }).then(function (merit) {

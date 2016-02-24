@@ -31,6 +31,7 @@ var meritAttributeAttachedSkillApi = require('./routes/merit-attribute-attached-
 var meritTriggerSkillApi = require('./routes/merit-trigger-skill-api');
 var meritInherentApi = require('./routes/merit-inherent-api');
 var meritFlawApi = require('./routes/merit-flaw-api');
+var meritMeritApi = require('./routes/merit-merit-api');
 
 var isMobile = require('ismobilejs');
 
@@ -75,6 +76,7 @@ app.use('', meritAttributeAttachedSkillApi);
 app.use('', meritTriggerSkillApi);
 app.use('', meritInherentApi);
 app.use('', meritFlawApi);
+app.use('', meritMeritApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

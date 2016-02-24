@@ -1150,6 +1150,7 @@
             var triggerSkillSatisfied = true;
             var inherentSatisfied = true;
             var flawSatisfied = true;
+            var meritSatisfied = true;
             var attachedSkillExist = false;
             var attributeAttachedSkillExist = false;
             var triggerSkillExist = false;
@@ -1272,13 +1273,37 @@
                                             }
                                         }
                                     });
-                                    if (!attachedSkillSatisfied || !attributeSatisfied
-                                            || !attachedSkillExist || !attributeAttachedSkillSatisfied
-                                            || !attributeAttachedSkillExist || !triggerSkillSatisfied
-                                            || !triggerSkillExist || !inherentExist
-                                            || !inherentSatisfied || !flawSatisfied) {
-                                        $scope.meritAvailable = false;
-                                    }
+                                    $http.get('/meritMeritsByMeritId/' + meritObject.id).
+                                    success(function (results) {
+                                        var personageHasMerit = false;
+
+                                        angular.forEach(results.meritMerits, function (meritMerit) {
+                                            personageHasMerit = false;
+                                            angular.forEach($scope.personageMerits, function (personageMerit) {
+                                                if (meritMerit.PrerequisiteMeritId == personageMerit.MeritId) {
+                                                    personageHasMerit = true;
+                                                }
+                                            });
+                                            if (meritMerit.presentAbsent) {
+                                                if (!personageHasMerit) {
+                                                    meritSatisfied = false;
+                                                }
+                                            }
+                                            if (!meritMerit.presentAbsent) {
+                                                if (personageHasMerit) {
+                                                    meritSatisfied = false;
+                                                }
+                                            }
+                                        });
+                                        if (!attachedSkillSatisfied || !attributeSatisfied
+                                                || !attachedSkillExist || !attributeAttachedSkillSatisfied
+                                                || !attributeAttachedSkillExist || !triggerSkillSatisfied
+                                                || !triggerSkillExist || !inherentExist
+                                                || !inherentSatisfied || !flawSatisfied
+                                                || !meritSatisfied) {
+                                            $scope.meritAvailable = false;
+                                        }
+                                    });
                                 });
                             });
                         });
@@ -1290,6 +1315,17 @@
         $scope.addPersonageMerit = function (merit) {
             if ($scope.meritAvailable) {
                 var meritObject = angular.fromJson(merit);
+
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
+                        if (meritObject.id == meritMerit.MeritPrerequisite.id) {
+                            if (!meritMerit.presentAbsent) {
+                                $scope.deletePersonageMerit(personageMerit);
+                            }
+                        }
+                    });
+                });
+
                 var personageMerit = {
                     Merit: meritObject,
                     MeritId: meritObject.id,
@@ -1304,6 +1340,16 @@
         };
 
         $scope.deletePersonageMerit = function (personageMerit) {
+            angular.forEach($scope.personageMerits, function (personageMeritFromList) {
+                angular.forEach(personageMeritFromList.Merit.MeritMerits, function (meritMerit) {
+                    if (personageMerit.Merit.id == meritMerit.MeritPrerequisite.id) {
+                        if (meritMerit.presentAbsent) {
+                            $scope.deletePersonageMerit(personageMeritFromList);
+                        }
+                    }
+                });
+            });
+
             var index = $scope.personageMerits.indexOf(personageMerit);
             $scope.personageMerits.splice(index, 1);
             $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
