@@ -175,17 +175,8 @@
                                                                            for="attachedSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="attachedSkill_id"
-                                                                                id="attachedSkill_id"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите навык...
-                                                                            </option>
-                                                                            <option ng-repeat="selectAttachedSkill in selectAttachedSkills"
-                                                                                    value="{{selectAttachedSkill.id}}">
-                                                                                {{selectAttachedSkill.name}}
-                                                                            </option>
+                                                                        <select ng-model="attachedSkill_id" id="attachedSkill_id" ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills" required>
+                                                                            <option value="" style="display:none">Выберите навык...</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -347,17 +338,8 @@
                                                                            for="triggerSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="triggerSkill_id"
-                                                                                id="triggerSkill_id"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите навык...
-                                                                            </option>
-                                                                            <option ng-repeat="selectTriggerSkill in selectTriggerSkills"
-                                                                                    value="{{selectTriggerSkill.id}}">
-                                                                                {{selectTriggerSkill.name}}
-                                                                            </option>
+                                                                        <select ng-model="triggerSkill_id" id="triggerSkill_id" ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills" required>
+                                                                            <option value="" style="display:none">Выберите навык...</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -467,19 +449,11 @@
                                                                   name="addPersonageInherentForm">
                                                                 <div class="form-group">
                                                                     <label class="control-label col-sm-2"
-                                                                           for="merit">Врожденное: </label>
+                                                                           for="inherent_id">Врожденное: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="inherent_id" id="inherent_id"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите врожденное...
-                                                                            </option>
-                                                                            <option ng-repeat="selectInherent in selectInherents"
-                                                                                    value="{{selectInherent.id}}">
-                                                                                {{selectInherent.name}}
-                                                                            </option>
+                                                                        <select ng-model="inherent_id" id="inherent_id" ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents" required>
+                                                                            <option value="" style="display:none">Выберите врожденное...</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -575,18 +549,8 @@
                                                                            for="merit">Достоинство: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="merit" id="merit"
-                                                                                ng-change="validatePrerequisites(merit)"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите достоинство...
-                                                                            </option>
-                                                                            <option ng-repeat="selectMerit in selectMerits"
-                                                                                    value="{{selectMerit}}">
-                                                                                {{selectMerit.name}}
-                                                                                {{selectMerit.cost}}
-                                                                            </option>
+                                                                        <select ng-model="merit" id="merit" ng-change="validatePrerequisites(merit)" ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits" required>
+                                                                            <option value="" style="display:none">Выберите достоинство...</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -684,17 +648,8 @@
                                                                            for="flaw_id">Недостаток: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="flaw_id" id="flaw_id"
-                                                                                required>
-                                                                            <option style="display:none" value="">
-                                                                                Выберите недостаток...
-                                                                            </option>
-                                                                            <option ng-repeat="selectFlaw in selectFlaws"
-                                                                                    value="{{selectFlaw.id}}">
-                                                                                {{selectFlaw.name}}
-                                                                                {{selectFlaw.cost}}
-                                                                            </option>
+                                                                        <select ng-model="flaw_id" id="flaw_id" ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws" required>
+                                                                            <option value="" style="display:none">Выберите недостаток...</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
