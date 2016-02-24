@@ -109,6 +109,13 @@
                 description: $scope.description,
                 difficult: $scope.difficult
             }).success(function (data) {
+                $http.post('/merits', {
+                    name: 'Талант к ' + $scope.triggerSkill_name,
+                    cost: 5,
+                    creation_only: true,
+                    description: '',
+                    action_level_bonus: ''
+                });
                 location.reload();
             });
         };
@@ -121,9 +128,20 @@
         });
 
         $scope.deleteTriggerSkill = function (id) {
-            $http.delete('/triggerSkills/' + id).
-            success(function (data) {
-                location.reload();
+            $http.get('/triggerSkills/' + id).
+            success(function(result) {
+                $http.get('/merits').
+                success(function (data) {
+                    angular.forEach(data.merits, function (merit) {
+                        if (merit.name.indexOf(result.triggerSkill.name) > -1) {
+                            $http.delete('/merits/' + merit.id);
+                        }
+                    });
+                    $http.delete('/triggerSkills/' + id).
+                    success(function (data) {
+                        location.reload();
+                    });
+                });
             });
         };
     });

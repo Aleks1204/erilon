@@ -302,9 +302,12 @@
                                                         </div>
                                                     </td>
 
-                                                    <td>
-                                                        <input type="checkbox" class="form-control" id="talented"
-                                                               ng-model="personageTriggerSkill.talented">
+                                                    <td style="vertical-align:middle; text-align: center" ng-show="personageTriggerSkill.talented">
+                                                        <span class="glyphicon glyphicon-ok"/>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle; text-align: center" ng-show="!personageTriggerSkill.talented">
+                                                        <span class="glyphicon glyphicon-remove"/>
                                                     </td>
 
                                                     <td>
@@ -1316,6 +1319,14 @@
             if ($scope.meritAvailable) {
                 var meritObject = angular.fromJson(merit);
 
+                if (meritObject.name.indexOf('Талант') > -1) {
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                            personageTriggerSkill.talented = true;
+                        }
+                    });
+                }
+
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
                         if (meritObject.id == meritMerit.MeritPrerequisite.id) {
@@ -1349,6 +1360,14 @@
                     }
                 });
             });
+
+            if (personageMerit.Merit.name.indexOf('Талант') > -1) {
+                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                    if (personageMerit.Merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                        personageTriggerSkill.talented = false;
+                    }
+                });
+            }
 
             var index = $scope.personageMerits.indexOf(personageMerit);
             $scope.personageMerits.splice(index, 1);
@@ -1482,6 +1501,14 @@
             var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
             $scope.personageTriggerSkills.splice(index, 1);
 
+            if (personageTriggerSkill.talented) {
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    if (personageMerit.Merit.name.indexOf(personageTriggerSkill.TriggerSkill.name)) {
+                        $scope.deletePersonageMerit(personageMerit);
+                    }
+                });
+            }
+
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
                     if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
@@ -1511,11 +1538,21 @@
             $scope.selectMerits = [];
             angular.forEach($scope.merits, function (merit) {
                 var alreadyAdded = false;
+                var haveTriggerSkillForThisTalent = true;
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     if (merit.id == personageMerit.Merit.id) {
                         alreadyAdded = true;
                     }
                 });
+
+                if(merit.name.indexOf('Талант') > -1) {
+                    haveTriggerSkillForThisTalent = false;
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1){
+                            haveTriggerSkillForThisTalent = true;
+                        }
+                    });
+                }
 
                 $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
                 success(function (results) {
@@ -1526,7 +1563,7 @@
                     });
                 });
 
-                if (!alreadyAdded) {
+                if (!alreadyAdded && haveTriggerSkillForThisTalent) {
                     $scope.selectMerits.push(merit);
                 }
             });
