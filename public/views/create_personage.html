@@ -1272,6 +1272,7 @@
 
         $scope.addPersonageMerit = function (merit) {
             if ($scope.meritAvailable) {
+                jQuery('#addMeritDialog').modal('hide');
                 var meritObject = angular.fromJson(merit);
 
                 if (meritObject.name.indexOf('Талант') > -1) {
@@ -1299,9 +1300,7 @@
                 };
 
                 $scope.personageMerits.push(personageMerit);
-
                 $scope.personage.experience = $scope.personage.experience - meritObject.cost;
-                jQuery('#addMeritDialog').modal('hide');
             }
         };
 
@@ -1331,6 +1330,7 @@
 
 
         $scope.addPersonageInherent = function (inherent_id) {
+            jQuery('#addInherentDialog').modal('hide');
 
             $http.get('/inherents/' + inherent_id).
             success(function (result) {
@@ -1339,8 +1339,6 @@
                     InherentId: inherent_id,
                     PersonageId: personageId
                 });
-            }).success(function () {
-                jQuery('#addInherentDialog').modal('hide');
             });
         };
 
@@ -1358,6 +1356,7 @@
         };
 
         $scope.addPersonageFlaw = function (flaw_id) {
+            jQuery('#addFlawDialog').modal('hide');
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                     if (flaw_id == meritFlaw.Flaw.id) {
@@ -1376,8 +1375,6 @@
                     PersonageId: personageId
                 });
                 $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
-            }).success(function () {
-                jQuery('#addFlawDialog').modal('hide');
             });
         };
 
@@ -1398,6 +1395,7 @@
         };
 
         $scope.addPersonageAttachedSkill = function (attachedSkill_id) {
+            jQuery('#addAttachedSkillDialog').modal('hide');
             $http.get('/attachedSkills/' + attachedSkill_id).
             success(function (result) {
                 $scope.personageAttachedSkills.push({
@@ -1411,12 +1409,11 @@
                 } else {
                     $scope.personage.experience = $scope.personage.experience - 1;
                 }
-            }).success(function () {
-                jQuery('#addAttachedSkillDialog').modal('hide');
             });
         };
 
         $scope.addPersonageTriggerSkill = function (triggerSkill_id) {
+            jQuery('#addTriggerSkillDialog').modal('hide');
             $http.get('/triggerSkills/' + triggerSkill_id).
             success(function (result) {
                 $scope.personageTriggerSkills.push({
@@ -1428,8 +1425,6 @@
                     tutored: false
                 });
                 $scope.personage.experience = $scope.personage.experience - result.triggerSkill.cost;
-            }).success(function () {
-                jQuery('#addTriggerSkillDialog').modal('hide');
             });
         };
 
