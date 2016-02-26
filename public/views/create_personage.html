@@ -8,10 +8,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+    <style>
+        div.overlay {
+            opacity: 0.4;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: black;
+            width: 100%;
+            height: 1000px;
+            z-index: 5000;
+        }
+    </style>
 </head>
 <body ng-app="personageApp">
 
 <div ng-controller="personageController">
+    <div class="overlay" id="loader" ng-show="loader"></div>
+
     <div data-ng-include data-src="'main-menu.html'"></div>
     <h3 class="text-center">{{personage.name}}</h3>
 
@@ -175,8 +190,13 @@
                                                                            for="attachedSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="attachedSkill_id" id="attachedSkill_id" ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills" required>
-                                                                            <option value="" style="display:none">Выберите навык...</option>
+                                                                        <select ng-model="attachedSkill_id"
+                                                                                id="attachedSkill_id"
+                                                                                ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills"
+                                                                                required>
+                                                                            <option value="" style="display:none">
+                                                                                Выберите навык...
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -293,11 +313,13 @@
                                                         </div>
                                                     </td>
 
-                                                    <td style="vertical-align:middle; text-align: center" ng-show="personageTriggerSkill.talented">
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-show="personageTriggerSkill.talented">
                                                         <span class="glyphicon glyphicon-ok"/>
                                                     </td>
 
-                                                    <td style="vertical-align:middle; text-align: center" ng-show="!personageTriggerSkill.talented">
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-show="!personageTriggerSkill.talented">
                                                         <span class="glyphicon glyphicon-remove"/>
                                                     </td>
 
@@ -338,8 +360,13 @@
                                                                            for="triggerSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="triggerSkill_id" id="triggerSkill_id" ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills" required>
-                                                                            <option value="" style="display:none">Выберите навык...</option>
+                                                                        <select ng-model="triggerSkill_id"
+                                                                                id="triggerSkill_id"
+                                                                                ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills"
+                                                                                required>
+                                                                            <option value="" style="display:none">
+                                                                                Выберите навык...
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -452,8 +479,12 @@
                                                                            for="inherent_id">Врожденное: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="inherent_id" id="inherent_id" ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents" required>
-                                                                            <option value="" style="display:none">Выберите врожденное...</option>
+                                                                        <select ng-model="inherent_id" id="inherent_id"
+                                                                                ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents"
+                                                                                required>
+                                                                            <option value="" style="display:none">
+                                                                                Выберите врожденное...
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -549,8 +580,13 @@
                                                                            for="merit">Достоинство: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="merit" id="merit" ng-change="validatePrerequisites(merit)" ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits" required>
-                                                                            <option value="" style="display:none">Выберите достоинство...</option>
+                                                                        <select ng-model="merit" id="merit"
+                                                                                ng-change="validatePrerequisites(merit)"
+                                                                                ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits"
+                                                                                required>
+                                                                            <option value="" style="display:none">
+                                                                                Выберите достоинство...
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -648,8 +684,12 @@
                                                                            for="flaw_id">Недостаток: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="flaw_id" id="flaw_id" ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws" required>
-                                                                            <option value="" style="display:none">Выберите недостаток...</option>
+                                                                        <select ng-model="flaw_id" id="flaw_id"
+                                                                                ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws"
+                                                                                required>
+                                                                            <option value="" style="display:none">
+                                                                                Выберите недостаток...
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -766,7 +806,8 @@
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
 
-    app.controller("personageController", function ($scope, $http) {
+    app.controller("personageController", function ($scope, $http, $q, $timeout) {
+        $scope.loader = false;
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
 
@@ -824,6 +865,7 @@
         });
 
         $scope.increaseAttribute = function (id) {
+            $scope.loader = true;
             var maxPrice = 8;
             var isPrimaryAttributeSet = false;
             var isSecondaryAttributeSet = 0;
@@ -866,10 +908,13 @@
                     });
                 }
             });
+
+            $scope.loader = false;
         };
 
 
         $scope.increaseAttachedSkill = function (id) {
+            $scope.loader = true;
             var isPrimaryAttributeSet = false;
             var isSecondaryAttributeSet = 0;
             var wisdomDoubleValue = 0;
@@ -957,9 +1002,11 @@
                     }
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.increaseTriggerSkillLevel = function (id) {
+            $scope.loader = true;
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (personageTriggerSkill.TriggerSkill.id == id) {
                     var nextLevel = personageTriggerSkill.currentLevel + 1;
@@ -986,9 +1033,11 @@
                     });
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.decreaseAttribute = function (id) {
+            $scope.loader = true;
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                 if (personageAttribute.id == id && personageAttribute.value > 1) {
                     angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -1021,9 +1070,11 @@
                     });
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.decreaseAttachedSkill = function (id) {
+            $scope.loader = true;
             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
 
                 if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
@@ -1057,45 +1108,61 @@
                     }
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.decreaseTriggerSkillLevel = function (id) {
-            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                if (personageTriggerSkill.TriggerSkill.id == id) {
+            $scope.loader = true;
 
-                    var previousLevel = personageTriggerSkill.currentLevel - 1;
-                    var currentLevel = personageTriggerSkill.currentLevel;
 
-                    angular.forEach($scope.personageMerits, function (personageMerit) {
-                        angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
-                            if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
-                                if (currentLevel != 0) {
-                                    if (meritTriggerSkill.level == currentLevel) {
-                                        $scope.deletePersonageMerit(personageMerit);
+            var decreaseLevel = $q.defer();
+
+            var all = $q.all([decreaseLevel.promise]);
+            all.then(success);
+
+            function success(data) {
+                $scope.loader = false;
+            }
+
+            $timeout(function () {
+                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                    if (personageTriggerSkill.TriggerSkill.id == id) {
+
+                        var previousLevel = personageTriggerSkill.currentLevel - 1;
+                        var currentLevel = personageTriggerSkill.currentLevel;
+
+                        angular.forEach($scope.personageMerits, function (personageMerit) {
+                            angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                                if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
+                                    if (currentLevel != 0) {
+                                        if (meritTriggerSkill.level == currentLevel) {
+                                            $scope.deletePersonageMerit(personageMerit);
+                                        }
                                     }
+
                                 }
-
-                            }
+                            });
                         });
-                    });
 
-                    $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
-                        if (previousLevel == 0) {
-                            personageTriggerSkill.currentLevel--;
-                        }
-                        angular.forEach(results.skillLevels, function (skillLevel) {
-                            if (skillLevel.level == previousLevel) {
+                        $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                            if (previousLevel == 0) {
                                 personageTriggerSkill.currentLevel--;
                             }
-                            if (skillLevel.level == currentLevel) {
-                                $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
-                                    $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
-                                });
-                            }
+                            angular.forEach(results.skillLevels, function (skillLevel) {
+                                if (skillLevel.level == previousLevel) {
+                                    personageTriggerSkill.currentLevel--;
+                                }
+                                if (skillLevel.level == currentLevel) {
+                                    $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
+                                        $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                                    });
+                                }
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+                decreaseLevel.resolve();
+            }, 20);
         };
 
         $scope.validatePrerequisites = function (merit) {
@@ -1271,18 +1338,28 @@
         };
 
         $scope.addPersonageMerit = function (merit) {
-            if ($scope.meritAvailable) {
+            $scope.loader = true;
+            var meritObject = angular.fromJson(merit);
+
+            var changeExperience = $q.defer();
+            var checkIfTalent = $q.defer();
+            var checkPrerequisites = $q.defer();
+            var addMerit = $q.defer();
+
+            var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
+            all.then(success);
+
+            function success(data) {
+                $scope.loader = false;
                 jQuery('#addMeritDialog').modal('hide');
-                var meritObject = angular.fromJson(merit);
+            }
 
-                if (meritObject.name.indexOf('Талант') > -1) {
-                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                        if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                            personageTriggerSkill.talented = true;
-                        }
-                    });
-                }
+            $timeout(function () {
+                $scope.personage.experience = $scope.personage.experience - meritObject.cost;
+                changeExperience.resolve();
+            }, 200);
 
+            $timeout(function () {
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
                         if (meritObject.id == meritMerit.MeritPrerequisite.id) {
@@ -1292,19 +1369,33 @@
                         }
                     });
                 });
+                checkPrerequisites.resolve();
+            }, 200);
 
+            $timeout(function () {
+                if (meritObject.name.indexOf('Талант') > -1) {
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                            personageTriggerSkill.talented = true;
+                        }
+                    });
+                }
+                checkIfTalent.resolve();
+            }, 200);
+
+            $timeout(function () {
                 var personageMerit = {
                     Merit: meritObject,
                     MeritId: meritObject.id,
                     PersonageId: personageId
                 };
-
                 $scope.personageMerits.push(personageMerit);
-                $scope.personage.experience = $scope.personage.experience - meritObject.cost;
-            }
+                addMerit.resolve();
+            }, 200);
         };
 
         $scope.deletePersonageMerit = function (personageMerit) {
+            $scope.loader = true;
             angular.forEach($scope.personageMerits, function (personageMeritFromList) {
                 angular.forEach(personageMeritFromList.Merit.MeritMerits, function (meritMerit) {
                     if (personageMerit.Merit.id == meritMerit.MeritPrerequisite.id) {
@@ -1326,10 +1417,12 @@
             var index = $scope.personageMerits.indexOf(personageMerit);
             $scope.personageMerits.splice(index, 1);
             $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
+            $scope.loader = false;
         };
 
 
         $scope.addPersonageInherent = function (inherent_id) {
+            $scope.loader = true;
             jQuery('#addInherentDialog').modal('hide');
 
             $http.get('/inherents/' + inherent_id).
@@ -1339,10 +1432,12 @@
                     InherentId: inherent_id,
                     PersonageId: personageId
                 });
+                $scope.loader = false;
             });
         };
 
         $scope.deletePersonageInherent = function (personageInherent) {
+            $scope.loader = true;
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritInherents, function (meritInherent) {
                     if (personageInherent.Inherent.id == meritInherent.Inherent.id) {
@@ -1353,9 +1448,11 @@
 
             var index = $scope.personageInherents.indexOf(personageInherent);
             $scope.personageInherents.splice(index, 1);
+            $scope.loader = false;
         };
 
         $scope.addPersonageFlaw = function (flaw_id) {
+            $scope.loader = true;
             jQuery('#addFlawDialog').modal('hide');
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
@@ -1375,10 +1472,12 @@
                     PersonageId: personageId
                 });
                 $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
+                $scope.loader = false;
             });
         };
 
         $scope.deletePersonageFlaw = function (personageFlaw) {
+            $scope.loader = true;
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                     if (personageFlaw.Flaw.id == meritFlaw.Flaw.id) {
@@ -1392,9 +1491,11 @@
             var index = $scope.personageFlaws.indexOf(personageFlaw);
             $scope.personageFlaws.splice(index, 1);
             $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
+            $scope.loader = false;
         };
 
         $scope.addPersonageAttachedSkill = function (attachedSkill_id) {
+            $scope.loader = true;
             jQuery('#addAttachedSkillDialog').modal('hide');
             $http.get('/attachedSkills/' + attachedSkill_id).
             success(function (result) {
@@ -1409,10 +1510,12 @@
                 } else {
                     $scope.personage.experience = $scope.personage.experience - 1;
                 }
+                $scope.loader = false;
             });
         };
 
         $scope.addPersonageTriggerSkill = function (triggerSkill_id) {
+            $scope.loader = true;
             jQuery('#addTriggerSkillDialog').modal('hide');
             $http.get('/triggerSkills/' + triggerSkill_id).
             success(function (result) {
@@ -1425,10 +1528,12 @@
                     tutored: false
                 });
                 $scope.personage.experience = $scope.personage.experience - result.triggerSkill.cost;
+                $scope.loader = false;
             });
         };
 
         $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
+            $scope.loader = true;
             var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
             $scope.personageAttachedSkills.splice(index, 1);
 
@@ -1445,9 +1550,11 @@
             } else {
                 $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
             }
+            $scope.loader = false;
         };
 
         $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
+            $scope.loader = true;
             var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
             $scope.personageTriggerSkills.splice(index, 1);
 
@@ -1468,10 +1575,11 @@
             });
 
             $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
-
+            $scope.loader = false;
         };
 
         $scope.calculateShowMerits = function () {
+            $scope.loader = true;
             $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).
             success(function (results) {
                 angular.forEach(results.raceMerits, function (raceMerit) {
@@ -1482,9 +1590,11 @@
                     }
                 });
             });
+            $scope.loader = false;
         };
 
         $scope.calculateMeritSelectOptions = function () {
+            $scope.loader = true;
             $scope.selectMerits = [];
             angular.forEach($scope.merits, function (merit) {
                 var alreadyAdded = false;
@@ -1495,10 +1605,10 @@
                     }
                 });
 
-                if(merit.name.indexOf('Талант') > -1) {
+                if (merit.name.indexOf('Талант') > -1) {
                     haveTriggerSkillForThisTalent = false;
                     angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1){
+                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
                             haveTriggerSkillForThisTalent = true;
                         }
                     });
@@ -1517,9 +1627,11 @@
                     $scope.selectMerits.push(merit);
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.calculateFlawSelectOptions = function () {
+            $scope.loader = true;
             $scope.selectFlaws = [];
             angular.forEach($scope.flaws, function (flaw) {
                 var contains = false;
@@ -1533,9 +1645,11 @@
                     $scope.selectFlaws.push(flaw);
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.calculateInherentSelectOptions = function () {
+            $scope.loader = true;
             $scope.selectInherents = [];
             angular.forEach($scope.inherents, function (inherent) {
                 var contains = false;
@@ -1549,9 +1663,11 @@
                     $scope.selectInherents.push(inherent);
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.calculateAttachedSkillSelectOptions = function () {
+            $scope.loader = true;
             $scope.selectAttachedSkills = [];
             angular.forEach($scope.attachedSkills, function (attachedSkill) {
                 var contains = false;
@@ -1565,9 +1681,11 @@
                     $scope.selectAttachedSkills.push(attachedSkill);
                 }
             });
+            $scope.loader = false;
         };
 
         $scope.calculateTriggerSkillSelectOptions = function () {
+            $scope.loader = true;
             $scope.selectTriggerSkills = [];
             angular.forEach($scope.triggerSkills, function (triggerSkill) {
                 var contains = false;
@@ -1581,10 +1699,12 @@
                     $scope.selectTriggerSkills.push(triggerSkill);
                 }
             });
+            $scope.loader = false;
         };
 
 
         $scope.savePersonage = function () {
+            $scope.loader = true;
             $http.put('/personages/' + personageId, {
                 race_id: $scope.personage.RaceId,
                 name: $scope.personage.name,
@@ -1667,7 +1787,6 @@
                                             tutored: personageTriggerSkill.tutored
                                         })
                                     });
-
                                     location.reload();
                                 });
                             });
