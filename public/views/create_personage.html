@@ -1337,10 +1337,10 @@
         };
 
         $scope.addPersonageMerit = function (merit) {
-            $scope.loader = true;
             var meritObject = angular.fromJson(merit);
 
             if ($scope.meritAvailable) {
+                $scope.loader = true;
                 var changeExperience = $q.defer();
                 var checkIfTalent = $q.defer();
                 var checkPrerequisites = $q.defer();
