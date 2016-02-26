@@ -1340,57 +1340,59 @@
             $scope.loader = true;
             var meritObject = angular.fromJson(merit);
 
-            var changeExperience = $q.defer();
-            var checkIfTalent = $q.defer();
-            var checkPrerequisites = $q.defer();
-            var addMerit = $q.defer();
+            if ($scope.meritAvailable) {
+                var changeExperience = $q.defer();
+                var checkIfTalent = $q.defer();
+                var checkPrerequisites = $q.defer();
+                var addMerit = $q.defer();
 
-            var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
-            all.then(success);
+                var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
+                all.then(success);
 
-            function success(data) {
-                $scope.loader = false;
-                jQuery('#addMeritDialog').modal('hide');
-            }
-
-            $timeout(function () {
-                $scope.personage.experience = $scope.personage.experience - meritObject.cost;
-                changeExperience.resolve();
-            }, 200);
-
-            $timeout(function () {
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
-                        if (meritObject.id == meritMerit.MeritPrerequisite.id) {
-                            if (!meritMerit.presentAbsent) {
-                                $scope.deletePersonageMerit(personageMerit);
-                            }
-                        }
-                    });
-                });
-                checkPrerequisites.resolve();
-            }, 200);
-
-            $timeout(function () {
-                if (meritObject.name.indexOf('Талант') > -1) {
-                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                        if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                            personageTriggerSkill.talented = true;
-                        }
-                    });
+                function success(data) {
+                    $scope.loader = false;
+                    jQuery('#addMeritDialog').modal('hide');
                 }
-                checkIfTalent.resolve();
-            }, 200);
 
-            $timeout(function () {
-                var personageMerit = {
-                    Merit: meritObject,
-                    MeritId: meritObject.id,
-                    PersonageId: personageId
-                };
-                $scope.personageMerits.push(personageMerit);
-                addMerit.resolve();
-            }, 200);
+                $timeout(function () {
+                    $scope.personage.experience = $scope.personage.experience - meritObject.cost;
+                    changeExperience.resolve();
+                }, 200);
+
+                $timeout(function () {
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
+                            if (meritObject.id == meritMerit.MeritPrerequisite.id) {
+                                if (!meritMerit.presentAbsent) {
+                                    $scope.deletePersonageMerit(personageMerit);
+                                }
+                            }
+                        });
+                    });
+                    checkPrerequisites.resolve();
+                }, 200);
+
+                $timeout(function () {
+                    if (meritObject.name.indexOf('Талант') > -1) {
+                        angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                            if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                                personageTriggerSkill.talented = true;
+                            }
+                        });
+                    }
+                    checkIfTalent.resolve();
+                }, 200);
+
+                $timeout(function () {
+                    var personageMerit = {
+                        Merit: meritObject,
+                        MeritId: meritObject.id,
+                        PersonageId: personageId
+                    };
+                    $scope.personageMerits.push(personageMerit);
+                    addMerit.resolve();
+                }, 200);
+            }
         };
 
         $scope.deletePersonageMerit = function (personageMerit) {
