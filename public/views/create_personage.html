@@ -560,7 +560,7 @@
                                             </table>
                                             <button type="button" class="btn btn-default pull-right"
                                                     data-toggle="modal" data-target="#addMeritDialog"
-                                                    ng-click="calculateMeritSelectOptions();validatePrerequisites(merit);">
+                                                    ng-click="calculateMeritSelectOptions()">
                                                 Добавить
                                                 достоинство
                                             </button>
@@ -611,7 +611,7 @@
                                                                             <button type="submit"
                                                                                     class="btn btn-success pull-left"
                                                                                     ng-click="addPersonageMerit(merit)"
-                                                                                    ng-disabled="addPersonageMeritForm.$invalid">
+                                                                                    ng-disabled="addPersonageMeritForm.$invalid || !meritAvailable">
                                                                                 Добавить
                                                                             </button>
                                                                         </div>
