@@ -1012,6 +1012,16 @@
 
         $scope.increaseTriggerSkillLevel = function (id) {
             $scope.loader = true;
+
+            var increaseLevel = $q.defer();
+
+            function success(data) {
+                $scope.loader = false;
+            }
+
+            var all = $q.all([increaseLevel.promise]);
+            all.then(success);
+
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (personageTriggerSkill.TriggerSkill.id == id) {
                     var nextLevel = personageTriggerSkill.currentLevel + 1;
@@ -1032,13 +1042,16 @@
                                 $http.post('/history', {
                                     key: skillLevel.level.toString() + 'UP',
                                     value: cost.toString()
-                                })
+                                }).success(function() {
+                                    increaseLevel.resolve();
+                                });
+                            } else {
+                                increaseLevel.resolve();
                             }
                         });
                     });
                 }
             });
-            $scope.loader = false;
         };
 
         $scope.decreaseAttribute = function (id) {
