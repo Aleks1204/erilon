@@ -1128,45 +1128,44 @@
                 $scope.loader = false;
             }
 
-            $timeout(function () {
-                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                    if (personageTriggerSkill.TriggerSkill.id == id) {
 
-                        var previousLevel = personageTriggerSkill.currentLevel - 1;
-                        var currentLevel = personageTriggerSkill.currentLevel;
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (personageTriggerSkill.TriggerSkill.id == id) {
 
-                        angular.forEach($scope.personageMerits, function (personageMerit) {
-                            angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
-                                if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
-                                    if (currentLevel != 0) {
-                                        if (meritTriggerSkill.level == currentLevel) {
-                                            $scope.deletePersonageMerit(personageMerit);
-                                        }
+                    var previousLevel = personageTriggerSkill.currentLevel - 1;
+                    var currentLevel = personageTriggerSkill.currentLevel;
+
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                            if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
+                                if (currentLevel != 0) {
+                                    if (meritTriggerSkill.level == currentLevel) {
+                                        $scope.deletePersonageMerit(personageMerit);
                                     }
-
                                 }
-                            });
-                        });
 
-                        $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
-                            if (previousLevel == 0) {
+                            }
+                        });
+                    });
+
+                    $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                        if (previousLevel == 0) {
+                            personageTriggerSkill.currentLevel--;
+                        }
+                        angular.forEach(results.skillLevels, function (skillLevel) {
+                            if (skillLevel.level == previousLevel) {
                                 personageTriggerSkill.currentLevel--;
                             }
-                            angular.forEach(results.skillLevels, function (skillLevel) {
-                                if (skillLevel.level == previousLevel) {
-                                    personageTriggerSkill.currentLevel--;
-                                }
-                                if (skillLevel.level == currentLevel) {
-                                    $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
-                                        $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
-                                    });
-                                }
-                            });
+                            if (skillLevel.level == currentLevel) {
+                                $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
+                                    $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                                });
+                            }
                         });
-                    }
-                });
-                decreaseLevel.resolve();
-            }, 500);
+                        decreaseLevel.resolve();
+                    });
+                }
+            });
         };
 
         $scope.validatePrerequisites = function (merit) {
