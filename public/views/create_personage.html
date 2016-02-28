@@ -190,7 +190,8 @@
                                                                            for="attachedSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="attachedSkill_id"
+                                                                        <select class="form-control"
+                                                                                ng-model="attachedSkill_id"
                                                                                 id="attachedSkill_id"
                                                                                 ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills"
                                                                                 required>
@@ -360,7 +361,8 @@
                                                                            for="triggerSkill_id">Навык: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="triggerSkill_id"
+                                                                        <select class="form-control"
+                                                                                ng-model="triggerSkill_id"
                                                                                 id="triggerSkill_id"
                                                                                 ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills"
                                                                                 required>
@@ -479,7 +481,8 @@
                                                                            for="inherent_id">Врожденное: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="inherent_id" id="inherent_id"
+                                                                        <select class="form-control"
+                                                                                ng-model="inherent_id" id="inherent_id"
                                                                                 ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents"
                                                                                 required>
                                                                             <option value="" style="display:none">
@@ -580,7 +583,8 @@
                                                                            for="merit">Достоинство: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="merit" id="merit"
+                                                                        <select class="form-control"
+                                                                                ng-model="merit" id="merit"
                                                                                 ng-change="validatePrerequisites(merit)"
                                                                                 ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits"
                                                                                 required>
@@ -684,7 +688,8 @@
                                                                            for="flaw_id">Недостаток: </label>
 
                                                                     <div class="col-sm-10">
-                                                                        <select ng-model="flaw_id" id="flaw_id"
+                                                                        <select class="form-control"
+                                                                                ng-model="flaw_id" id="flaw_id"
                                                                                 ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws"
                                                                                 required>
                                                                             <option value="" style="display:none">
@@ -1161,7 +1166,7 @@
                     }
                 });
                 decreaseLevel.resolve();
-            }, 2000);
+            }, 500);
         };
 
         $scope.validatePrerequisites = function (merit) {
@@ -1346,13 +1351,13 @@
                 var checkPrerequisites = $q.defer();
                 var addMerit = $q.defer();
 
-                var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
-                all.then(success);
-
                 function success(data) {
                     $scope.loader = false;
                     jQuery('#addMeritDialog').modal('hide');
                 }
+
+                var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
+                all.then(success);
 
                 $timeout(function () {
                     $scope.personage.experience = $scope.personage.experience - meritObject.cost;
