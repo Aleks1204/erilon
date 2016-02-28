@@ -1026,6 +1026,9 @@
                 if (personageTriggerSkill.TriggerSkill.id == id) {
                     var nextLevel = personageTriggerSkill.currentLevel + 1;
                     $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                        if(results.skillLevels.length == 0) {
+                            increaseLevel.resolve();
+                        }
                         angular.forEach(results.skillLevels, function (skillLevel) {
                             if (skillLevel.level == nextLevel) {
                                 var cost = skillLevel.cost;
