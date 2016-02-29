@@ -22,7 +22,7 @@ if (!global.hasOwnProperty('db')) {
         sequelize = new Sequelize("generatordb", "postgres", "postgres",
             {
                 dialect: "postgres",
-                port:    5432
+                port:    5433
             });
     }
 
