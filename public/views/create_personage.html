@@ -17,7 +17,7 @@
             left: 0;
             background-color: black;
             width: 100%;
-            height: 1000px;
+            height: 5000px;
             z-index: 5000;
         }
     </style>
@@ -1096,7 +1096,18 @@
         };
 
         $scope.decreaseAttachedSkill = function (id) {
+
             $scope.loader = true;
+
+            var decrease = $q.defer();
+
+            var all = $q.all([decrease.promise]);
+            all.then(success);
+
+            function success(data) {
+                $scope.loader = false;
+            }
+
             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
 
                 if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
@@ -1128,9 +1139,9 @@
                     } else {
                         $scope.personage.experience = $scope.personage.experience + 1;
                     }
+                    decrease.resolve();
                 }
             });
-            $scope.loader = false;
         };
 
         $scope.decreaseTriggerSkillLevel = function (id) {
