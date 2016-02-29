@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - generatordb@localhost" uuid="17b9325d-9629-4727-bd70-e331420adde0">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>postgres.pg_catalog postgres.public</schema-pattern>
+      <default-schemas>postgres.public</default-schemas>
+    </data-source>
+    <data-source name="PostgreSQL - dc5fq08q5k9ern@ec2-107-20-223-116.compute-1.amazonaws.com" uuid="2e71152e-2b68-4d8d-971e-d498dd24c83b">
+      <secret-storage>master_key</secret-storage>
+      <user-name>pvbmliipmczgnx</user-name>
+      <schema-pattern>dc5fq08q5k9ern.pg_catalog dc5fq08q5k9ern.public</schema-pattern>
+      <default-schemas>dc5fq08q5k9ern.public</default-schemas>
+    </data-source>
+  </component>
+</project>

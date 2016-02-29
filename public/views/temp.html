@@ -1,0 +1,12 @@
+$http.get('/meritAttributesByMeritId/' + merit.id).
+success(function (results) {
+angular.forEach(results.meritAttributes, function (meritAttribute) {
+angular.forEach($scope.personageAttributes, function (personageAttribute) {
+if (meritAttribute.AttributeId == personageAttribute.AttributeId) {
+if (personageAttribute.value < meritAttribute.value) {
+available = false;
+}
+}
+});
+});
+});
