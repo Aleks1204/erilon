@@ -182,6 +182,7 @@
                 <th style="text-align: center">Присутствует/Отсутствует</th>
                 <th style="text-align: center"></th>
             </tr>
+
             <tr ng-repeat="meritMerit in meritMerits | orderBy : 'meritMerit.MeritPrerequisite.name'">
                 <td style="vertical-align:middle; text-align: center">{{meritMerit.MeritPrerequisite.name}}</td>
                 <td style="vertical-align:middle; text-align: center" ng-show="meritMerit.presentAbsent">Присутствует
