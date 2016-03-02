@@ -130,9 +130,15 @@
             <tr ng-repeat="meritInherent in meritInherents | orderBy : 'meritInherent.Inherent.name'">
                 <td style="vertical-align:middle; text-align: center">{{meritInherent.Inherent.name}}</td>
                 <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=null"></td>
-                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=1">НЕ МЕНЕЕ</td>
-                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=0">РАВНО</td>
-                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=-1">НЕ БОЛЕЕ</td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=1">НЕ
+                    МЕНЕЕ
+                </td>
+                <td style="vertical-align:middle; text-align: center"
+                    ng-hide="meritInherent.lessMoreEqual!=0 || meritInherent.value == null">РАВНО
+                </td>
+                <td style="vertical-align:middle; text-align: center" ng-hide="meritInherent.lessMoreEqual!=-1">НЕ
+                    БОЛЕЕ
+                </td>
                 <td style="vertical-align:middle; text-align: center">{{meritInherent.value}}</td>
                 <td style="vertical-align:middle; text-align: center">
                     <button type="button" class="btn btn-link"
@@ -154,8 +160,10 @@
             </tr>
             <tr ng-repeat="meritFlaw in meritFlaws | orderBy : 'meritFlaw.Flaw.name'">
                 <td style="vertical-align:middle; text-align: center">{{meritFlaw.Flaw.name}}</td>
-                <td style="vertical-align:middle; text-align: center" ng-show="meritFlaw.presentAbsent">Присутствует</td>
-                <td style="vertical-align:middle; text-align: center" ng-show="!meritFlaw.presentAbsent">Отсутствует</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="meritFlaw.presentAbsent">Присутствует
+                </td>
+                <td style="vertical-align:middle; text-align: center" ng-show="!meritFlaw.presentAbsent">Отсутствует
+                </td>
                 <td style="vertical-align:middle; text-align: center">
                     <button type="button" class="btn btn-link"
                             ng-click="deleteMeritFlaw(meritFlaw.id)">х
@@ -176,8 +184,10 @@
             </tr>
             <tr ng-repeat="meritMerit in meritMerits | orderBy : 'meritMerit.MeritPrerequisite.name'">
                 <td style="vertical-align:middle; text-align: center">{{meritMerit.MeritPrerequisite.name}}</td>
-                <td style="vertical-align:middle; text-align: center" ng-show="meritMerit.presentAbsent">Присутствует</td>
-                <td style="vertical-align:middle; text-align: center" ng-show="!meritMerit.presentAbsent">Отсутствует</td>
+                <td style="vertical-align:middle; text-align: center" ng-show="meritMerit.presentAbsent">Присутствует
+                </td>
+                <td style="vertical-align:middle; text-align: center" ng-show="!meritMerit.presentAbsent">Отсутствует
+                </td>
                 <td style="vertical-align:middle; text-align: center">
                     <button type="button" class="btn btn-link"
                             ng-click="deleteMeritMerit(meritMerit.id)">х
@@ -295,7 +305,8 @@
 
                     <div class="col-sm-2">
                         <div class="pull-left">
-                            <input type="radio" ng-model="lessMoreEqual" class="form-control" id="equal" ng-value="0" ng-checked="true"/>
+                            <input type="radio" ng-model="lessMoreEqual" class="form-control" id="equal" ng-value="0"
+                                   ng-checked="true"/>
                         </div>
                     </div>
 
@@ -358,7 +369,8 @@
 
                 <div class="col-sm-2">
                     <div class="pull-left">
-                        <input type="radio" ng-model="presentAbsent" class="form-control" id="absent" ng-value="false" ng-checked="true"/>
+                        <input type="radio" ng-model="presentAbsent" class="form-control" id="absent" ng-value="false"
+                               ng-checked="true"/>
                     </div>
                 </div>
             </div>
@@ -465,7 +477,7 @@
         $http.get('/merits').
         success(function (data) {
             $scope.merits = [];
-            angular.forEach(data.merits, function(merit) {
+            angular.forEach(data.merits, function (merit) {
                 if (merit.id != meritId) {
                     $scope.merits.push(merit);
                 }
