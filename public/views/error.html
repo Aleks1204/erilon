@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html>
+UPDATE application SET
+createdAt = createdAt - INTERVAL '25 days',
+paidoutAt = paidoutAt - INTERVAL '25 days',
+dueAt = dueAt - INTERVAL '25 days',
+grantedAt = grantedAt - INTERVAL '25 days'
+WHERE uuid = 'amiaak';
 
-<body ng-app="raceController">
+UPDATE statuschange SET
+date = date - INTERVAL '25 days',
+effectivedate = effectivedate - INTERVAL '25 days'
+WHERE application_id in (SELECT id from application WHERE uuid = 'amiaak');
 
-<h2>Error</h2>
+UPDATE installment SET
+createddate = createddate - INTERVAL '25 days',
+duedate = duedate - INTERVAL '25 days'
+WHERE application_id in (SELECT id from application WHERE uuid = 'amiaak');
 
+UPDATE fee SET
+date = date - INTERVAL '25 days',
+effectivedate = effectivedate - INTERVAL '25 days',
+duedate = duedate - INTERVAL '25 days'
+WHERE application_id in (SELECT id from application WHERE uuid = 'amiaak');
 
-</body>
-</html>
+UPDATE payment SET
+created = created - INTERVAL '25 days',
+executed = executed - INTERVAL '25 days',
+completed = completed - INTERVAL '25 days'
+WHERE uuid = 'qlyxnEVfYCef';

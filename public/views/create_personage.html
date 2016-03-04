@@ -15,7 +15,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            background-color: black;
+            background-color: white;
             width: 100%;
             height: 5000px;
             z-index: 5000;
@@ -25,7 +25,9 @@
 <body ng-app="personageApp">
 
 <div ng-controller="personageController">
-    <div class="overlay" id="loader" ng-show="loader"></div>
+    <div class="overlay" id="loader" ng-show="loader">
+        <img style="margin-left: 48%; margin-top: 200px;" src="/images/loader.gif" alt="Smiley face" align="middle">
+    </div>
 
     <div data-ng-include data-src="'main-menu.html'"></div>
     <h3 class="text-center">{{personage.name}}</h3>
@@ -812,34 +814,57 @@
     var app = angular.module("personageApp", []);
 
     app.controller("personageController", function ($scope, $http, $q, $timeout) {
-        $scope.loader = false;
+        $scope.loader = true;
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
         $scope.currentMerit = null;
 
+        var merits = $q.defer();
+        var inherents = $q.defer();
+        var flaws = $q.defer();
+        var attachedSkills = $q.defer();
+        var triggerSkills = $q.defer();
+        var personage = $q.defer();
+        var raceAttributes = $q.defer();
+        var personageMerits = $q.defer();
+
+        function success(data) {
+            $scope.loader = false;
+        }
+
+        var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
+            triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise]);
+
+        all.then(success);
+
         $http.get('/merits').
         success(function (results) {
             $scope.merits = results.merits;
+            merits.resolve();
         });
 
         $http.get('/inherents').
         success(function (results) {
             $scope.inherents = results.inherents;
+            inherents.resolve();
         });
 
         $http.get('/flaws').
         success(function (results) {
             $scope.flaws = results.flaws;
+            flaws.resolve();
         });
 
         $http.get('/attachedSkills').
         success(function (results) {
             $scope.attachedSkills = results.attachedSkills;
+            attachedSkills.resolve();
         });
 
         $http.get('/triggerSkills').
         success(function (results) {
             $scope.triggerSkills = results.triggerSkills;
+            triggerSkills.resolve();
         });
 
         $http.get('/personages/' + personageId).
@@ -854,6 +879,7 @@
             $http.get('/raceAttributesByRaceId/' + data.personage.RaceId).
             success(function (data) {
                 $scope.raceAttributes = data.raceAttributes;
+                raceAttributes.resolve();
             });
             $scope.experienceValid = function () {
                 return $scope.personage.experience < 0;
@@ -863,11 +889,13 @@
             $scope.personageFlaws = data.personage.PersonageFlaws;
             $scope.personageAttachedSkills = data.personage.PersonageAttachedSkills;
             $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
+            personage.resolve();
         });
 
         $http.get('/personageMeritsByPersonageId/' + personageId).
         success(function (data) {
             $scope.personageMerits = data.personageMerits;
+            personageMerits.resolve();
         });
 
         $scope.increaseAttribute = function (id) {
@@ -1197,7 +1225,7 @@
         };
 
         $scope.validateCurrentMerit = function () {
-            if($scope.currentMerit != null) {
+            if ($scope.currentMerit != null) {
                 $scope.validatePrerequisites($scope.currentMerit);
             }
         };
@@ -1222,8 +1250,8 @@
 
             function success(data) {
                 $scope.loader = false;
-                angular.forEach(data, function(result) {
-                    if(!result) {
+                angular.forEach(data, function (result) {
+                    if (!result) {
                         $scope.meritAvailable = false;
                     }
                 });
@@ -1237,8 +1265,6 @@
                 flawSatisfiedPromise.promise,
                 meritSatisfiedPromise.promise]);
             all.then(success);
-
-
 
 
             $http.get('/meritAttributesByMeritId/' + meritObject.id).
