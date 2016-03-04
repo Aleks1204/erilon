@@ -14,8 +14,19 @@
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="meritListController">
 
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-2">
+            <p class="lead">
+                <strong>Поиск достоинства:</strong>
+            </p>
+        </div>
+        <div class="col-xs-offset-2 col-xs-4">
+            <p class="lead"><input type="text" ng-model="search"></p>
+        </div>
+    </div>
+
     <table class="table table-striped">
-        <tr ng-repeat="merit in merits | orderBy : 'name'">
+        <tr ng-repeat="merit in merits | orderBy : 'name' | filter : search">
             <td style="vertical-align:middle;">
                 <a href="/views/merit.html?id={{merit.id}}" class="btn btn-link" role="button">
                     {{ merit.name }}
