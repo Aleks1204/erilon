@@ -4,17 +4,57 @@
     <title>Персонаж</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/stylesheets/main.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 </head>
 <body ng-app="personageApp">
 
-<div ng-controller="personageAttributeListController">
+<div ng-controller="personageController">
+    <div data-ng-include data-src="'loader.html'"></div>
+
     <div data-ng-include data-src="'main-menu.html'"></div>
     <h3 class="text-center">{{personage.name}}</h3>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                <p class="lead">
+                    <strong>Раса:</strong>
+                </p>
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                <p class="lead">{{personage.Race.name}}</p>
+            </div>
+        </div>
+
+        <form name="ageForm">
+            <div class="row">
+                <div class="col-xs-offset-1 col-xs-2">
+                    <p class="lead">
+                        <strong><label>Возраст:</label></strong>
+                    </p>
+                </div>
+                <div class="col-xs-offset-2 col-xs-4">
+                    <strong>{{personage.age}} лет</strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-offset-1 col-xs-2">
+                    <p class="lead">
+                        <strong><label>Макс. возраст:</label></strong>
+                    </p>
+                </div>
+                <div class="col-xs-offset-2 col-xs-4">
+                    <strong>{{personage.max_age}} лет</strong>
+                </div>
+            </div>
+        </form>
+
+    </div>
 
     <div>
         <div class="panel-group" id="accordion">
@@ -31,9 +71,9 @@
                 <div id="attributes" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <table class="table table-striped">
-                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
                                 <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
-                                <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
+                                <td style="vertical-align:middle;horiz-align: left;">{{ personageAttribute.value }}</td>
                             </tr>
                         </table>
                     </div>
@@ -50,27 +90,28 @@
                 </h4>
                 <div id="skills" class="panel-collapse collapse">
                     <div class="panel-body">
-                        Здесь пробовать варики с навыками
+
                         <div>
                             <div class="panel-group" id="skillsAccordeon">
 
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attached">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attachedSkills">
                                             <div class="panel-heading">
                                                 Прикрепленные
                                             </div>
                                         </a>
                                     </h4>
-                                    <div id="attached" class="panel-collapse collapse">
+                                    <div id="attachedSkills" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : '-value'">
                                                     <td style="vertical-align:middle;">
-                                                        Навык
+                                                        {{personageAttachedSkill.AttachedSkill.name}}
                                                     </td>
+
                                                     <td style="vertical-align:middle;">
-                                                        Значение
+                                                        {{personageAttachedSkill.value}}
                                                     </td>
                                                 </tr>
                                             </table>
@@ -80,21 +121,74 @@
 
                                 <div class="panel panel-default">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#trigger">
+                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#triggerSkills">
                                             <div class="panel-heading">
                                                 Триггерные
                                             </div>
                                         </a>
                                     </h4>
-                                    <div id="trigger" class="panel-collapse collapse">
+                                    <div id="triggerSkills" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'id'">
+                                                <tr>
+                                                    <th style="vertical-align:middle; text-align: center"></th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">Уровень
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="isMobile">Ур
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">Талант
+                                                    </th>
+                                                    <th style="vertical-align:middle; text-align: center"
+                                                        ng-if="isMobile">Тл
+                                                    </th>
+                                                </tr>
+                                                <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
                                                     <td style="vertical-align:middle;">
-                                                        Навык
+                                                        {{personageTriggerSkill.TriggerSkill.name}}
                                                     </td>
-                                                    <td style="vertical-align:middle;">
-                                                        Значение
+
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-if="!isMobile">
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                            Эксперт
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                            Мастер
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                            Магистр
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                            Гроссмейстер
+                                                        </div>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;" ng-if="isMobile">
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                            Э
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                            М
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                            Мг
+                                                        </div>
+                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                            Г
+                                                        </div>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-show="personageTriggerSkill.talented">
+                                                        <span class="glyphicon glyphicon-ok"/>
+                                                    </td>
+
+                                                    <td style="vertical-align:middle; text-align: center"
+                                                        ng-show="!personageTriggerSkill.talented">
+                                                        <span class="glyphicon glyphicon-remove"/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -104,6 +198,7 @@
 
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -118,7 +213,82 @@
                 </h4>
                 <div id="perks" class="panel-collapse collapse">
                     <div class="panel-body">
-                        Особенности
+                        <div>
+                            <div class="panel-group" id="perkAccordeon">
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                            <div class="panel-heading">
+                                                Врожденные
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="inherents" class="panel-collapse collapse">
+
+
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageInherent.Inherent.name}}
+                                                    </td>
+
+                                                    <td style="vertical-align:middle;">
+                                                        <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                                            {{personageInherent.value}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits">
+                                            <div class="panel-heading">
+                                                Достоинства
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="merits" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageMerit.Merit.name}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                            <div class="panel-heading">
+                                                Недостатки
+                                            </div>
+                                        </a>
+                                    </h4>
+                                    <div id="flaws" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
+                                                    <td style="vertical-align:middle;">
+                                                        {{personageFlaw.Flaw.name}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,23 +310,104 @@
 
         </div>
     </div>
+
+    <form name="expirienceForm">
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-4">
+                <p class="lead">
+                    <strong>Очки опыта:</strong>
+                </p>
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                <div id="expirience" ng-model="expirience">
+                    <p class="lead">
+                        <strong>{{personage.experience}}</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
 
 <script>
+    (function (i) {
+        var e = /iPhone/i, n = /iPod/i, o = /iPad/i, t = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, r = /Android/i, d = /BlackBerry/i, s = /Opera Mini/i, a = /IEMobile/i, b = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, h = RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), c = function (i, e) {
+            return i.test(e)
+        }, l = function (i) {
+            var l = i || navigator.userAgent;
+            this.apple = {
+                phone: c(e, l),
+                ipod: c(n, l),
+                tablet: c(o, l),
+                device: c(e, l) || c(n, l) || c(o, l)
+            }, this.android = {
+                phone: c(t, l),
+                tablet: !c(t, l) && c(r, l),
+                device: c(t, l) || c(r, l)
+            }, this.other = {
+                blackberry: c(d, l),
+                opera: c(s, l),
+                windows: c(a, l),
+                firefox: c(b, l),
+                device: c(d, l) || c(s, l) || c(a, l) || c(b, l)
+            }, this.seven_inch = c(h, l), this.any = this.apple.device || this.android.device || this.other.device || this.seven_inch
+        }, v = i.isMobile = new l;
+        v.Class = l
+    })(window);
+
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
 
+    app.controller("personageController", function ($scope, $http, $q, $timeout) {
+        $scope.loader = true;
+        $scope.isMobile = isMobile.android.phone;
+        $scope.meritAvailable = true;
+        $scope.currentMerit = null;
 
-    app.controller("personageAttributeListController", function ($scope, $http) {
-        $http.get('/personageAttributesByPersonageId/' + personageId).
-        success(function (data) {
-            $scope.personageAttributes = data.personageAttributes;
-        });
+        var personage = $q.defer();
+        var raceAttributes = $q.defer();
+        var personageMerits = $q.defer();
+
+        function success(data) {
+            $scope.loader = false;
+        }
+
+        var all = $q.all([personage.promise, personageMerits.promise]);
+
+        all.then(success);
 
         $http.get('/personages/' + personageId).
         success(function (data) {
             $scope.personage = data.personage;
+            $scope.age = data.personage.age;
+            if (data.personage.max_age != 0) {
+                $scope.max_age = data.personage.max_age;
+            } else {
+                $scope.max_age = data.personage.Race.max_age;
+            }
+            $http.get('/raceAttributesByRaceId/' + data.personage.RaceId).
+            success(function (data) {
+                $scope.raceAttributes = data.raceAttributes;
+                raceAttributes.resolve();
+            });
+            $scope.experienceValid = function () {
+                return $scope.personage.experience < 0;
+            };
+            $scope.personageAttributes = data.personage.PersonageAttributes;
+            $scope.personageInherents = data.personage.PersonageInherents;
+            $scope.personageFlaws = data.personage.PersonageFlaws;
+            $scope.personageAttachedSkills = data.personage.PersonageAttachedSkills;
+            $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
+            personage.resolve();
         });
+
+        $http.get('/personageMeritsByPersonageId/' + personageId).
+        success(function (data) {
+            $scope.personageMerits = data.personageMerits;
+            personageMerits.resolve();
+        });
+
     });
 
 </script>
