@@ -1839,14 +1839,14 @@
             });
 
 
-            var persongaeAttributePromises = [];
+            var personageAttributePromises = [];
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                persongaeAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
+                personageAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
                     value: personageAttribute.value
                 }));
             });
 
-            $q.all(persongaeAttributePromises).then(function () {
+            $q.all(personageAttributePromises).then(function () {
                 personageAttributeAllPromise.resolve();
             });
 

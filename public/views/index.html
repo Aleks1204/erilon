@@ -14,9 +14,9 @@
 
 <body ng-app="personageManagerApp">
 <div data-ng-include data-src="'views/main-menu.html'"></div>
-<div data-ng-include data-src="'loader.html'"></div>
 
 <div ng-controller="personageListController">
+    <div data-ng-include data-src="'views/loader.html'"></div>
     <table class="table table-striped">
         <tr ng-repeat="personage in personages | orderBy : 'id'">
             <td style="vertical-align:middle; text-align: center;">
@@ -45,6 +45,7 @@
 
     <form class="form-horizontal" role="form" ng-controller="addPersonageController"
           name="createPersonageForm">
+        <div data-ng-include data-src="'views/loader.html'"></div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Имя:</label>
 
@@ -86,11 +87,28 @@
 <script>
     var app = angular.module("personageManagerApp", []);
 
-    app.controller("addPersonageController", function ($scope, $http, $window) {
+    app.controller("addPersonageController", function ($scope, $http, $window, $q) {
         $scope.loader = false;
 
         $scope.createPersonage = function () {
             $scope.loader = true;
+
+            function success(data) {
+                $window.location.href = '/views/create_personage.html?id=' + data[0];
+            }
+
+            var personage = $q.defer();
+            var raceAttributeAllPromise = $q.defer();
+            var raceMeritAllPromise = $q.defer();
+            var raceFlawAllPromise = $q.defer();
+            var defaultAttachedSkillAllPromise = $q.defer();
+
+            $q.all([personage.promise, raceAttributeAllPromise.promise,
+                        raceMeritAllPromise.promise, raceFlawAllPromise.promise,
+                        defaultAttachedSkillAllPromise.promise])
+                    .then(success);
+
+
             $http.post('/personages', {
                 name: $scope.name,
                 race_id: $scope.race_id,
@@ -99,52 +117,95 @@
                 experience: $scope.experience,
                 generated: false
             }).success(function (result) {
-                $scope.race = result.personage.Race;
+
+                var raceAttributesByRaceId = $q.defer();
                 $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).
                 success(function (results) {
-                    for (var i = 0; i < results.raceAttributes.length; i++) {
-                        $http.post('/personageAttributes', {
+                    raceAttributesByRaceId.resolve(results.raceAttributes);
+                });
+
+                $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
+                    var raceAttributePromises = [];
+                    for (var i = 0; i < raceAttributes[0].length; i++) {
+                        raceAttributePromises.push($http.post('/personageAttributes', {
                             personage_id: result.personage.id,
-                            attribute_id: results.raceAttributes[i].AttributeId,
+                            attribute_id: raceAttributes[0][i].AttributeId,
                             value: 1
-                        });
+                        }));
                     }
-                    $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
-                    success(function (results) {
-                        for (var i = 0; i < results.raceMerits.length; i++) {
-                            if (results.raceMerits[i].race_default) {
-                                $http.post('/personageMerits', {
-                                    personage_id: result.personage.id,
-                                    merit_id: results.raceMerits[i].MeritId,
-                                    unremovable: true
-                                });
-                            }
-                        }
-                        $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).
-                        success(function (results) {
-                            for (var i = 0; i < results.raceFlaws.length; i++) {
-                                    $http.post('/personageFlaws', {
-                                        personage_id: result.personage.id,
-                                        flaw_id: results.raceFlaws[i].FlawId,
-                                        personage_race_default: true
-                                    });
-                            }
-                            $http.get('/attachedSkills/').
-                            success(function (results) {
-                                angular.forEach(results.attachedSkills, function (attachedSkill) {
-                                    if(attachedSkill.default_skill) {
-                                    $http.post('/personageAttachedSkills', {
-                                        personage_id: result.personage.id,
-                                        attachedSkill_id: attachedSkill.id,
-                                        value: 0
-                                    });
-                                    }
-                                });
-                                $window.location.href = '/views/create_personage.html?id=' + result.personage.id;
-                            });
-                        });
+
+                    $q.all(raceAttributePromises).then(function () {
+                        raceAttributeAllPromise.resolve();
                     });
                 });
+
+                var raceMeritsByRaceId = $q.defer();
+                $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
+                success(function (results) {
+                    raceMeritsByRaceId.resolve(results.raceMerits);
+                });
+
+                $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
+                    var raceMeritPromises = [];
+                    for (var i = 0; i < raceMerits[0].length; i++) {
+                        raceMeritPromises.push($http.post('/personageMerits', {
+                            personage_id: result.personage.id,
+                            merit_id: raceMerits[0][i].MeritId,
+                            unremovable: true
+                        }));
+                    }
+
+                    $q.all(raceMeritPromises).then(function () {
+                        raceMeritAllPromise.resolve();
+                    });
+                });
+
+                var raceFlawsByRaceId = $q.defer();
+                $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).
+                success(function (results) {
+                    raceFlawsByRaceId.resolve(results.raceFlaws);
+                });
+
+                $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
+                    var raceFlawPromises = [];
+                    for (var i = 0; i < raceFlaws[0].length; i++) {
+                        raceFlawPromises.push($http.post('/personageFlaws', {
+                            personage_id: result.personage.id,
+                            flaw_id: raceFlaws[0][i].FlawId,
+                            personage_race_default: true
+                        }));
+                    }
+
+                    $q.all(raceFlawPromises).then(function () {
+                        raceFlawAllPromise.resolve();
+                    });
+                });
+
+                var attachedSkills = $q.defer();
+
+                $http.get('/attachedSkills/').
+                success(function (results) {
+                    attachedSkills.resolve(results.attachedSkills);
+                });
+
+                $q.all([attachedSkills.promise]).then(function (attachedSkills) {
+                    var defaultAttachedSkillPromises = [];
+                    angular.forEach(attachedSkills[0], function (attachedSkill) {
+                        if (attachedSkill.default_skill) {
+                            defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
+                                personage_id: result.personage.id,
+                                attachedSkill_id: attachedSkill.id,
+                                value: 0
+                            }));
+                        }
+                    });
+
+                    $q.all(defaultAttachedSkillPromises).then(function () {
+                        defaultAttachedSkillAllPromise.resolve();
+                        console.log('attached skills done');
+                    });
+                });
+                personage.resolve(result.personage.id);
             });
         };
 
