@@ -14,7 +14,7 @@
 <body ng-app="inherentManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="inherentListController">
-
+    <div data-ng-include data-src="'loader.html'"></div>
     <table class="table table-striped">
         <tr ng-repeat="inherent in inherents | orderBy : 'name'">
             <td style="vertical-align:middle;">{{ inherent.name }}</td>
@@ -127,9 +127,11 @@
         });
 
         app.controller("inherentListController", function ($scope, $http) {
+            $scope.loader = true;
             $http.get('/inherents').
             success(function (data) {
                 $scope.inherents = data.inherents.sort();
+                $scope.loader = false;
             });
 
             $scope.deleteInherent = function (id) {

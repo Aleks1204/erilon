@@ -14,7 +14,7 @@
 <body ng-app="triggerSkillManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="triggerSkillListController">
-
+    <div data-ng-include data-src="'loader.html'"></div>
     <table class="table table-striped">
         <tr>
             <th style="vertical-align:middle; text-align: center;">Имя</th>
@@ -123,9 +123,11 @@
     });
 
     app.controller("triggerSkillListController", function ($scope, $http) {
+        $scope.loader = true;
         $http.get('/triggerSkills').
         success(function (data) {
             $scope.triggerSkills = data.triggerSkills.sort();
+            $scope.loader = false;
         });
 
         $scope.deleteTriggerSkill = function (id) {

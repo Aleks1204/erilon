@@ -14,7 +14,7 @@
 <body ng-app="meritManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="meritListController">
-
+    <div data-ng-include data-src="'loader.html'"></div>
     <div class="row">
         <div class="col-xs-offset-1 col-xs-2">
             <p class="lead">
@@ -123,9 +123,11 @@
     });
 
     app.controller("meritListController", function ($scope, $http) {
+        $scope.loader = true;
         $http.get('/merits').
         success(function (data) {
             $scope.merits = data.merits;
+            $scope.loader = false;
         });
 
         $scope.deleteMerit = function (id) {

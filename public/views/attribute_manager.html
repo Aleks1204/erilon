@@ -14,6 +14,7 @@
 <body ng-app="attributeManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="attributeListController">
+    <div data-ng-include data-src="'loader.html'"></div>
 
     <table class="table table-striped">
         <tr ng-repeat="attribute in attributes | orderBy : 'name'">
@@ -76,9 +77,11 @@
     });
 
     app.controller("attributeListController", function ($scope, $http) {
+        $scope.loader = true;
         $http.get('/attributes').
         success(function (data) {
             $scope.attributes = data.attributes;
+            $scope.loader = false;
         });
 
         $scope.deleteAttribute = function (id) {

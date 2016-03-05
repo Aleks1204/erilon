@@ -14,7 +14,7 @@
 <body ng-app="flawManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="flawListController">
-
+    <div data-ng-include data-src="'loader.html'"></div>
     <table class="table table-striped">
         <tr>
             <th>Имя</th>
@@ -108,9 +108,11 @@
     });
 
     app.controller("flawListController", function ($scope, $http) {
+        $scope.loader = true;
         $http.get('/flaws').
         success(function (data) {
             $scope.flaws = data.flaws.sort();
+            $scope.loader = false;
         });
 
         $scope.deleteFlaw = function (id) {

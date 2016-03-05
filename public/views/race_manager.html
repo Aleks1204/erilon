@@ -14,7 +14,7 @@
 <body ng-app="raceManagerApp">
 <div data-ng-include data-src="'main-menu.html'"></div>
 <div ng-controller="racesListController">
-
+    <div data-ng-include data-src="'loader.html'"></div>
     <table class="table table-striped">
         <tr ng-repeat="race in races | orderBy : 'id'">
             <td style="vertical-align:middle;">{{ race.id }}</td>
@@ -34,6 +34,7 @@
 
     <form class="form-horizontal" role="form" ng-controller="addRaceController"
           name="createRaceForm">
+        <div data-ng-include data-src="'loader.html'"></div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="race_name">Название расы:</label>
 
@@ -63,33 +64,57 @@
 <script>
     var app = angular.module("raceManagerApp", []);
 
-    app.controller("addRaceController", function ($scope, $http) {
+    app.controller("addRaceController", function ($scope, $http, $q) {
+        function success(data) {
+            location.reload();
+        }
+
+        var race = $q.defer();
+        var attributeAllPromise = $q.defer();
+
+        $q.all([race.promise, attributeAllPromise.promise]).then(success);
+
         $scope.createRace = function () {
+            $scope.loader = true;
             $http.post('/races', {
                 name: $scope.race_name,
                 max_age: $scope.max_age
             }).
             success(function (result) {
-                $http.get('/attributes').
-                success(function (results) {
-                    angular.forEach(results.attributes, function (attribute) {
-                        $http.post('/raceAttributes', {
+
+                var attributes = $q.defer();
+
+                $http.get('/attributes').success(function (results) {
+                    attributes.resolve(results.attributes);
+                });
+
+                $q.all([attributes.promise]).then(function (attributes) {
+                    var attributePromises = [];
+                    angular.forEach(attributes[0], function (attribute) {
+                        attributePromises.push($http.post('/raceAttributes', {
                             race_id: result.race.id,
                             attribute_id: attribute.id,
                             base_cost: 5,
                             max_value: 12
-                        });
+                        }));
                     });
-                    location.reload();
+
+                    $q.all(attributePromises).then(function () {
+                        attributeAllPromise.resolve();
+                    });
                 });
+
+                race.resolve();
             });
         };
     });
 
     app.controller("racesListController", function ($scope, $http) {
+        $scope.loader = true;
         $http.get('/races').
         success(function (data) {
             $scope.races = data.races;
+            $scope.loader = false;
         });
 
         $scope.deleteRace = function (id) {
