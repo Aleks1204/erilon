@@ -145,13 +145,6 @@
                                                     <td style="vertical-align:middle;">
                                                         {{personageAttachedSkill.value}}
                                                     </td>
-
-                                                    <td>
-                                                        <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">х</a>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                             </table>
                                             <button type="button" class="btn btn-default pull-right"
@@ -315,13 +308,6 @@
                                                     <td>
                                                         <input type="checkbox" class="form-control" id="tutored"
                                                                ng-model="personageTriggerSkill.tutored">
-                                                    </td>
-
-                                                    <td>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">х</a>
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -885,58 +871,20 @@
         });
 
         $scope.increaseAttribute = function (id) {
-            $scope.loader = true;
-            var maxPrice = 8;
-            var isPrimaryAttributeSet = false;
-            var isSecondaryAttributeSet = 0;
-
-            angular.forEach($scope.raceAttributes, function (raceAttribute) {
-                angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                    if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
-                        if (personageAttribute.value > maxPrice - raceAttribute.base_cost) {
-                            isSecondaryAttributeSet++;
-                        }
-                        if (personageAttribute.value > maxPrice - raceAttribute.base_cost + 1) {
-                            isPrimaryAttributeSet = true;
-                        }
-                    }
-                });
-            });
-
-
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                 if (personageAttribute.id == id) {
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
-                        if (raceAttribute.Attribute.id == personageAttribute.Attribute.id && personageAttribute.value < maxPrice - raceAttribute.base_cost + 2) {
-                            if (personageAttribute.value < maxPrice - raceAttribute.base_cost) {
-                                personageAttribute.value++;
-                                $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                            } else {
-                                if (personageAttribute.value == maxPrice - raceAttribute.base_cost + 1) {
-                                    if (!isPrimaryAttributeSet) {
-                                        personageAttribute.value++;
-                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                                    }
-                                } else {
-                                    if (isSecondaryAttributeSet < 3) {
-                                        personageAttribute.value++;
-                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                                    }
-                                }
-                            }
+                        if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
+                            personageAttribute.value++;
+                            $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost*2;
                         }
                     });
                 }
             });
-
-            $scope.loader = false;
         };
 
 
         $scope.increaseAttachedSkill = function (id) {
-            $scope.loader = true;
-            var isPrimaryAttributeSet = false;
-            var isSecondaryAttributeSet = 0;
             var wisdomDoubleValue = 0;
 
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
@@ -946,83 +894,26 @@
             });
 
             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-                if (personageAttachedSkill.value > 3) {
-                    isSecondaryAttributeSet++;
-                }
-                if (personageAttachedSkill.value > 4) {
-                    isPrimaryAttributeSet = true;
-                }
-            });
-
-
-            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                 if (personageAttachedSkill.AttachedSkill.id == id) {
-                    if (personageAttachedSkill.value < 5) {
-                        if (personageAttachedSkill.value < 3) {
-                            if (!personageAttachedSkill.AttachedSkill.theoretical) {
-                                personageAttachedSkill.value++;
-                                if (personageAttachedSkill.AttachedSkill.difficult) {
-                                    $scope.personage.experience = $scope.personage.experience - 2;
-                                } else {
-                                    $scope.personage.experience = $scope.personage.experience - 1;
-                                }
+                    if (personageAttachedSkill.AttachedSkill.theoretical) {
+                        if (personageAttachedSkill.value < wisdomDoubleValue) {
+                            personageAttachedSkill.value++;
+                            if (personageAttachedSkill.AttachedSkill.difficult) {
+                                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
                             } else {
-                                if (personageAttachedSkill.value < wisdomDoubleValue) {
-                                    personageAttachedSkill.value++;
-                                    if (personageAttachedSkill.AttachedSkill.difficult) {
-                                        $scope.personage.experience = $scope.personage.experience - 2;
-                                    } else {
-                                        $scope.personage.experience = $scope.personage.experience - 1;
-                                    }
-                                }
+                                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
                             }
+                        }
+                    } else {
+                        personageAttachedSkill.value++;
+                        if (personageAttachedSkill.AttachedSkill.difficult) {
+                            $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
                         } else {
-                            if (personageAttachedSkill.value == 4) {
-                                if (!isPrimaryAttributeSet) {
-                                    if (!personageAttachedSkill.AttachedSkill.theoretical) {
-                                        personageAttachedSkill.value++;
-                                        if (personageAttachedSkill.AttachedSkill.difficult) {
-                                            $scope.personage.experience = $scope.personage.experience - 2;
-                                        } else {
-                                            $scope.personage.experience = $scope.personage.experience - 1;
-                                        }
-                                    } else {
-                                        if (personageAttachedSkill.value < wisdomDoubleValue) {
-                                            personageAttachedSkill.value++;
-                                            if (personageAttachedSkill.AttachedSkill.difficult) {
-                                                $scope.personage.experience = $scope.personage.experience - 2;
-                                            } else {
-                                                $scope.personage.experience = $scope.personage.experience - 1;
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (isSecondaryAttributeSet < 3) {
-                                    if (!personageAttachedSkill.AttachedSkill.theoretical) {
-                                        personageAttachedSkill.value++;
-                                        if (personageAttachedSkill.AttachedSkill.difficult) {
-                                            $scope.personage.experience = $scope.personage.experience - 2;
-                                        } else {
-                                            $scope.personage.experience = $scope.personage.experience - 1;
-                                        }
-                                    } else {
-                                        if (personageAttachedSkill.value < wisdomDoubleValue) {
-                                            personageAttachedSkill.value++;
-                                            if (personageAttachedSkill.AttachedSkill.difficult) {
-                                                $scope.personage.experience = $scope.personage.experience - 2;
-                                            } else {
-                                                $scope.personage.experience = $scope.personage.experience - 1;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
                         }
                     }
                 }
             });
-            $scope.loader = false;
         };
 
         $scope.increaseTriggerSkillLevel = function (id) {
@@ -1101,7 +992,7 @@
                     personageAttribute.value--;
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
-                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
+                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost*2;
                         }
                     });
                 }
@@ -1147,12 +1038,12 @@
                         });
                     });
 
-                    personageAttachedSkill.value--;
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + 2;
+                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value*2;
                     } else {
-                        $scope.personage.experience = $scope.personage.experience + 1;
+                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
                     }
+                    personageAttachedSkill.value--;
                 }
             });
             decrease.resolve();
@@ -1630,52 +1521,6 @@
                 $scope.personage.experience = $scope.personage.experience - result.triggerSkill.cost;
                 $scope.loader = false;
             });
-        };
-
-        $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
-            $scope.loader = true;
-            var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
-            $scope.personageAttachedSkills.splice(index, 1);
-
-            angular.forEach($scope.personageMerits, function (personageMerit) {
-                angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
-                    if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
-                        $scope.deletePersonageMerit(personageMerit);
-                    }
-                });
-            });
-
-            if (personageAttachedSkill.AttachedSkill.difficult) {
-                $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
-            } else {
-                $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
-            }
-            $scope.loader = false;
-        };
-
-        $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
-            $scope.loader = true;
-            var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
-            $scope.personageTriggerSkills.splice(index, 1);
-
-            if (personageTriggerSkill.talented) {
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    if (personageMerit.Merit.name.indexOf(personageTriggerSkill.TriggerSkill.name)) {
-                        $scope.deletePersonageMerit(personageMerit);
-                    }
-                });
-            }
-
-            angular.forEach($scope.personageMerits, function (personageMerit) {
-                angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
-                    if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
-                        $scope.deletePersonageMerit(personageMerit);
-                    }
-                });
-            });
-
-            $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
-            $scope.loader = false;
         };
 
         $scope.calculateShowMerits = function () {
