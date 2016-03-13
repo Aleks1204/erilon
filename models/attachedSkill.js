@@ -6,6 +6,7 @@
 module.exports = function(sequelize, DataTypes) {
     var AttachedSkill = sequelize.define("AttachedSkill", {
         name: DataTypes.STRING,
+        spells_connected: DataTypes.BOOLEAN,
         description: DataTypes.STRING,
         difficult: DataTypes.BOOLEAN,
         theoretical: DataTypes.BOOLEAN,
@@ -17,6 +18,7 @@ module.exports = function(sequelize, DataTypes) {
                 AttachedSkill.hasMany(models.PersonageAttachedSkill);
                 AttachedSkill.hasMany(models.MeritAttachedSkill);
                 AttachedSkill.hasMany(models.MeritAttributeAttachedSkill);
+                AttachedSkill.hasMany(models.Spell);
             }
         }
     });
