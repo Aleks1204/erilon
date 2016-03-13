@@ -157,14 +157,13 @@
                             <label class="control-label col-sm-3" for="mana_support">Поддержание:</label>
 
                             <div class="col-sm-6">
-                                <input type="number" ng-model="mana_support" class="form-control" id="mana_support" placeholder="5" ng-required="instant">
+                                <input type="number" ng-model="mana_support" class="form-control" id="mana_support" placeholder="5" ng-required="!instant">
                             </div>
                             <div class="col-sm-3">
-                                <select ng-model="mana_sup_time" class="form-control" id="mana_sup_time" ng-required="instant">
+                                <select ng-model="mana_sup_time" class="form-control" id="mana_sup_time" ng-required="!instant">
                                     <option value="в раунд" ng-selected="true">в раунд</option>
                                     <option value="в минуту">в минуту</option>
                                     <option value="в час">в час</option>
-                                    <option disabled="disabled" style="display: none;"></option>
                                 </select>
                             </div>
                         </div>
@@ -181,7 +180,7 @@
                             <label class="control-label col-sm-3" for="effect">Эффект:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" ng-model="effect" class="form-control" id="effect" placeholder="Наблюдаемый эффект..." required>
+                                <textarea ng-model="effect" class="form-control" id="effect" placeholder="Наблюдаемый эффект..." required></textarea>
                             </div>
                         </div>
 
@@ -189,7 +188,7 @@
                             <label class="control-label col-sm-3" for="description">Описание:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" ng-model="description" class="form-control" id="description" placeholder="Описание..." required>
+                                <textarea ng-model="description" class="form-control" id="description" placeholder="Описание..." required></textarea>
                             </div>
                         </div>
 
@@ -255,7 +254,7 @@
         $scope.loader = false;
         $scope.isMobile = isMobile.android.phone;
         $scope.instant = false;
-        $scope.mana_sup_time = 'round';
+        $scope.mana_sup_time = 'в раунд';
 
         $scope.schools = [];
 
