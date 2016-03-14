@@ -8,15 +8,15 @@ module.exports = function(sequelize, DataTypes) {
     var Spell = sequelize.define("Spell", {
         name: DataTypes.STRING,
         additional_schools: DataTypes.STRING,
-        complexity: DataTypes.INTEGER,
-        creating_complexity: DataTypes.INTEGER,
-        mana: DataTypes.INTEGER,
+        complexity: DataTypes.STRING,
+        creating_complexity: DataTypes.STRING,
+        mana: DataTypes.STRING,
         instant: DataTypes.BOOLEAN,
-        mana_support: DataTypes.INTEGER,
+        mana_support: DataTypes.STRING,
         mana_sup_time: DataTypes.STRING,
         experience: DataTypes.INTEGER,
-        effect: DataTypes.STRING,
-        description: DataTypes.STRING
+        effect: DataTypes.TEXT,
+        description: DataTypes.TEXT
     }, {
         classMethods: {
             associate: function(models) {

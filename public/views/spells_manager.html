@@ -125,7 +125,7 @@
                             <label class="control-label col-sm-3" for="complexity">Сложность:</label>
 
                             <div class="col-sm-9">
-                                <input type="number" ng-model="complexity" class="form-control" id="complexity" placeholder="5" ng-change="setCreatingComplexity()" required>
+                                <input type="text" ng-model="complexity" class="form-control" id="complexity" placeholder="5" ng-change="setCreatingComplexity()" required>
                             </div>
                         </div>
 
@@ -133,7 +133,7 @@
                             <label class="control-label col-sm-3" for="creating_complexity">Сложность создания:</label>
 
                             <div class="col-sm-9">
-                                <input type="number" ng-model="creating_complexity" class="form-control" id="creating_complexity" placeholder="5" ng-value="{{complexity}}" required>
+                                <input type="text" ng-model="creating_complexity" class="form-control" id="creating_complexity" placeholder="5" ng-value="{{complexity}}" required>
                             </div>
                         </div>
 
@@ -141,7 +141,7 @@
                             <label class="control-label col-sm-3" for="mana">Мана:</label>
 
                             <div class="col-sm-9">
-                                <input type="number" ng-model="mana" class="form-control" id="mana" placeholder="5" required>
+                                <input type="text" ng-model="mana" class="form-control" id="mana" placeholder="5" required>
                             </div>
                         </div>
 
@@ -157,7 +157,7 @@
                             <label class="control-label col-sm-3" for="mana_support">Поддержание:</label>
 
                             <div class="col-sm-6">
-                                <input type="number" ng-model="mana_support" class="form-control" id="mana_support" placeholder="5" ng-required="!instant">
+                                <input type="text" ng-model="mana_support" class="form-control" id="mana_support" placeholder="5" ng-required="!instant">
                             </div>
                             <div class="col-sm-3">
                                 <select ng-model="mana_sup_time" class="form-control" id="mana_sup_time" ng-required="!instant">
