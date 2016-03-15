@@ -1,9 +1,6 @@
 /**
  * Created by artemk on 3/9/16.
  */
-/**
- * Created by artemk on 2/9/16.
- */
 
 var models  = require('../models');
 var express = require('express');
@@ -21,7 +18,7 @@ router.post('/spells', function(req, res) {
         instant: req.body.instant,
         mana_support: req.body.mana_support,
         mana_sup_time: req.body.mana_sup_time,
-        experience: req.body.experience,
+        cost: req.body.cost,
         effect: req.body.effect,
         description: req.body.description
     }).then(function(spell) {
@@ -61,7 +58,7 @@ router.put('/spells/:id', function (req, res){
         spell.instant = req.body.instant;
         spell.mana_support = req.body.mana_support;
         spell.mana_sup_time = req.body.mana_sup_time;
-        spell.experience = req.body.experience;
+        spell.cost = req.body.cost;
         spell.effect = req.body.effect;
         spell.description = req.body.description;
         return spell.update({
@@ -73,7 +70,7 @@ router.put('/spells/:id', function (req, res){
             instant: req.body.instant,
             mana_support: req.body.mana_support,
             mana_sup_time: req.body.mana_sup_time,
-            experience: req.body.experience,
+            cost: req.body.cost,
             effect: req.body.effect,
             description: req.body.description
         }).then(function(spell) {

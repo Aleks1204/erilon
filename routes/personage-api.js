@@ -47,6 +47,9 @@ router.get('/personages/:id', function (req, res) {
             }, {
                 model: models.PersonageFlaw,
                 include: [models.Flaw]
+            }, {
+                model: models.PersonageSpell,
+                include: [models.Spell]
             }
         ]
     }).

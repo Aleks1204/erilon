@@ -14,13 +14,14 @@ module.exports = function(sequelize, DataTypes) {
         instant: DataTypes.BOOLEAN,
         mana_support: DataTypes.STRING,
         mana_sup_time: DataTypes.STRING,
-        experience: DataTypes.INTEGER,
+        cost: DataTypes.INTEGER,
         effect: DataTypes.TEXT,
         description: DataTypes.TEXT
     }, {
         classMethods: {
             associate: function(models) {
                 Spell.belongsTo(models.AttachedSkill, {foreignKeyConstraint: true});
+                Spell.hasMany(models.PersonageSpell);
             }
         }
     });

@@ -1,91 +1,25 @@
-<form class="form-horizontal" role="form"
-      name="addSpellForm">
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="name">Название:</label>
-        <div class="col-sm-10">
-            <input type="text" ng-model="name" class="form-control" id="name" placeholder="Фаербол" required>
-        </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="complexity">Сложность:</label>
-        <div class="col-sm-10">
-            <input type="number" ng-model="complexity" class="form-control" id="complexity" placeholder="5" required>
-        </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="creating_complexity">Сложность создания:</label>
-        <div class="col-sm-10">
-            <input type="number" ng-model="creating_complexity" class="form-control" id="creating_complexity" placeholder="5" value="{{complexity}}" required>
-        </div>
-    </div>
+$http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
+var deletePromises = [];
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="mana">Мана:</label>
-        <div class="col-sm-10">
-            <input type="number" ng-model="mana" class="form-control" id="mana" placeholder="5" required>
-        </div>
-    </div>
+angular.forEach(results.personageSpells, function (personageSpell) {
+deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
+});
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="instant">Инстант:</label>
-        <div class="col-sm-10">
-            <input type="checkbox" ng-model="instant" class="form-control" id="instant">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="mana_support">Мана на поддержание:</label>
-        <div class="col-sm-10">
-            <input type="number" ng-model="mana_support" class="form-control" id="mana_support" placeholder="5" ng-required="instant">
-            <select ng-model="mana_sup_time" class="form-control" id="mana_sup_time" ng-required="instant">
-                <option value="round" selected="selected">в раунд</option>
-                <option value="minute">в минуту</option>
-                <option value="hour">в час</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="experience">Опыт:</label>
-        <div class="col-sm-10">
-            <input type="number" ng-model="experience" class="form-control" id="experience" placeholder="1" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="effect">"Эффект:</label>
-        <div class="col-sm-10">
-            <input type="text" ng-model="effect" class="form-control" id="effect" placeholder="Наблюдаемый эффект..." required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="description">"Эффект:</label>
-        <div class="col-sm-10">
-            <input type="text" ng-model="description" class="form-control" id="description" placeholder="Описание..." required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                <button type="button"
-                        class="btn btn-default pull-right"
-                        data-dismiss="modal">
-                    Отмена
-                </button>
-            </div>
-
-            <div class="col-md-3 col-xs-1">
-                <button type="submit"
-                        class="btn btn-success pull-left"
-                        ng-click="addSpell()"
-                        ng-disabled="addSpellForm.$invalid">
-                    Добавить
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
+$q.all(deletePromises).then(function () {
+var addPromises = [];
+angular.forEach($scope.personageSpells, function (personageSpell) {
+addPromises.push($http.post('/personageSpells', {
+trigger_skill_id: personageSpell.Spell.id,
+personage_id: personageId,
+currentLevel: personageSpell.currentLevel,
+talented: personageSpell.talented,
+tutored: personageSpell.tutored
+}));
+});
+$q.all(addPromises).then(function () {
+personageSpellAllPromise.resolve();
+});
+});
+});

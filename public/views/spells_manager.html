@@ -53,7 +53,7 @@
                                                     <th>Сложность создания</th>
                                                     <th>Мана</th>
                                                     <th>Поддержание</th>
-                                                    <th>Опыт</th>
+                                                    <th>Стоимость</th>
                                                     <th></th>
                                                 </tr>
                                                 <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
@@ -73,7 +73,7 @@
                                                         {{spell.mana_support}} {{spell.mana_sup_time}}
                                                     </td>
                                                     <td style="vertical-align:middle;">
-                                                        {{spell.experience}}
+                                                        {{spell.cost}}
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-link" ng-click="deleteSpell(spell.id)">х
@@ -169,10 +169,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-3" for="experience">Опыт:</label>
+                            <label class="control-label col-sm-3" for="cost">Стоимость:</label>
 
                             <div class="col-sm-9">
-                                <input type="number" ng-model="experience" class="form-control" id="experience" placeholder="1" required>
+                                <input type="number" ng-model="cost" class="form-control" id="cost" placeholder="1" required>
                             </div>
                         </div>
 
@@ -284,7 +284,7 @@
                 mana: $scope.mana,
                 mana_support: $scope.mana_support,
                 mana_sup_time: $scope.mana_sup_time,
-                experience: $scope.experience,
+                cost: $scope.cost,
                 effect: $scope.effect,
                 description: $scope.description
             }).success(function (data) {

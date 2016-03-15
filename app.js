@@ -33,6 +33,7 @@ var meritInherentApi = require('./routes/merit-inherent-api');
 var meritFlawApi = require('./routes/merit-flaw-api');
 var meritMeritApi = require('./routes/merit-merit-api');
 var spellApi = require('./routes/spell-api');
+var personageSpellApi = require('./routes/personage-spell-api');
 
 var isMobile = require('ismobilejs');
 
@@ -79,6 +80,7 @@ app.use('', meritInherentApi);
 app.use('', meritFlawApi);
 app.use('', meritMeritApi);
 app.use('', spellApi);
+app.use('', personageSpellApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

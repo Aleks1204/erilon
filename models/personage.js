@@ -20,6 +20,7 @@ module.exports = function(sequelize, DataTypes) {
                 Personage.hasMany(models.PersonageFlaw);
                 Personage.hasMany(models.PersonageAttachedSkill);
                 Personage.hasMany(models.PersonageTriggerSkill);
+                Personage.hasMany(models.PersonageSpell);
             }
         }
     });
