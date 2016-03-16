@@ -763,12 +763,24 @@
                                                     <td style="vertical-align:middle;">
                                                         {{spell.cost}}
                                                     </td>
+                                                    <td style="vertical-align:middle; text-align: center" ng-show="isSpellAdded(spell.id)">
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="increaseSpellLevel(spell.id)">
+                                                            <span class="glyphicon glyphicon-triangle-top"/>
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                ng-click="decreaseSpellLevel(spell.id)">
+                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
+                                                        </button>
+                                                    </td>
                                                     <td ng-show="isSpellAdded(spell.id)" style="vertical-align:middle;">
                                                         {{relatedPersonageSpell.level}}
                                                     </td>
                                                     <td ng-show="isSpellAdded(spell.id)">
-                                                        <input type="checkbox" class="form-control" id="spellTutored"
-                                                               ng-model="relatedPersonageSpell.tutored">
+                                                        <div ng-repeat="personageSpell in personageSpells">
+                                                            <input ng-show="personageSpell.Spell.id == spell.id" type="checkbox" class="form-control" id="spellTutored"
+                                                                   ng-model="personageSpell.tutored">
+                                                        </div>
                                                     </td>
                                                     <td ng-show="isSpellAdded(spell.id)">
                                                         <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">x</button>
@@ -806,6 +818,23 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div id="alert" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Внимание!!!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Нельзя удалить школу магии, пока в ней есть заклинания!!!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -997,13 +1026,50 @@
         };
 
         $scope.deletePersonageSpell = function (id) {
-            angular.forEach($scope.personageSpells, function(personageSpell) {
-                if(personageSpell.Spell.id == id) {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (personageSpell.Spell.id == id) {
                     var index = $scope.personageSpells.indexOf(personageSpell);
                     $scope.personageSpells.splice(index, 1);
                     $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
                 }
             });
+        };
+
+        $scope.increaseSpellLevel = function (spell_id) {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (personageSpell.Spell.id == spell_id) {
+                    var cost;
+                    if (personageSpell.level < 5) {
+                        if (personageSpell.tutored) {
+                            cost = personageSpell.Spell.cost;
+                            personageSpell.tutored = false;
+                        } else {
+                            cost = personageSpell.Spell.cost * 2;
+                        }
+
+                        personageSpell.level++;
+                        $scope.personage.experience = $scope.personage.experience - cost;
+                        $http.post('/history', {
+                            key: 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP',
+                            value: cost.toString()
+                        });
+                    }
+                }
+            });
+        };
+
+        $scope.decreaseSpellLevel = function (spell_id) {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (personageSpell.Spell.id == spell_id) {
+                    if (personageSpell.level > 0) {
+                        $http.get('/byKey/' + 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP').success(function (result) {
+                            $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                            personageSpell.level--;
+                        });
+                    }
+                }
+            });
+
         };
 
         $scope.increaseAttribute = function (id) {
@@ -1180,7 +1246,7 @@
                                 }
                                 $scope.personage.experience = $scope.personage.experience - cost;
                                 $http.post('/history', {
-                                    key: skillLevel.level.toString() + 'UP',
+                                    key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP',
                                     value: cost.toString()
                                 }).success(function () {
                                     increaseLevel.resolve();
@@ -1321,7 +1387,7 @@
                                 personageTriggerSkill.currentLevel--;
                             }
                             if (skillLevel.level == currentLevel) {
-                                $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
+                                $http.get('/byKey/' + 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP').success(function (result) {
                                     $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
                                 });
                             }
@@ -1757,23 +1823,37 @@
 
         $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
             $scope.loader = true;
-            var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
-            $scope.personageAttachedSkills.splice(index, 1);
 
-            angular.forEach($scope.personageMerits, function (personageMerit) {
-                angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
-                    if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
-                        $scope.deletePersonageMerit(personageMerit);
+            var hasSpells = false;
+
+            if (personageAttachedSkill.AttachedSkill.spells_connected) {
+                angular.forEach($scope.personageSpells, function (personageSpell) {
+                    if (personageSpell.Spell.AttachedSkillId == personageAttachedSkill.AttachedSkill.id && !hasSpells) {
+                        hasSpells = true;
+                        jQuery('#alert').modal('show');
                     }
                 });
-            });
-
-            if (personageAttachedSkill.AttachedSkill.difficult) {
-                $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
-            } else {
-                $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
             }
-            $scope.recalculateMagicSchools();
+
+            if (!hasSpells) {
+                var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
+                $scope.personageAttachedSkills.splice(index, 1);
+
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
+                        if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
+                            $scope.deletePersonageMerit(personageMerit);
+                        }
+                    });
+                });
+
+                if (personageAttachedSkill.AttachedSkill.difficult) {
+                    $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
+                } else {
+                    $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+                }
+                $scope.recalculateMagicSchools();
+            }
             $scope.loader = false;
         };
 
@@ -2086,7 +2166,6 @@
                     });
                 });
             });
-
 
 
             $http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
