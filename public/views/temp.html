@@ -1,19 +1,24 @@
-<td style="vertical-align:middle; text-align: center" ng-show="isSpellAdded(spell.id)">
-    <button type="button" class="btn btn-default"
-            ng-click="increaseSpellLevel(spell.id)">
-        <span class="glyphicon glyphicon-triangle-top"/>
-    </button>
-    <button type="button" class="btn btn-default"
-            ng-click="decreaseSpellLevel(spell.id)">
-        <span class="glyphicon glyphicon-triangle-bottom"/>
-    </button>
-</td>
-<td ng-show="isSpellAdded(spell.id)" style="vertical-align:middle;">
-    {{relatedPersonageSpell.level}}
-</td>
-<td ng-show="isSpellAdded(spell.id)">
-    <div ng-repeat="personageSpell in personageSpells">
-        <input ng-show="personageSpell.Spell.id == spell.id" type="checkbox" class="form-control" id="spellTutored"
-               ng-model="personageSpell.tutored">
-    </div>
-</td>
+<tr ng-repeat="spell in school.Spells | orderBy : 'name'">
+    <td style="vertical-align:middle;">
+        <a href="#" class="btn btn-link" role="button" ng-click="showSpellDetail(spell.id)">
+            {{ spell.name }}
+        </a>
+    </td>
+    <td style="vertical-align:middle;">
+        {{spell.cost}}
+    </td>
+    <td ng-show="isSpellAdded(spell.id)">
+        <div ng-repeat="personageSpell in personageSpells" style="margin-top: 7px">
+            <div ng-show="personageSpell.Spell.id == spell.id">
+                {{personageSpell.level}} ур.
+            </div>
+        </div>
+    </td>
+    <td ng-show="isSpellAddedAndLevel0(spell.id)">
+        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">x</button>
+    </td>
+    <td ng-hide="isSpellAdded(spell.id)">
+        <button type="button" class="btn btn-link" ng-click="addPersonageSpell(spell.id)">Добавить
+        </button>
+    </td>
+</tr>

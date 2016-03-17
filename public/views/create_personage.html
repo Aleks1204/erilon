@@ -749,30 +749,26 @@
                                     <div id="spells{{school.id}}" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <table class="table table-striped">
-                                                <tr>
-                                                    <th>Название</th>
-                                                    <th>Стоимость</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
                                                 <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
                                                     <td style="vertical-align:middle;">
                                                         <a href="#" class="btn btn-link" role="button" ng-click="showSpellDetail(spell.id)">
                                                             {{ spell.name }}
                                                         </a>
                                                     </td>
-                                                    <td style="vertical-align:middle;">
-                                                        {{spell.cost}}
+                                                    <td style="vertical-align:middle;text-align:center;">
+                                                        {{spell.cost}} оп.
+                                                    </td>
+                                                    <td ng-show="!isSpellAdded(spell.id)">
                                                     </td>
                                                     <td ng-show="isSpellAdded(spell.id)">
-                                                        <div ng-repeat="personageSpell in personageSpells">
+                                                        <div ng-repeat="personageSpell in personageSpells" style="margin-top: 7px">
                                                             <div ng-show="personageSpell.Spell.id == spell.id">
                                                                 {{personageSpell.level}} ур.
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td ng-show="isSpellAddedAndLevel0(spell.id)">
-                                                        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">Удалить</button>
+                                                        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">x</button>
                                                     </td>
                                                     <td ng-hide="isSpellAdded(spell.id)">
                                                         <button type="button" class="btn btn-link" ng-click="addPersonageSpell(spell.id)">Добавить
