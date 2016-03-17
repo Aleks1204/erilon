@@ -1,25 +1,19 @@
-
-
-$http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
-var deletePromises = [];
-
-angular.forEach(results.personageSpells, function (personageSpell) {
-deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
-});
-
-$q.all(deletePromises).then(function () {
-var addPromises = [];
-angular.forEach($scope.personageSpells, function (personageSpell) {
-addPromises.push($http.post('/personageSpells', {
-trigger_skill_id: personageSpell.Spell.id,
-personage_id: personageId,
-currentLevel: personageSpell.currentLevel,
-talented: personageSpell.talented,
-tutored: personageSpell.tutored
-}));
-});
-$q.all(addPromises).then(function () {
-personageSpellAllPromise.resolve();
-});
-});
-});
+<td style="vertical-align:middle; text-align: center" ng-show="isSpellAdded(spell.id)">
+    <button type="button" class="btn btn-default"
+            ng-click="increaseSpellLevel(spell.id)">
+        <span class="glyphicon glyphicon-triangle-top"/>
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="decreaseSpellLevel(spell.id)">
+        <span class="glyphicon glyphicon-triangle-bottom"/>
+    </button>
+</td>
+<td ng-show="isSpellAdded(spell.id)" style="vertical-align:middle;">
+    {{relatedPersonageSpell.level}}
+</td>
+<td ng-show="isSpellAdded(spell.id)">
+    <div ng-repeat="personageSpell in personageSpells">
+        <input ng-show="personageSpell.Spell.id == spell.id" type="checkbox" class="form-control" id="spellTutored"
+               ng-model="personageSpell.tutored">
+    </div>
+</td>

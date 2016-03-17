@@ -752,38 +752,27 @@
                                                 <tr>
                                                     <th>Название</th>
                                                     <th>Стоимость</th>
-                                                    <th>Уровень</th>
-                                                    <th>Учитель</th>
+                                                    <th></th>
                                                     <th></th>
                                                 </tr>
                                                 <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
                                                     <td style="vertical-align:middle;">
-                                                        {{spell.name}}
+                                                        <a href="#" class="btn btn-link" role="button" ng-click="showSpellDetail(spell.id)">
+                                                            {{ spell.name }}
+                                                        </a>
                                                     </td>
                                                     <td style="vertical-align:middle;">
                                                         {{spell.cost}}
                                                     </td>
-                                                    <td style="vertical-align:middle; text-align: center" ng-show="isSpellAdded(spell.id)">
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="increaseSpellLevel(spell.id)">
-                                                            <span class="glyphicon glyphicon-triangle-top"/>
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="decreaseSpellLevel(spell.id)">
-                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
-                                                        </button>
-                                                    </td>
-                                                    <td ng-show="isSpellAdded(spell.id)" style="vertical-align:middle;">
-                                                        {{relatedPersonageSpell.level}}
-                                                    </td>
                                                     <td ng-show="isSpellAdded(spell.id)">
                                                         <div ng-repeat="personageSpell in personageSpells">
-                                                            <input ng-show="personageSpell.Spell.id == spell.id" type="checkbox" class="form-control" id="spellTutored"
-                                                                   ng-model="personageSpell.tutored">
+                                                            <div ng-show="personageSpell.Spell.id == spell.id">
+                                                                {{personageSpell.level}} ур.
+                                                            </div>
                                                         </div>
                                                     </td>
-                                                    <td ng-show="isSpellAdded(spell.id)">
-                                                        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">x</button>
+                                                    <td ng-show="isSpellAddedAndLevel0(spell.id)">
+                                                        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">Удалить</button>
                                                     </td>
                                                     <td ng-hide="isSpellAdded(spell.id)">
                                                         <button type="button" class="btn btn-link" ng-click="addPersonageSpell(spell.id)">Добавить
@@ -821,11 +810,141 @@
         </div>
     </div>
 
-    <div id="alert" class="modal fade">
+    <div id="spellDetails" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Описание заклинания: <strong>{{spellDetails.spell.name}}</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <!--<p><strong>Описание заклинания</strong></p>-->
+                    <div class="row" ng-show="spellDetails.personageSpell == null">
+                        <div class="col-md-12 col-xs-12">
+                            <strong class="text-danger">У вас нет этого заклинания!</strong>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="spellDetails.personageSpell != null">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Ваш уровень:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.personageSpell.level}}
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="increaseSpellLevel(spellDetails.personageSpell)">
+                                <span class="glyphicon glyphicon-triangle-top"/>
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-click="decreaseSpellLevel(spellDetails.personageSpell)">
+                                <span class="glyphicon glyphicon-triangle-bottom"/>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="spellDetails.personageSpell != null">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Учитель:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            <input type="checkbox" class="form-control" id="spellTutored"
+                                   ng-model="spellDetails.personageSpell.tutored" style="margin-top: -6px; margin-left: -6px;">
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Кодовое название:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.spell.name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Сложность:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.spell.complexity}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Сложность создания:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.spell.creating_complexity}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Мана:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.spell.mana}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Поддержание:</strong>
+                        </div>
+                        <div ng-show="spellDetails.spell.instant">
+                            <div class="col-md-4 col-xs-4">
+                                Мгновенное
+                            </div>
+                        </div>
+                        <div ng-hide="spellDetails.spell.instant">
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.mana_support}} {{spellDetails.spell.mana_sup_time}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Стоимость:</strong>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            {{spellDetails.spell.cost}}
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Эффект:</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            {{spellDetails.spell.effect}}
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <strong>Описание:</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            {{spellDetails.spell.description}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="attachedSkillHasSpellsAlert" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Внимание!!!</h4>
                 </div>
                 <div class="modal-body">
@@ -900,7 +1019,6 @@
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
         $scope.currentMerit = null;
-        $scope.relatedPersonageSpell = null;
 
         var merits = $q.defer();
         var inherents = $q.defer();
@@ -998,15 +1116,43 @@
             personageAttachedSkills.resolve();
         });
 
+        $scope.showSpellDetail = function (spell_id) {
+            $scope.loader = true;
+            $scope.spellDetails = {
+                spell: null,
+                personageSpell: null
+            };
+            $http.get('/spells/' + spell_id).
+            success(function (result) {
+                $scope.spellDetails.spell = result.spell;
+                angular.forEach($scope.personageSpells, function (personageSpell) {
+                    if (personageSpell.Spell.id == spell_id) {
+                        $scope.spellDetails.personageSpell = personageSpell;
+                    }
+                });
+                $scope.loader = false;
+                jQuery('#spellDetails').modal('show');
+            });
+        };
+
         $scope.isSpellAdded = function (id) {
             var spellAdded = false;
             angular.forEach($scope.personageSpells, function (personageSpell) {
                 if (personageSpell.Spell.id == id) {
-                    $scope.relatedPersonageSpell = personageSpell;
                     spellAdded = true;
                 }
             });
             return spellAdded;
+        };
+
+        $scope.isSpellAddedAndLevel0 = function (id) {
+            var isSpellAddedAndLevel0 = false;
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (personageSpell.Spell.id == id && personageSpell.level == 0) {
+                    isSpellAddedAndLevel0 = true;
+                }
+            });
+            return isSpellAddedAndLevel0;
         };
 
         $scope.addPersonageSpell = function (id) {
@@ -1035,41 +1181,32 @@
             });
         };
 
-        $scope.increaseSpellLevel = function (spell_id) {
-            angular.forEach($scope.personageSpells, function (personageSpell) {
-                if (personageSpell.Spell.id == spell_id) {
-                    var cost;
-                    if (personageSpell.level < 5) {
-                        if (personageSpell.tutored) {
-                            cost = personageSpell.Spell.cost;
-                            personageSpell.tutored = false;
-                        } else {
-                            cost = personageSpell.Spell.cost * 2;
-                        }
-
-                        personageSpell.level++;
-                        $scope.personage.experience = $scope.personage.experience - cost;
-                        $http.post('/history', {
-                            key: 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP',
-                            value: cost.toString()
-                        });
-                    }
+        $scope.increaseSpellLevel = function (personageSpell) {
+            var cost;
+            if (personageSpell.level < 5) {
+                if (personageSpell.tutored) {
+                    cost = personageSpell.Spell.cost;
+                    personageSpell.tutored = false;
+                } else {
+                    cost = personageSpell.Spell.cost * 2;
                 }
-            });
+
+                personageSpell.level++;
+                $scope.personage.experience = $scope.personage.experience - cost;
+                $http.post('/history', {
+                    key: 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP',
+                    value: cost.toString()
+                });
+            }
         };
 
-        $scope.decreaseSpellLevel = function (spell_id) {
-            angular.forEach($scope.personageSpells, function (personageSpell) {
-                if (personageSpell.Spell.id == spell_id) {
-                    if (personageSpell.level > 0) {
-                        $http.get('/byKey/' + 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP').success(function (result) {
-                            $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
-                            personageSpell.level--;
-                        });
-                    }
-                }
-            });
-
+        $scope.decreaseSpellLevel = function (personageSpell) {
+            if (personageSpell.level > 0) {
+                $http.get('/byKey/' + 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP').success(function (result) {
+                    $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                    personageSpell.level--;
+                });
+            }
         };
 
         $scope.increaseAttribute = function (id) {
@@ -1830,7 +1967,7 @@
                 angular.forEach($scope.personageSpells, function (personageSpell) {
                     if (personageSpell.Spell.AttachedSkillId == personageAttachedSkill.AttachedSkill.id && !hasSpells) {
                         hasSpells = true;
-                        jQuery('#alert').modal('show');
+                        jQuery('#attachedSkillHasSpellsAlert').modal('show');
                     }
                 });
             }
