@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
         age: DataTypes.INTEGER,
         max_age: DataTypes.INTEGER,
         generated: DataTypes.BOOLEAN,
-        experience: DataTypes.INTEGER
+        experience: DataTypes.INTEGER,
+        notes: DataTypes.TEXT
     }, {
         classMethods: {
             associate: function(models) {

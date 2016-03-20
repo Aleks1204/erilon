@@ -732,7 +732,7 @@
                         </div>
                     </a>
                 </h4>
-                <div id="spells" class="panel-collapse collapse in">
+                <div id="spells" class="panel-collapse collapse">
                     <div class="panel-body">
 
                         <div ng-repeat="school in schools | orderBy : 'name'">
@@ -792,13 +792,13 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
                         <div class="panel-heading">
-                            Инвентарь
+                            Заметки
                         </div>
                     </a>
                 </h4>
-                <div id="inventory" class="panel-collapse collapse">
+                <div id="inventory" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        Инвентарь
+                        <textarea id="notes" ng-model="notes" style="width: 100%; height: 100%;"></textarea>
                     </div>
                 </div>
             </div>
@@ -814,7 +814,6 @@
                     <h4 class="modal-title">Описание заклинания: <strong>{{spellDetails.spell.name}}</strong></h4>
                 </div>
                 <div class="modal-body">
-                    <!--<p><strong>Описание заклинания</strong></p>-->
                     <div class="row" ng-show="spellDetails.personageSpell == null">
                         <div class="col-md-12 col-xs-12">
                             <strong class="text-danger">У вас нет этого заклинания!</strong>
@@ -1088,6 +1087,7 @@
             $scope.personageFlaws = data.personage.PersonageFlaws;
             $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
             $scope.personageSpells = data.personage.PersonageSpells;
+            $scope.notes = data.personage.notes;
             personage.resolve();
         });
 
@@ -2171,7 +2171,8 @@
                 age: $scope.age,
                 max_age: $scope.max_age,
                 generated: false,
-                experience: $scope.personage.experience
+                experience: $scope.personage.experience,
+                notes: $scope.notes
             }).success(function (data) {
                 personage.resolve();
             });
