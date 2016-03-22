@@ -1970,11 +1970,12 @@
             var personageFlawAllPromise = $q.defer();
             var personageAttachedSkillAllPromise = $q.defer();
             var personageTriggerSkillAllPromise = $q.defer();
+            var personageSpellsAllPromise = $q.defer();
 
             $q.all([personageAttributeAllPromise.promise, personage.promise,
                         personageMeritAllPromise.promise, personageInherentAllPromise.promise,
                         personageFlawAllPromise.promise, personageAttachedSkillAllPromise.promise,
-                        personageTriggerSkillAllPromise.promise])
+                        personageTriggerSkillAllPromise.promise, personageSpellsAllPromise.promise])
                     .then(success);
 
             $http.put('/personages/' + personageId, {
@@ -1983,7 +1984,8 @@
                 age: $scope.age,
                 max_age: $scope.max_age,
                 generated: false,
-                experience: $scope.personage.experience
+                experience: $scope.personage.experience,
+                notes: $scope.notes
             }).success(function (data) {
                 personage.resolve();
             });
@@ -2108,6 +2110,29 @@
                     });
                     $q.all(addPromises).then(function () {
                         personageTriggerSkillAllPromise.resolve();
+                    });
+                });
+            });
+
+            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
+
+                angular.forEach(results.personageSpells, function (personageSpell) {
+                    deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
+                });
+
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageSpells, function (personageSpell) {
+                        addPromises.push($http.post('/personageSpells', {
+                            spell_id: personageSpell.Spell.id,
+                            personage_id: personageId,
+                            level: personageSpell.level,
+                            tutored: personageSpell.tutored
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageSpellsAllPromise.resolve();
                     });
                 });
             });
