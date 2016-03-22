@@ -978,11 +978,15 @@
     var personageId = /id=(\d+)/.exec(window.location.href)[1];
     var app = angular.module("personageApp", []);
 
-    app.controller("personageController", function ($scope, $http, $q, $timeout) {
+    app.controller("personageController", function ($scope, $http, $q, $timeout, $window) {
         $scope.loader = true;
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
         $scope.currentMerit = null;
+
+        $window.onbeforeunload =  function() {
+            return "go away!";
+        };
 
         var merits = $q.defer();
         var inherents = $q.defer();
