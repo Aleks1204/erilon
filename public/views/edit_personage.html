@@ -1147,6 +1147,17 @@
         };
 
         $scope.increaseSpellLevel = function (personageSpell) {
+            $scope.loader = true;
+
+            var increaseLevel = $q.defer();
+
+            function success(data) {
+                $scope.loader = false;
+            }
+
+            var all = $q.all([increaseLevel.promise]);
+            all.then(success);
+
             var cost;
             if (personageSpell.level < 5) {
                 if (personageSpell.tutored) {
@@ -1161,16 +1172,36 @@
                 $http.post('/history', {
                     key: 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP',
                     value: cost.toString()
+                }).success(function() {
+                    increaseLevel.resolve();
                 });
+            } else {
+                increaseLevel.resolve();
             }
         };
 
         $scope.decreaseSpellLevel = function (personageSpell) {
+
+            $scope.loader = true;
+
+            var decreaseLevel = $q.defer();
+
+            function success(data) {
+                $scope.loader = false;
+            }
+
+            var all = $q.all([decreaseLevel.promise]);
+            all.then(success);
+
             if (personageSpell.level > 0) {
                 $http.get('/byKey/' + 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP').success(function (result) {
                     $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
                     personageSpell.level--;
+                }).success(function() {
+                    decreaseLevel.resolve();
                 });
+            } else {
+                decreaseLevel.resolve();
             }
         };
 
