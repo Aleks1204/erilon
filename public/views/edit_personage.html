@@ -1000,6 +1000,7 @@
 
         function success(data) {
             $scope.recalculateMagicSchools();
+            $scope.recalculateBasicCharacteristics();
             $scope.loader = false;
         }
 
@@ -1063,6 +1064,62 @@
             $scope.notes = data.personage.notes;
             personage.resolve();
         });
+
+        $scope.recalculateBasicCharacteristics = function () {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                switch (personageAttribute.Attribute.name) {
+                    case "Сила":
+                        $scope.power = personageAttribute.value;
+                        break;
+                    case "Ловкость":
+                        $scope.dexterity = personageAttribute.value;
+                        break;
+                    case "Скорость":
+                        $scope.speed = personageAttribute.value;
+                        break;
+                    case "Реакция":
+                        $scope.reaction = personageAttribute.value;
+                        break;
+                    case "Восприятие":
+                        $scope.perception = personageAttribute.value;
+                        break;
+                    case "Выносливость":
+                        $scope.endurance = personageAttribute.value;
+                        break;
+                    case "Живучесть":
+                        $scope.vitality = personageAttribute.value;
+                        break;
+                    case "Мудрость":
+                        $scope.wisdom = personageAttribute.value;
+                        break;
+                    case "Интеллект":
+                        $scope.intelligence = personageAttribute.value;
+                        break;
+                    case "Воля":
+                        $scope.will = personageAttribute.value;
+                        break;
+                    case "Харизма":
+                        $scope.charisma = personageAttribute.value;
+                        break;
+                }
+            });
+
+            $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
+            $scope.hitChopPunch = $scope.dexterity + $scope.power;
+            $scope.rangedHit = $scope.dexterity + $scope.perception;
+            $scope.parryPiercePunch = $scope.reaction + $scope.speed;
+            $scope.parryChopPunch = $scope.power + $scope.reaction;
+            $scope.dodge = $scope.dexterity + $scope.reaction;
+            if ($scope.speed < $scope.intelligence) {
+                $scope.generalActionPoints = $scope.speed;
+            } else {
+                $scope.generalActionPoints = $scope.intelligence;
+            }
+            $scope.mentalActionPoints = $scope.intelligence;
+            $scope.initiative = $scope.reaction;
+            $scope.endurancePoints = $scope.endurance * 20;
+
+        };
 
         $scope.recalculateMagicSchools = function () {
             $scope.schools = [];
@@ -1220,6 +1277,7 @@
                     });
                 }
             });
+            $scope.recalculateBasicCharacteristics();
         };
 
 
@@ -1336,6 +1394,7 @@
                     });
                 }
             });
+            $scope.recalculateBasicCharacteristics();
             $scope.loader = false;
         };
 
