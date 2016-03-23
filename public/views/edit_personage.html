@@ -2144,7 +2144,7 @@
             $scope.loader = true;
 
             function success(data) {
-                location.reload();
+                $scope.loader = false;
             }
 
             var personage = $q.defer();
