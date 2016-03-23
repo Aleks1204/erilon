@@ -54,6 +54,96 @@
             </div>
         </form>
 
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                Попадание (колющий/режущий удар):
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{hitPiercePunch}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                попадание (рубящий удар):
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{hitChopPunch}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                попадание (дальнобойное):
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{rangedHit}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                парирование (колющий/режущий удар):
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{parryPiercePunch}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                парирование(рубящий удар):
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{parryChopPunch}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                уклонение:
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{dodge}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                общие ОД:
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{generalActionPoints}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                Ментальные ОД:
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{mentalActionPoints}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                Инициатива:
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{initiative}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                Очки выносливости:
+            </div>
+            <div class="col-xs-offset-2 col-xs-4">
+                {{endurancePoints}}
+            </div>
+        </div>
+
     </div>
 
     <div>
@@ -532,6 +622,7 @@
         var personageMerits = $q.defer();
 
         function success(data) {
+            $scope.recalculateBasicCharacteristics();
             $scope.loader = false;
         }
 
@@ -588,6 +679,62 @@
                     $scope.schools.push(data.attachedSkill);
                 });
             });
+        };
+
+        $scope.recalculateBasicCharacteristics = function () {
+            angular.forEach($scope.personageAttributes, function (personageAttribute) {
+                switch (personageAttribute.Attribute.name) {
+                    case "Сила":
+                        $scope.power = personageAttribute.value;
+                        break;
+                    case "Ловкость":
+                        $scope.dexterity = personageAttribute.value;
+                        break;
+                    case "Скорость":
+                        $scope.speed = personageAttribute.value;
+                        break;
+                    case "Реакция":
+                        $scope.reaction = personageAttribute.value;
+                        break;
+                    case "Восприятие":
+                        $scope.perception = personageAttribute.value;
+                        break;
+                    case "Выносливость":
+                        $scope.endurance = personageAttribute.value;
+                        break;
+                    case "Живучесть":
+                        $scope.vitality = personageAttribute.value;
+                        break;
+                    case "Мудрость":
+                        $scope.wisdom = personageAttribute.value;
+                        break;
+                    case "Интеллект":
+                        $scope.intelligence = personageAttribute.value;
+                        break;
+                    case "Воля":
+                        $scope.will = personageAttribute.value;
+                        break;
+                    case "Харизма":
+                        $scope.charisma = personageAttribute.value;
+                        break;
+                }
+            });
+
+            $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
+            $scope.hitChopPunch = $scope.dexterity + $scope.power;
+            $scope.rangedHit = $scope.dexterity + $scope.perception;
+            $scope.parryPiercePunch = $scope.reaction + $scope.speed;
+            $scope.parryChopPunch = $scope.power + $scope.reaction;
+            $scope.dodge = $scope.dexterity + $scope.reaction;
+            if ($scope.speed < $scope.intelligence) {
+                $scope.generalActionPoints = $scope.speed;
+            } else {
+                $scope.generalActionPoints = $scope.intelligence;
+            }
+            $scope.mentalActionPoints = $scope.intelligence;
+            $scope.initiative = $scope.reaction;
+            $scope.endurancePoints = $scope.endurance * 20;
+
         };
 
         $scope.showSpellDetail = function (personageSpell) {
