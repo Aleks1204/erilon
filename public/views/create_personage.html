@@ -497,7 +497,7 @@
                         </div>
                     </a>
                 </h4>
-                <div id="perks" class="panel-collapse collapse">
+                <div id="perks" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div>
                             <div class="panel-group" id="perkAccordeon">
@@ -510,7 +510,7 @@
                                             </div>
                                         </a>
                                     </h4>
-                                    <div id="inherents" class="panel-collapse collapse">
+                                    <div id="inherents" class="panel-collapse collapse in">
 
 
                                         <div class="panel-body">
@@ -534,12 +534,21 @@
                                                 </tr>
                                             </table>
 
-                                            <button type="button" class="btn btn-default pull-right"
-                                                    ng-click="calculateInherentSelectOptions()"
-                                                    data-toggle="modal"
-                                                    data-target="#addInherentDialog">Добавить
-                                                врожденное
-                                            </button>
+                                            <div class="row">
+                                                <div class="col-md-offset-8 col-md-2 col-xs-2">
+                                                    <button ng-show="showGenerateIneherentsButton" type="button" class="btn btn-default pull-right"
+                                                            ng-click="randomizeInherentsAndValues()">Сгенерить врожденки
+                                                    </button>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <button type="button" class="btn btn-default pull-right"
+                                                            ng-click="calculateInherentSelectOptions()"
+                                                            data-toggle="modal"
+                                                            data-target="#addInherentDialog">Добавить
+                                                        врожденное
+                                                    </button>
+                                                </div>
+                                            </div>
 
                                             <div id="addInherentDialog" class="modal fade" role="dialog">
                                                 <div class="modal-dialog">
@@ -1104,6 +1113,7 @@
         $scope.isMobile = isMobile.android.phone;
         $scope.meritAvailable = true;
         $scope.currentMerit = null;
+        $scope.showGenerateIneherentsButton = true;
 
         $window.onbeforeunload = function () {
             return "go away!";
@@ -1118,15 +1128,18 @@
         var raceAttributes = $q.defer();
         var personageMerits = $q.defer();
         var personageAttachedSkills = $q.defer();
+        var raceInherents = $q.defer();
 
         function success(data) {
+            $scope.hasInherents();
             $scope.recalculateMagicSchools();
             $scope.recalculateBasicCharacteristics();
             $scope.loader = false;
         }
 
         var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
-            triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise, personageAttachedSkills.promise]);
+            triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise,
+            personageAttachedSkills.promise, raceInherents.promise]);
 
         all.then(success);
 
@@ -1174,6 +1187,11 @@
                 $scope.raceAttributes = data.raceAttributes;
                 raceAttributes.resolve();
             });
+            $http.get('/raceInherentsByRaceId/' + data.personage.RaceId).
+            success(function (data) {
+                $scope.raceInherents = data.raceInherents;
+                raceInherents.resolve();
+            });
             $scope.experienceValid = function () {
                 return $scope.personage.experience < 0;
             };
@@ -1185,6 +1203,94 @@
             $scope.notes = data.personage.notes;
             personage.resolve();
         });
+
+        $scope.randomizeInherentsAndValues = function () {
+            $scope.loader = true;
+            randomizeInherents();
+            $scope.loader = true;
+        };
+
+        function randomizeInherents() {
+            var promises = [];
+            angular.forEach($scope.inherents, function (inherent) {
+                var probability = inherent.probability;
+
+                angular.forEach($scope.raceInherents, function (raceInherent) {
+                    if (raceInherent.Inherent.id == inherent.id) {
+                        probability = raceInherent.race_probability;
+                    }
+                });
+
+                var random = Math.floor((Math.random() * probability) + 1);
+                if (random == probability) {
+                    promises.push($scope.addPersonageInherent(inherent.id));
+                }
+            });
+
+            $q.all(promises).then(function () {
+                $scope.loader = true;
+                randomizeInherentValues();
+                setHasInherents();
+                $scope.savePersonage();
+            });
+        }
+
+        function randomizeInherentValues() {
+            angular.forEach($scope.personageInherents, function (personageInherent) {
+                if (personageInherent.Inherent.name == 'Внешность') {
+                    var random = Math.floor((Math.random() * 9) + 1);
+                    switch (random) {
+                        case 1:
+                            personageInherent.value = -3;
+                            break;
+                        case 2:
+                            personageInherent.value = -2;
+                            break;
+                        case 3:
+                            personageInherent.value = -1;
+                            break;
+                        case 4:
+                            personageInherent.value = 0;
+                            break;
+                        case 5:
+                            personageInherent.value = 0;
+                            break;
+                        case 6:
+                            personageInherent.value = 0;
+                            break;
+                        case 7:
+                            personageInherent.value = 1;
+                            break;
+                        case 8:
+                            personageInherent.value = 2;
+                            break;
+                        case 9:
+                            personageInherent.value = 3;
+                            break;
+                    }
+                }
+                if (personageInherent.Inherent.name == 'Маг' || personageInherent.Inherent.name == 'Везение') {
+                    personageInherent.value = Math.floor((Math.random() * 6) + 1);
+                }
+            });
+        }
+
+        function setHasInherents() {
+            return $http.post('/history', {
+                key: 'HAS_INHERENTS' + personageId,
+                value: 'TRUE'
+            });
+        }
+
+        $scope.hasInherents = function () {
+            $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).success(function (result) {
+                if (result.result != null) {
+                    if (result.result.value == 'TRUE') {
+                        $scope.showGenerateIneherentsButton = false;
+                    }
+                }
+            });
+        };
 
         $scope.recalculateBasicCharacteristics = function () {
             angular.forEach($scope.personageAttributes, function (personageAttribute) {
@@ -2024,7 +2130,7 @@
             $scope.loader = true;
             jQuery('#addInherentDialog').modal('hide');
 
-            $http.get('/inherents/' + inherent_id).
+            return $http.get('/inherents/' + inherent_id).
             success(function (result) {
                 $scope.personageInherents.push({
                     Inherent: result.inherent,
