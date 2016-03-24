@@ -1231,7 +1231,6 @@
                 $scope.loader = true;
                 randomizeInherentValues();
                 setHasInherents();
-                $scope.hasInherents();
                 $scope.savePersonage();
             });
         }
@@ -1277,10 +1276,10 @@
         }
 
         function setHasInherents() {
-            return $http.post('/history', {
+            $http.post('/history', {
                 key: 'HAS_INHERENTS' + personageId,
                 value: 'TRUE'
-            });
+            }).success($scope.hasInherents);
         }
 
         $scope.hasInherents = function () {
