@@ -312,6 +312,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.showDerivativeDescription = function (derivative) {
+        jQuery('#' + derivative).modal('show');
+    };
+
     $scope.isSpellAdded = function (id) {
         var spellAdded = false;
         angular.forEach($scope.personageSpells, function (personageSpell) {

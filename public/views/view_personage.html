@@ -54,69 +54,7 @@
             </div>
         </form>
 
-        <div class="row">
-            <div class="col-xs-offset-1 col-md-2 col-xs-2">
-                <img src="/images/hitPiercePunch.png" width="20" height="20">
-                {{hitPiercePunch}}
-            </div>
-
-            <div class="col-xs-offset-1 col-md-2 col-xs-2">
-                <img src="/images/hitChopPunch.png" width="20" height="20">
-                {{hitChopPunch}}
-            </div>
-
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/rangedHit.png" width="20" height="20">
-                {{rangedHit}}
-            </div>
-        </div>
-        <br/>
-
-        <div class="row">
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/parryPiercePunch.png" width="20" height="20">
-                {{parryPiercePunch}}
-            </div>
-
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/parryChopPunch.png" width="20" height="20">
-                {{parryChopPunch}}
-            </div>
-
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/dodge.png" width="20" height="20">
-                {{dodge}}
-            </div>
-        </div>
-        <br/>
-
-        <div class="row">
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/generalActionPoints.png" width="20" height="20">
-                {{generalActionPoints}}
-            </div>
-
-            <div class="col-xs-offset-1 col-xs-2">
-                <img src="/images/mentalActionPoints.png" width="20" height="20">
-                {{mentalActionPoints}}
-            </div>
-
-            <div class="col-xs-offset-1 col-xs-3">
-                <img src="/images/endurancePoints.png" width="20" height="20">
-                {{endurancePoints}}
-            </div>
-        </div>
-        <br/>
-
-        <div class="row">
-
-            <div class="col-xs-offset-1 col-xs-2">
-                Инициатива:
-            </div>
-            <div class="col-xs-offset-2 col-xs-4">
-                {{initiative}}
-            </div>
-        </div>
+        <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
 
     </div>
 
@@ -714,6 +652,10 @@
         $scope.showSpellDetail = function (personageSpell) {
             $scope.currentPersonageSpell = personageSpell;
             jQuery('#spellDetails').modal('show');
+        };
+
+        $scope.showDerivativeDescription = function (derivative) {
+            jQuery('#' + derivative).modal('show');
         };
 
     });
