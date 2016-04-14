@@ -13,10 +13,10 @@
 </head>
 
 <body ng-app="personageManagerApp">
-<div data-ng-include data-src="'views/main-menu.html'"></div>
+<div data-ng-include data-src="'main-menu.html'"></div>
 
 <div ng-controller="personageListController">
-    <div data-ng-include data-src="'views/loader.html'"></div>
+    <div data-ng-include data-src="'loader.html'"></div>
     <table class="table table-striped">
         <tr ng-repeat="personage in personages | orderBy : 'id'">
             <td style="vertical-align:middle; text-align: center;">
@@ -45,7 +45,7 @@
 
     <form class="form-horizontal" role="form" ng-controller="addPersonageController"
           name="createPersonageForm">
-        <div data-ng-include data-src="'views/loader.html'"></div>
+        <div data-ng-include data-src="'loader.html'"></div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Имя:</label>
 
@@ -87,6 +87,7 @@
 <script>
     var app = angular.module("personageManagerApp", []);
 
+    var playerId = /id=(\d+)/.exec(window.location.href)[1];
     app.controller("addPersonageController", function ($scope, $http, $window, $q) {
         $scope.loader = false;
 
@@ -112,6 +113,7 @@
             $http.post('/personages', {
                 name: $scope.name,
                 race_id: $scope.race_id,
+                player_id: playerId,
                 age: 0,
                 max_age: 0,
                 experience: $scope.experience,
@@ -216,9 +218,11 @@
     });
 
     app.controller("personageListController", function ($scope, $http) {
-        $http.get('/personages').
+        $scope.loader = true;
+        $http.get('/personagesByPlayerId/' + playerId).
         success(function (data) {
             $scope.personages = data.personages;
+            $scope.loader = false;
         });
 
         $scope.deletePersonage = function (id) {

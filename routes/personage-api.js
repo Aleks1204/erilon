@@ -9,6 +9,7 @@ var log = require('../log')(module);
 router.post('/personages', function (req, res) {
     var Personage = models.Personage.create({
         RaceId: req.body.race_id,
+        PlayerId: req.body.player_id,
         name: req.body.name,
         age: req.body.age,
         max_age: req.body.max_age,
@@ -23,6 +24,17 @@ router.post('/personages', function (req, res) {
 
 router.get('/personages', function (req, res) {
     models.Personage.findAll({
+        include: [models.Race]
+    }).then(function (personags) {
+        return res.send({personages: personages});
+    });
+});
+
+router.get('/personagesByPlayerId/:id', function (req, res) {
+    models.Personage.findAll({
+        where: {
+            PlayerId: req.params.id
+        },
         include: [models.Race]
     }).then(function (personages) {
         return res.send({personages: personages});

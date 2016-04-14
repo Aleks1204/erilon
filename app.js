@@ -34,6 +34,7 @@ var meritFlawApi = require('./routes/merit-flaw-api');
 var meritMeritApi = require('./routes/merit-merit-api');
 var spellApi = require('./routes/spell-api');
 var personageSpellApi = require('./routes/personage-spell-api');
+var playerApi = require('./routes/player-api');
 
 var isMobile = require('ismobilejs');
 
@@ -81,6 +82,7 @@ app.use('', meritFlawApi);
 app.use('', meritMeritApi);
 app.use('', spellApi);
 app.use('', personageSpellApi);
+app.use('', playerApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');
@@ -95,7 +97,7 @@ app.use(bodyParser.json());
 
 
 app.get('/', function(req, res){
-    res.render('index.html');
+    res.render('login/login.html');
 });
 
 // catch 404 and forward to error handler

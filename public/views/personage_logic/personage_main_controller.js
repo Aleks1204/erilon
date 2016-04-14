@@ -125,6 +125,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
         $scope.personageSpells = data.personage.PersonageSpells;
         $scope.notes = data.personage.notes;
+        $scope.playerId = data.personage.PlayerId;
         personage.resolve();
     });
 

@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 Personage.belongsTo(models.Race, {foreignKeyConstraint: true});
+                Personage.belongsTo(models.Player, {foreignKeyConstraint: true});
                 Personage.hasMany(models.PersonageAttribute);
                 Personage.hasMany(models.PersonageMerit);
                 Personage.hasMany(models.PersonageInherent);
