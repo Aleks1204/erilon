@@ -58,7 +58,10 @@ if (!global.hasOwnProperty('db')) {
         MeritMerit:      sequelize.import(__dirname + '/meritMerit'),
         Spell:      sequelize.import(__dirname + '/spell'),
         PersonageSpell:      sequelize.import(__dirname + '/personageSpell'),
-        Player:      sequelize.import(__dirname + '/player')
+        Player:      sequelize.import(__dirname + '/player'),
+        Permission:      sequelize.import(__dirname + '/Permission'),
+        Role:      sequelize.import(__dirname + '/role'),
+        RolePermission:      sequelize.import(__dirname + '/RolePermission')
         // add your other models here
     };
 

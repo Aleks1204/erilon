@@ -8,6 +8,7 @@ var log = require('../log')(module);
 
 router.post('/players', function (req, res) {
     models.Player.create({
+        RoleId: req.body.role_id,
         name: req.body.name
 
     }).then(function (player) {
@@ -22,7 +23,15 @@ router.get('/players', function (req, res) {
 });
 
 router.get('/players/:id', function (req, res) {
-    models.Player.findById(req.params.id).
+    models.Player.findById(req.params.id, {
+        include: [{
+            model: models.Role,
+            include: [{
+                model: models.RolePermission,
+                include: [models.Permission]
+            }]
+        }]
+    }).
     then(function (player) {
         if (!player) {
             res.statusCode = 404;

@@ -10,6 +10,7 @@ app.controller("loginController", function ($scope, $http, $window) {
                 $window.location.href = '/views/user_personage_manager.html?id=' + result.player.id;
             } else {
                 $http.post('/players', {
+                    role_id: 2,
                     name: $scope.nickName
                 }).success(function (result) {
                     $window.location.href = '/views/user_personage_manager.html?id=' + result.player.id;
@@ -17,8 +18,4 @@ app.controller("loginController", function ($scope, $http, $window) {
             }
         });
     };
-
-    function createPersonage(name) {
-
-    }
 });
