@@ -1,23 +1,36 @@
-<div class="panel-group">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" href="#main_menu">Главное меню</a>
-            </h4>
-        </div>
-        <div id="main_menu" class="panel-collapse collapse">
-            <ul class="list-group">
-                <li class="list-group-item"><a href="/">Сменить юзера</a></li>
-                <li class="list-group-item"><a href="/views/race_manager.html">Расы</a></li>
-                <li class="list-group-item"><a href="/views/attribute_manager.html">Атрибуты</a></li>
-                <li class="list-group-item"><a href="/views/merit_manager.html">Достоинства</a></li>
-                <li class="list-group-item"><a href="/views/inherent_manager.html">Врожденные особенности</a></li>
-                <li class="list-group-item"><a href="/views/flaw_manager.html">Недостатки</a></li>
-                <li class="list-group-item"><a href="/views/attached_skills/attached_skills_manager.html">Прикрепленные навыки</a></li>
-                <li class="list-group-item"><a href="/views/trigger_skills_manager.html">Тригерные навыки</a></li>
-                <li class="list-group-item"><a href="/views/spells_manager.html">Заклинания</a></li>
-                <li class="list-group-item"><a href="/views/user_personage_manager.html?id={{playerId}}">Мои персонажи</a></li>
-            </ul>
+<div ng-controller="permissionsController">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#main_menu">Главное меню</a>
+                        </h4>
+                    </div>
+                    <div class="col-xs-6">
+                        Права: {{player.Role.name}}
+                    </div>
+                </div>
+            </div>
+            <div id="main_menu" class="panel-collapse collapse">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/" ng-click="deleteUserCookie()">Сменить юзера</a></li>
+                    <li class="list-group-item" ng-show="hasManagePermissionsAccess()"><a
+                            href="/views/permissions/managePermissions.html">Управление доступом</a></li>
+                    <li class="list-group-item"><a href="/views/races/race_manager.html">Расы</a></li>
+                    <li class="list-group-item"><a href="/views/attributes/attribute_manager.html">Атрибуты</a></li>
+                    <li class="list-group-item"><a href="/views/merits/merit_manager.html">Достоинства</a></li>
+                    <li class="list-group-item"><a href="/views/inherents/inherent_manager.html">Врожденные особенности</a></li>
+                    <li class="list-group-item"><a href="/views/flaws/flaw_manager.html">Недостатки</a></li>
+                    <li class="list-group-item"><a href="/views/attached_skills/attached_skills_manager.html">Прикрепленные
+                        навыки</a></li>
+                    <li class="list-group-item"><a href="/views/trigger_skills/trigger_skills_manager.html">Тригерные навыки</a></li>
+                    <li class="list-group-item"><a href="/views/spells/spells_manager.html">Заклинания</a></li>
+                    <li class="list-group-item"><a href="/views/user_personage_manager.html?id={{player.id}}">Мои
+                        персонажи</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

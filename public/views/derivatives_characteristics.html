@@ -1,242 +1,243 @@
 <div class="row">
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('hitPiercePunchDescription')" style="cursor: pointer;">
+        <div style="cursor: pointer;" uib-tooltip-html="hitPiercePunchDescription">
             <img src="/images/hitPiercePunch.png" style="vertical-align: top" width="30" height="30"/>
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{hitPiercePunch}}</span>
         </div>
-        <div id="hitPiercePunchDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Попадание колющим ударом.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="hitPiercePunchDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Попадание колющим ударом.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('hitChopPunchDescription')" style="cursor: pointer;">
-            <img src="/images/hitChopPunch.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="hitChopPunchDescription" src="/images/hitChopPunch.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{hitChopPunch}}</span>
         </div>
-        <div id="hitChopPunchDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Попадание рубящим ударом.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="hitChopPunchDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Попадание рубящим ударом.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('rangedHitDescription')" style="cursor: pointer;">
-            <img src="/images/rangedHit.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="rangedHitDescription" src="/images/rangedHit.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{rangedHit}}</span>
         </div>
-        <div id="rangedHitDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Попадание дальнобойным оружием.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="rangedHitDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Попадание дальнобойным оружием.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 <br/>
 
 <div class="row">
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('parryPiercePunchDescription')" style="cursor: pointer;">
-            <img src="/images/parryPiercePunch.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="parryPiercePunchDescription" src="/images/parryPiercePunch.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{parryPiercePunch}}</span>
         </div>
-        <div id="parryPiercePunchDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Парирование колющего удара.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="parryPiercePunchDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Парирование колющего удара.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('parryChopPunchDescription')" style="cursor: pointer;">
-            <img src="/images/parryChopPunch.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="parryChopPunchDescription" src="/images/parryChopPunch.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{parryChopPunch}}</span>
         </div>
-        <div id="parryChopPunchDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Парирование рубящего удара.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="parryChopPunchDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Парирование рубящего удара.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('dodgeDescription')" style="cursor: pointer;">
-            <img src="/images/dodge.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="dodgeDescription" src="/images/dodge.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{dodge}}</span>
         </div>
-        <div id="dodgeDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Уклонение.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="dodgeDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Уклонение.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 <br/>
 
 <div class="row">
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('generalActionPointsDescription')" style="cursor: pointer;">
-            <img src="/images/generalActionPoints.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="generalActionPointsDescription" src="/images/generalActionPoints.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{generalActionPoints}}</span>
         </div>
-        <div id="generalActionPointsDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Общие очки действия.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="generalActionPointsDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Общие очки действия.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество очков выносливости персонажа. Тратится на активацию заклинаний-->
+                            <!--и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('mentalActionPointsDescription')" style="cursor: pointer;">
-            <img src="/images/mentalActionPoints.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="mentalActionPointsDescription" src="/images/mentalActionPoints.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{mentalActionPoints}}</span>
         </div>
-        <div id="mentalActionPointsDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Ментальные очки действия.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="mentalActionPointsDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Ментальные очки действия.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="col-xs-4 text-center">
-        <div ng-click="showDerivativeDescription('endurancePointsDescription')" style="cursor: pointer;">
-            <img src="/images/endurancePoints.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="endurancePointsDescription" src="/images/endurancePoints.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{endurancePoints}}</span>
         </div>
-        <div id="endurancePointsDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Очки выносливости (мана).</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="endurancePointsDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Очки выносливости (мана).</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 <br/>
 
 <div class="row">
     <div class="col-xs-12 text-center">
-        <div ng-click="showDerivativeDescription('initiativeDescription')" style="cursor: pointer;">
-            <img src="/images/initiative.png" style="vertical-align: top" width="30" height="30">
+        <div style="cursor: pointer;">
+            <img uib-tooltip-html="initiativeDescription" src="/images/initiative.png" style="vertical-align: top" width="30" height="30">
             <span style="line-height: 1; font-size: 30px; vertical-align: top">{{initiative}}</span>
         </div>
-        <div id="initiativeDescription" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Инициатива.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Описалово что это такое нахуя все это нужно</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div id="initiativeDescription" class="modal fade">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title">Инициатива.</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Раса</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="/views/permissions/permissions.js"></script>
+    <script src="race.js"></script>
+    <script src="/views/permissions/check_player_permissions.js"></script>
+</head>
+<body ng-app="raceApp">
+<div ng-controller="permissionsController">
+    <div data-ng-include data-src="'/views/main-menu.html'"></div>
+    <div ng-controller="raceAttributeListController">
+        <h2 class="text-center">{{race.name}}</h2>
+
+        <h3 class="text-center">Атрибуты</h3>
+        <table class="table table-striped">
+            <tr ng-repeat="raceAttribute in raceAttributes | orderBy : 'Attribute.name'">
+                <td style="vertical-align:middle;">{{ raceAttribute.Attribute.name}}</td>
+                <td ng-if="show(raceAttribute.id)">
+                    <input type="number" ng-model="raceAttribute.base_cost"
+                           class="form-control" id="base_cost">
+                </td>
+
+                <td ng-if="!show(raceAttribute.id)" style="vertical-align:middle;">{{ raceAttribute.base_cost }}</td>
+                <td ng-show="!show(raceAttribute.id)">
+                    <a class="btn btn-link" ng-click="changeRaceAttribute(raceAttribute.id)">Изменить</a>
+                </td>
+                <td ng-show="show(raceAttribute.id)">
+                    <a class="btn btn-link" ng-click="saveRaceAttribute(raceAttribute.id)">Сохранить</a>
+                </td>
+                <td>
+                    <a class="btn btn-link" ng-click="deleteRaceAttribute(raceAttribute.id)">Х</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div ng-controller="raceMeritListController">
+        <h3 class="text-center">Достоинства</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Имя</th>
+                <th>Ст.</th>
+                <th>Деф.</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="raceMerit in raceMerits | orderBy : 'Merit.name'">
+                <td style="vertical-align:middle;">{{ raceMerit.Merit.name}}</td>
+                <td style="vertical-align:middle;">{{ raceMerit.race_cost }}</td>
+                <td style="vertical-align:middle;">
+                    <div ng-if="raceMerit.race_default">
+                        <span class="glyphicon glyphicon-ok"/>
+                    </div>
+                    <div ng-if="!raceMerit.race_default">
+                        <span class="glyphicon glyphicon-remove"/>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-link" ng-click="deleteRaceMerit(raceMerit.id)">х</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+        <h2>Привязать достоинство</h2>
+
+        <form class="form-horizontal" role="form" ng-controller="addRaceMeritController"
+              name="addRaceMeritForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="merit_id">Достоинство: </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="merit_id" id="merit_id" ng-options="merit.id as merit.name for merit in merits"
+                            required>
+                        <option style="display:none" value="">Выберите достоинство...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="race_cost">Расовая стоимость:</label>
+
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="race_cost" ng-disabled="isCheckboxChecked()"
+                           ng-model="race_cost" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="race_default">По умолчанию:</label>
+
+                <div class="col-sm-10">
+                    <div class="pull-left">
+                        <input type="checkbox" class="form-control" id="race_default" ng-model="race_default">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createRaceMerit()"
+                            ng-disabled="addRaceMeritForm.$invalid">Привязать
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div ng-controller="raceInherentListController">
+        <h3 class="text-center">Врожденные достоинства</h3>
+        <table class="table table-striped">
+            <tr ng-repeat="raceInherent in raceInherents | orderBy : 'Inherent.name'">
+                <td style="vertical-align:middle;">{{ raceInherent.Inherent.name}}</td>
+                <td style="vertical-align:middle;">1/{{ raceInherent.race_probability }}</td>
+                <td>
+                    <a class="btn btn-link" ng-click="deleteRaceInherent(raceInherent.id)">х</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="container">
+        <h2>Привязать врожденное</h2>
+
+        <form class="form-horizontal" role="form" ng-controller="addRaceInherentController"
+              name="addRaceInherentForm">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="inherent_id">Достоинство: </label>
+
+                <div class="col-sm-8">
+                    <select class="form-control"
+                            ng-model="inherent_id" id="inherent_id"
+                            ng-options="inherent.id as inherent.name for inherent in inherents" required>
+                        <option style="display:none" value="">Выберите достоинство...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="race_probability">Расовая вероятность 1/x:</label>
+
+                <div class="col-sm-8">
+                    <input type="number" class="form-control" id="race_probability" ng-model="race_probability" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createRaceInherent()"
+                            ng-disabled="addRaceInherentForm.$invalid">Привязать
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div ng-controller="raceFlawListController">
+        <h3 class="text-center">Недостатки</h3>
+        <table class="table table-striped">
+            <tr ng-repeat="raceFlaw in raceFlaws | orderBy : 'Flaw.name'">
+                <td style="vertical-align:middle;">{{ raceFlaw.Flaw.name}}</td>
+                <td style="vertical-align:middle;">{{ raceFlaw.race_probability }}</td>
+                <td>
+                    <a class="btn btn-link" ng-click="deleteRaceFlaw(raceFlaw.id)">х</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="container">
+        <h2>Привязать недостаток</h2>
+
+        <form class="form-horizontal" role="form" ng-controller="addRaceFlawController"
+              name="addRaceFlawForm">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="flaw_id">Недостаток: </label>
+
+                <div class="col-sm-8">
+                    <select class="form-control"
+                            ng-model="flaw_id" id="flaw_id" ng-options="flaw.id as flaw.name for flaw in flaws"
+                            required>
+                        <option style="display:none" value="">Выберите недостаток...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createRaceFlaw()"
+                            ng-disabled="addRaceFlawForm.$invalid">Привязать
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

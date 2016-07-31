@@ -9,89 +9,87 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="permissions/permissions.js"></script>
 
 </head>
 
 <body ng-app="personageManagerApp">
-<div ng-controller="permissionsController">
 
-    <div ng-controller="personageListController">
-        <div data-ng-include data-src="'main-menu.html'"></div>
+<div ng-controller="personageListController">
+    <div data-ng-include data-src="'main-menu.html'"></div>
+    <div data-ng-include data-src="'loader.html'"></div>
+    <table class="table table-striped">
+        <tr ng-repeat="personage in personages | orderBy : 'id'">
+            <td style="vertical-align:middle; text-align: center;">
+                <a href="/views/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
+                    {{ personage.name }}
+                </a>
+            </td>
+
+            <td style="text-align: right;">
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="/views/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
+                        <li><a href="/views/edit_personage.html?id={{personage.id}}">Редактировать</a></li>
+                        <li><a href="#" ng-click="deletePersonage(personage.id)">х</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Добавить персонажа</h2>
+
+    <form class="form-horizontal" role="form" ng-controller="addPersonageController"
+          name="createPersonageForm">
         <div data-ng-include data-src="'loader.html'"></div>
-        <table class="table table-striped">
-            <tr ng-repeat="personage in personages | orderBy : 'id'">
-                <td style="vertical-align:middle; text-align: center;">
-                    <a href="/views/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
-                        {{ personage.name }}
-                    </a>
-                </td>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Имя:</label>
 
-                <td style="text-align: right;">
-                    <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="/views/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
-                            <li><a href="/views/edit_personage.html?id={{personage.id}}">Редактировать</a></li>
-                            <li><a href="#" ng-click="deletePersonage(personage.id)">х</a></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="container">
-        <h2>Добавить персонажа</h2>
-
-        <form class="form-horizontal" role="form" ng-controller="addPersonageController"
-              name="createPersonageForm">
-            <div data-ng-include data-src="'loader.html'"></div>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="name">Имя:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
-                </div>
+            <div class="col-sm-10">
+                <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="race_id">Раса: </label>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="race_id">Раса: </label>
 
-                <div class="col-sm-10">
-                    <select class="form-control"
-                            ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races" required>
-                        <option style="display:none" value="">Выберите расу...</option>
-                    </select>
-                </div>
+            <div class="col-sm-10">
+                <select class="form-control"
+                        ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races" required>
+                    <option style="display:none" value="">Выберите расу...</option>
+                </select>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
 
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
-                           min="0" required>
-                </div>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
+                       min="0" required>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" ng-click="createPersonage()"
-                            ng-disabled="createPersonageForm.$invalid" href="">Добавить
-                    </button>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="createPersonage()"
+                        ng-disabled="createPersonageForm.$invalid" href="">Добавить
+                </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <script>
-    var app = angular.module("personageManagerApp", ['ngCookies']);
+    var app = angular.module("personageManagerApp", ['ngStorage']);
 
-    var playerId = /id=(\d+)/.exec(window.location.href)[1];
-    app.controller("addPersonageController", function ($scope, $http, $window, $q) {
+    app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage) {
         $scope.loader = false;
 
         $scope.createPersonage = function () {
@@ -108,15 +106,15 @@
             var defaultAttachedSkillAllPromise = $q.defer();
 
             $q.all([personage.promise, raceAttributeAllPromise.promise,
-                        raceMeritAllPromise.promise, raceFlawAllPromise.promise,
-                        defaultAttachedSkillAllPromise.promise])
+                raceMeritAllPromise.promise, raceFlawAllPromise.promise,
+                defaultAttachedSkillAllPromise.promise])
                     .then(success);
 
 
             $http.post('/personages', {
                 name: $scope.name,
                 race_id: $scope.race_id,
-                player_id: playerId,
+                player_id: $localStorage.playerId,
                 age: 0,
                 max_age: 0,
                 experience: $scope.experience,
@@ -124,8 +122,7 @@
             }).success(function (result) {
 
                 var raceAttributesByRaceId = $q.defer();
-                $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).
-                success(function (results) {
+                $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).success(function (results) {
                     raceAttributesByRaceId.resolve(results.raceAttributes);
                 });
 
@@ -145,8 +142,7 @@
                 });
 
                 var raceMeritsByRaceId = $q.defer();
-                $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).
-                success(function (results) {
+                $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).success(function (results) {
                     raceMeritsByRaceId.resolve(results.raceMerits);
                 });
 
@@ -166,8 +162,7 @@
                 });
 
                 var raceFlawsByRaceId = $q.defer();
-                $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).
-                success(function (results) {
+                $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).success(function (results) {
                     raceFlawsByRaceId.resolve(results.raceFlaws);
                 });
 
@@ -188,8 +183,7 @@
 
                 var attachedSkills = $q.defer();
 
-                $http.get('/attachedSkills/').
-                success(function (results) {
+                $http.get('/attachedSkills/').success(function (results) {
                     attachedSkills.resolve(results.attachedSkills);
                 });
 
@@ -214,32 +208,27 @@
             });
         };
 
-        $http.get('/races').
-        success(function (data) {
+        $http.get('/races').success(function (data) {
             $scope.races = data.races;
         });
     });
 
-    app.controller("personageListController", function ($scope, $http, $cookies) {
-        $scope.playerId = playerId;
-        $cookies.putObject('playerId', playerId);
+    app.controller("personageListController", function ($scope, $http, $localStorage) {
         $scope.loader = true;
-        $http.get('/personagesByPlayerId/' + playerId).
-        success(function (data) {
+        $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
             $scope.personages = data.personages;
             $scope.loader = false;
         });
 
         $scope.deletePersonage = function (id) {
-            $http.delete('/personages/' + id).
-            success(function (data) {
+            $http.delete('/personages/' + id).success(function (data) {
                 location.reload();
             });
         };
     });
 
 </script>
-<script src="permissions/permissions.js"></script>
+<script src="permissions/check_player_permissions.js"></script>
 
 </body>
 </html>

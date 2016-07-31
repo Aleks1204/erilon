@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление доступом</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="/views/permissions/permissions.js"></script>
+    <script src="manage_permissions.js"></script>
+    <script src="/views/permissions/check_player_permissions.js"></script>
+</head>
+<body ng-app="permissionsManagerApp">
+<div ng-controller="permissionsManagerController">
+    <div data-ng-include data-src="'/views/loader.html'"></div>
+    <div data-ng-include data-src="'/views/main-menu.html'"></div>
+
+    <p class="lead">Фильтр: <input type="text" ng-model="search"></p>
+
+    <div ng-repeat="role in roles | orderBy : 'name' | filter : search">
+        <h4>{{ role.name }}</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Справочник</th>
+                <th>Просмотр</th>
+                <th>Добавление</th>
+                <th>Редактирование</th>
+                <th>Удаление</th>
+            </tr>
+            <tr ng-repeat="dictionary in dictionaries | orderBy : 'dictionary.visibleValue'">
+                <td style="vertical-align:middle;">{{ dictionary.visibleValue }}</td>
+
+                <td style="vertical-align:middle;">
+                    <div ng-show="hasViewPermissionForRole(dictionary.name, role)"
+                         ng-click="deleteRolePermission(role, dictionary.name, 'view')">
+                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                    </div>
+                    <div ng-hide="hasViewPermissionForRole(dictionary.name, role)"
+                         ng-click="addRolePermission(role, dictionary.name, 'view')">
+                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                    </div>
+                </td>
+
+                <td style="vertical-align:middle;">
+                    <div ng-show="hasCreatePermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'create')">
+                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                    </div>
+                    <div ng-hide="hasCreatePermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'create')">
+                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                    </div>
+                </td>
+
+                <td style="vertical-align:middle;">
+                    <div ng-show="hasEditPermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'edit')">
+                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                    </div>
+                    <div ng-hide="hasEditPermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'edit')">
+                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                    </div>
+                </td>
+
+                <td style="vertical-align:middle;">
+                    <div ng-show="hasDeletePermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'delete')">
+                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                    </div>
+                    <div ng-hide="hasDeletePermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'delete')">
+                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

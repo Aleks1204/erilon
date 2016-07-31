@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Скилл</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="/views/permissions/permissions.js"></script>
+    <script src="trigger_skill.js"></script>
+    <script src="/views/permissions/check_player_permissions.js"></script>
+</head>
+<body ng-app="triggerApp">
+<div ng-controller="permissionsController">
+    <div data-ng-include data-src="'/views/main-menu.html'"></div>
+
+    <div ng-controller="skillLevelListController">
+        <div>
+            <h2 class="text-center">{{triggerSkill.name}}</h2>
+
+            <h3 class="text-center">Уровни</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th style="text-align: center">Уровень</th>
+                    <th style="text-align: center">Стоимость</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="skillLevel in skillLevels | orderBy : 'id'">
+                    <td style="vertical-align:middle; text-align: center">
+                        <div ng-if="skillLevel.level == 1">
+                            Эксперт
+                        </div>
+                        <div ng-if="skillLevel.level == 2">
+                            Мастер
+                        </div>
+                        <div ng-if="skillLevel.level == 3">
+                            Магистр
+                        </div>
+                        <div ng-if="skillLevel.level == 4">
+                            Гроссмейстер
+                        </div>
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">{{ skillLevel.cost }}</td>
+                    <td style="vertical-align:middle; text-align: center">
+                        <button type="button" class="btn btn-link" ng-click="deleteSkillLevel(skillLevel.id)">х</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container">
+            <h2>Создать уровень</h2>
+
+            <form class="form-horizontal" role="form" name="addSkillLevelForm">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="level">Уровень: </label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control"
+                                ng-model="level" id="level"
+                                ng-options="selectLevel.id as selectLevel.name for selectLevel in selectLevels"
+                                required>
+                            <option style="display:none" value="">Выберите уровень...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cost">Стоимость:</label>
+
+                    <div class="col-sm-10">
+                        <input type="number" ng-model="cost" class="form-control" id="cost" placeholder="5" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="description">Описание:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" ng-model="description" class="form-control" id="description"
+                               placeholder="Описание здесь">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" ng-click="createSkillLevel()"
+                                ng-disabled="addSkillLevelForm.$invalid">Создать
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

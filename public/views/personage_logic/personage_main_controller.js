@@ -30,9 +30,9 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", []);
+var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce) {
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
@@ -313,9 +313,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.showDerivativeDescription = function (derivative) {
-        jQuery('#' + derivative).modal('show');
-    };
+    $scope.hitPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>');
+    $scope.hitChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа</p>');
+    $scope.rangedHitDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа</p>');
+    $scope.parryPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа</p>');
+    $scope.parryChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа</p>');
+    $scope.dodgeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа</p>');
+    $scope.generalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>');
+    $scope.mentalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа</p>');
+    $scope.endurancePointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>');
+    $scope.initiativeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа</p>');
 
     $scope.isSpellAdded = function (id) {
         var spellAdded = false;

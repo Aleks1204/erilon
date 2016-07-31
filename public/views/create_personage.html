@@ -9,993 +9,1012 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
+    <script src="/views/permissions/permissions.js"></script>
     <script src="personage_logic/personage_main_controller.js"></script>
     <script src="personage_logic/attributes_controller.js"></script>
+    <script src="permissions/check_player_permissions.js"></script>
 </head>
 <body ng-app="personageApp">
 
 <div ng-controller="personageController">
-    <div data-ng-include data-src="'loader.html'"></div>
+    <div ng-controller="permissionsController">
+        <div data-ng-include data-src="'loader.html'"></div>
 
-    <div data-ng-include data-src="'main-menu.html'"></div>
-    <h3 class="text-center">{{personage.name}}</h3>
+        <div data-ng-include data-src="'main-menu.html'"></div>
+        <h3 class="text-center">{{personage.name}}</h3>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-offset-1 col-xs-2">
-                <p class="lead">
-                    <strong>Раса:</strong>
-                </p>
-            </div>
-            <div class="col-xs-offset-2 col-xs-4">
-                <p class="lead">{{personage.Race.name}}</p>
-            </div>
-        </div>
-
-        <form name="ageForm">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-offset-1 col-xs-2">
                     <p class="lead">
-                        <strong><label class="control-label" for="age">Возраст:</label></strong>
+                        <strong>Раса:</strong>
                     </p>
                 </div>
                 <div class="col-xs-offset-2 col-xs-4">
-                    <input type="number" class="form-control" id="age" name="age" placeholder="25" ng-model="age"
-                           min="0" max="{{max_age}}" required>
+                    <p class="lead">{{personage.Race.name}}</p>
+                </div>
+            </div>
+
+            <form name="ageForm">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-2">
+                        <p class="lead">
+                            <strong><label class="control-label" for="age">Возраст:</label></strong>
+                        </p>
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-4">
+                        <input type="number" class="form-control" id="age" name="age" placeholder="25" ng-model="age"
+                               min="0" max="{{max_age}}" required>
                 <span style="color:red" ng-show="ageForm.age.$invalid && ageForm.age.$dirty">
                     <span ng-show="ageForm.age.$error.required">Введите текущий возраст</span>
                     <span ng-show="ageForm.age.$error.max">Текущий возраст персонажа больше максимального</span>
                 </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-xs-offset-1 col-xs-2">
-                    <p class="lead">
-                        <strong><label class="control-label" for="max_age">Макс. возраст:</label></strong>
-                    </p>
-                </div>
-                <div class="col-xs-offset-2 col-xs-4">
-                    <input type="number" class="form-control" id="max_age" name="max_age" placeholder="25"
-                           ng-model="max_age"
-                           min="0" max="{{personage.Race.max_age}}" required>
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-2">
+                        <p class="lead">
+                            <strong><label class="control-label" for="max_age">Макс. возраст:</label></strong>
+                        </p>
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-4">
+                        <input type="number" class="form-control" id="max_age" name="max_age" placeholder="25"
+                               ng-model="max_age"
+                               min="0" max="{{personage.Race.max_age}}" required>
                 <span style="color:red" ng-show="ageForm.max_age.$invalid && ageForm.max_age.$dirty">
                     <span ng-show="ageForm.max_age.$error.required">Введите максимальный возраст</span>
                     <span ng-show="ageForm.max_age.$error.max">Максимальный возраст персонажа больше максимального для расы</span>
                 </span>
+                    </div>
+                </div>
+            </form>
+
+            <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
+
+        </div>
+
+        <div>
+            <div class="panel-group" id="accordion">
+
+                <div class="panel panel-default" ng-controller="personageAttributesController">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#attributes">
+                            <div class="panel-heading">
+                                Характеристики
+                            </div>
+                        </a>
+                    </h4>
+
+                    <div id="attributes" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
+                                    <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
+                                    <td style="vertical-align:middle;">
+                                        <button type="button" class="btn btn-default"
+                                                ng-click="increaseAttribute(personageAttribute.id)">
+                                            <span class="glyphicon glyphicon-triangle-top"/>
+                                        </button>
+                                        <button type="button" class="btn btn-default"
+                                                ng-click="decreaseAttribute(personageAttribute.id)">
+                                            <span class="glyphicon glyphicon-triangle-bottom"/>
+                                        </button>
+                                    </td>
+                                    <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#skills">
+                            <div class="panel-heading">
+                                Навыки
+                            </div>
+                        </a>
+                    </h4>
+                    <div id="skills" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                            <div>
+                                <div class="panel-group" id="skillsAccordeon">
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
+                                               href="#attachedSkills">
+                                                <div class="panel-heading">
+                                                    Прикрепленные
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="attachedSkills" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : 'AttachedSkill.name'">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageAttachedSkill.AttachedSkill.name}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;">
+                                                            <button type="button" class="btn btn-default"
+                                                                    ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
+                                                                <span class="glyphicon glyphicon-triangle-top"/>
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
+                                                                <span class="glyphicon glyphicon-triangle-bottom"/>
+                                                            </button>
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageAttachedSkill.value}}
+                                                        </td>
+
+                                                        <td>
+                                                            <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
+                                                                <a class="btn btn-link"
+                                                                   ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">х</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <button type="button" class="btn btn-default pull-right"
+                                                        data-toggle="modal" data-target="#addAttachedSkillDialog"
+                                                        ng-click="calculateAttachedSkillSelectOptions()">Добавить
+                                                    прикрепленный навык
+                                                </button>
+
+                                                <div id="addAttachedSkillDialog" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Добавить прикрепленный
+                                                                    навык</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form"
+                                                                      name="addPersonageAttachedSkillForm">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-2"
+                                                                               for="attachedSkill_id">Навык: </label>
+
+                                                                        <div class="col-sm-10">
+                                                                            <select class="form-control"
+                                                                                    ng-model="attachedSkill_id"
+                                                                                    id="attachedSkill_id"
+                                                                                    ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills"
+                                                                                    required>
+                                                                                <option value="" style="display:none">
+                                                                                    Выберите навык...
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                                <button type="button"
+                                                                                        class="btn btn-default pull-right"
+                                                                                        data-dismiss="modal">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="col-md-3 col-xs-1">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-success pull-left"
+                                                                                        ng-click="addPersonageAttachedSkill(attachedSkill_id)"
+                                                                                        ng-disabled="addPersonageAttachedSkillForm.$invalid">
+                                                                                    Добавить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
+                                               href="#triggerSkills">
+                                                <div class="panel-heading">
+                                                    Триггерные
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="triggerSkills" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th style="vertical-align:middle; text-align: center"></th>
+                                                        <th style="vertical-align:middle; text-align: center"></th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="!isMobile">Уровень
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="isMobile">Ур
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="!isMobile">Талант
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="isMobile">Тл
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="!isMobile">Учитель
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"
+                                                            ng-if="isMobile">Уч
+                                                        </th>
+                                                        <th style="vertical-align:middle; text-align: center"></th>
+                                                    </tr>
+                                                    <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageTriggerSkill.TriggerSkill.name}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle; text-align: center">
+                                                            <button type="button" class="btn btn-default"
+                                                                    ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
+                                                                <span class="glyphicon glyphicon-triangle-top"/>
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
+                                                                <span class="glyphicon glyphicon-triangle-bottom"/>
+                                                            </button>
+                                                        </td>
+
+                                                        <td style="vertical-align:middle; text-align: center"
+                                                            ng-if="!isMobile">
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                                Эксперт
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                                Мастер
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                                Магистр
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                                Гроссмейстер
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;" ng-if="isMobile">
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                                Э
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                                М
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                                Мг
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                                Г
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="vertical-align:middle; text-align: center"
+                                                            ng-show="personageTriggerSkill.talented">
+                                                            <span class="glyphicon glyphicon-ok"/>
+                                                        </td>
+
+                                                        <td style="vertical-align:middle; text-align: center"
+                                                            ng-show="!personageTriggerSkill.talented">
+                                                            <span class="glyphicon glyphicon-remove"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="checkbox" class="form-control"
+                                                                   id="triggerSkillTutored"
+                                                                   ng-model="personageTriggerSkill.tutored">
+                                                        </td>
+
+                                                        <td>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                                <a class="btn btn-link"
+                                                                   ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">х</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <button type="button" class="btn btn-default pull-right"
+                                                        data-toggle="modal" data-target="#addTriggerSkillDialog"
+                                                        ng-click="calculateTriggerSkillSelectOptions()">Добавить
+                                                    тригерный навык
+                                                </button>
+
+                                                <div id="addTriggerSkillDialog" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Добавить тригерный навык</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form"
+                                                                      name="addPersonageTriggerSkillForm">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-2"
+                                                                               for="triggerSkill_id">Навык: </label>
+
+                                                                        <div class="col-sm-10">
+                                                                            <select class="form-control"
+                                                                                    ng-model="triggerSkill_id"
+                                                                                    id="triggerSkill_id"
+                                                                                    ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills"
+                                                                                    required>
+                                                                                <option value="" style="display:none">
+                                                                                    Выберите навык...
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                                <button type="button"
+                                                                                        class="btn btn-default pull-right"
+                                                                                        data-dismiss="modal">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="col-md-3 col-xs-1">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-success pull-left"
+                                                                                        ng-click="addPersonageTriggerSkill(triggerSkill_id)"
+                                                                                        ng-disabled="addPersonageTriggerSkillForm.$invalid">
+                                                                                    Добавить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#perks">
+                            <div class="panel-heading">
+                                Особенности
+                            </div>
+                        </a>
+                    </h4>
+                    <div id="perks" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div>
+                                <div class="panel-group" id="perkAccordeon">
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                                <div class="panel-heading">
+                                                    Врожденные
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="inherents" class="panel-collapse collapse in">
+
+
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageInherent.Inherent.name}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;">
+                                                            <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                                                <input type="number" ng-model="personageInherent.value"
+                                                                       class="form-control" id="inherent_value">
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageInherent(personageInherent)">х</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <div class="row">
+                                                    <div class="col-md-offset-8 col-md-2 col-xs-6">
+                                                        <button ng-show="showGenerateIneherentsButton" type="button"
+                                                                class="btn btn-default"
+                                                                ng-click="randomizeInherentsAndValues()">Сгенерить
+                                                            врожденки
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-2 col-xs-6">
+                                                        <button ng-if="!isMobile" type="button" class="btn btn-default "
+                                                                ng-click="calculateInherentSelectOptions()"
+                                                                data-toggle="modal"
+                                                                data-target="#addInherentDialog">Добавить
+                                                            врожденное
+                                                        </button>
+                                                        <button ng-if="isMobile" type="button" class="btn btn-default "
+                                                                ng-click="calculateInherentSelectOptions()"
+                                                                data-toggle="modal"
+                                                                data-target="#addInherentDialog">Добавить
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div id="addInherentDialog" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Добавить врожденное</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form"
+                                                                      name="addPersonageInherentForm">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-2"
+                                                                               for="inherent_id">Врожденное: </label>
+
+                                                                        <div class="col-sm-10">
+                                                                            <select class="form-control"
+                                                                                    ng-model="inherent_id"
+                                                                                    id="inherent_id"
+                                                                                    ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents"
+                                                                                    required>
+                                                                                <option value="" style="display:none">
+                                                                                    Выберите врожденное...
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                                <button type="button"
+                                                                                        class="btn btn-default pull-right"
+                                                                                        data-dismiss="modal">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="col-md-3 col-xs-1">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-success pull-left"
+                                                                                        ng-click="addPersonageInherent(inherent_id)"
+                                                                                        ng-disabled="addPersonageInherentForm.$invalid">
+                                                                                    Добавить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
+                                               ng-click="calculateShowMerits()">
+                                                <div class="panel-heading">
+                                                    Достоинства
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="merits" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageMerit.Merit.name}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;">
+                                                            <div ng-if="!personageMerit.unremovable">
+                                                                {{personageMerit.Merit.cost}}
+                                                            </div>
+                                                            <div ng-if="personageMerit.unremovable">
+                                                                По умолчанию
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div ng-if="!personageMerit.unremovable">
+                                                                <a class="btn btn-link"
+                                                                   ng-click="deletePersonageMerit(personageMerit)">х</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <button type="button" class="btn btn-default pull-right"
+                                                        data-toggle="modal" data-target="#addMeritDialog"
+                                                        ng-click="calculateMeritSelectOptions();validateCurrentMerit();">
+                                                    Добавить
+                                                    достоинство
+                                                </button>
+
+                                                <div id="addMeritDialog" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Добавить достоинство</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form"
+                                                                      name="addPersonageMeritForm">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-2"
+                                                                               for="merit">Достоинство: </label>
+
+                                                                        <div class="col-sm-10">
+                                                                            <select class="form-control"
+                                                                                    ng-model="merit" id="merit"
+                                                                                    ng-change="validatePrerequisites(merit)"
+                                                                                    ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits"
+                                                                                    required>
+                                                                                <option value="" style="display:none">
+                                                                                    Выберите достоинство...
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <span style="color: red" ng-hide="meritAvailable">Требования не выполнены!</span>
+
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                                <button type="button"
+                                                                                        class="btn btn-default pull-right"
+                                                                                        data-dismiss="modal">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="col-md-3 col-xs-1">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-success pull-left"
+                                                                                        ng-click="addPersonageMerit(merit)"
+                                                                                        ng-disabled="addPersonageMeritForm.$invalid || !meritAvailable">
+                                                                                    Добавить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                                <div class="panel-heading">
+                                                    Недостатки
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="flaws" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageFlaw.Flaw.name}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;">
+                                                            {{personageFlaw.Flaw.cost}}
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;"
+                                                            ng-if="personageFlaw.personage_race_default">
+                                                            По умолчанию
+                                                        </td>
+
+                                                        <td style="vertical-align:middle;"
+                                                            ng-if="!personageFlaw.personage_race_default">
+                                                            <span class="glyphicon glyphicon-ok"/>
+                                                        </td>
+
+                                                        <td ng-hide="personageFlaw.personage_race_default && personageFlaw.Flaw.unremovable">
+                                                            <a class="btn btn-link"
+                                                               ng-click="deletePersonageFlaw(personageFlaw)">х</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <button type="button" class="btn btn-default pull-right"
+                                                        data-toggle="modal" data-target="#addFlawDialog"
+                                                        ng-click="calculateFlawSelectOptions()">Добавить
+                                                    недостаток
+                                                </button>
+
+                                                <div id="addFlawDialog" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Добавить недостаток</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form"
+                                                                      name="addPersonageFlawForm">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-2"
+                                                                               for="flaw_id">Недостаток: </label>
+
+                                                                        <div class="col-sm-10">
+                                                                            <select class="form-control"
+                                                                                    ng-model="flaw_id" id="flaw_id"
+                                                                                    ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws"
+                                                                                    required>
+                                                                                <option value="" style="display:none">
+                                                                                    Выберите недостаток...
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
+                                                                                <button type="button"
+                                                                                        class="btn btn-default pull-right"
+                                                                                        data-dismiss="modal">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <div class="col-md-3 col-xs-1">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-success pull-left"
+                                                                                        ng-click="addPersonageFlaw(flaw_id)"
+                                                                                        ng-disabled="addPersonageFlawForm.$invalid">
+                                                                                    Добавить
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#spells">
+                            <div class="panel-heading">
+                                Заклинания
+                            </div>
+                        </a>
+                    </h4>
+                    <div id="spells" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                            <div ng-repeat="school in schools | orderBy : 'name'">
+                                <div class="panel-group">
+
+                                    <div class="panel panel-default">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#spells{{school.id}}">
+                                                <div class="panel-heading">
+                                                    {{school.name}}
+                                                </div>
+                                            </a>
+                                        </h4>
+                                        <div id="spells{{school.id}}" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
+                                                        <td style="vertical-align:middle;">
+                                                            <a href="#" class="btn btn-link" role="button"
+                                                               ng-click="showSpellDetail(spell.id)">
+                                                                {{ spell.name }}
+                                                            </a>
+                                                        </td>
+                                                        <td style="vertical-align:middle;text-align:center;">
+                                                            {{spell.cost}} оп.
+                                                        </td>
+                                                        <td ng-show="!isSpellAdded(spell.id)">
+                                                        </td>
+                                                        <td ng-show="isSpellAdded(spell.id)">
+                                                            <div ng-repeat="personageSpell in personageSpells"
+                                                                 style="margin-top: 7px">
+                                                                <div ng-show="personageSpell.Spell.id == spell.id">
+                                                                    {{personageSpell.level}} ур.
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td ng-show="isSpellAddedAndLevel0(spell.id)">
+                                                            <button type="button" class="btn btn-link"
+                                                                    ng-click="deletePersonageSpell(spell.id)">x
+                                                            </button>
+                                                        </td>
+                                                        <td ng-hide="isSpellAdded(spell.id)">
+                                                            <button type="button" class="btn btn-link"
+                                                                    ng-click="addPersonageSpell(spell.id)">Добавить
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
+                            <div class="panel-heading">
+                                Заметки
+                            </div>
+                        </a>
+                    </h4>
+                    <div id="inventory" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <textarea id="notes" ng-model="notes" style="width: 100%; height: 100%;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="spellDetails" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Описание заклинания: <strong>{{spellDetails.spell.name}}</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" ng-show="spellDetails.personageSpell == null">
+                            <div class="col-md-12 col-xs-12">
+                                <strong class="text-danger">У вас нет этого заклинания!</strong>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="spellDetails.personageSpell != null">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Ваш уровень:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.personageSpell.level}}
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="increaseSpellLevel(spellDetails.personageSpell)">
+                                    <span class="glyphicon glyphicon-triangle-top"/>
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        ng-click="decreaseSpellLevel(spellDetails.personageSpell)">
+                                    <span class="glyphicon glyphicon-triangle-bottom"/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="spellDetails.personageSpell != null">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Учитель:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                <input type="checkbox" class="form-control" id="spellTutored"
+                                       ng-model="spellDetails.personageSpell.tutored"
+                                       style="margin-top: -6px; margin-left: -6px;">
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Кодовое название:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.name}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Сложность:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.complexity}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Сложность создания:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.creating_complexity}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Мана:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.mana}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Поддержание:</strong>
+                            </div>
+                            <div ng-show="spellDetails.spell.instant">
+                                <div class="col-md-4 col-xs-4">
+                                    Мгновенное
+                                </div>
+                            </div>
+                            <div ng-hide="spellDetails.spell.instant">
+                                <div class="col-md-4 col-xs-4">
+                                    {{spellDetails.spell.mana_support}} {{spellDetails.spell.mana_sup_time}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Стоимость:</strong>
+                            </div>
+                            <div class="col-md-4 col-xs-4">
+                                {{spellDetails.spell.cost}}
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Эффект:</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                {{spellDetails.spell.effect}}
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <strong>Описание:</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                {{spellDetails.spell.description}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="attachedSkillHasSpellsAlert" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Внимание!!!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Нельзя удалить школу магии, пока в ней есть заклинания!!!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form name="expirienceForm">
+            <div class="row">
+                <div class="col-xs-offset-1 col-xs-4">
+                    <p class="lead">
+                        <strong>Очки опыта:</strong>
+                    </p>
+                </div>
+                <div class="col-xs-offset-2 col-xs-4">
+                    <div id="expirience" ng-model="expirience">
+                        <p class="lead">
+                            <strong>{{personage.experience}}</strong>
+                        </p>
+                    </div>
                 </div>
             </div>
         </form>
 
-        <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
-
-    </div>
-
-    <div>
-        <div class="panel-group" id="accordion">
-
-            <div class="panel panel-default" ng-controller="personageAttributesController">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#attributes">
-                        <div class="panel-heading">
-                            Характеристики
-                        </div>
-                    </a>
-                </h4>
-
-                <div id="attributes" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
-                                <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
-                                <td style="vertical-align:middle;">
-                                    <button type="button" class="btn btn-default"
-                                            ng-click="increaseAttribute(personageAttribute.id)">
-                                        <span class="glyphicon glyphicon-triangle-top"/>
-                                    </button>
-                                    <button type="button" class="btn btn-default"
-                                            ng-click="decreaseAttribute(personageAttribute.id)">
-                                        <span class="glyphicon glyphicon-triangle-bottom"/>
-                                    </button>
-                                </td>
-                                <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#skills">
-                        <div class="panel-heading">
-                            Навыки
-                        </div>
-                    </a>
-                </h4>
-                <div id="skills" class="panel-collapse collapse">
-                    <div class="panel-body">
-
-                        <div>
-                            <div class="panel-group" id="skillsAccordeon">
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#attachedSkills">
-                                            <div class="panel-heading">
-                                                Прикрепленные
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="attachedSkills" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : 'AttachedSkill.name'">
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageAttachedSkill.AttachedSkill.name}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;">
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
-                                                            <span class="glyphicon glyphicon-triangle-top"/>
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
-                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
-                                                        </button>
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageAttachedSkill.value}}
-                                                    </td>
-
-                                                    <td>
-                                                        <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">х</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button type="button" class="btn btn-default pull-right"
-                                                    data-toggle="modal" data-target="#addAttachedSkillDialog"
-                                                    ng-click="calculateAttachedSkillSelectOptions()">Добавить
-                                                прикрепленный навык
-                                            </button>
-
-                                            <div id="addAttachedSkillDialog" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Добавить прикрепленный навык</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form"
-                                                                  name="addPersonageAttachedSkillForm">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"
-                                                                           for="attachedSkill_id">Навык: </label>
-
-                                                                    <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="attachedSkill_id"
-                                                                                id="attachedSkill_id"
-                                                                                ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills"
-                                                                                required>
-                                                                            <option value="" style="display:none">
-                                                                                Выберите навык...
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                            <button type="button"
-                                                                                    class="btn btn-default pull-right"
-                                                                                    data-dismiss="modal">
-                                                                                Отмена
-                                                                            </button>
-                                                                        </div>
-
-                                                                        <div class="col-md-3 col-xs-1">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageAttachedSkill(attachedSkill_id)"
-                                                                                    ng-disabled="addPersonageAttachedSkillForm.$invalid">
-                                                                                Добавить
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#skillsAccordeon" href="#triggerSkills">
-                                            <div class="panel-heading">
-                                                Триггерные
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="triggerSkills" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr>
-                                                    <th style="vertical-align:middle; text-align: center"></th>
-                                                    <th style="vertical-align:middle; text-align: center"></th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="!isMobile">Уровень
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="isMobile">Ур
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="!isMobile">Талант
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="isMobile">Тл
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="!isMobile">Учитель
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"
-                                                        ng-if="isMobile">Уч
-                                                    </th>
-                                                    <th style="vertical-align:middle; text-align: center"></th>
-                                                </tr>
-                                                <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageTriggerSkill.TriggerSkill.name}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle; text-align: center">
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
-                                                            <span class="glyphicon glyphicon-triangle-top"/>
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
-                                                            <span class="glyphicon glyphicon-triangle-bottom"/>
-                                                        </button>
-                                                    </td>
-
-                                                    <td style="vertical-align:middle; text-align: center"
-                                                        ng-if="!isMobile">
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                            Эксперт
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                            Мастер
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                            Магистр
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                            Гроссмейстер
-                                                        </div>
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;" ng-if="isMobile">
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                            Э
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                            М
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                            Мг
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                            Г
-                                                        </div>
-                                                    </td>
-
-                                                    <td style="vertical-align:middle; text-align: center"
-                                                        ng-show="personageTriggerSkill.talented">
-                                                        <span class="glyphicon glyphicon-ok"/>
-                                                    </td>
-
-                                                    <td style="vertical-align:middle; text-align: center"
-                                                        ng-show="!personageTriggerSkill.talented">
-                                                        <span class="glyphicon glyphicon-remove"/>
-                                                    </td>
-
-                                                    <td>
-                                                        <input type="checkbox" class="form-control" id="triggerSkillTutored"
-                                                               ng-model="personageTriggerSkill.tutored">
-                                                    </td>
-
-                                                    <td>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">х</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button type="button" class="btn btn-default pull-right"
-                                                    data-toggle="modal" data-target="#addTriggerSkillDialog"
-                                                    ng-click="calculateTriggerSkillSelectOptions()">Добавить
-                                                тригерный навык
-                                            </button>
-
-                                            <div id="addTriggerSkillDialog" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Добавить тригерный навык</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form"
-                                                                  name="addPersonageTriggerSkillForm">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"
-                                                                           for="triggerSkill_id">Навык: </label>
-
-                                                                    <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="triggerSkill_id"
-                                                                                id="triggerSkill_id"
-                                                                                ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills"
-                                                                                required>
-                                                                            <option value="" style="display:none">
-                                                                                Выберите навык...
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                            <button type="button"
-                                                                                    class="btn btn-default pull-right"
-                                                                                    data-dismiss="modal">
-                                                                                Отмена
-                                                                            </button>
-                                                                        </div>
-
-                                                                        <div class="col-md-3 col-xs-1">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageTriggerSkill(triggerSkill_id)"
-                                                                                    ng-disabled="addPersonageTriggerSkillForm.$invalid">
-                                                                                Добавить
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#perks">
-                        <div class="panel-heading">
-                            Особенности
-                        </div>
-                    </a>
-                </h4>
-                <div id="perks" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div>
-                            <div class="panel-group" id="perkAccordeon">
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
-                                            <div class="panel-heading">
-                                                Врожденные
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="inherents" class="panel-collapse collapse in">
-
-
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageInherent.Inherent.name}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;">
-                                                        <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
-                                                            <input type="number" ng-model="personageInherent.value"
-                                                                   class="form-control" id="inherent_value">
-                                                        </div>
-                                                    </td>
-
-                                                    <td>
-                                                        <a class="btn btn-link"
-                                                           ng-click="deletePersonageInherent(personageInherent)">х</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-                                            <div class="row">
-                                                <div class="col-md-offset-8 col-md-2 col-xs-6">
-                                                    <button ng-show="showGenerateIneherentsButton" type="button" class="btn btn-default"
-                                                            ng-click="randomizeInherentsAndValues()">Сгенерить врожденки
-                                                    </button>
-                                                </div>
-                                                <div class="col-md-2 col-xs-6">
-                                                    <button ng-if="!isMobile" type="button" class="btn btn-default "
-                                                            ng-click="calculateInherentSelectOptions()"
-                                                            data-toggle="modal"
-                                                            data-target="#addInherentDialog">Добавить
-                                                        врожденное
-                                                    </button>
-                                                    <button ng-if="isMobile" type="button" class="btn btn-default "
-                                                            ng-click="calculateInherentSelectOptions()"
-                                                            data-toggle="modal"
-                                                            data-target="#addInherentDialog">Добавить
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div id="addInherentDialog" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Добавить врожденное</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form"
-                                                                  name="addPersonageInherentForm">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"
-                                                                           for="inherent_id">Врожденное: </label>
-
-                                                                    <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="inherent_id" id="inherent_id"
-                                                                                ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents"
-                                                                                required>
-                                                                            <option value="" style="display:none">
-                                                                                Выберите врожденное...
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                            <button type="button"
-                                                                                    class="btn btn-default pull-right"
-                                                                                    data-dismiss="modal">
-                                                                                Отмена
-                                                                            </button>
-                                                                        </div>
-
-                                                                        <div class="col-md-3 col-xs-1">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageInherent(inherent_id)"
-                                                                                    ng-disabled="addPersonageInherentForm.$invalid">
-                                                                                Добавить
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
-                                           ng-click="calculateShowMerits()">
-                                            <div class="panel-heading">
-                                                Достоинства
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="merits" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageMerit.Merit.name}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;">
-                                                        <div ng-if="!personageMerit.unremovable">
-                                                            {{personageMerit.Merit.cost}}
-                                                        </div>
-                                                        <div ng-if="personageMerit.unremovable">
-                                                            По умолчанию
-                                                        </div>
-                                                    </td>
-
-                                                    <td>
-                                                        <div ng-if="!personageMerit.unremovable">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageMerit(personageMerit)">х</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button type="button" class="btn btn-default pull-right"
-                                                    data-toggle="modal" data-target="#addMeritDialog"
-                                                    ng-click="calculateMeritSelectOptions();validateCurrentMerit();">
-                                                Добавить
-                                                достоинство
-                                            </button>
-
-                                            <div id="addMeritDialog" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Добавить достоинство</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form"
-                                                                  name="addPersonageMeritForm">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"
-                                                                           for="merit">Достоинство: </label>
-
-                                                                    <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="merit" id="merit"
-                                                                                ng-change="validatePrerequisites(merit)"
-                                                                                ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits"
-                                                                                required>
-                                                                            <option value="" style="display:none">
-                                                                                Выберите достоинство...
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <span style="color: red" ng-hide="meritAvailable">Требования не выполнены!</span>
-
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                            <button type="button"
-                                                                                    class="btn btn-default pull-right"
-                                                                                    data-dismiss="modal">
-                                                                                Отмена
-                                                                            </button>
-                                                                        </div>
-
-                                                                        <div class="col-md-3 col-xs-1">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageMerit(merit)"
-                                                                                    ng-disabled="addPersonageMeritForm.$invalid || !meritAvailable">
-                                                                                Добавить
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
-                                            <div class="panel-heading">
-                                                Недостатки
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="flaws" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageFlaw.Flaw.name}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;">
-                                                        {{personageFlaw.Flaw.cost}}
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;"
-                                                        ng-if="personageFlaw.personage_race_default">
-                                                        По умолчанию
-                                                    </td>
-
-                                                    <td style="vertical-align:middle;"
-                                                        ng-if="!personageFlaw.personage_race_default">
-                                                        <span class="glyphicon glyphicon-ok"/>
-                                                    </td>
-
-                                                    <td ng-hide="personageFlaw.personage_race_default && personageFlaw.Flaw.unremovable">
-                                                        <a class="btn btn-link"
-                                                           ng-click="deletePersonageFlaw(personageFlaw)">х</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button type="button" class="btn btn-default pull-right"
-                                                    data-toggle="modal" data-target="#addFlawDialog"
-                                                    ng-click="calculateFlawSelectOptions()">Добавить
-                                                недостаток
-                                            </button>
-
-                                            <div id="addFlawDialog" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Добавить недостаток</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form"
-                                                                  name="addPersonageFlawForm">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"
-                                                                           for="flaw_id">Недостаток: </label>
-
-                                                                    <div class="col-sm-10">
-                                                                        <select class="form-control"
-                                                                                ng-model="flaw_id" id="flaw_id"
-                                                                                ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws"
-                                                                                required>
-                                                                            <option value="" style="display:none">
-                                                                                Выберите недостаток...
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                            <button type="button"
-                                                                                    class="btn btn-default pull-right"
-                                                                                    data-dismiss="modal">
-                                                                                Отмена
-                                                                            </button>
-                                                                        </div>
-
-                                                                        <div class="col-md-3 col-xs-1">
-                                                                            <button type="submit"
-                                                                                    class="btn btn-success pull-left"
-                                                                                    ng-click="addPersonageFlaw(flaw_id)"
-                                                                                    ng-disabled="addPersonageFlawForm.$invalid">
-                                                                                Добавить
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#spells">
-                        <div class="panel-heading">
-                            Заклинания
-                        </div>
-                    </a>
-                </h4>
-                <div id="spells" class="panel-collapse collapse">
-                    <div class="panel-body">
-
-                        <div ng-repeat="school in schools | orderBy : 'name'">
-                            <div class="panel-group">
-
-                                <div class="panel panel-default">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#spells{{school.id}}">
-                                            <div class="panel-heading">
-                                                {{school.name}}
-                                            </div>
-                                        </a>
-                                    </h4>
-                                    <div id="spells{{school.id}}" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <table class="table table-striped">
-                                                <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
-                                                    <td style="vertical-align:middle;">
-                                                        <a href="#" class="btn btn-link" role="button" ng-click="showSpellDetail(spell.id)">
-                                                            {{ spell.name }}
-                                                        </a>
-                                                    </td>
-                                                    <td style="vertical-align:middle;text-align:center;">
-                                                        {{spell.cost}} оп.
-                                                    </td>
-                                                    <td ng-show="!isSpellAdded(spell.id)">
-                                                    </td>
-                                                    <td ng-show="isSpellAdded(spell.id)">
-                                                        <div ng-repeat="personageSpell in personageSpells" style="margin-top: 7px">
-                                                            <div ng-show="personageSpell.Spell.id == spell.id">
-                                                                {{personageSpell.level}} ур.
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td ng-show="isSpellAddedAndLevel0(spell.id)">
-                                                        <button type="button" class="btn btn-link" ng-click="deletePersonageSpell(spell.id)">x</button>
-                                                    </td>
-                                                    <td ng-hide="isSpellAdded(spell.id)">
-                                                        <button type="button" class="btn btn-link" ng-click="addPersonageSpell(spell.id)">Добавить
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
-                        <div class="panel-heading">
-                            Заметки
-                        </div>
-                    </a>
-                </h4>
-                <div id="inventory" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <textarea id="notes" ng-model="notes" style="width: 100%; height: 100%;"></textarea>
-                    </div>
-                </div>
-            </div>
-
+        <div class="alert alert-danger" ng-show="experienceValid()">
+            Вы потратили больше опыта, чем у вас есть!
         </div>
+
+        <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block"
+                ng-click="savePersonage()">
+            Сохранить
+        </button>
+
     </div>
-
-    <div id="spellDetails" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Описание заклинания: <strong>{{spellDetails.spell.name}}</strong></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row" ng-show="spellDetails.personageSpell == null">
-                        <div class="col-md-12 col-xs-12">
-                            <strong class="text-danger">У вас нет этого заклинания!</strong>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="spellDetails.personageSpell != null">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Ваш уровень:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.personageSpell.level}}
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="increaseSpellLevel(spellDetails.personageSpell)">
-                                <span class="glyphicon glyphicon-triangle-top"/>
-                            </button>
-                            <button type="button" class="btn btn-default"
-                                    ng-click="decreaseSpellLevel(spellDetails.personageSpell)">
-                                <span class="glyphicon glyphicon-triangle-bottom"/>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row" ng-show="spellDetails.personageSpell != null">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Учитель:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            <input type="checkbox" class="form-control" id="spellTutored"
-                                   ng-model="spellDetails.personageSpell.tutored" style="margin-top: -6px; margin-left: -6px;">
-                        </div>
-                    </div>
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Кодовое название:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.spell.name}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Сложность:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.spell.complexity}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Сложность создания:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.spell.creating_complexity}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Мана:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.spell.mana}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Поддержание:</strong>
-                        </div>
-                        <div ng-show="spellDetails.spell.instant">
-                            <div class="col-md-4 col-xs-4">
-                                Мгновенное
-                            </div>
-                        </div>
-                        <div ng-hide="spellDetails.spell.instant">
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.mana_support}} {{spellDetails.spell.mana_sup_time}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Стоимость:</strong>
-                        </div>
-                        <div class="col-md-4 col-xs-4">
-                            {{spellDetails.spell.cost}}
-                        </div>
-                    </div>
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Эффект:</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            {{spellDetails.spell.effect}}
-                        </div>
-                    </div>
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-4">
-                            <strong>Описание:</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            {{spellDetails.spell.description}}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="attachedSkillHasSpellsAlert" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Внимание!!!</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Нельзя удалить школу магии, пока в ней есть заклинания!!!</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <form name="expirienceForm">
-        <div class="row">
-            <div class="col-xs-offset-1 col-xs-4">
-                <p class="lead">
-                    <strong>Очки опыта:</strong>
-                </p>
-            </div>
-            <div class="col-xs-offset-2 col-xs-4">
-                <div id="expirience" ng-model="expirience">
-                    <p class="lead">
-                        <strong>{{personage.experience}}</strong>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <div class="alert alert-danger" ng-show="experienceValid()">
-        Вы потратили больше опыта, чем у вас есть!
-    </div>
-
-    <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block"
-            ng-click="savePersonage()">
-        Сохранить
-    </button>
-
 </div>
 
 

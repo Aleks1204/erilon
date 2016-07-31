@@ -8,8 +8,8 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                RolePermission.belongsTo(models.Role);
-                RolePermission.belongsTo(models.Permission);
+                RolePermission.belongsTo(models.Role, {unique: false});
+                RolePermission.belongsTo(models.Permission, {unique: false});
             }
         }
     });

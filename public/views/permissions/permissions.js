@@ -3,28 +3,26 @@
  */
 "use strict";
 
-app.controller("permissionsController", function ($scope, $http, $cookies) {
-    $scope.playerId = $cookies.getObject('playerId');
-    $http.get('/players/' + $scope.playerId).
-    success(function (data) {
-        $scope.player = data.player;
+function hasPermission(name, action, role) {
+    var access = false;
+
+    angular.forEach(role.RolePermissions, function (RolePermission) {
+        if (RolePermission.Permission.name == action + name + 'Dictionary') {
+            access = true;
+        }
     });
 
-    $scope.hasDeletePermission = function (dictionaryName) {
-        return hasPermission(dictionaryName, 'delete');
-    };
+    return access;
+}
 
-    $scope.hasCreatePermission = function (dictionaryName) {
-        return hasPermission(dictionaryName, 'create');
-    };
+function hasActionPermission(actionName, role) {
+    var access = false;
 
-    function hasPermission(name, action) {
-        var access = false;
-        angular.forEach($scope.player.Role.RolePermissions, function (RolePermission) {
-            if (RolePermission.Permission.name == action + name + 'Dictionary') {
-                access = true;
-            }
-        });
-        return access;
-    }
-});
+    angular.forEach(role.RolePermissions, function (RolePermission) {
+        if (RolePermission.Permission.name == actionName) {
+            access = true;
+        }
+    });
+
+    return access;
+}

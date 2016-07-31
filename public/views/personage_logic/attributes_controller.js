@@ -3,7 +3,7 @@
  */
 "use strict";
 
-app.controller("personageAttributesController", function ($scope, $http, $q, $timeout, $window) {
+app.controller("personageAttributesController", function ($scope) {
     $scope.increaseAttribute = function (id) {
         $scope.loader = true;
         var maxPrice = 8;

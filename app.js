@@ -35,6 +35,9 @@ var meritMeritApi = require('./routes/merit-merit-api');
 var spellApi = require('./routes/spell-api');
 var personageSpellApi = require('./routes/personage-spell-api');
 var playerApi = require('./routes/player-api');
+var roleApi = require('./routes/role-api');
+var rolePermissionApi = require('./routes/role-permission-api');
+var permissionApi = require('./routes/permission-api');
 
 var isMobile = require('ismobilejs');
 
@@ -83,6 +86,9 @@ app.use('', meritMeritApi);
 app.use('', spellApi);
 app.use('', personageSpellApi);
 app.use('', playerApi);
+app.use('', roleApi);
+app.use('', rolePermissionApi);
+app.use('', permissionApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');

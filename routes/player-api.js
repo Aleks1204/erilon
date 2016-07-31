@@ -17,7 +17,15 @@ router.post('/players', function (req, res) {
 });
 
 router.get('/players', function (req, res) {
-    models.Player.findAll().then(function (players) {
+    models.Player.findAll({
+        include: [{
+            model: models.Role,
+            include: [{
+                model: models.RolePermission,
+                include: [models.Permission]
+            }]
+        }]
+    }).then(function (players) {
         return res.send({players: players});
     });
 });
