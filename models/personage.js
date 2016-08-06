@@ -9,8 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         age: DataTypes.INTEGER,
         max_age: DataTypes.INTEGER,
         generated: DataTypes.BOOLEAN,
-        experience: DataTypes.INTEGER,
-        notes: DataTypes.TEXT
+        experience: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models) {
@@ -23,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
                 Personage.hasMany(models.PersonageAttachedSkill);
                 Personage.hasMany(models.PersonageTriggerSkill);
                 Personage.hasMany(models.PersonageSpell);
+                Personage.hasMany(models.Notice);
             }
         }
     });

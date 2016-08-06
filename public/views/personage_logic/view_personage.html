@@ -15,11 +15,12 @@
 </head>
 <body ng-app="personageApp">
 
-<div ng-controller="personageController">
-    <div ng-controller="permissionsController">
-        <div data-ng-include data-src="'loader.html'"></div>
 
-        <div data-ng-include data-src="'main-menu.html'"></div>
+<div ng-controller="permissionsController">
+    <div ng-controller="personageController">
+        <div data-ng-include data-src="'/views/loader.html'"></div>
+
+        <div data-ng-include data-src="'/views/main-menu.html'"></div>
         <h3 class="text-center">{{personage.name}}</h3>
 
         <div class="container-fluid">
@@ -356,15 +357,65 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notices">
                             <div class="panel-heading">
                                 Заметки
                             </div>
                         </a>
                     </h4>
-                    <div id="inventory" class="panel-collapse collapse">
+                    <div id="notices" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {{notes}}
+                            <div data-ng-include data-src="'notices.html'"></div>
+                            <button type="button" class="btn btn-default pull-right"
+                                    data-toggle="modal" data-target="#addNotice">Добавить
+                                заметку
+                            </button>
+
+                            <div id="addNotice" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Создать заметку</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal" role="form" name="addNoticeForm">
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2"
+                                                           for="noticeName">Заголовок:</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" ng-model="noticeName" class="form-control"
+                                                               name="noticeNameInput" id="noticeName"
+                                                               required>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2"
+                                                           for="noticeDescription">Текст:</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea ng-model="noticeDescription" class="form-control"
+                                                               id="noticeDescription" name="noticeDescriptionInput"
+                                                               required></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary"
+                                                    ng-click="addNotice()">
+                                                Сохранить
+                                            </button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Отмена
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -577,7 +628,7 @@
             $scope.personageAttachedSkills = data.personage.PersonageAttachedSkills;
             $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
             $scope.personageSpells = data.personage.PersonageSpells;
-            $scope.notes = data.personage.notes;
+            $scope.notices = data.personage.Notices;
             $scope.playerId = data.personage.PlayerId;
             $scope.calculateMagicSchools();
             personage.resolve();
@@ -663,6 +714,55 @@
         $scope.showSpellDetail = function (personageSpell) {
             $scope.currentPersonageSpell = personageSpell;
             jQuery('#spellDetails').modal('show');
+        };
+
+        $scope.viewNotice = function (notice_id) {
+            jQuery('#' + notice_id + '_view').modal('show');
+        };
+
+        $scope.editNotice = function (notice_id) {
+            jQuery('#' + notice_id + '_view').modal('hide');
+            jQuery('#' + notice_id + '_edit').modal('show');
+        };
+
+        $scope.updateNotice = function (notice) {
+            $http.put('/notices/' + notice.id, {
+                name: notice.name,
+                description: notice.description
+            }).success(function (data) {
+                jQuery('#' + notice.id + '_edit').modal('hide');
+                $('#' + notice.id + '_edit').on('hidden.bs.modal', function () {
+                    $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                        $scope.notices = data.notices;
+                    });
+                });
+            });
+        };
+
+        $scope.addNotice = function () {
+            $http.post('/notices', {
+                personage_id: personageId,
+                name: $scope.noticeName,
+                description: $scope.noticeDescription
+            }).success(function (data) {
+                jQuery('#addNotice').modal('hide');
+                $('#addNotice').on('hidden.bs.modal', function () {
+                    $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                        $scope.notices = data.notices;
+                    });
+                });
+            });
+        };
+
+        $scope.deleteNotice = function (notice_id) {
+            $http.delete('/notices/' + notice_id).success(function (data) {
+                jQuery('#' + notice_id + '_view').modal('hide');
+                $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
+                    $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                        $scope.notices = data.notices;
+                    });
+                });
+            });
         };
 
         $scope.hitPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>');

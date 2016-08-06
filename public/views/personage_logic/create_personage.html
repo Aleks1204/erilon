@@ -12,17 +12,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
     <script src="/views/permissions/permissions.js"></script>
-    <script src="personage_logic/personage_main_controller.js"></script>
-    <script src="personage_logic/attributes_controller.js"></script>
-    <script src="permissions/check_player_permissions.js"></script>
+    <script src="personage_main_controller.js"></script>
+    <script src="attributes_controller.js"></script>
+    <script src="../permissions/check_player_permissions.js"></script>
 </head>
 <body ng-app="personageApp">
 
-<div ng-controller="personageController">
-    <div ng-controller="permissionsController">
-        <div data-ng-include data-src="'loader.html'"></div>
+<div ng-controller="permissionsController">
+    <div ng-controller="personageController">
 
-        <div data-ng-include data-src="'main-menu.html'"></div>
+        <div data-ng-include data-src="'/views/loader.html'"></div>
+
+        <div data-ng-include data-src="'/views/main-menu.html'"></div>
         <h3 class="text-center">{{personage.name}}</h3>
 
         <div class="container-fluid">
@@ -88,7 +89,7 @@
                         </a>
                     </h4>
 
-                    <div id="attributes" class="panel-collapse collapse">
+                    <div id="attributes" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <table class="table table-striped">
                                 <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
@@ -420,7 +421,7 @@
                             </div>
                         </a>
                     </h4>
-                    <div id="perks" class="panel-collapse collapse in">
+                    <div id="perks" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div>
                                 <div class="panel-group" id="perkAccordeon">
@@ -825,15 +826,65 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#inventory">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notices">
                             <div class="panel-heading">
                                 Заметки
                             </div>
                         </a>
                     </h4>
-                    <div id="inventory" class="panel-collapse collapse in">
+                    <div id="notices" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <textarea id="notes" ng-model="notes" style="width: 100%; height: 100%;"></textarea>
+                            <div data-ng-include data-src="'notices.html'"></div>
+                            <button type="button" class="btn btn-default pull-right"
+                                    data-toggle="modal" data-target="#addNotice">Добавить
+                                заметку
+                            </button>
+
+                            <div id="addNotice" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Создать заметку</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal" role="form" name="addNoticeForm">
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2"
+                                                           for="noticeName">Заголовок:</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" ng-model="noticeName" class="form-control"
+                                                               name="noticeNameInput" id="noticeName"
+                                                               required>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2"
+                                                           for="noticeDescription">Текст:</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea ng-model="noticeDescription" class="form-control"
+                                                                  id="noticeDescription" name="noticeDescriptionInput"
+                                                                  required></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary"
+                                                    ng-click="addNotice()">
+                                                Сохранить
+                                            </button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Отмена
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

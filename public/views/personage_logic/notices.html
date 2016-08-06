@@ -1,0 +1,64 @@
+<div ng-repeat="notice in notices | orderBy : '-updatedAt'">
+    <div ng-click="viewNotice(notice.id)"
+         style="display: block; width: 100%;cursor:pointer;margin-left: 10px;margin-bottom: 20px;">
+        <a>
+            {{notice.name}}
+        </a>
+    </div>
+
+    <div id="{{notice.id}}_view" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{notice.name}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{notice.description}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">ОК</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="editNotice(notice.id)">
+                        Редактировать
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            ng-click="deleteNotice(notice.id)">
+                        Удалить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="{{notice.id}}_edit" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Редактирование</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+
+                        <label for="{{notice.id}}_name">Заголовок: </label>
+                        <input type="text" class="form-control" id="{{notice.id}}_name" name="noticeName"
+                               ng-model="notice.name" required>
+
+
+                        <label for="{{notice.id}}_description">Текст: </label>
+                            <textarea class="form-control" id="{{notice.id}}_description"
+                                      name="noticeDescription" ng-model="notice.description" required></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" ng-click="updateNotice(notice);updateNotices()">
+                        Сохранить
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

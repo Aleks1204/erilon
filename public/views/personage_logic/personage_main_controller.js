@@ -124,7 +124,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.personageFlaws = data.personage.PersonageFlaws;
         $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
         $scope.personageSpells = data.personage.PersonageSpells;
-        $scope.notes = data.personage.notes;
+        $scope.notices = data.personage.Notices;
         $scope.playerId = data.personage.PlayerId;
         personage.resolve();
     });
@@ -1272,6 +1272,55 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
         $scope.loader = false;
+    };
+
+    $scope.viewNotice = function (notice_id) {
+        jQuery('#' + notice_id + '_view').modal('show');
+    };
+
+    $scope.editNotice = function (notice_id) {
+        jQuery('#' + notice_id + '_view').modal('hide');
+        jQuery('#' + notice_id + '_edit').modal('show');
+    };
+
+    $scope.updateNotice = function (notice) {
+        $http.put('/notices/' + notice.id, {
+            name: notice.name,
+            description: notice.description
+        }).success(function (data) {
+            jQuery('#' + notice.id + '_edit').modal('hide');
+            $('#' + notice.id + '_edit').on('hidden.bs.modal', function () {
+                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                    $scope.notices = data.notices;
+                });
+            });
+        });
+    };
+
+    $scope.addNotice = function () {
+        $http.post('/notices', {
+            personage_id: personageId,
+            name: $scope.noticeName,
+            description: $scope.noticeDescription
+        }).success(function (data) {
+            jQuery('#addNotice').modal('hide');
+            $('#addNotice').on('hidden.bs.modal', function () {
+                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                    $scope.notices = data.notices;
+                });
+            });
+        });
+    };
+
+    $scope.deleteNotice = function (notice_id) {
+        $http.delete('/notices/' + notice_id).success(function (data) {
+            jQuery('#' + notice_id + '_view').modal('hide');
+            $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
+                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                    $scope.notices = data.notices;
+                });
+            });
+        });
     };
 
 

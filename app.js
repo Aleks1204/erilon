@@ -38,6 +38,7 @@ var playerApi = require('./routes/player-api');
 var roleApi = require('./routes/role-api');
 var rolePermissionApi = require('./routes/role-permission-api');
 var permissionApi = require('./routes/permission-api');
+var noticeApi = require('./routes/notice-api');
 
 var isMobile = require('ismobilejs');
 
@@ -89,6 +90,7 @@ app.use('', playerApi);
 app.use('', roleApi);
 app.use('', rolePermissionApi);
 app.use('', permissionApi);
+app.use('', noticeApi);
 
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');
