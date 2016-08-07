@@ -304,7 +304,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-hide="isSpellsEmpty()">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#spells">
                             <div class="panel-heading">
@@ -714,6 +714,10 @@
         $scope.showSpellDetail = function (personageSpell) {
             $scope.currentPersonageSpell = personageSpell;
             jQuery('#spellDetails').modal('show');
+        };
+
+        $scope.isSpellsEmpty = function () {
+            return $scope.personageSpells.length == 0;
         };
 
         $scope.viewNotice = function (notice_id) {
