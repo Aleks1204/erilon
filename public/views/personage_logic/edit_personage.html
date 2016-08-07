@@ -1008,10 +1008,15 @@
             Вы потратили больше опыта, чем у вас есть!
         </div>
 
-        <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-default btn-block"
+        <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-success btn-block"
                 ng-click="savePersonage()">
             Сохранить
         </button>
+
+        <button class="btn btn-warning btn-block" ng-click="reset()">
+            Сброс
+        </button>
+
 
     </div>
 </div>
@@ -2151,6 +2156,10 @@
                     });
                 });
             });
+        };
+
+        $scope.reset = function () {
+            location.reload();
         };
 
         $scope.savePersonage = function () {

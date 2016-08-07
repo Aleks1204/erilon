@@ -1323,6 +1323,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.reset = function () {
+        location.reload();
+    };
 
     $scope.savePersonage = function () {
         $scope.loader = true;
