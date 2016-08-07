@@ -16,74 +16,86 @@
 
 <body ng-app="personageManagerApp">
 
-<div ng-controller="personageListController">
-    <div data-ng-include data-src="'main-menu.html'"></div>
-    <div data-ng-include data-src="'loader.html'"></div>
-    <table class="table table-striped">
-        <tr ng-repeat="personage in personages | orderBy : 'id'">
-            <td style="vertical-align:middle; text-align: center;">
-                <a href="/views/personage_logic/view_personage.html?id={{personage.id}}" class="btn btn-link" role="button">
-                    {{ personage.name }}
-                </a>
-            </td>
-
-            <td style="text-align: right;">
-                <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="/views/personage_logic/create_personage.html?id={{personage.id}}">Продолжить создание</a></li>
-                        <li><a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">Прокачка</a></li>
-                        <li><a href="#" ng-click="deletePersonage(personage.id)">х</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div class="container">
-    <h2>Добавить персонажа</h2>
-
-    <form class="form-horizontal" role="form" ng-controller="addPersonageController"
-          name="createPersonageForm">
+<div ng-controller="permissionsController">
+    <div ng-controller="personageListController">
+        <div data-ng-include data-src="'main-menu.html'"></div>
         <div data-ng-include data-src="'loader.html'"></div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="name">Имя:</label>
-
-            <div class="col-sm-10">
-                <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
-            </div>
+        <div class="btn-toolbar well" ng-show="hasViewPermission('AllPersonages')">
+            <button type="button" class="btn btn-success" ng-click="showAllPersonages()">Показать всех персонажей
+            </button>
+            <button type="button" class="btn btn-success" ng-click="showMyPersonages()">Показать моих персонажей
+            </button>
         </div>
+        <table class="table table-striped">
+            <tr ng-repeat="personage in personages | orderBy : 'id'">
+                <td style="vertical-align:middle; text-align: center;">
+                    <a href="/views/personage_logic/view_personage.html?id={{personage.id}}" class="btn btn-link"
+                       role="button">
+                        {{ personage.name }}
+                    </a>
+                </td>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="race_id">Раса: </label>
+                <td style="text-align: right;">
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="/views/personage_logic/create_personage.html?id={{personage.id}}">Продолжить
+                                создание</a></li>
+                            <li><a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">Прокачка</a>
+                            </li>
+                            <li><a href="#" ng-click="deletePersonage(personage.id)">х</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <div class="col-sm-10">
-                <select class="form-control"
-                        ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races" required>
-                    <option style="display:none" value="">Выберите расу...</option>
-                </select>
+    <div class="container">
+        <h2>Добавить персонажа</h2>
+
+        <form class="form-horizontal" role="form" ng-controller="addPersonageController"
+              name="createPersonageForm">
+            <div data-ng-include data-src="'loader.html'"></div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Имя:</label>
+
+                <div class="col-sm-10">
+                    <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="race_id">Раса: </label>
 
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
-                       min="0" required>
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races"
+                            required>
+                        <option style="display:none" value="">Выберите расу...</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" ng-click="createPersonage()"
-                        ng-disabled="createPersonageForm.$invalid" href="">Добавить
-                </button>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
+
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
+                           min="0" required>
+                </div>
             </div>
-        </div>
-    </form>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" ng-click="createPersonage()"
+                            ng-disabled="createPersonageForm.$invalid" href="">Добавить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -214,11 +226,24 @@
     });
 
     app.controller("personageListController", function ($scope, $http, $localStorage) {
-        $scope.loader = true;
-        $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
-            $scope.personages = data.personages;
-            $scope.loader = false;
-        });
+
+        $scope.showMyPersonages = function () {
+            $scope.loader = true;
+            $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
+                $scope.personages = data.personages;
+                $scope.loader = false;
+            });
+        };
+
+        $scope.showAllPersonages = function () {
+            $scope.loader = true;
+            $http.get('/personages').success(function (data) {
+                $scope.personages = data.personages;
+                $scope.loader = false;
+            });
+        };
+
+        $scope.showMyPersonages();
 
         $scope.deletePersonage = function (id) {
             $http.delete('/personages/' + id).success(function (data) {
@@ -228,7 +253,7 @@
     });
 
 </script>
-<script src="permissions/check_player_permissions.js"></script>
+<script src="/views/permissions/check_player_permissions.js"></script>
 
 </body>
 </html>

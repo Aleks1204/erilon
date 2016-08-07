@@ -14,7 +14,7 @@ router.post('/personages', function (req, res) {
         age: req.body.age,
         max_age: req.body.max_age,
         generated: req.body.generated,
-        experience: req.body.experience,
+        experience: req.body.experience
 
     }).then(function (personage) {
         res.send({status: 'CREATED', personage: personage})
@@ -24,7 +24,7 @@ router.post('/personages', function (req, res) {
 router.get('/personages', function (req, res) {
     models.Personage.findAll({
         include: [models.Race]
-    }).then(function (personags) {
+    }).then(function (personages) {
         return res.send({personages: personages});
     });
 });

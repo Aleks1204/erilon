@@ -29,6 +29,9 @@ app.controller("permissionsManagerController", function ($scope, $http) {
         }, {
             "visibleValue": "Атрибуты",
             "name": "Attribute"
+        }, {
+            "visibleValue": "Все персонажи",
+            "name": "AllPersonages"
         }
     ];
 
