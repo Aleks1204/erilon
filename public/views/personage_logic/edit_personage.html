@@ -85,7 +85,7 @@
                         </a>
                     </h4>
 
-                    <div id="attributes" class="panel-collapse collapse">
+                    <div id="attributes" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <table class="table table-striped">
                                 <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
@@ -637,6 +637,10 @@
                                                             По умолчанию
                                                         </td>
 
+                                                        <td style="vertical-align:middle;"
+                                                            ng-if="!personageFlaw.personage_race_default">
+                                                        </td>
+
                                                         <td ng-hide="personageFlaw.personage_race_default && personageFlaw.Flaw.unremovable">
                                                             <a class="btn btn-link"
                                                                ng-click="deletePersonageFlaw(personageFlaw)">х</a>
@@ -723,7 +727,7 @@
                             </div>
                         </a>
                     </h4>
-                    <div id="spells" class="panel-collapse collapse in">
+                    <div id="spells" class="panel-collapse collapse">
                         <div class="panel-body">
 
                             <div ng-repeat="school in schools | orderBy : 'name'">
