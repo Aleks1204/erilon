@@ -1042,12 +1042,12 @@
         <form name="expirienceForm">
             <table class="table table-striped">
                 <tr>
-                    <td class="lead">
+                    <td class="lead" style="vertical-align: middle">
                         <strong>Очки опыта:</strong>
                     </td>
 
                     <td class="lead">
-                        <strong>{{personage.experience}}</strong>
+                        <input style="width: 50px; text-align: center" type="number" class="form-control" id="expirience" name="expirience" ng-model="personage.experience" required>
                     </td>
                 </tr>
             </table>
