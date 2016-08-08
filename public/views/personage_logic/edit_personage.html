@@ -988,20 +988,17 @@
         </div>
 
         <form name="expirienceForm">
-            <div class="row">
-                <div class="col-xs-offset-1 col-xs-4">
-                    <p class="lead">
+            <table class="table table-striped">
+                <tr>
+                    <td class="lead">
                         <strong>Очки опыта:</strong>
-                    </p>
-                </div>
-                <div class="col-xs-offset-2 col-xs-4">
-                    <div id="expirience" ng-model="expirience">
-                        <p class="lead">
-                            <strong>{{personage.experience}}</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
+                    </td>
+
+                    <td class="lead">
+                        <strong>{{personage.experience}}</strong>
+                    </td>
+                </tr>
+            </table>
         </form>
 
         <div class="alert alert-danger" ng-show="experienceValid()">
