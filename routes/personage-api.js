@@ -46,46 +46,22 @@ router.get('/personages/:id', function (req, res) {
             models.Race,
             {
                 model: models.PersonageTriggerSkill,
-                attributes: ['currentLevel', 'talented', 'tutored'],
-                include: [{
-                    model: models.TriggerSkill,
-                    attributes: ['name', 'cost', 'difficult']
-                    }]
+                include: [models.TriggerSkill]
             }, {
                 model: models.PersonageAttachedSkill,
-                attributes: ['value'],
-                include: [{
-                    model: models.AttachedSkill,
-                    attributes: ['name', 'spells_connected', 'difficult', 'theoretical', 'default_skill']
-                }]
+                include: [models.AttachedSkill]
             }, {
                 model: models.PersonageAttribute,
-                attributes: ['value'],
-                include: [{
-                    model: models.Attribute,
-                    attributes: ['name', 'action_level_bonus']
-                }]
+                include: [models.Attribute]
             }, {
                 model: models.PersonageInherent,
-                attributes: ['value'],
-                include: [{
-                    model: models.Inherent,
-                    attributes: ['name', 'probability', 'min_limit', 'max_limit', 'action_level_bonus']
-                }]
+                include: [models.Inherent]
             }, {
                 model: models.PersonageFlaw,
-                attributes: ['personage_race_default'],
-                include: [{
-                    model: models.Flaw,
-                    attributes: ['name', 'cost', 'unremovable', 'action_level_bonus']
-                }]
+                include: [models.Flaw]
             }, {
                 model: models.PersonageSpell,
-                attributes: ['level', 'tutored'],
-                include: [{
-                    model: models.Spell,
-                    attributes: ['name', 'additional_schools', 'complexity', 'creating_complexity', 'mana', 'instant', 'mana_support', 'mana_sup_time', 'cost', 'effect', 'description']
-                }]
+                include: [models.Spell]
             },
             models.Notice
         ]
