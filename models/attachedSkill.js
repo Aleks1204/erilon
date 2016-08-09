@@ -24,25 +24,9 @@ module.exports = function(sequelize, DataTypes) {
         indexes: [
             // A BTREE index
             {
-                name: 'personage_search_attached_skills_name',
+                name: 'attached_skills_personage_id',
                 method: 'BTREE',
-                fields: ['name']
-            }, {
-                name: 'personage_search_attached_skills_spells_connected',
-                method: 'BTREE',
-                fields: ['spells_connected']
-            }, {
-                name: 'personage_search_attached_skills_difficult',
-                method: 'BTREE',
-                fields: ['difficult']
-            }, {
-                name: 'personage_search_attached_skills_theoretical',
-                method: 'BTREE',
-                fields: ['theoretical']
-            }, {
-                name: 'personage_search_attached_skills_default_skill',
-                method: 'BTREE',
-                fields: ['default_skill']
+                fields: ['PersonageId']
             }
         ]
     });

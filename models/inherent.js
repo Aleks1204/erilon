@@ -23,9 +23,9 @@ module.exports = function(sequelize, DataTypes) {
         indexes: [
             // A BTREE index
             {
-                name: 'personage_search_inherents',
+                name: 'inherent_personage_id',
                 method: 'BTREE',
-                fields: ['name', 'probability', 'min_limit', 'max_limit', 'action_level_bonus']
+                fields: ['PersonageId']
             }
         ]
     });

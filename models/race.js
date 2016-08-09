@@ -17,7 +17,15 @@ module.exports = function(sequelize, DataTypes) {
                 Race.hasMany(models.RaceInherent);
                 Race.hasMany(models.RaceFlaw);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'race_id',
+                method: 'BTREE',
+                fields: ['id']
+            }
+        ]
     });
 
     return Race;

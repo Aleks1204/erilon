@@ -20,13 +20,9 @@ module.exports = function (sequelize, DataTypes) {
         indexes: [
             // A BTREE index
             {
-                name: 'personage_search_attributes_name',
+                name: 'attribute_personage_id',
                 method: 'BTREE',
-                fields: ['name']
-            }, {
-                name: 'personage_search_attributes_action_level_bonus',
-                method: 'BTREE',
-                fields: ['action_level_bonus']
+                fields: ['PersonageId']
             }
         ]
     });
