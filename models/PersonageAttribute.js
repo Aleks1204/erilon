@@ -13,7 +13,15 @@ module.exports = function(sequelize, DataTypes) {
                 PersonageAttribute.belongsTo(models.Attribute);
                 PersonageAttribute.belongsTo(models.Personage);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_personage_attribute',
+                method: 'BTREE',
+                fields: ['value']
+            }
+        ]
     });
 
     return PersonageAttribute;

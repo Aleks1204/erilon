@@ -17,7 +17,15 @@ module.exports = function(sequelize, DataTypes) {
                 TriggerSkill.hasMany(models.SkillLevel);
                 TriggerSkill.hasMany(models.MeritTriggerSkill);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_trigger_skills',
+                method: 'BTREE',
+                fields: ['name', 'cost', 'difficult']
+            }
+        ]
     });
 
     return TriggerSkill;

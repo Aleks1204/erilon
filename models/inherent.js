@@ -19,7 +19,15 @@ module.exports = function(sequelize, DataTypes) {
                 Inherent.hasMany(models.RaceInherent);
                 Inherent.hasMany(models.MeritInherent);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_inherents',
+                method: 'BTREE',
+                fields: ['name', 'probability', 'min_limit', 'max_limit', 'action_level_bonus']
+            }
+        ]
     });
 
     return Inherent;

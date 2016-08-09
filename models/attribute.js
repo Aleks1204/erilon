@@ -4,19 +4,31 @@
 
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Attribute = sequelize.define("Attribute", {
         name: DataTypes.STRING,
         action_level_bonus: DataTypes.STRING
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Attribute.hasMany(models.RaceAttribute);
                 Attribute.hasMany(models.PersonageAttribute);
                 Attribute.hasMany(models.MeritAttribute);
                 Attribute.hasMany(models.MeritAttributeAttachedSkill);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_attributes_name',
+                method: 'BTREE',
+                fields: ['name']
+            }, {
+                name: 'personage_search_attributes_action_level_bonus',
+                method: 'BTREE',
+                fields: ['action_level_bonus']
+            }
+        ]
     });
 
     return Attribute;

@@ -14,7 +14,15 @@ module.exports = function(sequelize, DataTypes) {
                 PersonageTriggerSkill.belongsTo(models.TriggerSkill);
                 PersonageTriggerSkill.belongsTo(models.Personage);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_personage_trigger_skills',
+                method: 'BTREE',
+                fields: ['currentLevel', 'talented', 'tutored']
+            }
+        ]
     });
 
     return PersonageTriggerSkill;

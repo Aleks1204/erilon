@@ -12,7 +12,15 @@ module.exports = function(sequelize, DataTypes) {
                 PersonageInherent.belongsTo(models.Inherent);
                 PersonageInherent.belongsTo(models.Personage);
             }
-        }
+        },
+        indexes: [
+            // A BTREE index
+            {
+                name: 'personage_search_personage_inherents',
+                method: 'BTREE',
+                fields: ['value']
+            }
+        ]
     });
 
     return PersonageInherent;
