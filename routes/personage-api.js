@@ -46,22 +46,46 @@ router.get('/personages/:id', function (req, res) {
             models.Race,
             {
                 model: models.PersonageTriggerSkill,
-                include: [models.TriggerSkill]
+                attributes: ['currentLevel', 'talented', 'tutored'],
+                include: [{
+                    model: models.TriggerSkill,
+                    attributes: ['name', 'cost', 'difficult']
+                    }]
             }, {
                 model: models.PersonageAttachedSkill,
-                include: [models.AttachedSkill]
+                attributes: ['value'],
+                include: [{
+                    model: models.AttachedSkill,
+                    attributes: ['name', 'spells_connected', 'difficult', 'theoretical', 'default_skill']
+                }]
             }, {
                 model: models.PersonageAttribute,
-                include: [models.Attribute]
+                attributes: ['value'],
+                include: [{
+                    model: models.Attribute,
+                    attributes: ['name', 'action_level_bonus']
+                }]
             }, {
                 model: models.PersonageInherent,
-                include: [models.Inherent]
+                attributes: ['value'],
+                include: [{
+                    model: models.Inherent,
+                    attributes: ['name', 'probability', 'min_limit', 'max_limit', 'action_level_bonus']
+                }]
             }, {
                 model: models.PersonageFlaw,
-                include: [models.Flaw]
+                attributes: ['personage_race_default'],
+                include: [{
+                    model: models.Flaw,
+                    attributes: ['name', 'cost', 'unremovable', 'action_level_bonus']
+                }]
             }, {
                 model: models.PersonageSpell,
-                include: [models.Spell]
+                attributes: ['level', 'tutored'],
+                include: [{
+                    model: models.Spell,
+                    attributes: ['name', 'additional_schools', 'complexity', 'creating_complexity', 'mana', 'instant', 'mana_support', 'mana_sup_time', 'cost', 'effect', 'description']
+                }]
             },
             models.Notice
         ]
