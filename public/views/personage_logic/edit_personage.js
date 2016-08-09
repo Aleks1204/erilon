@@ -44,7 +44,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personage = $q.defer();
     var raceAttributes = $q.defer();
     var personageMerits = $q.defer();
-    var personageAttachedSkills = $q.defer();
+    // var personageAttachedSkills = $q.defer();
 
     function success(data) {
         $scope.recalculateMagicSchools();
@@ -53,7 +53,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
-        triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise, personageAttachedSkills.promise]);
+        triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise]);
 
     all.then(success);
 
@@ -177,10 +177,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         personageMerits.resolve();
     });
 
-    $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageAttachedSkills = data.personageAttachedSkills;
-        personageAttachedSkills.resolve();
-    });
+    $scope.getPersonageAttachedSkills = function () {
+        $scope.loader = true;
+        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+            $scope.personageAttachedSkills = data.personageAttachedSkills;
+            $scope.loader = false;
+            // personageAttachedSkills.resolve();
+        });
+    };
 
     $scope.showSpellDetail = function (spell_id) {
         $scope.loader = true;
