@@ -55,7 +55,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function success(data) {
         $scope.hasInherents();
-        $scope.recalculateMagicSchools();
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
@@ -1056,8 +1055,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             } else {
                 $scope.personage.experience = $scope.personage.experience - 1;
             }
-            $scope.recalculateMagicSchools();
+            $scope.recalculateMagicSchools($scope.personageAttachedSkills);
             $scope.loader = false;
+        });
+    };
+
+    var personageAttachedSkillsClicked = false;
+    $scope.getPersonageAttachedSkills = function () {
+        if (!personageAttachedSkillsClicked) {
+            personageAttachedSkillsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+                $scope.recalculateMagicSchools(data.personageAttachedSkills);
+                $scope.personageAttachedSkills = data.personageAttachedSkills;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    $scope.recalculateMagicSchools = function (personageAttachedSkills) {
+        $scope.schools = [];
+        angular.forEach(personageAttachedSkills, function (personageAttachedSkill) {
+            if (personageAttachedSkill.AttachedSkill.spells_connected) {
+                $scope.schools.push(personageAttachedSkill.AttachedSkill);
+            }
         });
     };
 
@@ -1110,7 +1131,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             } else {
                 $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
             }
-            $scope.recalculateMagicSchools();
+            $scope.recalculateMagicSchools($scope.personageAttachedSkills);
         }
         $scope.loader = false;
     };

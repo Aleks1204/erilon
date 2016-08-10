@@ -46,7 +46,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personageMerits = $q.defer();
 
     function success(data) {
-        $scope.recalculateMagicSchools();
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
@@ -160,15 +159,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.initiative = $scope.reaction;
         $scope.endurancePoints = $scope.endurance * 20;
 
-    };
-
-    $scope.recalculateMagicSchools = function () {
-        $scope.schools = [];
-        angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-            if (personageAttachedSkill.AttachedSkill.spells_connected) {
-                $scope.schools.push(personageAttachedSkill.AttachedSkill);
-            }
-        });
     };
 
     $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
@@ -932,8 +922,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             } else {
                 $scope.personage.experience = $scope.personage.experience - 1;
             }
-            $scope.recalculateMagicSchools();
+            $scope.recalculateMagicSchools($scope.personageAttachedSkills);
             $scope.loader = false;
+        });
+    };
+
+    var personageAttachedSkillsClicked = false;
+    $scope.getPersonageAttachedSkills = function () {
+        if (!personageAttachedSkillsClicked) {
+            personageAttachedSkillsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+                $scope.recalculateMagicSchools(data.personageAttachedSkills);
+                $scope.personageAttachedSkills = data.personageAttachedSkills;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    $scope.recalculateMagicSchools = function (personageAttachedSkills) {
+        $scope.schools = [];
+        angular.forEach(personageAttachedSkills, function (personageAttachedSkill) {
+            if (personageAttachedSkill.AttachedSkill.spells_connected) {
+                $scope.schools.push(personageAttachedSkill.AttachedSkill);
+            }
         });
     };
 
