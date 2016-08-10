@@ -24,9 +24,9 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ui.bootstrap', 'ngStorage']);
+var app = angular.module("personageApp", ['ui.bootstrap', 'ngStorage', 'ngMaterial']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
@@ -925,6 +925,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.recalculateMagicSchools($scope.personageAttachedSkills);
             $scope.loader = false;
         });
+    };
+
+    $scope.openDialog = function($event) {
+        $mdDialog.show({
+            locals:{valuesForFilter: $scope.selectAttachedSkills},
+            controller: DialogCtrl,
+            controllerAs: 'ctrl',
+            templateUrl: 'test.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose:true
+        })
     };
 
     var personageAttachedSkillsClicked = false;
