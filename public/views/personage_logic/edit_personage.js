@@ -44,7 +44,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personage = $q.defer();
     var raceAttributes = $q.defer();
     var personageMerits = $q.defer();
-    // var personageAttachedSkills = $q.defer();
 
     function success(data) {
         $scope.recalculateMagicSchools();
@@ -176,16 +175,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.personageMerits = data.personageMerits;
         personageMerits.resolve();
     });
-
-    $scope.getPersonageAttachedSkills = function () {
-        $scope.loader = true;
-        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-            $scope.personageAttachedSkills = data.personageAttachedSkills;
-            $scope.loader = false;
-            // personageAttachedSkills.resolve();
-        });
-    };
-
+    
     $scope.showSpellDetail = function (spell_id) {
         $scope.loader = true;
         $scope.spellDetails = {

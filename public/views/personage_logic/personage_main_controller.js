@@ -51,7 +51,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personage = $q.defer();
     var raceAttributes = $q.defer();
     var personageMerits = $q.defer();
-    var personageAttachedSkills = $q.defer();
     var raceInherents = $q.defer();
 
     function success(data) {
@@ -63,7 +62,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
         triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise,
-        personageAttachedSkills.promise, raceInherents.promise]);
+        raceInherents.promise]);
 
     all.then(success);
 
@@ -286,12 +285,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     success(function (data) {
         $scope.personageMerits = data.personageMerits;
         personageMerits.resolve();
-    });
-
-    $http.get('/personageAttachedSkillsByPersonageId/' + personageId).
-    success(function (data) {
-        $scope.personageAttachedSkills = data.personageAttachedSkills;
-        personageAttachedSkills.resolve();
     });
 
     $scope.showSpellDetail = function (spell_id) {

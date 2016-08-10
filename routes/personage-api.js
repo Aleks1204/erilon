@@ -48,9 +48,6 @@ router.get('/personages/:id', function (req, res) {
                 model: models.PersonageTriggerSkill,
                 include: [models.TriggerSkill]
             }, {
-                model: models.PersonageAttachedSkill,
-                include: [models.AttachedSkill]
-            }, {
                 model: models.PersonageAttribute,
                 include: [models.Attribute]
             }, {
@@ -65,8 +62,7 @@ router.get('/personages/:id', function (req, res) {
             },
             models.Notice
         ]
-    }).
-    then(function (personage) {
+    }).then(function (personage) {
         if (!personage) {
             res.statusCode = 404;
             return res.send({error: 'Not found'});

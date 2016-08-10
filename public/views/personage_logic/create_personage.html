@@ -14,6 +14,7 @@
     <script src="/views/permissions/permissions.js"></script>
     <script src="personage_main_controller.js"></script>
     <script src="attributes_controller.js"></script>
+    <script src="attached_skills_controller.js"></script>
     <script src="../permissions/check_player_permissions.js"></script>
 </head>
 <body ng-app="personageApp">
@@ -125,10 +126,10 @@
                             <div>
                                 <div class="panel-group" id="skillsAccordeon">
 
-                                    <div class="panel panel-default">
+                                    <div class="panel panel-default" ng-controller="personageAttachedSkillsController">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#attachedSkills">
+                                               href="#attachedSkills" ng-click="getPersonageAttachedSkills()">
                                                 <div class="panel-heading">
                                                     Прикрепленные
                                                 </div>
