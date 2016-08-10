@@ -16,8 +16,9 @@
 </head>
 <body ng-app="spells">
 
-<div ng-controller="spellsController">
-    <div ng-controller="permissionsController">
+
+<div ng-controller="permissionsController">
+    <div ng-controller="spellsController">
         <div data-ng-include data-src="'/views/loader.html'"></div>
 
         <div data-ng-include data-src="'/views/main-menu.html'"></div>
@@ -89,7 +90,8 @@
                                                 </table>
                                                 <button type="button" class="btn btn-default pull-right"
                                                         data-toggle="modal" data-target="#addSpellDialog"
-                                                        ng-click="setSchool(school.id)" ng-show="hasCreatePermission('Spell')">
+                                                        ng-click="setSchool(school.id)"
+                                                        ng-show="hasCreatePermission('Spell')">
                                                     Добавить
                                                     заклинание
                                                 </button>
