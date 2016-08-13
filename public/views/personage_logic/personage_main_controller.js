@@ -30,9 +30,9 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
+var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
