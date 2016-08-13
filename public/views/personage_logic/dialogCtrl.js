@@ -1,5 +1,5 @@
 
-function DialogCtrl ($mdDialog, valuesForFilter) {
+function DialogCtrl ($mdDialog, valuesForFilter, addItemFunction) {
     // list of `state` value/display objects
     this.values        = loadAll();
     this.querySearch   = querySearch;
@@ -9,7 +9,8 @@ function DialogCtrl ($mdDialog, valuesForFilter) {
     this.cancel = function() {
         $mdDialog.cancel();
     };
-    this.finish = function() {
+    this.finish = function(id) {
+        addItemFunction(id);
         $mdDialog.hide();
     };
     // ******************************
@@ -29,7 +30,8 @@ function DialogCtrl ($mdDialog, valuesForFilter) {
         return valuesForFilter.map( function (value) {
             return {
                 value: value.name.toLowerCase(),
-                display: value.name
+                display: value.name,
+                id: value.id
             };
         });
     }
@@ -38,8 +40,8 @@ function DialogCtrl ($mdDialog, valuesForFilter) {
      */
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
-        return function filterFn(state) {
-            return (state.value.indexOf(lowercaseQuery) === 0);
+        return function filterFn(item) {
+            return (item.value.indexOf(lowercaseQuery) === 0);
         };
     }
 }

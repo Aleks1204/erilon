@@ -30,10 +30,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
-    $scope.currentMerit = null;
 
     $window.onbeforeunload = function () {
-        return "go away!";
+        if (window.location.href.indexOf('localhost') == -1) {
+            return "go away!";
+        }
     };
 
     var merits = $q.defer();
@@ -532,15 +533,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.validateCurrentMerit = function () {
-        if ($scope.currentMerit != null) {
-            $scope.validatePrerequisites($scope.currentMerit);
-        }
-    };
-
     $scope.validatePrerequisites = function (merit) {
         $scope.loader = true;
-        $scope.currentMerit = merit;
         $scope.meritAvailable = true;
         var meritObject = angular.fromJson(merit);
 
@@ -555,6 +549,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var attributeAttachedSkillExistPromise = $q.defer();
         var triggerSkillExistPromise = $q.defer();
         var inherentExistPromise = $q.defer();
+        var validatePrerequisites = $q.defer();
 
         function success(data) {
             $scope.loader = false;
@@ -563,6 +558,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     $scope.meritAvailable = false;
                 }
             });
+            validatePrerequisites.resolve({meritAvailable: $scope.meritAvailable});
         }
 
         var all = $q.all([attributeSatisfiedPromise.promise,
@@ -747,6 +743,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
             meritSatisfiedPromise.resolve(meritSatisfied);
         });
+
+        return validatePrerequisites.promise;
     };
 
     $scope.addPersonageMerit = function (merit) {
@@ -761,7 +759,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
             function success(data) {
                 $scope.loader = false;
-                $scope.currentMerit = null;
                 jQuery('#addMeritDialog').modal('hide');
             }
 
@@ -927,15 +924,29 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.openDialog = function($event) {
+    $scope.showAddDialog = function (values, addingFunction) {
         $mdDialog.show({
-            locals:{valuesForFilter: $scope.selectAttachedSkills},
+            locals: {valuesForFilter: values, addItemFunction: addingFunction},
             controller: DialogCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'test.html',
+            templateUrl: 'addItemTemplate.html',
             parent: angular.element(document.body),
-            targetEvent: $event,
-            clickOutsideToClose:true
+            clickOutsideToClose: true
+        })
+    };
+
+    $scope.showAddMeritDialog = function (merits, addMeritFunction, validationFunction) {
+        $mdDialog.show({
+            locals: {
+                meritsForFilter: merits,
+                addMeritFunction: addMeritFunction,
+                validationFunction: validationFunction
+            },
+            controller: MeritDialogCtrl,
+            controllerAs: 'ctrl',
+            templateUrl: 'addMeritTemplate.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true
         })
     };
 

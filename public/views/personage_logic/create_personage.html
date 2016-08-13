@@ -5,14 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
     <script src="/views/permissions/permissions.js"></script>
     <script src="personage_main_controller.js"></script>
+    <script src="dialogCtrl.js"></script>
+    <script src="meritDialogCtrl.js"></script>
     <script src="attributes_controller.js"></script>
     <script src="../permissions/check_player_permissions.js"></script>
 </head>
@@ -165,69 +176,11 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <button type="button" class="btn btn-default pull-right"
-                                                        data-toggle="modal" data-target="#addAttachedSkillDialog"
-                                                        ng-click="calculateAttachedSkillSelectOptions()">Добавить
-                                                    прикрепленный навык
-                                                </button>
 
-                                                <div id="addAttachedSkillDialog" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Добавить прикрепленный
-                                                                    навык</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form class="form-horizontal" role="form"
-                                                                      name="addPersonageAttachedSkillForm">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-sm-2"
-                                                                               for="attachedSkill_id">Навык: </label>
-
-                                                                        <div class="col-sm-10">
-                                                                            <select class="form-control"
-                                                                                    ng-model="attachedSkill_id"
-                                                                                    id="attachedSkill_id"
-                                                                                    ng-options="selectAttachedSkill.id as selectAttachedSkill.name for selectAttachedSkill in selectAttachedSkills"
-                                                                                    required>
-                                                                                <option value="" style="display:none">
-                                                                                    Выберите навык...
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                                <button type="button"
-                                                                                        class="btn btn-default pull-right"
-                                                                                        data-dismiss="modal">
-                                                                                    Отмена
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <div class="col-md-3 col-xs-1">
-                                                                                <button type="submit"
-                                                                                        class="btn btn-success pull-left"
-                                                                                        ng-click="addPersonageAttachedSkill(attachedSkill_id)"
-                                                                                        ng-disabled="addPersonageAttachedSkillForm.$invalid">
-                                                                                    Добавить
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                <md-content class="md-padding pull-right">
+                                                    <md-button ng-click="calculateAttachedSkillSelectOptions();showAddDialog(selectAttachedSkills, addPersonageAttachedSkill)" class="md-raised">Добавить прикрепленный навык
+                                                    </md-button>
+                                                </md-content>
 
                                             </div>
                                         </div>
@@ -339,68 +292,11 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <button type="button" class="btn btn-default pull-right"
-                                                        data-toggle="modal" data-target="#addTriggerSkillDialog"
-                                                        ng-click="calculateTriggerSkillSelectOptions()">Добавить
-                                                    тригерный навык
-                                                </button>
 
-                                                <div id="addTriggerSkillDialog" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Добавить тригерный навык</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form class="form-horizontal" role="form"
-                                                                      name="addPersonageTriggerSkillForm">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-sm-2"
-                                                                               for="triggerSkill_id">Навык: </label>
-
-                                                                        <div class="col-sm-10">
-                                                                            <select class="form-control"
-                                                                                    ng-model="triggerSkill_id"
-                                                                                    id="triggerSkill_id"
-                                                                                    ng-options="selectTriggerSkill.id as selectTriggerSkill.name for selectTriggerSkill in selectTriggerSkills"
-                                                                                    required>
-                                                                                <option value="" style="display:none">
-                                                                                    Выберите навык...
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                                <button type="button"
-                                                                                        class="btn btn-default pull-right"
-                                                                                        data-dismiss="modal">
-                                                                                    Отмена
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <div class="col-md-3 col-xs-1">
-                                                                                <button type="submit"
-                                                                                        class="btn btn-success pull-left"
-                                                                                        ng-click="addPersonageTriggerSkill(triggerSkill_id)"
-                                                                                        ng-disabled="addPersonageTriggerSkillForm.$invalid">
-                                                                                    Добавить
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                <md-content class="md-padding pull-right">
+                                                    <md-button ng-click="calculateTriggerSkillSelectOptions();showAddDialog(selectTriggerSkills, addPersonageTriggerSkill)" class="md-raised">Добавить тригерный навык
+                                                    </md-button>
+                                                </md-content>
 
                                             </div>
                                         </div>
@@ -467,77 +363,13 @@
                                                         </button>
                                                     </div>
                                                     <div class="col-md-2 col-xs-6">
-                                                        <button ng-if="!isMobile" type="button" class="btn btn-default "
-                                                                ng-click="calculateInherentSelectOptions()"
-                                                                data-toggle="modal"
-                                                                data-target="#addInherentDialog">Добавить
-                                                            врожденное
-                                                        </button>
-                                                        <button ng-if="isMobile" type="button" class="btn btn-default "
-                                                                ng-click="calculateInherentSelectOptions()"
-                                                                data-toggle="modal"
-                                                                data-target="#addInherentDialog">Добавить
-                                                        </button>
+                                                        <md-content class="md-padding pull-right">
+                                                            <md-button ng-click="calculateInherentSelectOptions();showAddDialog(selectInherents, addPersonageInherent)" class="md-raised">Добавить
+                                                                врожденное
+                                                            </md-button>
+                                                        </md-content>
                                                     </div>
                                                 </div>
-
-                                                <div id="addInherentDialog" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Добавить врожденное</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form class="form-horizontal" role="form"
-                                                                      name="addPersonageInherentForm">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-sm-2"
-                                                                               for="inherent_id">Врожденное: </label>
-
-                                                                        <div class="col-sm-10">
-                                                                            <select class="form-control"
-                                                                                    ng-model="inherent_id"
-                                                                                    id="inherent_id"
-                                                                                    ng-options="selectInherent.id as selectInherent.name for selectInherent in selectInherents"
-                                                                                    required>
-                                                                                <option value="" style="display:none">
-                                                                                    Выберите врожденное...
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                                <button type="button"
-                                                                                        class="btn btn-default pull-right"
-                                                                                        data-dismiss="modal">
-                                                                                    Отмена
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <div class="col-md-3 col-xs-1">
-                                                                                <button type="submit"
-                                                                                        class="btn btn-success pull-left"
-                                                                                        ng-click="addPersonageInherent(inherent_id)"
-                                                                                        ng-disabled="addPersonageInherentForm.$invalid">
-                                                                                    Добавить
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
 
                                             </div>
                                         </div>
@@ -577,71 +409,12 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <button type="button" class="btn btn-default pull-right"
-                                                        data-toggle="modal" data-target="#addMeritDialog"
-                                                        ng-click="calculateMeritSelectOptions();validateCurrentMerit();">
-                                                    Добавить
-                                                    достоинство
-                                                </button>
 
-                                                <div id="addMeritDialog" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Добавить достоинство</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form class="form-horizontal" role="form"
-                                                                      name="addPersonageMeritForm">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-sm-2"
-                                                                               for="merit">Достоинство: </label>
-
-                                                                        <div class="col-sm-10">
-                                                                            <select class="form-control"
-                                                                                    ng-model="merit" id="merit"
-                                                                                    ng-change="validatePrerequisites(merit)"
-                                                                                    ng-options="selectMerit as selectMerit.name + ' ' + selectMerit.cost for selectMerit in selectMerits"
-                                                                                    required>
-                                                                                <option value="" style="display:none">
-                                                                                    Выберите достоинство...
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <span style="color: red" ng-hide="meritAvailable">Требования не выполнены!</span>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                                <button type="button"
-                                                                                        class="btn btn-default pull-right"
-                                                                                        data-dismiss="modal">
-                                                                                    Отмена
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <div class="col-md-3 col-xs-1">
-                                                                                <button type="submit"
-                                                                                        class="btn btn-success pull-left"
-                                                                                        ng-click="addPersonageMerit(merit)"
-                                                                                        ng-disabled="addPersonageMeritForm.$invalid || !meritAvailable">
-                                                                                    Добавить
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                <md-content class="md-padding pull-right">
+                                                    <md-button ng-click="calculateMeritSelectOptions();showAddMeritDialog(selectMerits, addPersonageMerit, validatePrerequisites)" class="md-raised">Добавить
+                                                        достоинство
+                                                    </md-button>
+                                                </md-content>
 
                                             </div>
                                         </div>
@@ -682,67 +455,12 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <button type="button" class="btn btn-default pull-right"
-                                                        data-toggle="modal" data-target="#addFlawDialog"
-                                                        ng-click="calculateFlawSelectOptions()">Добавить
-                                                    недостаток
-                                                </button>
 
-                                                <div id="addFlawDialog" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Добавить недостаток</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form class="form-horizontal" role="form"
-                                                                      name="addPersonageFlawForm">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-sm-2"
-                                                                               for="flaw_id">Недостаток: </label>
-
-                                                                        <div class="col-sm-10">
-                                                                            <select class="form-control"
-                                                                                    ng-model="flaw_id" id="flaw_id"
-                                                                                    ng-options="selectFlaw.id as selectFlaw.name + ' ' + selectFlaw.cost for selectFlaw in selectFlaws"
-                                                                                    required>
-                                                                                <option value="" style="display:none">
-                                                                                    Выберите недостаток...
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                                                                <button type="button"
-                                                                                        class="btn btn-default pull-right"
-                                                                                        data-dismiss="modal">
-                                                                                    Отмена
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <div class="col-md-3 col-xs-1">
-                                                                                <button type="submit"
-                                                                                        class="btn btn-success pull-left"
-                                                                                        ng-click="addPersonageFlaw(flaw_id)"
-                                                                                        ng-disabled="addPersonageFlawForm.$invalid">
-                                                                                    Добавить
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                <md-content class="md-padding pull-right">
+                                                    <md-button ng-click="calculateFlawSelectOptions();showAddDialog(selectFlaws, addPersonageFlaw)" class="md-raised">Добавить
+                                                        недостаток
+                                                    </md-button>
+                                                </md-content>
 
                                             </div>
                                         </div>
