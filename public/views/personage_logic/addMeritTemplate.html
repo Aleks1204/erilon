@@ -1,0 +1,44 @@
+<md-dialog aria-label="Autocomplete Dialog" ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Добавить</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <img src="/images/ic_close_24px.svg"/>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <form name="meritAutocompleteForm">
+                <md-autocomplete
+                        md-input-name="autocompleteField"
+                        md-selected-item="ctrl.selectedItem"
+                        md-search-text="ctrl.searchText"
+                        md-items="item in ctrl.querySearch(ctrl.searchText)"
+                        md-item-text="item.name"
+                        md-min-length="0"
+                        md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
+                        placeholder="Введите название">
+                    <md-item-template>
+                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        С таким названием "{{ctrl.searchText}}" ничего не найдено.
+                    </md-not-found>
+                </md-autocomplete>
+
+                <br ng-hide="ctrl.meritAvailable"/>
+                <div class="md-title" style="color: red" ng-hide="ctrl.meritAvailable">
+                    <p>Требования не выполнены!</p>
+                </div>
+
+            </form>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-disabled="!ctrl.meritAvailable" aria-label="Finished"
+                   ng-click="ctrl.finishMerit(ctrl.selectedItem)">Добавить
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
