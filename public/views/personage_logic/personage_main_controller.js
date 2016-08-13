@@ -61,8 +61,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
-        triggerSkills.promise, personage.promise, raceAttributes.promise, personageMerits.promise,
-        raceInherents.promise]);
+        triggerSkills.promise, personage.promise, raceAttributes.promise, raceInherents.promise]);
 
     all.then(success);
 
@@ -122,7 +121,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.personageInherents = data.personage.PersonageInherents;
         $scope.personageFlaws = data.personage.PersonageFlaws;
         $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
-        $scope.personageSpells = data.personage.PersonageSpells;
         $scope.notices = data.personage.Notices;
         $scope.playerId = data.personage.PlayerId;
         personage.resolve();
@@ -280,12 +278,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
     };
-
-    $http.get('/personageMeritsByPersonageId/' + personageId).
-    success(function (data) {
-        $scope.personageMerits = data.personageMerits;
-        personageMerits.resolve();
-    });
 
     $scope.showSpellDetail = function (spell_id) {
         $scope.loader = true;
@@ -1091,6 +1083,78 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
                 $scope.recalculateMagicSchools(data.personageAttachedSkills);
                 $scope.personageAttachedSkills = data.personageAttachedSkills;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var personageSpellsClicked = false;
+    $scope.getPersonageSpells = function () {
+        if (!personageSpellsClicked) {
+            personageSpellsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageSpells = data.personageSpells;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var personageTriggerSkillsClicked = false;
+    $scope.getPersonageTriggerSkills = function () {
+        if (!personageTriggerSkillsClicked) {
+            personageTriggerSkillsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageTriggerSkills = data.personageTriggerSkills;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var noticesClicked = false;
+    $scope.getNotices = function () {
+        if (!noticesClicked) {
+            noticesClicked = true;
+            $scope.loader = true;
+            $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
+                $scope.notices = data.notices;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var personageFlawsClicked = false;
+    $scope.getPersonageFlaws = function () {
+        if (!personageFlawsClicked) {
+            personageFlawsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageFlaws = data.personageFlaws;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var personageMeritsClicked = false;
+    $scope.getPersonageMerits = function () {
+        if (!personageMeritsClicked) {
+            personageMeritsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageMerits = data.personageMerits;
+                $scope.loader = false;
+            });
+        }
+    };
+
+    var personageInherentsClicked = false;
+    $scope.getPersonageInherents = function () {
+        if (!personageInherentsClicked) {
+            personageInherentsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageInherents = data.personageInherents;
                 $scope.loader = false;
             });
         }

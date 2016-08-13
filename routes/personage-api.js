@@ -45,22 +45,9 @@ router.get('/personages/:id', function (req, res) {
         include: [
             models.Race,
             {
-                model: models.PersonageTriggerSkill,
-                include: [models.TriggerSkill]
-            }, {
                 model: models.PersonageAttribute,
                 include: [models.Attribute]
-            }, {
-                model: models.PersonageInherent,
-                include: [models.Inherent]
-            }, {
-                model: models.PersonageFlaw,
-                include: [models.Flaw]
-            }, {
-                model: models.PersonageSpell,
-                include: [models.Spell]
-            },
-            models.Notice
+            }
         ]
     }).then(function (personage) {
         if (!personage) {

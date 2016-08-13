@@ -179,7 +179,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#triggerSkills">
+                                               href="#triggerSkills" ng-click="getPersonageTriggerSkills()">
                                                 <div class="panel-heading">
                                                     Триггерные
                                                 </div>
@@ -306,7 +306,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents"  ng-click="getPersonageInherents()">
                                                 <div class="panel-heading">
                                                     Врожденные
                                                 </div>
@@ -349,7 +349,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
-                                               ng-click="calculateShowMerits()">
+                                               ng-click="getPersonageMerits();calculateShowMerits()">
                                                 <div class="panel-heading">
                                                     Достоинства
                                                 </div>
@@ -392,7 +392,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws"  ng-click="getPersonageFlaws()">
                                                 <div class="panel-heading">
                                                     Недостатки
                                                 </div>
@@ -446,7 +446,7 @@
                 <div class="panel panel-default">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#spells"
-                           ng-click="getPersonageAttachedSkills()">
+                           ng-click="getPersonageAttachedSkills();getPersonageSpells()">
                             <div class="panel-heading">
                                 Заклинания
                             </div>
@@ -461,7 +461,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" href="#spells{{school.id}}">
-                                                <div class="panel-heading" ng-click="getPersonageAttachedSkills()">
+                                                <div class="panel-heading">
                                                     {{school.name}}
                                                 </div>
                                             </a>
@@ -515,7 +515,7 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#notices">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notices"  ng-click="getNotices()">
                             <div class="panel-heading">
                                 Заметки
                             </div>

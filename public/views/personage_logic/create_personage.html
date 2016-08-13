@@ -189,7 +189,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#triggerSkills">
+                                               href="#triggerSkills" ng-click="getPersonageTriggerSkills()">
                                                 <div class="panel-heading">
                                                     Триггерные
                                                 </div>
@@ -324,13 +324,13 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents" ng-click="getPersonageInherents()">
                                                 <div class="panel-heading">
                                                     Врожденные
                                                 </div>
                                             </a>
                                         </h4>
-                                        <div id="inherents" class="panel-collapse collapse in">
+                                        <div id="inherents" class="panel-collapse collapse">
 
 
                                             <div class="panel-body">
@@ -378,7 +378,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
-                                               ng-click="calculateShowMerits()">
+                                               ng-click="getPersonageMerits();calculateShowMerits()">
                                                 <div class="panel-heading">
                                                     Достоинства
                                                 </div>
@@ -422,7 +422,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws" ng-click="getPersonageFlaws()">
                                                 <div class="panel-heading">
                                                     Недостатки
                                                 </div>
@@ -474,7 +474,7 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#spells" ng-click="getPersonageAttachedSkills()">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#spells" ng-click="getPersonageAttachedSkills();getPersonageSpells()">
                             <div class="panel-heading">
                                 Заклинания
                             </div>
@@ -543,7 +543,7 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#notices">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notices" ng-click="getNotices()">
                             <div class="panel-heading">
                                 Заметки
                             </div>
