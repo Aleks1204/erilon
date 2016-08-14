@@ -1382,6 +1382,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.clearNoticeFields = function () {
+        $scope.noticeName = '';
+        $scope.noticeDescription = '';
+    };
+
     $scope.addNotice = function () {
         $http.post('/notices', {
             personage_id: personageId,

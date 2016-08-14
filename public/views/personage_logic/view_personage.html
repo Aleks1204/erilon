@@ -108,7 +108,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#attachedSkills">
+                                               href="#attachedSkills" ng-click="getPersonageAttachedSkills()">
                                                 <div class="panel-heading">
                                                     Прикрепленные
                                                 </div>
@@ -134,7 +134,7 @@
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#triggerSkills">
+                                               href="#triggerSkills" ng-click="getPersonageTriggerSkills()">
                                                 <div class="panel-heading">
                                                     Триггерные
                                                 </div>
@@ -231,7 +231,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents" ng-click="getPersonageInherents()">
                                                 <div class="panel-heading">
                                                     Врожденные
                                                 </div>
@@ -260,7 +260,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits" ng-click="getPersonageMerits()">
                                                 <div class="panel-heading">
                                                     Достоинства
                                                 </div>
@@ -281,7 +281,7 @@
 
                                     <div class="panel panel-default">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws">
+                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws" ng-click="getPersonageFlaws()">
                                                 <div class="panel-heading">
                                                     Недостатки
                                                 </div>
@@ -308,7 +308,7 @@
 
                 <div class="panel panel-default" ng-hide="isSpellsEmpty()">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#spells">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#spells" ng-click="getPersonageAttachedSkills();getPersonageSpells()">
                             <div class="panel-heading">
                                 Заклинания
                             </div>
@@ -328,7 +328,7 @@
                                                 </div>
                                             </a>
                                         </h4>
-                                        <div id="spells{{school.id}}" class="panel-collapse collapse">
+                                        <div id="spells{{school.id}}" class="panel-collapse collapse in">
                                             <div class="panel-body">
                                                 <table class="table table-striped">
                                                     <tr ng-repeat="personageSpell in personageSpells | orderBy : 'personageSpell.Spell.name'">
@@ -359,7 +359,7 @@
 
                 <div class="panel panel-default">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#notices">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notices" ng-click="getNotices()">
                             <div class="panel-heading">
                                 Заметки
                             </div>
@@ -369,7 +369,7 @@
                         <div class="panel-body">
                             <div data-ng-include data-src="'notices.html'"></div>
                             <button type="button" class="btn btn-default pull-right"
-                                    data-toggle="modal" data-target="#addNotice">Добавить
+                                    data-toggle="modal" data-target="#addNotice" ng-click="clearNoticeFields()">Добавить
                                 заметку
                             </button>
 
