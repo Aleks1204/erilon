@@ -26,6 +26,17 @@ router.get('/personageSpellsByPersonageId/:id', function(req, res) {
     });
 });
 
+router.get('/personageSpellsByPersonageIdCount/:id', function(req, res) {
+    models.PersonageSpell.count({
+        where: {
+            PersonageId: req.params.id
+        },
+        include: [ models.Spell ]
+    }).then(function(spellsAmount) {
+        return res.send({spellsAmount: spellsAmount});
+    });
+});
+
 router.post('/personageSpells', function(req, res) {
     models.PersonageSpell.create({
         PersonageId: req.body.personage_id,

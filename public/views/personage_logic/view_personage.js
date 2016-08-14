@@ -146,9 +146,14 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         jQuery('#spellDetails').modal('show');
     };
 
-    // $scope.isSpellsEmpty = function () {
-    //     return $scope.personageSpells.length == 0;
-    // };
+    var spells = 0;
+    $http.get('/personageSpellsByPersonageIdCount/' + personageId).success(function (data) {
+        spells = data.spellsAmount;
+    });
+
+    $scope.isSpellsEmpty = function () {
+        return spells == 0;
+    };
 
     $scope.viewNotice = function (notice_id) {
         jQuery('#' + notice_id + '_view').modal('show');
