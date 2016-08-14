@@ -31,6 +31,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
 
+    $scope.personageMerits = null;
+    $scope.personageInherents = null;
+    $scope.personageFlaws = null;
+    $scope.personageTriggerSkills = null;
+    $scope.personageAttachedSkills = null;
+    $scope.personageSpells = null;
+
     $window.onbeforeunload = function () {
         if (window.location.href.indexOf('localhost') == -1) {
             return "go away!";
@@ -1273,141 +1280,163 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageAttributeAllPromise.resolve();
         });
 
-        $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
+        if ($scope.personageMerits != null) {
+            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
 
-            angular.forEach(results.personageMerits, function (personageMerit) {
-                deletePromises.push($http.delete('/personageMerits/' + personageMerit.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    addPromises.push($http.post('/personageMerits', {
-                        merit_id: personageMerit.Merit.id,
-                        personage_id: personageId,
-                        unremovable: personageMerit.unremovable
-                    }));
+                angular.forEach(results.personageMerits, function (personageMerit) {
+                    deletePromises.push($http.delete('/personageMerits/' + personageMerit.id));
                 });
-                $q.all(addPromises).then(function () {
-                    personageMeritAllPromise.resolve();
-                });
-            });
-        });
 
-        $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
-
-            angular.forEach(results.personageInherents, function (personageInherent) {
-                deletePromises.push($http.delete('/personageInherents/' + personageInherent.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageInherents, function (personageInherent) {
-                    addPromises.push($http.post('/personageInherents', {
-                        inherent_id: personageInherent.Inherent.id,
-                        personage_id: personageId,
-                        value: personageInherent.value
-                    }));
-                });
-                $q.all(addPromises).then(function () {
-                    personageInherentAllPromise.resolve();
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        addPromises.push($http.post('/personageMerits', {
+                            merit_id: personageMerit.Merit.id,
+                            personage_id: personageId,
+                            unremovable: personageMerit.unremovable
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageMeritAllPromise.resolve();
+                    });
                 });
             });
-        });
+        } else {
+            personageMeritAllPromise.resolve();
+        }
 
-        $http.get('/personageFlawsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
+        if ($scope.personageInherents != null) {
+            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
 
-            angular.forEach(results.personageFlaws, function (personageFlaw) {
-                deletePromises.push($http.delete('/personageFlaws/' + personageFlaw.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageFlaws, function (personageFlaw) {
-                    addPromises.push($http.post('/personageFlaws', {
-                        flaw_id: personageFlaw.Flaw.id,
-                        personage_id: personageId,
-                        personage_race_default: personageFlaw.personage_race_default
-                    }));
+                angular.forEach(results.personageInherents, function (personageInherent) {
+                    deletePromises.push($http.delete('/personageInherents/' + personageInherent.id));
                 });
-                $q.all(addPromises).then(function () {
-                    personageFlawAllPromise.resolve();
-                });
-            });
-        });
 
-        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
-
-            angular.forEach(results.personageAttachedSkills, function (personageAttachedSkill) {
-                deletePromises.push($http.delete('/personageAttachedSkills/' + personageAttachedSkill.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-                    addPromises.push($http.post('/personageAttachedSkills', {
-                        attachedSkill_id: personageAttachedSkill.AttachedSkill.id,
-                        personage_id: personageId,
-                        value: personageAttachedSkill.value
-                    }));
-                });
-                $q.all(addPromises).then(function () {
-                    personageAttachedSkillAllPromise.resolve();
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageInherents, function (personageInherent) {
+                        addPromises.push($http.post('/personageInherents', {
+                            inherent_id: personageInherent.Inherent.id,
+                            personage_id: personageId,
+                            value: personageInherent.value
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageInherentAllPromise.resolve();
+                    });
                 });
             });
-        });
+        } else {
+            personageInherentAllPromise.resolve();
+        }
 
-        $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
+        if ($scope.personageFlaws != null) {
+            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
 
-            angular.forEach(results.personageTriggerSkills, function (personageTriggerSkill) {
-                deletePromises.push($http.delete('/personageTriggerSkills/' + personageTriggerSkill.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                    addPromises.push($http.post('/personageTriggerSkills', {
-                        trigger_skill_id: personageTriggerSkill.TriggerSkill.id,
-                        personage_id: personageId,
-                        currentLevel: personageTriggerSkill.currentLevel,
-                        talented: personageTriggerSkill.talented,
-                        tutored: personageTriggerSkill.tutored
-                    }));
+                angular.forEach(results.personageFlaws, function (personageFlaw) {
+                    deletePromises.push($http.delete('/personageFlaws/' + personageFlaw.id));
                 });
-                $q.all(addPromises).then(function () {
-                    personageTriggerSkillAllPromise.resolve();
-                });
-            });
-        });
 
-        $http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
-            var deletePromises = [];
-
-            angular.forEach(results.personageSpells, function (personageSpell) {
-                deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
-            });
-
-            $q.all(deletePromises).then(function () {
-                var addPromises = [];
-                angular.forEach($scope.personageSpells, function (personageSpell) {
-                    addPromises.push($http.post('/personageSpells', {
-                        spell_id: personageSpell.Spell.id,
-                        personage_id: personageId,
-                        level: personageSpell.level,
-                        tutored: personageSpell.tutored
-                    }));
-                });
-                $q.all(addPromises).then(function () {
-                    personageSpellsAllPromise.resolve();
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                        addPromises.push($http.post('/personageFlaws', {
+                            flaw_id: personageFlaw.Flaw.id,
+                            personage_id: personageId,
+                            personage_race_default: personageFlaw.personage_race_default
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageFlawAllPromise.resolve();
+                    });
                 });
             });
-        });
+        } else {
+            personageFlawAllPromise.resolve();
+        }
 
+        if ($scope.personageAttachedSkills != null) {
+            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
 
+                angular.forEach(results.personageAttachedSkills, function (personageAttachedSkill) {
+                    deletePromises.push($http.delete('/personageAttachedSkills/' + personageAttachedSkill.id));
+                });
+
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                        addPromises.push($http.post('/personageAttachedSkills', {
+                            attachedSkill_id: personageAttachedSkill.AttachedSkill.id,
+                            personage_id: personageId,
+                            value: personageAttachedSkill.value
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageAttachedSkillAllPromise.resolve();
+                    });
+                });
+            });
+        } else {
+            personageAttachedSkillAllPromise.resolve();
+        }
+
+        if ($scope.personageTriggerSkills != null) {
+            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
+
+                angular.forEach(results.personageTriggerSkills, function (personageTriggerSkill) {
+                    deletePromises.push($http.delete('/personageTriggerSkills/' + personageTriggerSkill.id));
+                });
+
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        addPromises.push($http.post('/personageTriggerSkills', {
+                            trigger_skill_id: personageTriggerSkill.TriggerSkill.id,
+                            personage_id: personageId,
+                            currentLevel: personageTriggerSkill.currentLevel,
+                            talented: personageTriggerSkill.talented,
+                            tutored: personageTriggerSkill.tutored
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageTriggerSkillAllPromise.resolve();
+                    });
+                });
+            });
+        } else {
+            personageTriggerSkillAllPromise.resolve();
+        }
+
+        if ($scope.personageSpells != null) {
+            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
+                var deletePromises = [];
+
+                angular.forEach(results.personageSpells, function (personageSpell) {
+                    deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
+                });
+
+                $q.all(deletePromises).then(function () {
+                    var addPromises = [];
+                    angular.forEach($scope.personageSpells, function (personageSpell) {
+                        addPromises.push($http.post('/personageSpells', {
+                            spell_id: personageSpell.Spell.id,
+                            personage_id: personageId,
+                            level: personageSpell.level,
+                            tutored: personageSpell.tutored
+                        }));
+                    });
+                    $q.all(addPromises).then(function () {
+                        personageSpellsAllPromise.resolve();
+                    });
+                });
+            });
+        } else {
+            personageSpellsAllPromise.resolve();
+        }
     };
 });
