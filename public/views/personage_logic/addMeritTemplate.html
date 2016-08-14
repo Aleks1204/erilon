@@ -21,7 +21,7 @@
                         md-selected-item-change="ctrl.selectedItemChange(ctrl.selectedItem)"
                         placeholder="Введите название">
                     <md-item-template>
-                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}} {{item.cost}}</span>
                     </md-item-template>
                     <md-not-found>
                         С таким названием "{{ctrl.searchText}}" ничего не найдено.
