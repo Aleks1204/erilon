@@ -1285,6 +1285,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
             $scope.loader = false;
+            $scope.showAddMeritDialog($scope.selectMerits, $scope.addPersonageMerit, $scope.validatePrerequisites)
         });
     };
 
@@ -1303,6 +1304,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectFlaws.push(flaw);
             }
         });
+        $scope.showAddDialog(selectFlaws, addPersonageFlaw);
         $scope.loader = false;
     };
 
@@ -1321,6 +1323,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectInherents.push(inherent);
             }
         });
+        $scope.showAddDialog(selectInherents, addPersonageInherent);
         $scope.loader = false;
     };
 
@@ -1339,6 +1342,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectAttachedSkills.push(attachedSkill);
             }
         });
+        $scope.showAddDialog(selectAttachedSkills, addPersonageAttachedSkill);
         $scope.loader = false;
     };
 
@@ -1357,6 +1361,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectTriggerSkills.push(triggerSkill);
             }
         });
+        $scope.showAddDialog(selectTriggerSkills, addPersonageTriggerSkill);
         $scope.loader = false;
     };
 
