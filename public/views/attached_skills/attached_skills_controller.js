@@ -1,29 +1,7 @@
-/**
- * Created by artemk on 4/16/16.
- */
+'use strict';
 
-var app = angular.module("attachedSkillManagerApp", ['ngStorage']);
-
-app.controller("addAttachedSkillController", function ($scope, $http) {
-    $scope.difficult = false;
-    $scope.theoretical = false;
-    $scope.default_skill = false;
-
-    $scope.createAttachedSkill = function () {
-        $http.post('/attachedSkills', {
-            name: $scope.attachedSkill_name,
-            description: $scope.description,
-            difficult: $scope.difficult,
-            theoretical: $scope.theoretical,
-            default_skill: $scope.default_skill,
-            spells_connected: $scope.spells_connected
-        }).success(function (data) {
-            location.reload();
-        });
-    };
-});
-
-app.controller("attachedSkillListController", function ($scope, $http) {
+var app = angular.module("attachedSkillManagerApp", ['ngMaterial', 'mdDataTable', 'ngStorage']);
+app.controller('attachedSkillListController', function ($scope, $http, $mdDialog) {
     $scope.loader = true;
     $http.get('/attachedSkills').
     success(function (data) {
@@ -37,4 +15,10 @@ app.controller("attachedSkillListController", function ($scope, $http) {
             location.reload();
         });
     };
+
+    $scope.showDialog = function() {
+        console.log('test dialog');
+    };
 });
+
+
