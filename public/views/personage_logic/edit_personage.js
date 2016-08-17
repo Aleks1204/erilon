@@ -1107,6 +1107,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
             $scope.loader = false;
+            $scope.showAddMeritDialog($scope.selectMerits, $scope.addPersonageMerit, $scope.validatePrerequisites)
         });
     };
 
