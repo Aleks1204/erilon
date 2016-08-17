@@ -161,7 +161,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.endurancePoints = $scope.endurance * 20;
 
     };
-    
+
     $scope.showSpellDetail = function (spell_id) {
         $scope.loader = true;
         $scope.spellDetails = {
@@ -1126,7 +1126,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectFlaws.push(flaw);
             }
         });
-        $scope.showAddDialog(selectFlaws, addPersonageFlaw);
+        $scope.showAddDialog($scope.selectFlaws, $scope.addPersonageFlaw);
         $scope.loader = false;
     };
 
@@ -1145,7 +1145,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectInherents.push(inherent);
             }
         });
-        $scope.showAddDialog(selectInherents, addPersonageInherent);
+        $scope.showAddDialog($scope.selectInherents, $scope.addPersonageInherent);
         $scope.loader = false;
     };
 
@@ -1164,7 +1164,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectAttachedSkills.push(attachedSkill);
             }
         });
-        $scope.showAddDialog(selectAttachedSkills, addPersonageAttachedSkill);
+        $scope.showAddDialog($scope.selectAttachedSkills, $scope.addPersonageAttachedSkill);
         $scope.loader = false;
     };
 
@@ -1183,7 +1183,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.selectTriggerSkills.push(triggerSkill);
             }
         });
-        $scope.showAddDialog(selectTriggerSkills, addPersonageTriggerSkill);
+        $scope.showAddDialog($scope.selectTriggerSkills, $scope.addPersonageTriggerSkill);
         $scope.loader = false;
     };
 
