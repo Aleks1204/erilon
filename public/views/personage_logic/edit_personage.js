@@ -1002,6 +1002,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
                 $scope.personageMerits = data.personageMerits;
                 $scope.loader = false;
+                $scope.calculateShowMerits();
             });
         }
     };
@@ -1076,37 +1077,37 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.defaultValue = true;
 
         $scope.selectMerits = [];
-        angular.forEach($scope.merits, function (merit) {
-            var alreadyAdded = false;
-            var haveTriggerSkillForThisTalent = true;
-            angular.forEach($scope.personageMerits, function (personageMerit) {
-                if (merit.id == personageMerit.Merit.id) {
-                    alreadyAdded = true;
-                }
-            });
-
-            if (merit.name.indexOf('Талант') > -1) {
-                haveTriggerSkillForThisTalent = false;
-                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                    if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                        haveTriggerSkillForThisTalent = true;
+        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
+            angular.forEach($scope.merits, function (merit) {
+                var alreadyAdded = false;
+                var haveTriggerSkillForThisTalent = true;
+                angular.forEach($scope.personageMerits, function (personageMerit) {
+                    if (merit.id == personageMerit.Merit.id) {
+                        alreadyAdded = true;
                     }
                 });
-            }
 
-            $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
+                if (merit.name.indexOf('Талант') > -1) {
+                    haveTriggerSkillForThisTalent = false;
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                            haveTriggerSkillForThisTalent = true;
+                        }
+                    });
+                }
+
                 angular.forEach(results.raceMerits, function (raceMerit) {
                     if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == merit.id) {
                         merit.cost = raceMerit.race_cost;
                     }
                 });
-            });
 
-            if (!alreadyAdded && haveTriggerSkillForThisTalent) {
-                $scope.selectMerits.push(merit);
-            }
+                if (!alreadyAdded && haveTriggerSkillForThisTalent) {
+                    $scope.selectMerits.push(merit);
+                }
+            });
+            $scope.loader = false;
         });
-        $scope.loader = false;
     };
 
     $scope.calculateFlawSelectOptions = function () {
