@@ -4,14 +4,24 @@
     <title>Список прикрепленных навыков</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/stylesheets/main.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="/views/permissions/permissions.js"></script>
     <script src="attached_skills_controller.js"></script>
+    <script src="addAttachedSkillDialogCtrl.js"></script>
+    <script src="updateAttachedSkillDialogCtrl.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
 
@@ -30,6 +40,9 @@
             <div class="col-xs-offset-2 col-xs-4">
                 <p class="lead"><input type="text" ng-model="search"></p>
             </div>
+            <md-button ng-show="hasCreatePermission('AttachedSkill')" ng-click="showAddDialog()" class="md-raised">
+                Добавить навык
+            </md-button>
         </div>
 
         <table class="table table-striped">
@@ -38,7 +51,7 @@
                 <th>Сл.</th>
                 <th>Теор.</th>
                 <th>Деф.</th>
-                <th ng-show="hasDeletePermission('AttachedSkill')"></th>
+                <th ng-show="hasDeletePermission('AttachedSkill') || hasEditPermission('AttachedSkill')"></th>
             </tr>
             <tr ng-repeat="attachedSkill in attachedSkills | orderBy : 'name' | filter: search">
                 <td style="vertical-align:middle;">{{ attachedSkill.name }}</td>
@@ -66,86 +79,21 @@
                         <span class="glyphicon glyphicon-remove"/>
                     </div>
                 </td>
-                <td ng-show="hasDeletePermission('AttachedSkill')">
-                    <button type="button" class="btn btn-link" ng-click="deleteAttachedSkill(attachedSkill.id)">х
-                    </button>
+
+                <td style="text-align:right" ng-show="hasDeletePermission('AttachedSkill') || hasEditPermission('AttachedSkill')">
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#" ng-show="hasEditPermission('AttachedSkill')" ng-click="showEditDialog(attachedSkill)">Редактировать</a>
+                            </li>
+                            <li><a href="#" ng-show="hasDeletePermission('AttachedSkill')"
+                                   ng-click="deleteAttachedSkill(attachedSkill.id)">х</a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         </table>
-    </div>
-
-    <div class="container" ng-show="hasCreatePermission('AttachedSkill')">
-        <h2>Добавить навык</h2>
-
-        <form class="form-horizontal" role="form" ng-controller="addAttachedSkillController"
-              name="createAttachedSkillForm">
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="attachedSkill_name">Название навыка:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" ng-model="attachedSkill_name" class="form-control" id="attachedSkill_name"
-                           placeholder="Лидерство" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="difficult">Сложный:</label>
-
-                <div class="col-sm-10">
-                    <div class="pull-left">
-                        <input type="checkbox" class="form-control" id="difficult" ng-model="difficult">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="theoretical">Теоретический:</label>
-
-                <div class="col-sm-10">
-                    <div class="pull-left">
-                        <input type="checkbox" class="form-control" id="theoretical" ng-model="theoretical">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="default_skill">Дефолтный:</label>
-
-                <div class="col-sm-10">
-                    <div class="pull-left">
-                        <input type="checkbox" class="form-control" id="default_skill" ng-model="default_skill">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="default_skill">Заклинания:</label>
-
-                <div class="col-sm-10">
-                    <div class="pull-left">
-                        <input type="checkbox" class="form-control" id="spells_connected" ng-model="spells_connected">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="description">Описание:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" ng-model="description" class="form-control" id="description"
-                           placeholder="Описание здесь">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" ng-click="createAttachedSkill()"
-                            ng-disabled="createAttachedSkillForm.$invalid">Добавить
-                    </button>
-                </div>
-            </div>
-        </form>
     </div>
 </div>
 
