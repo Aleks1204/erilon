@@ -103,7 +103,7 @@
                     <div id="attributes" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <table class="table table-striped">
-                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
+                                <tr ng-repeat="personageAttribute in personageAttributes">
                                     <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
                                     <td style="vertical-align:middle;">
                                         <button type="button" class="btn btn-default"
@@ -148,7 +148,7 @@
                                         <div id="attachedSkills" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <table class="table table-striped">
-                                                    <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : 'AttachedSkill.name'">
+                                                    <tr ng-repeat="personageAttachedSkill in personageAttachedSkills">
                                                         <td style="vertical-align:middle;">
                                                             {{personageAttachedSkill.AttachedSkill.name}}
                                                         </td>
@@ -221,7 +221,7 @@
                                                         </th>
                                                         <th style="vertical-align:middle; text-align: center"></th>
                                                     </tr>
-                                                    <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
+                                                    <tr ng-repeat="personageTriggerSkill in personageTriggerSkills">
                                                         <td style="vertical-align:middle;">
                                                             {{personageTriggerSkill.TriggerSkill.name}}
                                                         </td>
@@ -335,7 +335,7 @@
 
                                             <div class="panel-body">
                                                 <table class="table table-striped">
-                                                    <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
+                                                    <tr ng-repeat="personageInherent in personageInherents">
                                                         <td style="vertical-align:middle;">
                                                             {{personageInherent.Inherent.name}}
                                                         </td>
@@ -387,7 +387,7 @@
                                         <div id="merits" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <table class="table table-striped">
-                                                    <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
+                                                    <tr ng-repeat="personageMerit in personageMerits">
                                                         <td style="vertical-align:middle;">
                                                             {{personageMerit.Merit.name}}
                                                         </td>
@@ -431,7 +431,7 @@
                                         <div id="flaws" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <table class="table table-striped">
-                                                    <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
+                                                    <tr ng-repeat="personageFlaw in personageFlaws">
                                                         <td style="vertical-align:middle;">
                                                             {{personageFlaw.Flaw.name}}
                                                         </td>
@@ -483,7 +483,7 @@
                     <div id="spells" class="panel-collapse collapse">
                         <div class="panel-body">
 
-                            <div ng-repeat="school in schools | orderBy : 'name'">
+                            <div ng-repeat="school in schools">
                                 <div class="panel-group">
 
                                     <div class="panel panel-default">
@@ -497,7 +497,7 @@
                                         <div id="spells{{school.id}}" class="panel-collapse collapse in">
                                             <div class="panel-body">
                                                 <table class="table table-striped">
-                                                    <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
+                                                    <tr ng-repeat="spell in school.Spells">
                                                         <td style="vertical-align:middle;">
                                                             <a href="#" class="btn btn-link" role="button"
                                                                ng-click="showSpellDetail(spell.id)">
