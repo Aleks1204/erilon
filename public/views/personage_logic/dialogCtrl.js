@@ -41,7 +41,7 @@ function DialogCtrl ($mdDialog, valuesForFilter, addItemFunction) {
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
         return function filterFn(item) {
-            return (item.value.indexOf(lowercaseQuery) === 0);
+            return (item.value.indexOf(lowercaseQuery) !== -1);
         };
     }
 }

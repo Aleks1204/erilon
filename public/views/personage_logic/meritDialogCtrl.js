@@ -52,7 +52,7 @@ function MeritDialogCtrl($mdDialog, meritsForFilter, addMeritFunction, validatio
         var lowercaseQuery = angular.lowercase(query);
         return function filterFn(item) {
             var index = item.name.toLowerCase().indexOf(lowercaseQuery);
-            return (index === 0);
+            return (index !== -1);
         };
     }
 }
