@@ -37,6 +37,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.personageTriggerSkills = null;
     $scope.personageAttachedSkills = null;
     $scope.personageSpells = null;
+    $scope.confirmChanges = true;
 
     $window.onbeforeunload = function () {
         if (window.location.href.indexOf('localhost') == -1) {
@@ -391,7 +392,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseAttribute = function (id) {
         $scope.loader = true;
-        $scope.confirmDecrease = true;
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             if (personageAttribute.id == id && personageAttribute.value > 1) {
 
@@ -417,7 +417,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     });
                 });
 
-                if ($scope.confirmDecrease) {
+                if ($scope.confirmChanges) {
                     personageAttribute.value--;
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
@@ -440,7 +440,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $mdDialog.show(confirm).then(function() {
             $scope.deletePersonageMerit(personageMerit);
         }, function() {
-            $scope.confirmDecrease = false;
+            $scope.confirmChanges = false;
         });
     };
 
@@ -464,7 +464,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
                         if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
                             if (personageAttachedSkill.value <= meritAttachedSkill.value) {
-                                $scope.deletePersonageMerit(personageMerit);
+                                $scope.showConfirmDeletePersonagMerit(personageMerit);
                             }
                         }
                     });
@@ -474,7 +474,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                                 if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
                                     if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
-                                        $scope.deletePersonageMerit(personageMerit);
+                                        $scope.showConfirmDeletePersonagMerit(personageMerit);
                                     }
                                 }
                             });
@@ -482,12 +482,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     });
                 });
 
-                if (personageAttachedSkill.AttachedSkill.difficult) {
-                    $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value * 2;
-                } else {
-                    $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+                if ($scope.confirmChanges) {
+                    if (personageAttachedSkill.AttachedSkill.difficult) {
+                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value * 2;
+                    } else {
+                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+                    }
+                    personageAttachedSkill.value--;
                 }
-                personageAttachedSkill.value--;
             }
         });
         decrease.resolve();
@@ -517,7 +519,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
                             if (currentLevel != 0) {
                                 if (meritTriggerSkill.level == currentLevel) {
-                                    $scope.deletePersonageMerit(personageMerit);
+                                    $scope.showConfirmDeletePersonagMerit(personageMerit);
                                 }
                             }
 
@@ -525,22 +527,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     });
                 });
 
-                $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
-                    if (previousLevel == 0) {
-                        personageTriggerSkill.currentLevel--;
-                    }
-                    angular.forEach(results.skillLevels, function (skillLevel) {
-                        if (skillLevel.level == previousLevel) {
+                if ($scope.confirmChanges) {
+                    $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
+                        if (previousLevel == 0) {
                             personageTriggerSkill.currentLevel--;
                         }
-                        if (skillLevel.level == currentLevel) {
-                            $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
-                                $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
-                            });
-                        }
+                        angular.forEach(results.skillLevels, function (skillLevel) {
+                            if (skillLevel.level == previousLevel) {
+                                personageTriggerSkill.currentLevel--;
+                            }
+                            if (skillLevel.level == currentLevel) {
+                                $http.get('/byKey/' + currentLevel.toString() + 'UP').success(function (result) {
+                                    $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                                });
+                            }
+                        });
+                        decreaseLevel.resolve();
                     });
-                    decreaseLevel.resolve();
-                });
+                }
             }
         });
     };
@@ -787,7 +791,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
                         if (meritObject.id == meritMerit.MeritPrerequisite.id) {
                             if (!meritMerit.presentAbsent) {
-                                $scope.deletePersonageMerit(personageMerit);
+                                $scope.showConfirmDeletePersonagMerit(personageMerit);
                             }
                         }
                     });
@@ -807,12 +811,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }, 200);
 
             $timeout(function () {
-                var personageMerit = {
-                    Merit: meritObject,
-                    MeritId: meritObject.id,
-                    PersonageId: personageId
-                };
-                $scope.personageMerits.push(personageMerit);
+                if ($scope.confirmChanges) {
+                    var personageMerit = {
+                        Merit: meritObject,
+                        MeritId: meritObject.id,
+                        PersonageId: personageId
+                    };
+                    $scope.personageMerits.push(personageMerit);
+                }
                 addMerit.resolve();
             }, 200);
         }
@@ -864,13 +870,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritInherents, function (meritInherent) {
                 if (personageInherent.Inherent.id == meritInherent.Inherent.id) {
-                    $scope.deletePersonageMerit(personageMerit);
+                    $scope.showConfirmDeletePersonagMerit(personageMerit);
                 }
             });
         });
 
-        var index = $scope.personageInherents.indexOf(personageInherent);
-        $scope.personageInherents.splice(index, 1);
+        if (confirmChanges) {
+            var index = $scope.personageInherents.indexOf(personageInherent);
+            $scope.personageInherents.splice(index, 1);
+        }
         $scope.loader = false;
     };
 
@@ -881,21 +889,25 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                 if (flaw_id == meritFlaw.Flaw.id) {
                     if (!meritFlaw.presentAbsent) {
-                        $scope.deletePersonageMerit(personageMerit);
+                        $scope.showConfirmDeletePersonagMerit(personageMerit);
                     }
                 }
             });
         });
 
-        $http.get('/flaws/' + flaw_id).success(function (result) {
-            $scope.personageFlaws.push({
-                Flaw: result.flaw,
-                FlawId: flaw_id,
-                PersonageId: personageId
+        if (confirmChanges) {
+            $http.get('/flaws/' + flaw_id).success(function (result) {
+                $scope.personageFlaws.push({
+                    Flaw: result.flaw,
+                    FlawId: flaw_id,
+                    PersonageId: personageId
+                });
+                $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
+                $scope.loader = false;
             });
-            $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
+        } else {
             $scope.loader = false;
-        });
+        }
     };
 
     $scope.deletePersonageFlaw = function (personageFlaw) {
@@ -904,15 +916,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                 if (personageFlaw.Flaw.id == meritFlaw.Flaw.id) {
                     if (meritFlaw.presentAbsent) {
-                        $scope.deletePersonageMerit(personageMerit);
+                        $scope.showConfirmDeletePersonagMerit(personageMerit);
                     }
                 }
             });
         });
 
-        var index = $scope.personageFlaws.indexOf(personageFlaw);
-        $scope.personageFlaws.splice(index, 1);
-        $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
+        if (confirmChanges) {
+            var index = $scope.personageFlaws.indexOf(personageFlaw);
+            $scope.personageFlaws.splice(index, 1);
+            $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
+        }
         $scope.loader = false;
     };
 

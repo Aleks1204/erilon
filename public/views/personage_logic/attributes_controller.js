@@ -55,7 +55,6 @@ app.controller("personageAttributesController", function ($scope) {
 
     $scope.decreaseAttribute = function (id) {
         $scope.loader = true;
-        $scope.confirmDecrease = true;
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             if (personageAttribute.id == id && personageAttribute.value > 1) {
                 angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -80,7 +79,7 @@ app.controller("personageAttributesController", function ($scope) {
                     });
                 });
 
-                if ($scope.confirmDecrease) {
+                if ($scope.confirmChanges) {
                     personageAttribute.value--;
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
@@ -92,19 +91,6 @@ app.controller("personageAttributesController", function ($scope) {
         });
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
-    };
-
-    $scope.showConfirmDeletePersonagMerit = function(personageMerit) {
-        var confirm = $mdDialog.confirm()
-            .title('Подтверждение удаления достоинства')
-            .textContent('Данное изменение приведет к удалению достоинства ' + personageMerit.Merit.name + ' так как достоиснтво иммет пререквизиты')
-            .ok('Удалить и изменить')
-            .cancel('Оставить');
-        $mdDialog.show(confirm).then(function() {
-            $scope.deletePersonageMerit(personageMerit);
-        }, function() {
-            $scope.confirmDecrease = false;
-        });
     };
 
 });
