@@ -391,13 +391,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseAttribute = function (id) {
         $scope.loader = true;
+        $scope.confirmDecrease = true;
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             if (personageAttribute.id == id && personageAttribute.value > 1) {
+
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     angular.forEach(personageMerit.Merit.MeritAttributes, function (meritAttribute) {
                         if (personageAttribute.Attribute.id == meritAttribute.Attribute.id) {
                             if (personageAttribute.value <= meritAttribute.value) {
-                                $scope.deletePersonageMerit(personageMerit);
+                                $scope.showConfirmDeletePersonagMerit(personageMerit);
                             }
                         }
                     });
@@ -407,7 +409,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                                 if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
                                     if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
-                                        $scope.deletePersonageMerit(personageMerit);
+                                        $scope.showConfirmDeletePersonagMerit(personageMerit);
                                     }
                                 }
                             });
@@ -415,16 +417,31 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     });
                 });
 
-                personageAttribute.value--;
-                angular.forEach($scope.raceAttributes, function (raceAttribute) {
-                    if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
-                        $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost * 2;
-                    }
-                });
+                if ($scope.confirmDecrease) {
+                    personageAttribute.value--;
+                    angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                        if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
+                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost * 2;
+                        }
+                    });
+                }
             }
         });
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
+    };
+
+    $scope.showConfirmDeletePersonagMerit = function(personageMerit) {
+        var confirm = $mdDialog.confirm()
+            .title('Подтверждение удаления достоинства')
+            .textContent('Данное изменение приведет к удалению достоинства ' + personageMerit.Merit.name + ' так как достоиснтво иммет пререквизиты')
+            .ok('Удалить и изменить')
+            .cancel('Оставить');
+        $mdDialog.show(confirm).then(function() {
+            $scope.deletePersonageMerit(personageMerit);
+        }, function() {
+            $scope.confirmDecrease = false;
+        });
     };
 
     $scope.decreaseAttachedSkill = function (id) {
