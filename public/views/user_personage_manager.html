@@ -1,259 +1,486 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Персонажи</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Выбрать персонажа</title>
+
+    <link href="/assets/common/img/favicon.144x144.png" rel="apple-touch-icon" type="image/png" sizes="144x144">
+    <link href="/assets/common/img/favicon.114x114.png" rel="apple-touch-icon" type="image/png" sizes="114x114">
+    <link href="/assets/common/img/favicon.72x72.png" rel="apple-touch-icon" type="image/png" sizes="72x72">
+    <link href="/assets/common/img/favicon.57x57.png" rel="apple-touch-icon" type="image/png">
+    <link href="/assets/common/img/favicon.png" rel="icon" type="image/png">
+    <link href="favicon.ico" rel="shortcut icon">
+
+    <!-- HTML5 shim and Respond.js for < IE9 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Vendors Styles -->
+    <!-- v1.0.0 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/jscrollpane/style/jquery.jscrollpane.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/ladda/dist/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlaudioplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlvideoplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/summernote/dist/summernote.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/ionrangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/c3/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/chartist/dist/chartist.min.css">
+    <!-- v.1.4.0 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/jquery-steps/demo/css/jquery.steps.css">
+    <!-- v.1.4.2 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
+
+    <!-- Clean UI Styles -->
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/source/main.css">
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/source/custom.css">
+
+    <!-- Vendors Scripts -->
+    <!-- v1.0.0 -->
+    <script src="/assets/vendors/jquery/jquery.min.js"></script>
+    <script src="/assets/vendors/tether/dist/js/tether.min.js"></script>
+    <script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+    <script src="/assets/vendors/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/assets/vendors/spin.js/spin.js"></script>
+    <script src="/assets/vendors/ladda/dist/ladda.min.js"></script>
+    <script src="/assets/vendors/select2/dist/js/select2.full.min.js"></script>
+    <script src="/assets/vendors/html5-form-validation/dist/jquery.validation.min.js"></script>
+    <script src="/assets/vendors/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
+    <script src="/assets/vendors/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+    <script src="/assets/vendors/autosize/dist/autosize.min.js"></script>
+    <script src="/assets/vendors/bootstrap-show-password/bootstrap-show-password.min.js"></script>
+    <script src="/assets/vendors/moment/min/moment.min.js"></script>
+    <script src="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="/assets/vendors/cleanhtmlaudioplayer/src/jquery.cleanaudioplayer.js"></script>
+    <script src="/assets/vendors/cleanhtmlvideoplayer/src/jquery.cleanvideoplayer.js"></script>
+    <script src="/assets/vendors/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <script src="/assets/vendors/summernote/dist/summernote.min.js"></script>
+    <script src="/assets/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="/assets/vendors/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/assets/vendors/nestable/jquery.nestable.js"></script>
+    <script src="/assets/vendors/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/vendors/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+    <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="/assets/vendors/editable-table/mindmup-editabletable.js"></script>
+    <script src="/assets/vendors/d3/d3.min.js"></script>
+    <script src="/assets/vendors/c3/c3.min.js"></script>
+    <script src="/assets/vendors/chartist/dist/chartist.min.js"></script>
+    <script src="/assets/vendors/peity/jquery.peity.min.js"></script>
+    <!-- v1.0.1 -->
+    <script src="/assets/vendors/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- v1.1.1 -->
+    <script src="/assets/vendors/gsap/src/minified/TweenMax.min.js"></script>
+    <script src="/assets/vendors/hackertyper/hackertyper.js"></script>
+    <script src="/assets/vendors/jquery-countTo/jquery.countTo.js"></script>
+    <!-- v1.4.0 -->
+    <script src="/assets/vendors/nprogress/nprogress.js"></script>
+    <script src="/assets/vendors/jquery-steps/build/jquery.steps.min.js"></script>
+    <!-- v1.4.2 -->
+    <script src="/assets/vendors/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="/assets/vendors/chart.js/src/Chart.bundle.min.js"></script>
+
+    <!-- Clean UI Scripts -->
+    <script src="/assets/common/js/common.js"></script>
+    <script src="/assets/common/js/demo.temp.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="permissions/permissions.js"></script>
-
 </head>
-
-<body ng-app="personageManagerApp">
-
-<div ng-controller="permissionsController">
-    <div ng-controller="personageListController">
-        <div data-ng-include data-src="'main-menu.html'"></div>
-        <div data-ng-include data-src="'loader.html'"></div>
-        <div class="btn-toolbar well" ng-show="hasViewPermission('AllPersonages')">
-            <button type="button" class="btn btn-success" ng-click="showAllPersonages()">Показать всех персонажей
-            </button>
-            <button type="button" class="btn btn-success" ng-click="showMyPersonages()">Показать моих персонажей
-            </button>
+<body class="theme-default menu-top menu-static theme-dark" ng-app="personageManagerApp">
+<div class="boxed-container" ng-controller="permissionsController">
+    <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+        <div class="logo-container">
+            <a href="profile.html" class="logo">
+                <h1>ЭРИЛОН</h1>
+            </a>
         </div>
-        <table class="table table-striped">
-            <tr ng-repeat="personage in personages | orderBy : 'id'">
-                <td style="vertical-align:middle; text-align: center;">
-                    <a href="/views/personage_logic/view_personage.html?id={{personage.id}}" class="btn btn-link"
-                       role="button">
-                        {{ personage.name }}
+        <div class="left-menu-inner scroll-pane">
+            <ul class="left-menu-list left-menu-list-root list-unstyled">
+                <li>
+                    <a class="left-menu-link" href="race.html" >
+                        <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                        Расы
                     </a>
-                </td>
-
-                <td style="text-align: right;">
-                    <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">Ещё
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="/views/personage_logic/create_personage.html?id={{personage.id}}">Продолжить
-                                создание</a></li>
-                            <li><a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">Прокачка</a>
-                            </li>
-                            <li><a href="#" ng-click="deletePersonage(personage.id)">х</a></li>
-                        </ul>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="attributes.html">
+                        <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                        Атрибуты
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="dignity.html">
+                        <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                        Достоинства
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="congenital-features.html">
+                        <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                        Врожденные особенности
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="disadvantages.html">
+                        <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                        Недостатки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="attached-skills.html">
+                        <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                        Прикрепленные навыки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="trigger-skills.html">
+                        <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                        Тригерные навыки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="spells.html">
+                        <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                        Заклинания
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+        <div class="menu-icon-container hidden-md-up">
+            <div class="animate-menu-button left-menu-toggle">
+                <div><!-- --></div>
+            </div>
+        </div>
+        <div class="menu">
+            <div class="menu-user-block">
+                <div class="dropdown dropdown-avatar">
+                    <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="user-name">Игрок: <strong>Ligar</strong></span>
+                        <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Alternative text to the image">
+                    </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                        <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="old_personage_manager.html"><i class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="login.html"><i class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu-info-block">
+                <div class="left">
+                    <div class="menu-info-block">
+                        <div class="example-buy-btn hidden-xs-down">
+                            <div class="btn rights btn-success-outline btn-rounded">
+                                Игрок: {{player.name}}
+                            </div>
+                            <div class="btn expir btn-success-outline btn-rounded">
+                                Права: {{player.Role.name}}
+                            </div>
+                        </div>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <div class="container">
-        <h2>Добавить персонажа</h2>
+    <section class="page-content">
+        <div class="page-content-inner">
 
-        <form class="form-horizontal" role="form" ng-controller="addPersonageController"
-              name="createPersonageForm">
-            <div data-ng-include data-src="'loader.html'"></div>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="name">Имя:</label>
+            <div>
+                <!-- Add User -->
+                <div class="row" ng-controller="addPersonageController">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <div class="panel-heading">
+                                <h3 class="text-center">Добавить персонажа</h3>
+                            </div>
+                            <div class="panel-body">
+                                <br>
+                                <form class="" name="createPersonageForm">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label class="form-label" for="name">Имя</label>
+                                                <input class="form-control form-control-rounded" placeholder="Shmublon" id="name" ng-model="name" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group" ng-click="selectRefresh()">
+                                                <label for="race_id">Выбрать расу</label>
 
-                <div class="col-sm-10">
-                    <input type="text" ng-model="name" class="form-control" id="name" placeholder="Шмублон" required>
+                                                <select class="selectpicker form-control form-control-rounded"
+                                                        ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races"
+                                                        required>
+                                                    <option style="display:none" value="">Выберите расу...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label class="form-label" for="l81">Очки опыта</label>
+                                                <input class="form-control form-control-rounded" id="l81" min="0" type="number" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label class="form-label" for="">&nbsp;</label><br>
+                                                <button type="button" class="btn btn-rounded btn-block btn-info">Добавить</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Personages -->
+                <div ng-controller="personageListController">
+                    <div class="panel" ng-show="hasViewPermission('AllPersonages')">
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-success" ng-click="showAllPersonages()">Показать всех
+                                персонажей
+                            </button>
+                            <button type="button" class="btn btn-success" ng-click="showMyPersonages()">Показать моих
+                                персонажей
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3" ng-repeat="personage in personages | orderBy : 'id'">
+                            <section class="panel profile-user"
+                                     style="margin-top: 0; background-image: url(/assets/common/img/temp/photos/2.jpeg)">
+                                <div class="panel-body">
+                                    <a href="/views/personage_logic/view_personage.html?id={{personage.id}}">
+                                        <div class="profile-user-title text-center">
+                                            <img class="avatar" src="/assets/common/img/temp/avatars/4.jpg" alt="Фото">
+                                            <br/>
+                                            <h2>{{personage.name}}</h2>
+                                            <p>
+                                                <a href="/views/personage_logic/create_personage.html?id={{personage.id}}">
+                                                    <button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i>
+                                                        Продолжить создание
+                                                    </button>
+                                                </a>&nbsp;
+                                                <a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">
+                                                    <button class="btn btn-xs btn-warning"><i
+                                                            class="fa fa-universal-access"></i> Прокачка
+                                                    </button>
+                                                </a>&nbsp;
+                                                <button class="btn btn-xs btn-danger"
+                                                        ng-click="deletePersonage(personage.id)"><i
+                                                        class="fa fa-trash"></i>
+                                                    Удалить
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="race_id">Раса: </label>
 
-                <div class="col-sm-10">
-                    <select class="form-control"
-                            ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races"
-                            required>
-                        <option style="display:none" value="">Выберите расу...</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="experience">Очки опыта:</label>
+        </div>
 
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="experience" placeholder="200" ng-model="experience"
-                           min="0" required>
-                </div>
-            </div>
+        <!-- Page Scripts -->
+        <script>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" ng-click="createPersonage()"
-                            ng-disabled="createPersonageForm.$invalid" href="">Добавить
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
+            var app = angular.module("personageManagerApp", ['ngStorage']);
+
+            $('.icons-block div').each(function(){
+                $(this).tooltip({
+                    title: $(this).find('.tooltips').attr('title')
+                });
+            });
+
+
+            $('.editable').editableTableWidget();
+
+            app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage) {
+                $scope.loader = false;
+
+                $scope.selectRefresh = function () {
+                    $('select').selectpicker('refresh');
+                };
+
+                $scope.createPersonage = function () {
+                    $scope.loader = true;
+
+                    function success(data) {
+                        $window.location.href = '/views/personage_logic/create_personage.html?id=' + data[0];
+                    }
+
+                    var personage = $q.defer();
+                    var raceAttributeAllPromise = $q.defer();
+                    var raceMeritAllPromise = $q.defer();
+                    var raceFlawAllPromise = $q.defer();
+                    var defaultAttachedSkillAllPromise = $q.defer();
+
+                    $q.all([personage.promise, raceAttributeAllPromise.promise,
+                        raceMeritAllPromise.promise, raceFlawAllPromise.promise,
+                        defaultAttachedSkillAllPromise.promise])
+                        .then(success);
+
+
+                    $http.post('/personages', {
+                        name: $scope.name,
+                        race_id: $scope.race_id,
+                        player_id: $localStorage.playerId,
+                        age: 0,
+                        max_age: 0,
+                        experience: $scope.experience,
+                        generated: false
+                    }).success(function (result) {
+
+                        var raceAttributesByRaceId = $q.defer();
+                        $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).success(function (results) {
+                            raceAttributesByRaceId.resolve(results.raceAttributes);
+                        });
+
+                        $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
+                            var raceAttributePromises = [];
+                            for (var i = 0; i < raceAttributes[0].length; i++) {
+                                raceAttributePromises.push($http.post('/personageAttributes', {
+                                    personage_id: result.personage.id,
+                                    attribute_id: raceAttributes[0][i].AttributeId,
+                                    value: 1
+                                }));
+                            }
+
+                            $q.all(raceAttributePromises).then(function () {
+                                raceAttributeAllPromise.resolve();
+                            });
+                        });
+
+                        var raceMeritsByRaceId = $q.defer();
+                        $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).success(function (results) {
+                            raceMeritsByRaceId.resolve(results.raceMerits);
+                        });
+
+                        $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
+                            var raceMeritPromises = [];
+                            for (var i = 0; i < raceMerits[0].length; i++) {
+                                raceMeritPromises.push($http.post('/personageMerits', {
+                                    personage_id: result.personage.id,
+                                    merit_id: raceMerits[0][i].MeritId,
+                                    unremovable: true
+                                }));
+                            }
+
+                            $q.all(raceMeritPromises).then(function () {
+                                raceMeritAllPromise.resolve();
+                            });
+                        });
+
+                        var raceFlawsByRaceId = $q.defer();
+                        $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).success(function (results) {
+                            raceFlawsByRaceId.resolve(results.raceFlaws);
+                        });
+
+                        $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
+                            var raceFlawPromises = [];
+                            for (var i = 0; i < raceFlaws[0].length; i++) {
+                                raceFlawPromises.push($http.post('/personageFlaws', {
+                                    personage_id: result.personage.id,
+                                    flaw_id: raceFlaws[0][i].FlawId,
+                                    personage_race_default: true
+                                }));
+                            }
+
+                            $q.all(raceFlawPromises).then(function () {
+                                raceFlawAllPromise.resolve();
+                            });
+                        });
+
+                        var attachedSkills = $q.defer();
+
+                        $http.get('/attachedSkills/').success(function (results) {
+                            attachedSkills.resolve(results.attachedSkills);
+                        });
+
+                        $q.all([attachedSkills.promise]).then(function (attachedSkills) {
+                            var defaultAttachedSkillPromises = [];
+                            angular.forEach(attachedSkills[0], function (attachedSkill) {
+                                if (attachedSkill.default_skill) {
+                                    defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
+                                        personage_id: result.personage.id,
+                                        attachedSkill_id: attachedSkill.id,
+                                        value: 0
+                                    }));
+                                }
+                            });
+
+                            $q.all(defaultAttachedSkillPromises).then(function () {
+                                defaultAttachedSkillAllPromise.resolve();
+                                console.log('attached skills done');
+                            });
+                        });
+                        personage.resolve(result.personage.id);
+                    });
+                };
+
+                $http.get('/races').success(function (data) {
+                    $scope.races = data.races;
+                });
+            });
+
+            app.controller("personageListController", function ($scope, $http, $localStorage) {
+
+                $scope.showMyPersonages = function () {
+                    $scope.loader = true;
+                    $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
+                        $scope.personages = data.personages;
+                        $scope.loader = false;
+                    });
+                };
+
+                $scope.showAllPersonages = function () {
+                    $scope.loader = true;
+                    $http.get('/personages').success(function (data) {
+                        $scope.personages = data.personages;
+                        $scope.loader = false;
+                    });
+                };
+
+                $scope.showMyPersonages();
+
+                $scope.deletePersonage = function (id) {
+                    $http.delete('/personages/' + id).success(function (data) {
+                        location.reload();
+                    });
+                };
+            });
+        </script>
+        <script src="/views/permissions/check_player_permissions.js"></script>
+        <!-- End Page Scripts -->
+    </section>
+
 </div>
-
-<script>
-    var app = angular.module("personageManagerApp", ['ngStorage']);
-
-    app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage) {
-        $scope.loader = false;
-
-        $scope.createPersonage = function () {
-            $scope.loader = true;
-
-            function success(data) {
-                $window.location.href = '/views/personage_logic/create_personage.html?id=' + data[0];
-            }
-
-            var personage = $q.defer();
-            var raceAttributeAllPromise = $q.defer();
-            var raceMeritAllPromise = $q.defer();
-            var raceFlawAllPromise = $q.defer();
-            var defaultAttachedSkillAllPromise = $q.defer();
-
-            $q.all([personage.promise, raceAttributeAllPromise.promise,
-                raceMeritAllPromise.promise, raceFlawAllPromise.promise,
-                defaultAttachedSkillAllPromise.promise])
-                    .then(success);
-
-
-            $http.post('/personages', {
-                name: $scope.name,
-                race_id: $scope.race_id,
-                player_id: $localStorage.playerId,
-                age: 0,
-                max_age: 0,
-                experience: $scope.experience,
-                generated: false
-            }).success(function (result) {
-
-                var raceAttributesByRaceId = $q.defer();
-                $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).success(function (results) {
-                    raceAttributesByRaceId.resolve(results.raceAttributes);
-                });
-
-                $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
-                    var raceAttributePromises = [];
-                    for (var i = 0; i < raceAttributes[0].length; i++) {
-                        raceAttributePromises.push($http.post('/personageAttributes', {
-                            personage_id: result.personage.id,
-                            attribute_id: raceAttributes[0][i].AttributeId,
-                            value: 1
-                        }));
-                    }
-
-                    $q.all(raceAttributePromises).then(function () {
-                        raceAttributeAllPromise.resolve();
-                    });
-                });
-
-                var raceMeritsByRaceId = $q.defer();
-                $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).success(function (results) {
-                    raceMeritsByRaceId.resolve(results.raceMerits);
-                });
-
-                $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
-                    var raceMeritPromises = [];
-                    for (var i = 0; i < raceMerits[0].length; i++) {
-                        raceMeritPromises.push($http.post('/personageMerits', {
-                            personage_id: result.personage.id,
-                            merit_id: raceMerits[0][i].MeritId,
-                            unremovable: true
-                        }));
-                    }
-
-                    $q.all(raceMeritPromises).then(function () {
-                        raceMeritAllPromise.resolve();
-                    });
-                });
-
-                var raceFlawsByRaceId = $q.defer();
-                $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).success(function (results) {
-                    raceFlawsByRaceId.resolve(results.raceFlaws);
-                });
-
-                $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
-                    var raceFlawPromises = [];
-                    for (var i = 0; i < raceFlaws[0].length; i++) {
-                        raceFlawPromises.push($http.post('/personageFlaws', {
-                            personage_id: result.personage.id,
-                            flaw_id: raceFlaws[0][i].FlawId,
-                            personage_race_default: true
-                        }));
-                    }
-
-                    $q.all(raceFlawPromises).then(function () {
-                        raceFlawAllPromise.resolve();
-                    });
-                });
-
-                var attachedSkills = $q.defer();
-
-                $http.get('/attachedSkills/').success(function (results) {
-                    attachedSkills.resolve(results.attachedSkills);
-                });
-
-                $q.all([attachedSkills.promise]).then(function (attachedSkills) {
-                    var defaultAttachedSkillPromises = [];
-                    angular.forEach(attachedSkills[0], function (attachedSkill) {
-                        if (attachedSkill.default_skill) {
-                            defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
-                                personage_id: result.personage.id,
-                                attachedSkill_id: attachedSkill.id,
-                                value: 0
-                            }));
-                        }
-                    });
-
-                    $q.all(defaultAttachedSkillPromises).then(function () {
-                        defaultAttachedSkillAllPromise.resolve();
-                        console.log('attached skills done');
-                    });
-                });
-                personage.resolve(result.personage.id);
-            });
-        };
-
-        $http.get('/races').success(function (data) {
-            $scope.races = data.races;
-        });
-    });
-
-    app.controller("personageListController", function ($scope, $http, $localStorage) {
-
-        $scope.showMyPersonages = function () {
-            $scope.loader = true;
-            $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
-                $scope.personages = data.personages;
-                $scope.loader = false;
-            });
-        };
-
-        $scope.showAllPersonages = function () {
-            $scope.loader = true;
-            $http.get('/personages').success(function (data) {
-                $scope.personages = data.personages;
-                $scope.loader = false;
-            });
-        };
-
-        $scope.showMyPersonages();
-
-        $scope.deletePersonage = function (id) {
-            $http.delete('/personages/' + id).success(function (data) {
-                location.reload();
-            });
-        };
-    });
-
-</script>
-<script src="/views/permissions/check_player_permissions.js"></script>
 
 </body>
 </html>
