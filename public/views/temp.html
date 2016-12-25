@@ -1,61 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="views/login/login.js"></script>
-    <title>Войти в систему</title>
-
-    <!-- Le styles -->
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
-
-        .form-signin {
-            max-width: 300px;
-            padding: 19px 29px 29px;
-            margin: 0 auto 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        }
-        .form-signin .form-signin-heading,
-        .form-signin .checkbox {
-            margin-bottom: 10px;
-        }
-        .form-signin input[type="text"],
-        .form-signin input[type="password"] {
-            font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
-        }
-
-    </style>
-</head>
-
-<body ng-app="loginApp">
-
-<div class="container" ng-controller="loginController">
-
-    <form class="form-signin" name="loginForm">
-        <h2 class="form-signin-heading">Вход в систему "Эрилон"</h2>
-        <input type="text" id="nickName" ng-model="nickName" class="input-block-level" placeholder="Имя игрока">
-        <button class="btn btn-large btn-primary" type="submit" ng-click="login()" ng-disabled="!nickName.length">Войти</button>
-    </form>
-
-</div> <!-- /container -->
-
-</body>
-</html>
+<div class="margin-bottom-50">
+    <div id="accordion" class="panel-group accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div id="headingOne" class="panel-heading collapsed" role="tab" data-toggle="collapse"
+                 data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <div class="panel-title">
+                                <span class="accordion-indicator pull-right">
+                                <i class="plus fa fa-plus"></i>
+                                <i class="minus fa fa-minus"></i>
+                                </span>
+                    <a> Collapsible Group Item #1 </a>
+                </div>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne"
+                 aria-expanded="false" style="height: 0px;">
+                <div class="panel-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                    single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                    wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+                    occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of
+                    them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div id="headingTwo" class="panel-heading collapsed" role="tab" data-toggle="collapse"
+                 data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <div class="panel-title">
+<span class="accordion-indicator pull-right">
+<i class="plus fa fa-plus"></i>
+<i class="minus fa fa-minus"></i>
+</span>
+                    <a> Collapsible Group Item #2 </a>
+                </div>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo"
+                 aria-expanded="false" style="height: 0px;">
+                <div class="panel-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                    single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                    wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+                    occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of
+                    them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div id="headingThree" class="panel-heading collapsed" role="tab" data-toggle="collapse"
+                 data-parent="#accordion" data-target="#collapseThree" aria-expanded="false"
+                 aria-controls="collapseThree">
+                <div class="panel-title">
+<span class="accordion-indicator pull-right">
+<i class="plus fa fa-plus"></i>
+<i class="minus fa fa-minus"></i>
+</span>
+                    <a> Collapsible Group Item #3 </a>
+                </div>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree"
+                 aria-expanded="false" style="height: 0px;">
+                <div class="panel-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                    single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                    wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+                    occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of
+                    them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

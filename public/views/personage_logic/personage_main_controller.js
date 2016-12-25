@@ -30,7 +30,8 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
+// var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
+var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
     $scope.loader = true;
