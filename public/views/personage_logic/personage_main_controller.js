@@ -33,7 +33,8 @@ var personageId = /id=(\d+)/.exec(window.location.href)[1];
 // var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
 var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
+// app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce  ) {
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
@@ -62,15 +63,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var raceAttributes = $q.defer();
     var personageMerits = $q.defer();
     var raceInherents = $q.defer();
+    var personageAttachedSkills = $q.defer();
 
-    function success(data) {
+    function success() {
         $scope.hasInherents();
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
 
     var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
-        triggerSkills.promise, personage.promise, raceAttributes.promise, raceInherents.promise]);
+        triggerSkills.promise, personage.promise, raceAttributes.promise, raceInherents.promise,
+        personageAttachedSkills.promise]);
 
     all.then(success);
 
@@ -118,6 +121,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.experienceValid = function () {
             return $scope.personage.experience < 0;
         };
+
+        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+            $scope.recalculateMagicSchools(data.personageAttachedSkills);
+            $scope.personageAttachedSkills = data.personageAttachedSkills;
+            personageAttachedSkills.resolve();
+        });
+
         $scope.personageAttributes = data.personage.PersonageAttributes;
         $scope.personageInherents = data.personage.PersonageInherents;
         $scope.personageFlaws = data.personage.PersonageFlaws;
@@ -1089,18 +1099,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         })
     };
 
-    var personageAttachedSkillsClicked = false;
-    $scope.getPersonageAttachedSkills = function () {
-        if (!personageAttachedSkillsClicked) {
-            personageAttachedSkillsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-                $scope.recalculateMagicSchools(data.personageAttachedSkills);
-                $scope.personageAttachedSkills = data.personageAttachedSkills;
-                $scope.loader = false;
-            });
-        }
-    };
+    // var personageAttachedSkillsClicked = false;
+    // $scope.getPersonageAttachedSkills = function () {
+    //     if (!personageAttachedSkillsClicked) {
+    //         personageAttachedSkillsClicked = true;
+    //         $scope.loader = true;
+    //         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+    //             $scope.recalculateMagicSchools(data.personageAttachedSkills);
+    //             $scope.personageAttachedSkills = data.personageAttachedSkills;
+    //             $scope.loader = false;
+    //         });
+    //     }
+    // };
 
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {

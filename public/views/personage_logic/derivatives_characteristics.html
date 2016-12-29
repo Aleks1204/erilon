@@ -1,93 +1,96 @@
-<div class="row">
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="hitPiercePunchDescription">
-            <img src="/images/hitPiercePunch.svg"
-                 style="vertical-align: middle" width="30" height="30"/>
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{hitPiercePunch}}</span>
-        </md-button>
-    </div>
-
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="hitChopPunchDescription">
-            <img src="/images/hitChopPunch.svg"
-                 style="vertical-align: middle"
-                 width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{hitChopPunch}}</span>
-        </md-button>
-    </div>
-
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="rangedHitDescription">
-            <img src="/images/rangedHit.svg" style="vertical-align: middle"
-                 width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{rangedHit}}</span>
-        </md-button>
-    </div>
-</div>
-<br/>
-
-<div class="row">
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="parryPiercePunchDescription">
-            <img src="/images/parryPiercePunch.svg"
-                 style="vertical-align: middle" width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{parryPiercePunch}}</span>
-        </md-button>
-    </div>
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="parryChopPunchDescription">
-            <img src="/images/parryChopPunch.svg"
-                 style="vertical-align: middle" width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{parryChopPunch}}</span>
-        </md-button>
-    </div>
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="dodgeDescription">
-            <img style="vertical-align: middle" width="30"
-                 height="30" src="/images/dodge.png">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{dodge}}</span>
-        </md-button>
-    </div>
-</div>
-<br/>
-
-<div class="row">
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="generalActionPointsDescription">
-            <img src="/images/generalActionPoints.svg"
-                 style="vertical-align: middle" width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{generalActionPoints}}</span>
-        </md-button>
-    </div>
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="mentalActionPointsDescription">
-            <img src="/images/mentalActionPoints.png"
-                 style="vertical-align: middle" width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{mentalActionPoints}}</span>
-        </md-button>
-    </div>
-
-    <div class="col-xs-4 text-center">
-        <md-button uib-tooltip-html="endurancePointsDescription">
-            <img src="/images/endurancePoints.svg"
-                 style="vertical-align: middle" width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{endurancePoints}}</span>
-        </md-button>
-    </div>
-</div>
-<br/>
-
-<div class="row">
-    <div class="col-xs-12 text-center">
-        <md-button uib-tooltip-html="initiativeDescription">
-            <img src="/images/initiative.svg" style="vertical-align: middle"
-                 width="30" height="30">
-            <span style="line-height: 1; font-size: 30px; vertical-align: middle">{{initiative}}</span>
-        </md-button>
+<div class="panel widget widget-five">
+    <h3 class="widget-header">Производные характеристики</h3>
+    <div class="widget-body row text-center">
+        <div class="icons-block">
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа">
+                    <img src="/assets/common/img/erilon-icon/hitChopPunch.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа">
+                    <img src="/assets/common/img/erilon-icon/rangedHit.svg" class="ng-scope" height="40" width="40">
+                    <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/parryChopPunch.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope" height="40" width="40">
+                    <span class="ng-binding ng-scope">{{dodge}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/generalActionPoints.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/mentalActionPoints.png" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/endurancePoints.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12" style="cursor: pointer;">
+                <div class="tooltips icon-atr"
+                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа">
+                    <img src="/assets/common/img/erilon-icon/initiative.svg" class="ng-scope" height="40"
+                         width="40">
+                    <span class="ng-binding ng-scope">{{initiative}}</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    $('.icons-block div').each(function () {
+        $(this).tooltip({
+            title: $(this).find('.tooltips').attr('title')
+        });
+    });
+
+
+    $('.editable').editableTableWidget();
+</script>

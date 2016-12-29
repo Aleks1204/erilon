@@ -164,51 +164,66 @@
 
                 <!-- Personages -->
                 <div ng-controller="personageListController">
-                    <div class="panel" ng-show="hasViewPermission('AllPersonages')">
+
+                    <section class="panel">
+                        <div class="panel-heading"><h3 class="text-center">Персонажи</h3></div>
                         <div class="panel-body">
-                            <button type="button" class="btn btn-success" ng-click="showAllPersonages()">Показать всех
-                                персонажей
-                            </button>
-                            <button type="button" class="btn btn-success" ng-click="showMyPersonages()">Показать моих
-                                персонажей
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-3" ng-repeat="personage in personages | orderBy : 'id'">
-                            <section class="panel profile-user"
-                                     style="margin-top: 0; background-image: url(/assets/common/img/temp/photos/2.jpeg)">
-                                <div class="panel-body">
-                                    <a href="/views/personage_logic/view_personage.html?id={{personage.id}}">
-                                        <div class="profile-user-title text-center">
-                                            <img class="avatar" src="/assets/common/img/temp/avatars/4.jpg" alt="Фото">
-                                            <br/>
-                                            <h2>{{personage.name}}</h2>
-                                            <p>
-                                                <a href="/views/personage_logic/create_personage.html?id={{personage.id}}">
-                                                    <button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i>
-                                                        Продолжить создание
-                                                    </button>
-                                                </a>&nbsp;
-                                                <a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">
-                                                    <button class="btn btn-xs btn-warning"><i
-                                                            class="fa fa-universal-access"></i> Прокачка
-                                                    </button>
-                                                </a>&nbsp;
-                                                <button class="btn btn-xs btn-danger"
-                                                        ng-click="deletePersonage(personage.id)"><i
-                                                        class="fa fa-trash"></i>
-                                                    Удалить
-                                                </button>
-                                            </p>
+                            <div ng-show="hasViewPermission('AllPersonages')">
+                                    <button type="button" class="btn btn-rounded btn-success margin-inline"
+                                            ng-click="showAllPersonages()">Показать всех
+                                        персонажей
+                                    </button>
+                                    <button type="button" class="btn btn-rounded btn-info margin-inline"
+                                            ng-click="showMyPersonages()">Показать моих
+                                        персонажей
+                                    </button>
+                            </div>
+                            <div class="row messaging">
+                                <div class="messaging-list">
+                                    <div class="messaging-list-item"
+                                         ng-repeat="personage in personages | orderBy : 'id'">
+                                        <div class="s1">
+                                            <img ng-if="personage.Race.name == 'Гном'" class="avatar" src="../assets/common/img/temp/avatars/dwarf.png"
+                                                 alt="Alternative text to the image">
+                                            <img ng-if="personage.Race.name == 'Орк'" class="avatar" src="../assets/common/img/temp/avatars/ork.png"
+                                                 alt="Alternative text to the image">
+                                            <img ng-if="personage.Race.name == 'Эльф'" class="avatar" src="../assets/common/img/temp/avatars/elf.png"
+                                                 alt="Alternative text to the image">
+                                            <img ng-if="personage.Race.name == 'Хоббит'" class="avatar" src="../assets/common/img/temp/avatars/hobbit.png"
+                                                 alt="Alternative text to the image">
+                                            <img ng-if="personage.Race.name == 'Человек'" class="avatar" src="../assets/common/img/temp/avatars/human.png"
+                                                 alt="Alternative text to the image">
                                         </div>
-                                    </a>
+                                        <div class="s2">
+                                            <h4>{{personage.name}}</h4>
+                                            <a href="/views/personage_logic/view_personage.html?id={{personage.id}}">
+                                                <button class="btn btn-rounded btn-sm btn-success-outline margin-inline"><i
+                                                    class="icmn-eye4"></i> Просмотр
+                                                </button>
+                                            </a>
+                                            <a href="/views/personage_logic/create_personage.html?id={{personage.id}}">
+                                            <button class="btn btn-rounded btn-sm btn-info-outline margin-inline"><i
+                                                    class="fa fa-pencil"></i> Продолжить создание
+                                            </button>
+                                            </a>
+                                            <a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">
+                                            <button class="btn btn-rounded btn-sm btn-warning-outline margin-inline"><i
+                                                    class="fa fa-universal-access"></i>
+                                                Прокачка
+                                            </button>
+                                            </a>
+                                            <button ng-click="deletePersonage(personage.id)" class="btn btn-rounded btn-sm btn-danger-outline margin-inline"><i
+                                                    class="fa fa-trash"></i> Удалить
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </section>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
+
 
 
 
