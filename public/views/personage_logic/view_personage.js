@@ -138,31 +138,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         personage.resolve();
     });
 
-    // $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageAttachedSkills = data.personageAttachedSkills;
-    //     personageAttachedSkills.resolve();
-    // });
-
-    // $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageTriggerSkills = data.personageTriggerSkills;
-    //     personageTriggerSkills.resolve();
-    // });
-
-    // $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageInherents = data.personageInherents;
-    //     personageInherents.resolve();
-    // });
-
-    // $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageFlaws = data.personageFlaws;
-    //     personageFlaws.resolve();
-    // });
-
-    // $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageMerits = data.personageMerits;
-    //     personageMerits.resolve();
-    // });
-
     $scope.calculateMagicSchools = function () {
         $scope.schools = [];
         var buffer = [];
@@ -272,18 +247,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         });
     };
 
-    // var personageAttachedSkillsClicked = false;
-    // $scope.getPersonageAttachedSkills = function () {
-    //     if (!personageAttachedSkillsClicked) {
-    //         personageAttachedSkillsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageAttachedSkills = data.personageAttachedSkills;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
-
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
         if (!personageSpellsClicked) {
@@ -296,54 +259,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             });
         }
     };
-
-    // var personageTriggerSkillsClicked = false;
-    // $scope.getPersonageTriggerSkills = function () {
-    //     if (!personageTriggerSkillsClicked) {
-    //         personageTriggerSkillsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageTriggerSkills = data.personageTriggerSkills;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
-
-    // var personageFlawsClicked = false;
-    // $scope.getPersonageFlaws = function () {
-    //     if (!personageFlawsClicked) {
-    //         personageFlawsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageFlaws = data.personageFlaws;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
-
-    // var personageMeritsClicked = false;
-    // $scope.getPersonageMerits = function () {
-    //     if (!personageMeritsClicked) {
-    //         personageMeritsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageMerits = data.personageMerits;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
-
-    // var personageInherentsClicked = false;
-    // $scope.getPersonageInherents = function () {
-    //     if (!personageInherentsClicked) {
-    //         personageInherentsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageInherents = data.personageInherents;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
 
     var noticesClicked = false;
     $scope.getNotices = function () {
