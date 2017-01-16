@@ -1,0 +1,207 @@
+{
+  "personageFlaws": [{
+    "id": 215,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.501Z",
+    "updatedAt": "2016-08-14T10:12:28.501Z",
+    "PersonageId": 16,
+    "FlawId": 1,
+    "Flaw": {
+      "id": 1,
+      "name": "Чувство долга",
+      "cost": 5,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-02-28T17:38:01.276Z",
+      "updatedAt": "2016-02-28T17:38:01.276Z"
+    }
+  }, {
+    "id": 216,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.507Z",
+    "updatedAt": "2016-08-14T10:12:28.507Z",
+    "PersonageId": 16,
+    "FlawId": 8,
+    "Flaw": {
+      "id": 8,
+      "name": "Гиперкинез",
+      "cost": 2,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-02-28T17:53:55.260Z",
+      "updatedAt": "2016-02-28T17:53:55.260Z"
+    }
+  }, {
+    "id": 217,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.518Z",
+    "updatedAt": "2016-08-14T10:12:28.518Z",
+    "PersonageId": 16,
+    "FlawId": 22,
+    "Flaw": {
+      "id": 22,
+      "name": "Преданость команде",
+      "cost": 3,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T08:21:37.147Z",
+      "updatedAt": "2016-03-03T08:21:37.147Z"
+    }
+  }, {
+    "id": 218,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.550Z",
+    "updatedAt": "2016-08-14T10:12:28.550Z",
+    "PersonageId": 16,
+    "FlawId": 34,
+    "Flaw": {
+      "id": 34,
+      "name": "Долг чести",
+      "cost": 5,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T08:35:23.850Z",
+      "updatedAt": "2016-03-03T08:35:23.850Z"
+    }
+  }, {
+    "id": 219,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.555Z",
+    "updatedAt": "2016-08-14T10:12:28.555Z",
+    "PersonageId": 16,
+    "FlawId": 45,
+    "Flaw": {
+      "id": 45,
+      "name": "Застенчивость",
+      "cost": 3,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T08:43:45.945Z",
+      "updatedAt": "2016-03-03T08:43:45.945Z"
+    }
+  }, {
+    "id": 220,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.558Z",
+    "updatedAt": "2016-08-14T10:12:28.558Z",
+    "PersonageId": 16,
+    "FlawId": 51,
+    "Flaw": {
+      "id": 51,
+      "name": "Алчность",
+      "cost": 3,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T08:47:06.658Z",
+      "updatedAt": "2016-03-03T08:47:06.658Z"
+    }
+  }, {
+    "id": 221,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.559Z",
+    "updatedAt": "2016-08-14T10:12:28.559Z",
+    "PersonageId": 16,
+    "FlawId": 57,
+    "Flaw": {
+      "id": 57,
+      "name": "Похоть",
+      "cost": 3,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T08:50:08.571Z",
+      "updatedAt": "2016-03-03T08:50:08.571Z"
+    }
+  }, {
+    "id": 222,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.563Z",
+    "updatedAt": "2016-08-14T10:12:28.563Z",
+    "PersonageId": 16,
+    "FlawId": 74,
+    "Flaw": {
+      "id": 74,
+      "name": "Инсектофобия",
+      "cost": 5,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T11:00:18.045Z",
+      "updatedAt": "2016-03-03T11:00:18.045Z"
+    }
+  }, {
+    "id": 223,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.568Z",
+    "updatedAt": "2016-08-14T10:12:28.568Z",
+    "PersonageId": 16,
+    "FlawId": 82,
+    "Flaw": {
+      "id": 82,
+      "name": "Нарушения поведения",
+      "cost": 2,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T11:02:22.729Z",
+      "updatedAt": "2016-03-03T11:02:22.729Z"
+    }
+  }, {
+    "id": 224,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.597Z",
+    "updatedAt": "2016-08-14T10:12:28.597Z",
+    "PersonageId": 16,
+    "FlawId": 117,
+    "Flaw": {
+      "id": 117,
+      "name": "Дамский угодник",
+      "cost": 2,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T11:38:26.702Z",
+      "updatedAt": "2016-03-03T11:38:26.702Z"
+    }
+  }, {
+    "id": 225,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.603Z",
+    "updatedAt": "2016-08-14T10:12:28.603Z",
+    "PersonageId": 16,
+    "FlawId": 118,
+    "Flaw": {
+      "id": 118,
+      "name": "Мот",
+      "cost": 4,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-03-03T11:38:33.142Z",
+      "updatedAt": "2016-03-03T11:38:33.142Z"
+    }
+  }, {
+    "id": 226,
+    "personage_race_default": null,
+    "createdAt": "2016-08-14T10:12:28.610Z",
+    "updatedAt": "2016-08-14T10:12:28.610Z",
+    "PersonageId": 16,
+    "FlawId": 122,
+    "Flaw": {
+      "id": 122,
+      "name": "Охотник за славой",
+      "cost": 3,
+      "unremovable": false,
+      "description": null,
+      "action_level_bonus": null,
+      "createdAt": "2016-08-08T11:13:27.361Z",
+      "updatedAt": "2016-08-08T11:13:27.361Z"
+    }
+  }]
+}

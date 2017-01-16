@@ -35,7 +35,7 @@ router.get('/personageAttachedSkillsByPersonageId/:id', function (req, res) {
             }
         ]
     }).then(function (personageAttachedSkills) {
-        return res.send({personageAttachedSkills: personageAttachedSkills});
+        return res.send({data: personageAttachedSkills});
     });
 });
 

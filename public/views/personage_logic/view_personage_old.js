@@ -24,7 +24,7 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
+var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
 
 app.controller("personageController", function ($scope, $http, $q, $sce) {
     $scope.loader = true;
@@ -34,88 +34,14 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
 
     var personage = $q.defer();
     var raceAttributes = $q.defer();
-
-    table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
-        {"data": "Flaw.name"}
-    ]);
-
-    table('/personageMeritsByPersonageId/' + personageId, '#merits', [
-        {"data": "Merit.name"}
-    ]);
-
-    table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
-        {"data": "AttachedSkill.name"},
-        {"data": "value"}
-    ]);
-
-    table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
-        {"data": "Inherent.name"},
-        {"data": "value"}
-    ]);
-
-    table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
-        {"data": "TriggerSkill.name"},
-        {
-            "targets": 0,
-            "data": function ( row, type, val, meta ) {
-                if (row.currentLevel == 0) {
-                    return "";
-                }
-                if (row.currentLevel == 1) {
-                    return "Эксперт";
-                }
-                if (row.currentLevel == 2) {
-                    return "Мастер";
-                }
-                if (row.currentLevel == 3) {
-                    return "Магистр";
-                }
-                if (row.currentLevel == 4) {
-                    return "Гроссмейтер";
-                }
-            }
-        },
-        {
-            "targets": 0,
-            "data": function ( row, type, val, meta ) {
-                if (row.talented) {
-                    return "Талант";
-                } else {
-                    return "";
-                }
-            }
-        }
-    ]);
+    var personageMerits = $q.defer();
 
     function success(data) {
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
 
-    function table(dataUrl, tableId, columns) {
-        $(tableId).DataTable({
-            "language": {
-                "search": "Поиск:",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
-                },
-                "lengthMenu":     "Показать _MENU_"
-            },
-            "lengthMenu": [ [5, 10, 50, -1], [5, 10, 50, "All"] ],
-            "info":false,
-            "ajax": dataUrl,
-            "columns": columns,
-            "pagingType": "numbers"
-        });
-        $(tableId + '_filter').addClass("pull-right");
-        $(tableId + '_paginate').addClass("pull-right");
-        $(tableId +' thead').css("display", "none");
-    }
-
-    var all = $q.all([personage.promise, raceAttributes.promise]);
+    var all = $q.all([personage.promise, personageMerits.promise]);
 
     all.then(success);
 
@@ -138,30 +64,10 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         personage.resolve();
     });
 
-    // $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageAttachedSkills = data.personageAttachedSkills;
-    //     personageAttachedSkills.resolve();
-    // });
-
-    // $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageTriggerSkills = data.personageTriggerSkills;
-    //     personageTriggerSkills.resolve();
-    // });
-
-    // $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageInherents = data.personageInherents;
-    //     personageInherents.resolve();
-    // });
-
-    // $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageFlaws = data.personageFlaws;
-    //     personageFlaws.resolve();
-    // });
-
-    // $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-    //     $scope.personageMerits = data.personageMerits;
-    //     personageMerits.resolve();
-    // });
+    $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageMerits = data.personageMerits;
+        personageMerits.resolve();
+    });
 
     $scope.calculateMagicSchools = function () {
         $scope.schools = [];
@@ -272,17 +178,17 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         });
     };
 
-    // var personageAttachedSkillsClicked = false;
-    // $scope.getPersonageAttachedSkills = function () {
-    //     if (!personageAttachedSkillsClicked) {
-    //         personageAttachedSkillsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageAttachedSkills = data.personageAttachedSkills;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
+    var personageAttachedSkillsClicked = false;
+    $scope.getPersonageAttachedSkills = function () {
+        if (!personageAttachedSkillsClicked) {
+            personageAttachedSkillsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageAttachedSkills = data.personageAttachedSkills;
+                $scope.loader = false;
+            });
+        }
+    };
 
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
@@ -297,53 +203,53 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         }
     };
 
-    // var personageTriggerSkillsClicked = false;
-    // $scope.getPersonageTriggerSkills = function () {
-    //     if (!personageTriggerSkillsClicked) {
-    //         personageTriggerSkillsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageTriggerSkills = data.personageTriggerSkills;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
+    var personageTriggerSkillsClicked = false;
+    $scope.getPersonageTriggerSkills = function () {
+        if (!personageTriggerSkillsClicked) {
+            personageTriggerSkillsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageTriggerSkills = data.personageTriggerSkills;
+                $scope.loader = false;
+            });
+        }
+    };
 
-    // var personageFlawsClicked = false;
-    // $scope.getPersonageFlaws = function () {
-    //     if (!personageFlawsClicked) {
-    //         personageFlawsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageFlaws = data.personageFlaws;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
+    var personageFlawsClicked = false;
+    $scope.getPersonageFlaws = function () {
+        if (!personageFlawsClicked) {
+            personageFlawsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageFlaws = data.personageFlaws;
+                $scope.loader = false;
+            });
+        }
+    };
 
-    // var personageMeritsClicked = false;
-    // $scope.getPersonageMerits = function () {
-    //     if (!personageMeritsClicked) {
-    //         personageMeritsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageMerits = data.personageMerits;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
+    var personageMeritsClicked = false;
+    $scope.getPersonageMerits = function () {
+        if (!personageMeritsClicked) {
+            personageMeritsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageMerits = data.personageMerits;
+                $scope.loader = false;
+            });
+        }
+    };
 
-    // var personageInherentsClicked = false;
-    // $scope.getPersonageInherents = function () {
-    //     if (!personageInherentsClicked) {
-    //         personageInherentsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.personageInherents = data.personageInherents;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
+    var personageInherentsClicked = false;
+    $scope.getPersonageInherents = function () {
+        if (!personageInherentsClicked) {
+            personageInherentsClicked = true;
+            $scope.loader = true;
+            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
+                $scope.personageInherents = data.personageInherents;
+                $scope.loader = false;
+            });
+        }
+    };
 
     var noticesClicked = false;
     $scope.getNotices = function () {

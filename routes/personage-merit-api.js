@@ -91,7 +91,7 @@ router.get('/personageMeritsByPersonageId/:id', function (req, res) {
             }
         ]
     }).then(function (personageMerits) {
-        return res.send({personageMerits: personageMerits});
+        return res.send({data: personageMerits});
     });
 });
 

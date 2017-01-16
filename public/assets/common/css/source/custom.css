@@ -275,8 +275,8 @@ nav.top-submenu, .top-submenu {
 *, *:before, *:after {box-sizing:  border-box !important;}
 
 .masonry {
-	-moz-column-width: 20em;
-	-webkit-column-width: 20em;
+	-moz-column-width: 30em;
+	-webkit-column-width: 30em;
 	-moz-column-gap: .5em;
 	-webkit-column-gap: .5em;
 }
@@ -287,3 +287,7 @@ nav.top-submenu, .top-submenu {
 	padding:  0;
 	width:98%;
 }
+
+/*#flaws thead {*/
+	/*display: none;*/
+/*}*/
