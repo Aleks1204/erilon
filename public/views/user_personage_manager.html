@@ -25,7 +25,8 @@
     <link rel="stylesheet" type="text/css" href="/assets/vendors/jscrollpane/style/jquery.jscrollpane.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/ladda/dist/ladda-themeless.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/fullcalendar/dist/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlaudioplayer/src/player.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlvideoplayer/src/player.css">
@@ -116,7 +117,7 @@
         <div class="left-menu-inner scroll-pane">
             <ul class="left-menu-list left-menu-list-root list-unstyled">
                 <li>
-                    <a class="left-menu-link" href="/views/races/race_manager.html" >
+                    <a class="left-menu-link" href="/views/races/race_manager.html">
                         <i class="left-menu-link-icon fa fa-users"><!-- --></i>
                         Расы
                     </a>
@@ -184,11 +185,15 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
                         <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                        <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
                         <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
-                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()" ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление доступом</a>
+                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
+                           ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                            доступом</a>
                     </ul>
                 </div>
             </div>
@@ -227,31 +232,37 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="name">Имя</label>
                                                 <input class="form-control form-control-rounded" name="personageName"
-                                                       placeholder="Имя персонажа..." id="name" ng-model="name" type="text" required>
+                                                       placeholder="Имя персонажа..." id="name" ng-model="name"
+                                                       type="text" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group" ng-click="selectRefresh()">
                                                 <label for="race_id">Раса</label>
 
-                                                <select class="selectpicker form-control form-control-rounded" name="race"
-                                                        ng-model="race_id" id="race_id" ng-options="race.id as race.name for race in races" required>
+                                                <select class="selectpicker form-control form-control-rounded"
+                                                        name="race"
+                                                        ng-model="race_id" id="race_id"
+                                                        ng-options="race.id as race.name for race in races" required>
                                                     <option style="display:none" value="">Выберите расу...</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <label class="form-label" for="experience" >Очки опыта</label>
-                                                <input class="form-control form-control-rounded" id="experience" name="experience" min="0" type="number" required>
+                                                <label class="form-label" for="experience">Очки опыта</label>
+                                                <input class="form-control form-control-rounded" id="experience"
+                                                       name="experience" min="0" type="number" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label class="form-label" for="createPersonageButton">&nbsp;</label><br>
-                                                <button type="submit" id="createPersonageButton" class="btn btn-rounded btn-block btn-info"
+                                                <button type="submit" id="createPersonageButton"
+                                                        class="btn btn-rounded btn-block btn-info"
                                                         ng-disabled="createPersonageForm.$invalid"
-                                                        ng-click="createPersonage()">Создать</button>
+                                                        ng-click="createPersonage()">Создать
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -268,50 +279,58 @@
                         <div class="panel-heading"><h3 class="text-center">Персонажи</h3></div>
                         <div class="panel-body">
                             <div ng-show="hasViewPermission('AllPersonages')">
-                                    <button type="button" class="btn btn-rounded btn-success margin-inline"
-                                            ng-click="showAllPersonages()">Показать всех
-                                        персонажей
-                                    </button>
-                                    <button type="button" class="btn btn-rounded btn-info margin-inline"
-                                            ng-click="showMyPersonages()">Показать моих
-                                        персонажей
-                                    </button>
+                                <button type="button" class="btn btn-rounded btn-success margin-inline"
+                                        ng-click="showAllPersonages()">Показать всех
+                                    персонажей
+                                </button>
+                                <button type="button" class="btn btn-rounded btn-info margin-inline"
+                                        ng-click="showMyPersonages()">Показать моих
+                                    персонажей
+                                </button>
                             </div>
                             <div class="row messaging">
                                 <div class="messaging-list">
                                     <div class="messaging-list-item"
                                          ng-repeat="personage in personages | orderBy : 'id'">
                                         <div class="s1">
-                                            <img ng-if="personage.Race.name == 'Гном'" class="avatar" src="../assets/common/img/temp/avatars/dwarf.png"
+                                            <img ng-if="personage.Race.name == 'Гном'" class="avatar"
+                                                 src="../assets/common/img/temp/avatars/dwarf.png"
                                                  alt="Alternative text to the image">
-                                            <img ng-if="personage.Race.name == 'Орк'" class="avatar" src="../assets/common/img/temp/avatars/ork.png"
+                                            <img ng-if="personage.Race.name == 'Орк'" class="avatar"
+                                                 src="../assets/common/img/temp/avatars/ork.png"
                                                  alt="Alternative text to the image">
-                                            <img ng-if="personage.Race.name == 'Эльф'" class="avatar" src="../assets/common/img/temp/avatars/elf.png"
+                                            <img ng-if="personage.Race.name == 'Эльф'" class="avatar"
+                                                 src="../assets/common/img/temp/avatars/elf.png"
                                                  alt="Alternative text to the image">
-                                            <img ng-if="personage.Race.name == 'Хоббит'" class="avatar" src="../assets/common/img/temp/avatars/hobbit.png"
+                                            <img ng-if="personage.Race.name == 'Хоббит'" class="avatar"
+                                                 src="../assets/common/img/temp/avatars/hobbit.png"
                                                  alt="Alternative text to the image">
-                                            <img ng-if="personage.Race.name == 'Человек'" class="avatar" src="../assets/common/img/temp/avatars/human.png"
+                                            <img ng-if="personage.Race.name == 'Человек'" class="avatar"
+                                                 src="../assets/common/img/temp/avatars/human.png"
                                                  alt="Alternative text to the image">
                                         </div>
                                         <div class="s2">
                                             <h4>{{personage.name}}</h4>
                                             <a href="/views/personage_logic/view_personage.html?id={{personage.id}}">
-                                                <button class="btn btn-rounded btn-sm btn-success-outline margin-inline"><i
-                                                    class="icmn-eye4"></i> Просмотр
+                                                <button class="btn btn-rounded btn-sm btn-success-outline margin-inline">
+                                                    <i
+                                                            class="icmn-eye4"></i> Просмотр
                                                 </button>
                                             </a>
                                             <a href="/views/personage_logic/create_personage.html?id={{personage.id}}">
-                                            <button class="btn btn-rounded btn-sm btn-info-outline margin-inline"><i
-                                                    class="fa fa-pencil"></i> Продолжить создание
-                                            </button>
+                                                <button class="btn btn-rounded btn-sm btn-info-outline margin-inline"><i
+                                                        class="fa fa-pencil"></i> Продолжить создание
+                                                </button>
                                             </a>
                                             <a href="/views/personage_logic/edit_personage.html?id={{personage.id}}">
-                                            <button class="btn btn-rounded btn-sm btn-warning-outline margin-inline"><i
-                                                    class="fa fa-universal-access"></i>
-                                                Прокачка
-                                            </button>
+                                                <button class="btn btn-rounded btn-sm btn-warning-outline margin-inline">
+                                                    <i
+                                                            class="fa fa-universal-access"></i>
+                                                    Прокачка
+                                                </button>
                                             </a>
-                                            <button ng-click="deletePersonage(personage.id)" class="btn btn-rounded btn-sm btn-danger-outline margin-inline"><i
+                                            <button ng-click="deletePersonage(personage.id)"
+                                                    class="btn btn-rounded btn-sm btn-danger-outline margin-inline"><i
                                                     class="fa fa-trash"></i> Удалить
                                             </button>
                                         </div>
@@ -322,8 +341,6 @@
                     </section>
                 </div>
             </div>
-
-
 
 
         </div>
