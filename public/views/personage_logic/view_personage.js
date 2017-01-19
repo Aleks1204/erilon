@@ -39,6 +39,11 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         {"data": "Flaw.name"}
     ]);
 
+    table('/noticesByPersonageId/' + personageId, '#notices', [
+        {"data": "name"},
+        {"data": "description"}
+    ]);
+
     table('/personageMeritsByPersonageId/' + personageId, '#merits', [
         {"data": "Merit.name"}
     ]);
@@ -79,7 +84,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             "targets": 0,
             "data": function ( row, type, val, meta ) {
                 if (row.talented) {
-                    return "Талант";
+                    return "Да";
                 } else {
                     return "";
                 }
@@ -94,6 +99,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
 
     function table(dataUrl, tableId, columns) {
         $(tableId).DataTable({
+            responsive: true,
             "language": {
                 "search": "Поиск:",
                 "paginate": {
@@ -112,7 +118,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         });
         $(tableId + '_filter').addClass("pull-right");
         $(tableId + '_paginate').addClass("pull-right");
-        $(tableId +' thead').css("display", "none");
     }
 
     var all = $q.all([personage.promise, raceAttributes.promise]);
@@ -260,18 +265,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         }
     };
 
-    var noticesClicked = false;
-    $scope.getNotices = function () {
-        if (!noticesClicked) {
-            noticesClicked = true;
-            $scope.loader = true;
-            $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
-                $scope.notices = data.notices;
-                $scope.loader = false;
-            });
-        }
-    };
-
     $scope.clearNoticeFields = function () {
         $scope.noticeName = '';
         $scope.noticeDescription = '';
@@ -302,16 +295,4 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             });
         });
     };
-
-    $scope.hitPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>');
-    $scope.hitChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа</p>');
-    $scope.rangedHitDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа</p>');
-    $scope.parryPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа</p>');
-    $scope.parryChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа</p>');
-    $scope.dodgeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа</p>');
-    $scope.generalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа</p>');
-    $scope.mentalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа</p>');
-    $scope.endurancePointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>');
-    $scope.initiativeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа</p>');
-
 });

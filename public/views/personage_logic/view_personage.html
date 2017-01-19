@@ -257,59 +257,153 @@
                     </div>
                 </div>
 
-                <div class="row masonry" id="personage_table">
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">
-                            Прикрепленные навыки
-                        </h3>
-                        <div class="panel-body">
-                            <table id="attachedSkills" class="table" width="100%" cellspacing="0">
-                            </table>
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#main_skills" role="tab">Основные</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells" role="tab" ng-click="getPersonageSpells()">Заклинания</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="main_skills" role="tabpanel">
+
+                            <div class="row masonry" id="personage_table">
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Прикрепленные навыки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="attachedSkills" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Навык</th>
+                                                <th>Значение</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Тригерные навыки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="triggerSkills" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Навык</th>
+                                                <th>Уровень</th>
+                                                <th>Талант</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Врожденные особенности
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="inherents" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Особенность</th>
+                                                <th>Значение</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Достоинства
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="merits" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Достоинство</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Недостатки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="flaws" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Недостаток</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Заметки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table class="table table-hover nowrap" id="notices" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>Заметка</th>
+                                                <th>Текст</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="spells" role="tabpanel">
+                            <div class="panel" style="width: 99.8%;" ng-repeat="school in schools">
+
+                                <h3 class="panel-heading">{{school.name}}</h3>
+                                <div class="panel-body table-responsive">
+                                    <table id="spellsBySchool" class="table table-hover nowrap" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Заклинание</th>
+                                                <th>Сложность</th>
+                                                <th>Мана</th>
+                                                <th>Поддержание</th>
+                                                <th>Сложность создания</th>
+                                                <th>Мгновенное</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="spell in school.Spells">
+                                                <td>{{spell.name}}</td>
+                                                <td>{{spell.complexity}}</td>
+                                                <td>{{spell.mana}}</td>
+                                                <td>{{spell.mana_support}} {{spell.mana_sup_time}}</td>
+                                                <td>{{spell.creating_complexity}}</td>
+                                                <td>{{spell.instant}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+
                         </div>
                     </div>
-
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">
-                            Тригерные навыки
-                        </h3>
-                        <div class="panel-body">
-                            <table id="triggerSkills" class="table" width="100%" cellspacing="0">
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">
-                            Врожденные особенности
-                        </h3>
-                        <div class="panel-body">
-                            <table id="inherents" class="table" width="100%" cellspacing="0">
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">
-                            Достоинства
-                        </h3>
-                        <div class="panel-body">
-                            <table id="merits" class="table" width="100%" cellspacing="0">
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">
-                            Недостатки
-                        </h3>
-                        <div class="panel-body">
-                            <table id="flaws" class="table" width="100%" cellspacing="0">
-                            </table>
-                        </div>
-                    </div>
-
-
                 </div>
+
+
 
             </div>
         </div>
