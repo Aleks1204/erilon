@@ -368,38 +368,9 @@
 
                         </div>
                         <div class="tab-pane" id="spells" role="tabpanel">
-                            <div class="panel" style="width: 99.8%;" ng-repeat="school in schools">
-
-                                <h3 class="panel-heading">{{school.name}}</h3>
-                                <div class="panel-body table-responsive">
-                                    <table id="spellsBySchool" class="table table-hover nowrap" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Заклинание</th>
-                                                <th>Сложность</th>
-                                                <th>Мана</th>
-                                                <th>Поддержание</th>
-                                                <th>Сложность создания</th>
-                                                <th>Мгновенное</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="spell in school.Spells">
-                                                <td>{{spell.name}}</td>
-                                                <td>{{spell.complexity}}</td>
-                                                <td>{{spell.mana}}</td>
-                                                <td>{{spell.mana_support}} {{spell.mana_sup_time}}</td>
-                                                <td>{{spell.creating_complexity}}</td>
-                                                <td>{{spell.instant}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-
 
                         </div>
+
                     </div>
                 </div>
 

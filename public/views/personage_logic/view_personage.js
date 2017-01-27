@@ -143,6 +143,70 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         personage.resolve();
     });
 
+    function magicTable(id, name, attachedSkill) {
+        $('#spells').append('<div id="' + id + 'MagicPanel" class="panel" style="width: 99.8%;">' +
+            '<h3 class="panel-heading">' + name + '</h3>' +
+            '<div class="panel-body table-responsive">' +
+            '<table id="' + id + 'Magic" class="table table-hover nowrap" width="100%">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>Заклинание</th>' +
+            '<th>Сложность</th>' +
+            '<th>Мана</th>' +
+            '<th>Поддержание</th>' +
+            '<th>Сложность создания</th>' +
+            '<th>Мгновенное</th>' +
+            '</tr>' +
+            '</thead>' +
+            '</table>' +
+            '</div>' +
+            '</div>');
+        $('#' + id + 'Magic').DataTable({
+            responsive: true,
+            "language": {
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "След.",
+                    "previous": "Пред."
+                },
+                "lengthMenu":     "Показать _MENU_"
+            },
+            "lengthMenu": [ [5, 10, 50, -1], [5, 10, 50, "All"] ],
+            "info":false,
+            data: attachedSkill.Spells,
+            columns: [
+                { data: 'name' },
+                { data: 'complexity' },
+                { data: 'mana' },
+                {
+                    data: 'mana_support',
+                    render: function ( data, type, row ) {
+                        if (row.instant) {
+                            return "-";
+                        }
+                        return row.mana_support + ' ' + row.mana_sup_time;
+                    }
+                },
+                { data: 'creating_complexity' },
+                {
+                    data: 'instant',
+                    render: function ( data, type, row ) {
+                        if (data) {
+                            return "Да";
+                        } else {
+                            return "Нет";
+                        }
+                    }
+                }
+            ],
+            "pagingType": "numbers"
+        });
+        $('#' + id + 'Magic' + '_filter').addClass("pull-right");
+        $('#' + id + 'Magic' + '_paginate').addClass("pull-right");
+    }
+
     $scope.calculateMagicSchools = function () {
         $scope.schools = [];
         var buffer = [];
@@ -155,6 +219,51 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         angular.forEach(buffer, function (attachedSkillId) {
             $http.get('/attachedSkills/' + attachedSkillId).success(function (data) {
                 $scope.schools.push(data.attachedSkill);
+                if (data.attachedSkill.name == 'Магия воздуха') {
+                    magicTable('air', 'Воздух', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия земли') {
+                    magicTable('earth', 'Земля', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия огня') {
+                    magicTable('fire', 'Огонь', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия воды') {
+                    magicTable('aqua', 'Вода', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия смерти') {
+                    magicTable('death', 'Смерть', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия духа') {
+                    magicTable('astral', 'Дух', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия иллюзий') {
+                    magicTable('illusion', 'Иллюзии', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия призыва') {
+                    magicTable('call', 'Призыв', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия природы') {
+                    magicTable('nature', 'Природа', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия разума') {
+                    magicTable('mind', 'Разум', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия тела') {
+                    magicTable('body', 'Тело', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия тени') {
+                    magicTable('shadow', 'Тень', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Начертательная магия') {
+                    magicTable('pentagram', 'Начертательная магия', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Знахарство') {
+                    magicTable('herbs', 'Знахарство', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Алхимия') {
+                    magicTable('alchemy', 'Алхимия', data.attachedSkill);
+                }
             });
         });
     };
