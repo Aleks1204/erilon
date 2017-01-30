@@ -254,7 +254,86 @@
                         </h4>
                         <h3 class="panel-heading">{{personage.name}}</h3>
                         <div class="panel-body">
-                            <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
+                            <div class="icons-block">
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/hitChopPunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/rangedHit.svg" class="ng-scope tooltips" height="40" width="40">
+                                        <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/parryChopPunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips" height="40" width="40">
+                                        <span class="ng-binding ng-scope">{{dodge}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/generalActionPoints.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/mentalActionPoints.png" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/endurancePoints.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/initiative.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{initiative}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
