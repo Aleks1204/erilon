@@ -74,6 +74,13 @@ nav.top-menu::before, nav.top-menu {
 	display: inline-block;
 }
 
+.icon-char {
+	background: #ffffff;
+	color: #000;
+	margin: 0 auto;
+	display: inline-block;
+}
+
 	@media (max-width: 768px) {
 	.icons-block {
 		margin: 30px 0;
@@ -286,4 +293,49 @@ nav.top-submenu, .top-submenu {
 	margin:  .5em;
 	padding:  0;
 	width:98%;
+}
+
+#tooltip
+{
+	text-align: center;
+	color: #fff;
+	background: #111;
+	position: absolute;
+	z-index: 100;
+	padding: 15px;
+}
+
+#tooltip:after /* triangle decoration */
+{
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #111;
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: -10px;
+	margin-left: -10px;
+}
+
+#tooltip.top:after
+{
+	border-top-color: transparent;
+	border-bottom: 10px solid #111;
+	top: -20px;
+	bottom: auto;
+}
+
+#tooltip.left:after
+{
+	left: 10px;
+	margin: 0;
+}
+
+#tooltip.right:after
+{
+	right: 10px;
+	left: auto;
+	margin: 0;
 }
