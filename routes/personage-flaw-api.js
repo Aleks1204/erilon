@@ -22,7 +22,7 @@ router.get('/personageFlawsByPersonageId/:id', function(req, res) {
         },
         include: [ models.Flaw ]
     }).then(function(personageFlaws) {
-        return res.send({personageFlaws:personageFlaws});
+        return res.send({data:personageFlaws});
     });
 });
 

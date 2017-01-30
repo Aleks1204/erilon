@@ -21,7 +21,7 @@ router.get('/personageInherentsByPersonageId/:id', function(req, res) {
         },
         include: [ models.Inherent ]
     }).then(function(personageInherents) {
-        return res.send({personageInherents:personageInherents});
+        return res.send({data:personageInherents});
     });
 });
 

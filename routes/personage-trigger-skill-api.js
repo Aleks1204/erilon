@@ -21,7 +21,7 @@ router.get('/personageTriggerSkillsByPersonageId/:id', function(req, res) {
         },
         include: [ models.TriggerSkill ]
     }).then(function(personageTriggerSkills) {
-        return res.send({personageTriggerSkills:personageTriggerSkills});
+        return res.send({data:personageTriggerSkills});
     });
 });
 

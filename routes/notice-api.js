@@ -39,7 +39,7 @@ router.get('/noticesByPersonageId/:id', function (req, res) {
             PersonageId: req.params.id
         }
     }).then(function (notices) {
-        return res.send({notices: notices});
+        return res.send({data: notices});
     });
 });
 

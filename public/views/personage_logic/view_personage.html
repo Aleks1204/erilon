@@ -1,429 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Персонаж</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
+    <link href="/assets/common/img/favicon.144x144.png" rel="apple-touch-icon" type="image/png" sizes="144x144">
+    <link href="/assets/common/img/favicon.114x114.png" rel="apple-touch-icon" type="image/png" sizes="114x114">
+    <link href="/assets/common/img/favicon.72x72.png" rel="apple-touch-icon" type="image/png" sizes="72x72">
+    <link href="/assets/common/img/favicon.57x57.png" rel="apple-touch-icon" type="image/png">
+    <link href="/assets/common/img/favicon.png" rel="icon" type="image/png">
+    <link href="favicon.ico" rel="shortcut icon">
+
+    <!-- HTML5 shim and Respond.js for < IE9 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Vendors Styles -->
+    <!-- v1.0.0 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/jscrollpane/style/jquery.jscrollpane.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/ladda/dist/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlaudioplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/cleanhtmlvideoplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/summernote/dist/summernote.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/ionrangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/c3/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/chartist/dist/chartist.min.css">
+    <!-- v.1.4.0 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/jquery-steps/demo/css/jquery.steps.css">
+    <!-- v.1.4.2 -->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
+
+    <!-- Clean UI Styles -->
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/source/main.css">
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/source/custom.css">
+
+    <!-- Vendors Scripts -->
+    <!-- v1.0.0 -->
+    <script src="/assets/vendors/jquery/jquery.min.js"></script>
+    <script src="/assets/vendors/tether/dist/js/tether.min.js"></script>
+    <script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+    <script src="/assets/vendors/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/assets/vendors/spin.js/spin.js"></script>
+    <script src="/assets/vendors/ladda/dist/ladda.min.js"></script>
+    <script src="/assets/vendors/select2/dist/js/select2.full.min.js"></script>
+    <script src="/assets/vendors/html5-form-validation/dist/jquery.validation.min.js"></script>
+    <script src="/assets/vendors/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
+    <script src="/assets/vendors/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+    <script src="/assets/vendors/autosize/dist/autosize.min.js"></script>
+    <script src="/assets/vendors/bootstrap-show-password/bootstrap-show-password.min.js"></script>
+    <script src="/assets/vendors/moment/min/moment.min.js"></script>
+    <script src="/assets/vendors/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="/assets/vendors/cleanhtmlaudioplayer/src/jquery.cleanaudioplayer.js"></script>
+    <script src="/assets/vendors/cleanhtmlvideoplayer/src/jquery.cleanvideoplayer.js"></script>
+    <script src="/assets/vendors/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <script src="/assets/vendors/summernote/dist/summernote.min.js"></script>
+    <script src="/assets/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="/assets/vendors/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/assets/vendors/nestable/jquery.nestable.js"></script>
+    <script src="/assets/vendors/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/vendors/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+    <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="/assets/vendors/editable-table/mindmup-editabletable.js"></script>
+    <script src="/assets/vendors/d3/d3.min.js"></script>
+    <script src="/assets/vendors/c3/c3.min.js"></script>
+    <script src="/assets/vendors/chartist/dist/chartist.min.js"></script>
+    <script src="/assets/vendors/peity/jquery.peity.min.js"></script>
+    <!-- v1.0.1 -->
+    <script src="/assets/vendors/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- v1.1.1 -->
+    <script src="/assets/vendors/gsap/src/minified/TweenMax.min.js"></script>
+    <script src="/assets/vendors/hackertyper/hackertyper.js"></script>
+    <script src="/assets/vendors/jquery-countTo/jquery.countTo.js"></script>
+    <!-- v1.4.0 -->
+    <script src="/assets/vendors/nprogress/nprogress.js"></script>
+    <script src="/assets/vendors/jquery-steps/build/jquery.steps.min.js"></script>
+    <!-- v1.4.2 -->
+    <script src="/assets/vendors/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="/assets/vendors/chart.js/src/Chart.bundle.min.js"></script>
+
+    <!-- Clean UI Scripts -->
+    <script src="/assets/common/js/common.js"></script>
+    <script src="/assets/common/js/demo.temp.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>-->
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
+
     <script src="/views/permissions/permissions.js"></script>
     <script src="view_personage.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
-<body ng-app="personageApp">
-
-
-<div ng-controller="permissionsController">
-    <div ng-controller="personageController">
-        <div data-ng-include data-src="'/views/loader.html'"></div>
-
-        <div data-ng-include data-src="'/views/main-menu.html'"></div>
-        <h3 class="text-center">{{personage.name}}</h3>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-offset-1 col-xs-2">
-                    <p class="lead">
-                        <strong>Раса:</strong>
-                    </p>
-                </div>
-                <div class="col-xs-offset-2 col-xs-4">
-                    <p class="lead">{{personage.Race.name}}</p>
+<body class="theme-default menu-top theme-dark" ng-app="personageApp">
+<div class="boxed-container" ng-controller="permissionsController">
+    <div ng-controller="permissionsController">
+        <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+            <div class="logo-container">
+                <a href="/views/user_personage_manager.html?id={{player.id}}" class="logo">
+                    <h1>ЭРИЛОН</h1>
+                </a>
+            </div>
+            <div class="left-menu-inner scroll-pane">
+                <ul class="left-menu-list left-menu-list-root list-unstyled">
+                    <li>
+                        <a class="left-menu-link" href="/views/races/race_manager.html">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Расы
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
+                            <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                            Атрибуты
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/merits/merit_manager.html">
+                            <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                            Достоинства
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
+                            <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                            Врожденные особенности
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
+                            <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                            Недостатки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
+                            <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                            Прикрепленные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
+                            <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                            Тригерные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/spells/spells_manager.html">
+                            <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                            Заклинания
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+            <div class="menu-icon-container hidden-md-up">
+                <div class="animate-menu-button left-menu-toggle">
+                    <div><!-- --></div>
                 </div>
             </div>
-
-            <form name="ageForm">
-                <div class="row">
-                    <div class="col-xs-offset-1 col-xs-2">
-                        <p class="lead">
-                            <strong><label>Возраст:</label></strong>
-                        </p>
-                    </div>
-                    <div class="col-xs-offset-2 col-xs-4">
-                        <strong>{{personage.age}} лет</strong>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-offset-1 col-xs-2">
-                        <p class="lead">
-                            <strong><label>Макс. возраст:</label></strong>
-                        </p>
-                    </div>
-                    <div class="col-xs-offset-2 col-xs-4">
-                        <strong>{{personage.max_age}} лет</strong>
-                    </div>
-                </div>
-            </form>
-
-            <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
-
-        </div>
-
-        <div>
-            <div class="panel-group" id="accordion">
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#attributes">
-                            <div class="panel-heading">
-                                Характеристики
-                            </div>
+            <div class="menu">
+                <div class="menu-user-block">
+                    <div class="dropdown dropdown-avatar">
+                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="user-name">Игрок: <strong>{{player.name}}</strong></span>
+                            <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Alternative text to the image">
+                    </span>
                         </a>
-                    </h4>
-
-                    <div id="attributes" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <table class="table table-striped">
-                                <tr ng-repeat="personageAttribute in personageAttributes | orderBy : 'Attribute.name'">
-                                    <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
-                                    <td style="vertical-align:middle;horiz-align: left;">{{ personageAttribute.value
-                                        }}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                    class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                    class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
+                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                                доступом</a>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#skills">
-                            <div class="panel-heading">
-                                Навыки
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="skills" class="panel-collapse collapse">
-                        <div class="panel-body">
-
-                            <div>
-                                <div class="panel-group" id="skillsAccordeon">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#attachedSkills" ng-click="getPersonageAttachedSkills()">
-                                                <div class="panel-heading">
-                                                    Прикрепленные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="attachedSkills" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageAttachedSkill in personageAttachedSkills | orderBy : '-value'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageAttachedSkill.AttachedSkill.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageAttachedSkill.value}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#triggerSkills" ng-click="getPersonageTriggerSkills()">
-                                                <div class="panel-heading">
-                                                    Триггерные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="triggerSkills" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr>
-                                                        <th style="vertical-align:middle; text-align: center"></th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">Уровень
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="isMobile">Ур
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">Талант
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="isMobile">Тл
-                                                        </th>
-                                                    </tr>
-                                                    <tr ng-repeat="personageTriggerSkill in personageTriggerSkills | orderBy : 'TriggerSkill.name'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageTriggerSkill.TriggerSkill.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                                Эксперт
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                                Мастер
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                                Магистр
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                                Гроссмейстер
-                                                            </div>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;" ng-if="isMobile">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                                Э
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                                М
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                                Мг
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                                Г
-                                                            </div>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-show="personageTriggerSkill.talented">
-                                                            <span class="glyphicon glyphicon-ok"/>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-show="!personageTriggerSkill.talented">
-                                                            <span class="glyphicon glyphicon-remove"/>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#perks">
-                            <div class="panel-heading">
-                                Особенности
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="perks" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div>
-                                <div class="panel-group" id="perkAccordeon">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents" ng-click="getPersonageInherents()">
-                                                <div class="panel-heading">
-                                                    Врожденные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="inherents" class="panel-collapse collapse">
-
-
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageInherent in personageInherents | orderBy : 'Inherent.name'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageInherent.Inherent.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
-                                                                {{personageInherent.value}}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits" ng-click="getPersonageMerits()">
-                                                <div class="panel-heading">
-                                                    Достоинства
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="merits" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageMerit in personageMerits | orderBy : 'Merit.name'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageMerit.Merit.name}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws" ng-click="getPersonageFlaws()">
-                                                <div class="panel-heading">
-                                                    Недостатки
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="flaws" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageFlaw in personageFlaws | orderBy : 'Flaw.name'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageFlaw.Flaw.name}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default" ng-hide="isSpellsEmpty()">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#spells" ng-click="getPersonageAttachedSkills();getPersonageSpells()">
-                            <div class="panel-heading">
-                                Заклинания
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="spells" class="panel-collapse collapse">
-                        <div class="panel-body">
-
-                            <div ng-repeat="school in schools | orderBy : 'name'">
-                                <div class="panel-group">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#spells{{school.id}}">
-                                                <div class="panel-heading">
-                                                    {{school.name}}
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="spells{{school.id}}" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageSpell in personageSpells | orderBy : 'personageSpell.Spell.name'">
-                                                        <td ng-if="personageSpell.Spell.AttachedSkillId == school.id"
-                                                            style="vertical-align:middle;">
-                                                            <a href="#" class="btn btn-link" role="button"
-                                                               ng-click="showSpellDetail(personageSpell)">
-                                                                {{ personageSpell.Spell.name }}
-                                                            </a>
-                                                        </td>
-                                                        <td ng-if="personageSpell.Spell.AttachedSkillId == school.id"
-                                                            style="vertical-align:middle;text-align:center;">
-                                                            {{personageSpell.level}} ур.
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#notices" ng-click="getNotices()">
-                            <div class="panel-heading">
-                                Заметки
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="notices" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div data-ng-include data-src="'notices.html'"></div>
-                            <button type="button" class="btn btn-default pull-right"
-                                    data-toggle="modal" data-target="#addNotice" ng-click="clearNoticeFields()">Добавить
-                                заметку
-                            </button>
-
-                            <div id="addNotice" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title">Создать заметку</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="form-horizontal" role="form" name="addNoticeForm">
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-2"
-                                                           for="noticeName">Заголовок:</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" ng-model="noticeName" class="form-control"
-                                                               name="noticeNameInput" id="noticeName"
-                                                               required>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-2"
-                                                           for="noticeDescription">Текст:</label>
-                                                    <div class="col-sm-10">
-                                                        <textarea ng-model="noticeDescription" class="form-control"
-                                                                  id="noticeDescription" name="noticeDescriptionInput"
-                                                                  required></textarea>
-                                                    </div>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary"
-                                                    ng-click="addNotice()">
-                                                Сохранить
-                                            </button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Отмена
-                                            </button>
-                                        </div>
-                                    </div>
+                <div class="menu-info-block">
+                    <div class="left">
+                        <div class="menu-info-block">
+                            <div class="example-buy-btn hidden-xs-down">
+                                <div class="btn expir btn-success-outline btn-rounded">
+                                    Права: {{player.Role.name}}
                                 </div>
                             </div>
                         </div>
@@ -431,140 +219,264 @@
                 </div>
 
             </div>
-        </div>
-
-        <div id="spellDetails" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Описание заклинания:
-                            <strong>{{currentPersonageSpell.Spell.name}}</strong></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Ваш уровень:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.level}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Учитель:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                <input type="checkbox" class="form-control" id="spellTutored"
-                                       ng-model="currentPersonageSpell.tutored"
-                                       style="margin-top: -6px; margin-left: -6px;" disabled>
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Кодовое название:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.Spell.name}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Сложность:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.Spell.complexity}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Сложность создания:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.Spell.creating_complexity}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Мана:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.Spell.mana}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Поддержание:</strong>
-                            </div>
-                            <div ng-show="spellDetails.spell.instant">
-                                <div class="col-md-4 col-xs-4">
-                                    Мгновенное
-                                </div>
-                            </div>
-                            <div ng-hide="spellDetails.spell.instant">
-                                <div class="col-md-4 col-xs-4">
-                                    {{currentPersonageSpell.Spell.mana_support}} {{spellDetails.spell.mana_sup_time}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Стоимость:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{currentPersonageSpell.Spell.cost}}
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Эффект:</strong>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                {{currentPersonageSpell.Spell.effect}}
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Описание:</strong>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                {{currentPersonageSpell.Spell.description}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <form name="expirienceForm">
-            <table class="table table-striped">
-                <tr>
-                    <td class="lead">
-                        <strong>Очки опыта:</strong>
-                    </td>
-
-                    <td class="lead">
-                        <strong>{{personage.experience}}</strong>
-                    </td>
-                </tr>
-            </table>
-        </form>
-
+        </nav>
     </div>
-</div>
 
+    <section class="page-content" ng-controller="personageController">
+        <div class="page-content-inner">
+            <div class="dashboard-container">
+                <div class="row">
+                    <div class="panel panel-with-sidebar sidebar-large panel-with-borders" style="width: 99.2%;">
+                        <h4 class="panel-sidebar">
+                            <dl>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <dt>
+                                    <strong>Раса: </strong>{{personage.Race.name}}
+                                </dt>
+                                <br/>
+                                <br/>
+                                <dt>
+                                    <strong>Возраст: </strong>{{personage.age}} лет
+                                </dt>
+                                <br/>
+                                <br/>
+                                <dt>
+                                    <strong>Макс. возраст: </strong>{{personage.max_age}} лет
+                                </dt>
+                                <br/>
+                                <br/>
+                                <dt>
+                                    <strong>Очки опыта: </strong>{{personage.experience}}
+                                </dt>
+                            </dl>
+                        </h4>
+                        <h3 class="panel-heading">{{personage.name}}</h3>
+                        <div class="panel-body">
+                            <div class="icons-block">
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/hitChopPunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/rangedHit.svg" class="ng-scope tooltips" height="40" width="40">
+                                        <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/parryChopPunch.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips" height="40" width="40">
+                                        <span class="ng-binding ng-scope">{{dodge}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/generalActionPoints.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/mentalActionPoints.png" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                                    <div class="icon-atr"
+                                         title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/endurancePoints.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
+                                    <div class="icon-atr"
+                                         title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа" data-toggle="tooltip" data-placement="right">
+                                        <img src="/assets/common/img/erilon-icon/initiative.svg" class="ng-scope tooltips" height="40"
+                                             width="40">
+                                        <span class="ng-binding ng-scope">{{initiative}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="panel" style="width: 99.2%;">
+                        <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
+                        <div class="panel-body">
+                            <div class="icons-block">
+                                <div class="col-md-4 col-sm-12 col-xs-12" ng-repeat="personageAttribute in personageAttributes">
+                                    <h4 style="font-family: 'Josefin Slab'">
+                                        {{personageAttribute.Attribute.name}}: {{personageAttribute.value}}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#main_skills" role="tab">Основные</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells" role="tab" ng-click="getPersonageSpells()">Заклинания</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="main_skills" role="tabpanel">
+
+                            <div class="row masonry" id="personage_table">
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Прикрепленные навыки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="attachedSkills" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Навык</th>
+                                                <th>Значение</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Тригерные навыки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="triggerSkills" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Навык</th>
+                                                <th>Уровень</th>
+                                                <th>Талант</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Врожденные особенности
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="inherents" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Особенность</th>
+                                                <th>Значение</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Достоинства
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="merits" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Достоинство</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Недостатки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table id="flaws" class="table" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Недостаток</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <h3 class="panel-heading" style="margin-bottom: 0">
+                                        Заметки
+                                    </h3>
+                                    <div class="panel-body">
+                                        <table class="table table-hover nowrap" id="notices" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>Заметка</th>
+                                                <th>Текст</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="spells" role="tabpanel">
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>

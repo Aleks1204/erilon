@@ -24,9 +24,11 @@
 })(window);
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
+var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
 app.controller("personageController", function ($scope, $http, $q, $sce) {
+    $('[data-toggle="tooltip"]').tooltip();
+
     $scope.loader = true;
     $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
@@ -34,14 +36,93 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
 
     var personage = $q.defer();
     var raceAttributes = $q.defer();
-    var personageMerits = $q.defer();
+
+    table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
+        {"data": "Flaw.name"}
+    ]);
+
+    table('/noticesByPersonageId/' + personageId, '#notices', [
+        {"data": "name"},
+        {"data": "description"}
+    ]);
+
+    table('/personageMeritsByPersonageId/' + personageId, '#merits', [
+        {"data": "Merit.name"}
+    ]);
+
+    table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
+        {"data": "AttachedSkill.name"},
+        {"data": "value"}
+    ]);
+
+    table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
+        {"data": "Inherent.name"},
+        {"data": "value"}
+    ]);
+
+    table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
+        {"data": "TriggerSkill.name"},
+        {
+            "targets": 0,
+            "data": function (row, type, val, meta) {
+                if (row.currentLevel == 0) {
+                    return "";
+                }
+                if (row.currentLevel == 1) {
+                    return "Эксперт";
+                }
+                if (row.currentLevel == 2) {
+                    return "Мастер";
+                }
+                if (row.currentLevel == 3) {
+                    return "Магистр";
+                }
+                if (row.currentLevel == 4) {
+                    return "Гроссмейтер";
+                }
+            }
+        },
+        {
+            "targets": 0,
+            "data": function (row, type, val, meta) {
+                if (row.talented) {
+                    return "Да";
+                } else {
+                    return "";
+                }
+            }
+        }
+    ]);
 
     function success(data) {
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
 
-    var all = $q.all([personage.promise, personageMerits.promise]);
+    function table(dataUrl, tableId, columns) {
+        $(tableId).DataTable({
+            responsive: true,
+            "language": {
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "След.",
+                    "previous": "Пред."
+                },
+                "lengthMenu": "Показать _MENU_"
+            },
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "info": false,
+            "ajax": dataUrl,
+            "columns": columns,
+            "pagingType": "numbers"
+        });
+        $(tableId + '_filter').addClass("pull-right");
+        $(tableId + '_paginate').addClass("pull-right");
+    }
+
+    var all = $q.all([personage.promise, raceAttributes.promise]);
 
     all.then(success);
 
@@ -64,10 +145,92 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         personage.resolve();
     });
 
-    $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageMerits = data.personageMerits;
-        personageMerits.resolve();
-    });
+    function magicTable(id, name, attachedSkill) {
+        var spells = [];
+        angular.forEach($scope.personageSpells, function (personageSpell) {
+            angular.forEach(attachedSkill.Spells, function (spell) {
+                if (spell.id == personageSpell.SpellId) {
+                    spells.push({personageSpell: personageSpell, spell: spell});
+                }
+            });
+        });
+        $('#spells').append('<div id="' + id + 'MagicPanel" class="panel" style="width: 99.8%;">' +
+            '<h3 class="panel-heading">' + name + '</h3>' +
+            '<div class="panel-body table-responsive">' +
+            '<table id="' + id + 'Magic" class="table table-hover nowrap" width="100%">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>Заклинание</th>' +
+            '<th>Сложность</th>' +
+            '<th>Мана</th>' +
+            '<th>Поддержание</th>' +
+            '<th>Сложность создания</th>' +
+            '<th>Мгновенное</th>' +
+            '<th>Уровень</th>' +
+            '<th>Учитель</th>' +
+            '</tr>' +
+            '</thead>' +
+            '</table>' +
+            '</div>' +
+            '</div>');
+        $('#' + id + 'Magic').DataTable({
+            responsive: true,
+            "language": {
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "След.",
+                    "previous": "Пред."
+                },
+                "lengthMenu": "Показать _MENU_"
+            },
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "info": false,
+            data: spells,
+            columns: [
+                {data: 'spell.name'},
+                {data: 'spell.complexity'},
+                {data: 'spell.mana'},
+                {
+                    data: 'spell.mana_support',
+                    render: function (data, type, row) {
+                        if (row.spell.instant) {
+                            return "-";
+                        }
+                        return row.spell.mana_support + ' ' + row.spell.mana_sup_time;
+                    }
+                },
+                {data: 'spell.creating_complexity'},
+                {
+                    data: 'spell.instant',
+                    render: function (data, type, row) {
+                        if (data) {
+                            return "Да";
+                        } else {
+                            return "Нет";
+                        }
+                    }
+                },
+                {data: 'personageSpell.level'},
+                {
+                    data: 'personageSpell.tutored',
+                    render: function (data, type, row) {
+                        var checked = "";
+                        if (data) {
+                            checked = 'checked';
+                        }
+                        return '<div class="checkbox">' +
+                                   '<input name="tutored" ' + checked + ' type="checkbox" disabled>' +
+                               '</div>';
+                    }
+                }
+            ],
+            "pagingType": "numbers"
+        });
+        $('#' + id + 'Magic' + '_filter').addClass("pull-right");
+        $('#' + id + 'Magic' + '_paginate').addClass("pull-right");
+    }
 
     $scope.calculateMagicSchools = function () {
         $scope.schools = [];
@@ -81,6 +244,51 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         angular.forEach(buffer, function (attachedSkillId) {
             $http.get('/attachedSkills/' + attachedSkillId).success(function (data) {
                 $scope.schools.push(data.attachedSkill);
+                if (data.attachedSkill.name == 'Магия воздуха') {
+                    magicTable('air', 'Воздух', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия земли') {
+                    magicTable('earth', 'Земля', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия огня') {
+                    magicTable('fire', 'Огонь', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия воды') {
+                    magicTable('aqua', 'Вода', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия смерти') {
+                    magicTable('death', 'Смерть', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия духа') {
+                    magicTable('astral', 'Дух', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия иллюзий') {
+                    magicTable('illusion', 'Иллюзии', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия призыва') {
+                    magicTable('call', 'Призыв', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия природы') {
+                    magicTable('nature', 'Природа', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия разума') {
+                    magicTable('mind', 'Разум', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия тела') {
+                    magicTable('body', 'Тело', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Магия тени') {
+                    magicTable('shadow', 'Тень', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Начертательная магия') {
+                    magicTable('pentagram', 'Начертательная магия', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Знахарство') {
+                    magicTable('herbs', 'Знахарство', data.attachedSkill);
+                }
+                if (data.attachedSkill.name == 'Алхимия') {
+                    magicTable('alchemy', 'Алхимия', data.attachedSkill);
+                }
             });
         });
     };
@@ -178,18 +386,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         });
     };
 
-    var personageAttachedSkillsClicked = false;
-    $scope.getPersonageAttachedSkills = function () {
-        if (!personageAttachedSkillsClicked) {
-            personageAttachedSkillsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageAttachedSkills = data.personageAttachedSkills;
-                $scope.loader = false;
-            });
-        }
-    };
-
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
         if (!personageSpellsClicked) {
@@ -198,66 +394,6 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
                 $scope.personageSpells = data.personageSpells;
                 $scope.calculateMagicSchools();
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageTriggerSkillsClicked = false;
-    $scope.getPersonageTriggerSkills = function () {
-        if (!personageTriggerSkillsClicked) {
-            personageTriggerSkillsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageTriggerSkills = data.personageTriggerSkills;
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageFlawsClicked = false;
-    $scope.getPersonageFlaws = function () {
-        if (!personageFlawsClicked) {
-            personageFlawsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageFlaws = data.personageFlaws;
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageMeritsClicked = false;
-    $scope.getPersonageMerits = function () {
-        if (!personageMeritsClicked) {
-            personageMeritsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageMerits = data.personageMerits;
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageInherentsClicked = false;
-    $scope.getPersonageInherents = function () {
-        if (!personageInherentsClicked) {
-            personageInherentsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageInherents = data.personageInherents;
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var noticesClicked = false;
-    $scope.getNotices = function () {
-        if (!noticesClicked) {
-            noticesClicked = true;
-            $scope.loader = true;
-            $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
-                $scope.notices = data.notices;
                 $scope.loader = false;
             });
         }
@@ -293,16 +429,4 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             });
         });
     };
-
-    $scope.hitPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>');
-    $scope.hitChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа</p>');
-    $scope.rangedHitDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа</p>');
-    $scope.parryPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа</p>');
-    $scope.parryChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа</p>');
-    $scope.dodgeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа</p>');
-    $scope.generalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа</p>');
-    $scope.mentalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа</p>');
-    $scope.endurancePointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>');
-    $scope.initiativeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа</p>');
-
 });
