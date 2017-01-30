@@ -229,6 +229,9 @@
                     <div class="panel panel-with-sidebar sidebar-large panel-with-borders" style="width: 99.2%;">
                         <h4 class="panel-sidebar">
                             <dl>
+                                <br/>
+                                <br/>
+                                <br/>
                                 <dt>
                                     <strong>Раса: </strong>{{personage.Race.name}}
                                 </dt>
@@ -252,6 +255,22 @@
                         <h3 class="panel-heading">{{personage.name}}</h3>
                         <div class="panel-body">
                             <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="panel" style="width: 99.2%;">
+                        <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
+                        <div class="panel-body">
+                            <div class="icons-block">
+                                <div class="col-md-4 col-sm-12 col-xs-12" ng-repeat="personageAttribute in personageAttributes">
+                                    <h4 style="font-family: 'Josefin Slab'">
+                                        {{personageAttribute.Attribute.name}}: {{personageAttribute.value}}
+                                    </h4>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
