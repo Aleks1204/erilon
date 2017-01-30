@@ -62,7 +62,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         {"data": "TriggerSkill.name"},
         {
             "targets": 0,
-            "data": function ( row, type, val, meta ) {
+            "data": function (row, type, val, meta) {
                 if (row.currentLevel == 0) {
                     return "";
                 }
@@ -82,7 +82,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         },
         {
             "targets": 0,
-            "data": function ( row, type, val, meta ) {
+            "data": function (row, type, val, meta) {
                 if (row.talented) {
                     return "Да";
                 } else {
@@ -108,10 +108,10 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                     "next": "След.",
                     "previous": "Пред."
                 },
-                "lengthMenu":     "Показать _MENU_"
+                "lengthMenu": "Показать _MENU_"
             },
-            "lengthMenu": [ [5, 10, 50, -1], [5, 10, 50, "All"] ],
-            "info":false,
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "info": false,
             "ajax": dataUrl,
             "columns": columns,
             "pagingType": "numbers"
@@ -144,6 +144,14 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
     });
 
     function magicTable(id, name, attachedSkill) {
+        var spells = [];
+        angular.forEach($scope.personageSpells, function (personageSpell) {
+            angular.forEach(attachedSkill.Spells, function (spell) {
+                if (spell.id == personageSpell.SpellId) {
+                    spells.push({personageSpell: personageSpell, spell: spell});
+                }
+            });
+        });
         $('#spells').append('<div id="' + id + 'MagicPanel" class="panel" style="width: 99.8%;">' +
             '<h3 class="panel-heading">' + name + '</h3>' +
             '<div class="panel-body table-responsive">' +
@@ -156,6 +164,8 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             '<th>Поддержание</th>' +
             '<th>Сложность создания</th>' +
             '<th>Мгновенное</th>' +
+            '<th>Уровень</th>' +
+            '<th>Учитель</th>' +
             '</tr>' +
             '</thead>' +
             '</table>' +
@@ -171,33 +181,46 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                     "next": "След.",
                     "previous": "Пред."
                 },
-                "lengthMenu":     "Показать _MENU_"
+                "lengthMenu": "Показать _MENU_"
             },
-            "lengthMenu": [ [5, 10, 50, -1], [5, 10, 50, "All"] ],
-            "info":false,
-            data: attachedSkill.Spells,
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "info": false,
+            data: spells,
             columns: [
-                { data: 'name' },
-                { data: 'complexity' },
-                { data: 'mana' },
+                {data: 'spell.name'},
+                {data: 'spell.complexity'},
+                {data: 'spell.mana'},
                 {
-                    data: 'mana_support',
-                    render: function ( data, type, row ) {
-                        if (row.instant) {
+                    data: 'spell.mana_support',
+                    render: function (data, type, row) {
+                        if (row.spell.instant) {
                             return "-";
                         }
-                        return row.mana_support + ' ' + row.mana_sup_time;
+                        return row.spell.mana_support + ' ' + row.spell.mana_sup_time;
                     }
                 },
-                { data: 'creating_complexity' },
+                {data: 'spell.creating_complexity'},
                 {
-                    data: 'instant',
-                    render: function ( data, type, row ) {
+                    data: 'spell.instant',
+                    render: function (data, type, row) {
                         if (data) {
                             return "Да";
                         } else {
                             return "Нет";
                         }
+                    }
+                },
+                {data: 'personageSpell.level'},
+                {
+                    data: 'personageSpell.tutored',
+                    render: function (data, type, row) {
+                        var checked = "";
+                        if (data) {
+                            checked = 'checked';
+                        }
+                        return '<div class="checkbox">' +
+                                   '<input name="tutored" ' + checked + ' type="checkbox" disabled>' +
+                               '</div>';
                     }
                 }
             ],
