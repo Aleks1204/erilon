@@ -112,15 +112,11 @@
     <script src="view_personage.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
-<body class="theme-default menu-top theme-dark" ng-app="personageApp">
+<body class="theme-default menu-top theme-blue mode-material" ng-app="personageApp">
 <div class="boxed-container" ng-controller="permissionsController">
     <div ng-controller="permissionsController">
         <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
-            <div class="logo-container">
-                <a href="/views/user_personage_manager.html?id={{player.id}}" class="logo">
-                    <h1>ЭРИЛОН</h1>
-                </a>
-            </div>
+
             <div class="left-menu-inner scroll-pane">
                 <ul class="left-menu-list left-menu-list-root list-unstyled">
                     <li>
@@ -226,7 +222,7 @@
         <div class="page-content-inner">
             <div class="dashboard-container">
                 <div class="row">
-                    <div class="panel panel-with-sidebar sidebar-large panel-with-borders" style="width: 99.2%;">
+                    <div class="panel panel-with-sidebar sidebar-large panel-with-borders">
                         <h4 class="panel-sidebar">
                             <dl>
                                 <br/>
@@ -340,7 +336,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel" style="width: 99.2%;">
+                    <div class="panel">
                         <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
                         <div class="panel-body">
                             <div class="icons-block">
@@ -414,8 +410,8 @@
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells" role="tab" ng-click="getPersonageSpells()">Заклинания</a>
                         </li>
                     </ul>
-                    <div class="tab-content padding-vertical-20">
-                        <div class="tab-pane active" id="main_skills" role="tabpanel">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="main_skills" role="tabpanel" style="width: 98.8%">
 
                             <div class="row masonry" id="personage_table">
                                 <div class="panel">
@@ -515,7 +511,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-pane" id="spells" role="tabpanel">
+                        <div class="tab-pane" id="spells" role="tabpanel" style="width: 98.8%">
 
                         </div>
 
