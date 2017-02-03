@@ -95,8 +95,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         };
 
         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-            $scope.recalculateMagicSchools(data.personageAttachedSkills);
-            $scope.personageAttachedSkills = data.personageAttachedSkills;
+            $scope.recalculateMagicSchools(data.data);
+            $scope.personageAttachedSkills = data.data;
             personageAttachedSkills.resolve();
         });
 

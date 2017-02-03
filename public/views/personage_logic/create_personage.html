@@ -409,7 +409,64 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div id="attached" class="tab-pane active" role="tabpanel">
-                                            Прикреп
+                                            <table class="table table-hover mobile">
+                                                <thead class="mobile">
+                                                <tr class="mobile">
+                                                    <th class="mobile">Навык</th>
+                                                    <th class="mobile"></th>
+                                                    <th class="mobile">Значение</th>
+                                                    <th class="mobile"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="mobile">
+                                                    <tr class="mobile" ng-repeat="personageAttachedSkill in personageAttachedSkills">
+                                                        <td class="text-right mobile">
+                                                            <div class="text-left">
+                                                                {{personageAttachedSkill.AttachedSkill.name}}
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="text-right mobile">
+                                                            <div class="btn-group btn-group-justified plus-minus-block">
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-rounded btn-sm btn-secondary"
+                                                                            ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
+                                                                            type="button">
+                                                                        <i class="icmn-minus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-rounded btn-sm btn-primary"
+                                                                            ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
+                                                                            type="button">
+                                                                        <i class="icmn-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="text-right mobile">
+                                                            <div class="text-left">
+                                                                {{personageAttachedSkill.value}}
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="text-right mobile">
+                                                            <div class="text-left">
+                                                                <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
+                                                                    <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                                       ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">
+                                                                        Удалить
+                                                                    </a>
+                                                                </div>
+                                                                <div ng-if="personageAttachedSkill.AttachedSkill.default_skill">
+                                                                    По умолчанию
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                         <div id="trigger" class="tab-pane table-responsive" role="tabpanel">
                                             <table class="table table-hover mobile">
@@ -435,14 +492,14 @@
                                                         <div class="btn-group btn-group-justified plus-minus-block">
                                                             <div class="btn-group">
                                                                 <button class="btn btn-rounded btn-sm btn-secondary"
-                                                                        ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
+                                                                        ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
                                                                         type="button">
                                                                     <i class="icmn-minus"></i>
                                                                 </button>
                                                             </div>
                                                             <div class="btn-group">
                                                                 <button class="btn btn-rounded btn-sm btn-primary"
-                                                                        ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
+                                                                        ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
                                                                         type="button">
                                                                     <i class="icmn-plus"></i>
                                                                 </button>
@@ -500,7 +557,7 @@
                                                                 </a>
                                                             </div>
                                                             <div ng-if="personageTriggerSkill.currentLevel != 0">
-                                                                По умолчанию
+                                                                Нельзя удалить
                                                             </div>
                                                         </div>
                                                     </td>
