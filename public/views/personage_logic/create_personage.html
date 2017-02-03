@@ -37,7 +37,6 @@
     <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/c3/c3.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/chartist/dist/chartist.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-vertical-tabs/bootstrap.vertical-tabs.min.css">
     <!-- v.1.4.0 -->
     <link rel="stylesheet" type="text/css" href="/assets/vendors/nprogress/nprogress.css">
     <link rel="stylesheet" type="text/css" href="/assets/vendors/jquery-steps/demo/css/jquery.steps.css">
@@ -378,7 +377,7 @@
                                         <tr ng-repeat="personageAttribute in personageAttributes">
                                             <td>{{ personageAttribute.Attribute.name}}</td>
                                             <td>
-                                                <div class="btn-group btn-group-justified pull-right" style="width: 150px">
+                                                <div class="btn-group btn-group-justified plus-minus-block">
                                                     <div class="btn-group">
                                                         <button class="btn btn-rounded btn-sm btn-secondary"
                                                                 ng-click="decreaseAttribute(personageAttribute.id)"
@@ -400,7 +399,6 @@
                                     </table>
                                 </div>
                                 <div id="sk" class="tab-pane" role="tabpanel">
-                                    Навыки
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#attached" role="tab">Прикрепленные</a>
@@ -414,22 +412,27 @@
                                             Прикреп
                                         </div>
                                         <div id="trigger" class="tab-pane table-responsive" role="tabpanel">
-                                            <table class="table table-hover">
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th class="text-center">Уровень</th>
-                                                    <th class="text-center">Талант</th>
-                                                    <th class="text-center">Учитель</th>
-                                                    <th></th>
-                                                </tr>
-                                                <tr ng-repeat="personageTriggerSkill in personageTriggerSkills">
-                                                    <td>
-                                                        {{personageTriggerSkill.TriggerSkill.name}}
+                                            <table class="table table-hover mobile">
+                                                <thead class="mobile">
+                                                    <tr class="mobile">
+                                                        <th class="mobile">Навык</th>
+                                                        <th class="mobile"></th>
+                                                        <th class="mobile">Уровень</th>
+                                                        <th class="mobile">Талант</th>
+                                                        <th class="mobile">Учитель</th>
+                                                        <th class="mobile"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="mobile">
+                                                <tr class="mobile" ng-repeat="personageTriggerSkill in personageTriggerSkills">
+                                                    <td class="text-right mobile">
+                                                        <div class="text-left">
+                                                            {{personageTriggerSkill.TriggerSkill.name}}
+                                                        </div>
                                                     </td>
 
-                                                    <td>
-                                                        <div class="btn-group btn-group-justified pull-right width-150">
+                                                    <td class="text-right mobile">
+                                                        <div class="btn-group btn-group-justified plus-minus-block">
                                                             <div class="btn-group">
                                                                 <button class="btn btn-rounded btn-sm btn-secondary"
                                                                         ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
@@ -447,44 +450,62 @@
                                                         </div>
                                                     </td>
 
-                                                    <td class="text-center">
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                            Эксперт
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                            Мастер
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                            Магистр
-                                                        </div>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                            Гроссмейстер
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="text-center" ng-show="personageTriggerSkill.talented">
-                                                        <i class="icmn-checkmark4"></i>
-                                                    </td>
-
-                                                    <td class="text-center" ng-show="!personageTriggerSkill.talented">
-                                                        <i class="icmn-cross3"></i>
-                                                    </td>
-
-                                                    <td class="text-center">
-                                                        <div class="checkbox">
-                                                            <input name="tutored" type="checkbox" ng-model="personageTriggerSkill.tutored">
+                                                    <td class="text-right mobile">
+                                                        <div class="text-left">
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                                База
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                                Эксперт
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                                Мастер
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                                Магистр
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                                Гроссмейстер
+                                                            </div>
                                                         </div>
                                                     </td>
 
-                                                    <td>
-                                                        <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                            <button class="btn btn-icon btn-link icmn-cross"
-                                                                    type="button" ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">
 
-                                                            </button>
+                                                    <td class="text-right mobile">
+                                                        <div class="text-left" ng-if="personageTriggerSkill.talented">
+                                                            <i class="icmn-checkmark4"></i>
+                                                        </div>
+
+                                                        <div class="text-left" ng-if="!personageTriggerSkill.talented">
+                                                            <i class="icmn-cross3"></i>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-right mobile">
+                                                        <div class="text-left" ng-if="personageTriggerSkill.tutored">
+                                                            <i class="icmn-checkmark4"></i>
+                                                        </div>
+
+                                                        <div class="text-left" ng-if="!personageTriggerSkill.tutored">
+                                                            <i class="icmn-cross3"></i>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-right mobile">
+                                                        <div class="text-left">
+                                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                                <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                                        ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">
+                                                                    Удалить
+                                                                </a>
+                                                            </div>
+                                                            <div ng-if="personageTriggerSkill.currentLevel != 0">
+                                                                По умолчанию
+                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
