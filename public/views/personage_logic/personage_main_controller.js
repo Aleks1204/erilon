@@ -2,33 +2,6 @@
  * Created by artemk on 3/24/16.
  */
 
-//"use strict";
-
-(function (i) {
-    var e = /iPhone/i, n = /iPod/i, o = /iPad/i, t = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, r = /Android/i, d = /BlackBerry/i, s = /Opera Mini/i, a = /IEMobile/i, b = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, h = RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), c = function (i, e) {
-        return i.test(e)
-    }, l = function (i) {
-        var l = i || navigator.userAgent;
-        this.apple = {
-            phone: c(e, l),
-            ipod: c(n, l),
-            tablet: c(o, l),
-            device: c(e, l) || c(n, l) || c(o, l)
-        }, this.android = {
-            phone: c(t, l),
-            tablet: !c(t, l) && c(r, l),
-            device: c(t, l) || c(r, l)
-        }, this.other = {
-            blackberry: c(d, l),
-            opera: c(s, l),
-            windows: c(a, l),
-            firefox: c(b, l),
-            device: c(d, l) || c(s, l) || c(a, l) || c(b, l)
-        }, this.seven_inch = c(h, l), this.any = this.apple.device || this.android.device || this.other.device || this.seven_inch
-    }, v = i.isMobile = new l;
-    v.Class = l
-})(window);
-
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 // var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap', 'ngMaterial']);
 var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
@@ -36,7 +9,6 @@ var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 // app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce  ) {
     $scope.loader = true;
-    $scope.isMobile = isMobile.android.phone;
     $scope.meritAvailable = true;
     $scope.showGenerateIneherentsButton = true;
 
@@ -307,17 +279,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             jQuery('#spellDetails').modal('show');
         });
     };
-
-    $scope.hitPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа</p>');
-    $scope.hitChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа</p>');
-    $scope.rangedHitDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа</p>');
-    $scope.parryPiercePunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа</p>');
-    $scope.parryChopPunchDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа</p>');
-    $scope.dodgeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа</p>');
-    $scope.generalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа</p>');
-    $scope.mentalActionPointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа</p>');
-    $scope.endurancePointsDescription = $sce.trustAsHtml('<p style="font-size: large">Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20</p>');
-    $scope.initiativeDescription = $sce.trustAsHtml('<p style="font-size: large">Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа</p>');
 
     $scope.isSpellAdded = function (id) {
         var spellAdded = false;
@@ -1130,7 +1091,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageTriggerSkillsClicked = true;
             $scope.loader = true;
             $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageTriggerSkills = data.personageTriggerSkills;
+                $scope.personageTriggerSkills = data.data;
                 $scope.loader = false;
             });
         }
