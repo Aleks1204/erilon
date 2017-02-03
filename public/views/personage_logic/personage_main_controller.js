@@ -1115,7 +1115,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageFlawsClicked = true;
             $scope.loader = true;
             $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageFlaws = data.personageFlaws;
+                $scope.personageFlaws = data.data;
                 $scope.loader = false;
             });
         }
@@ -1127,7 +1127,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageMeritsClicked = true;
             $scope.loader = true;
             $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageMerits = data.personageMerits;
+                $scope.personageMerits = data.data;
                 $scope.loader = false;
                 $scope.calculateShowMerits();
             });
@@ -1140,7 +1140,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageInherentsClicked = true;
             $scope.loader = true;
             $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageInherents = data.personageInherents;
+                $scope.personageInherents = data.data;
                 $scope.loader = false;
             });
         }

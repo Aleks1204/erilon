@@ -117,466 +117,430 @@
 </head>
 <body class="theme-default menu-top theme-blue mode-material" ng-app="personageApp">
 <div class="boxed-container" ng-controller="permissionsController">
-    <div ng-controller="permissionsController">
-        <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+    <div ng-controller="personageController">
+    <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
 
-            <div class="left-menu-inner scroll-pane">
-                <ul class="left-menu-list left-menu-list-root list-unstyled">
-                    <li>
-                        <a class="left-menu-link" href="/views/races/race_manager.html">
-                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
-                            Расы
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
-                            <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
-                            Атрибуты
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/merits/merit_manager.html">
-                            <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
-                            Достоинства
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
-                            <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
-                            Врожденные особенности
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
-                            <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
-                            Недостатки
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
-                            <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
-                            Прикрепленные навыки
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
-                            <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
-                            Тригерные навыки
-                        </a>
-                    </li>
-                    <li>
-                        <a class="left-menu-link" href="/views/spells/spells_manager.html">
-                            <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
-                            Заклинания
-                        </a>
-                    </li>
-                </ul>
+        <div class="left-menu-inner scroll-pane">
+            <ul class="left-menu-list left-menu-list-root list-unstyled">
+                <li>
+                    <a class="left-menu-link" href="/views/races/race_manager.html">
+                        <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                        Расы
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
+                        <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                        Атрибуты
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/merits/merit_manager.html">
+                        <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                        Достоинства
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
+                        <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                        Врожденные особенности
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
+                        <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                        Недостатки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
+                        <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                        Прикрепленные навыки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
+                        <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                        Тригерные навыки
+                    </a>
+                </li>
+                <li>
+                    <a class="left-menu-link" href="/views/spells/spells_manager.html">
+                        <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                        Заклинания
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+        <div class="menu-icon-container hidden-md-up">
+            <div class="animate-menu-button left-menu-toggle">
+                <div><!-- --></div>
             </div>
-        </nav>
-        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
-            <div class="menu-icon-container hidden-md-up">
-                <div class="animate-menu-button left-menu-toggle">
-                    <div><!-- --></div>
-                </div>
-            </div>
-            <div class="menu">
-                <div class="menu-user-block">
-                    <div class="dropdown dropdown-avatar">
-                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                           aria-expanded="false">
-                            <span class="user-name">Игрок: <strong>{{player.name}}</strong></span>
-                            <span class="avatar" href="profile.html">
-                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Alternative text to the image">
+        </div>
+        <div class="menu">
+
+            <div class="menu-user-block">
+                <div class="dropdown dropdown-avatar">
+                    <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="false">
+                        <span class="user-name"><strong>{{player.name}}</strong></span>
+                        <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Avatar">
                     </span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
-                            <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
-                                    class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
-                                    class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
-                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
-                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
-                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
-                                доступом</a>
-                        </ul>
-                    </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                        <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                        <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                        <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
+                           ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                            доступом</a>
+                    </ul>
                 </div>
-
-                <div class="menu-info-block">
-                    <div class="left">
-                        <div class="menu-info-block">
-                            <div class="example-buy-btn hidden-xs-down">
-                                <div class="btn expir btn-success-outline btn-rounded">
-                                    Права: {{player.Role.name}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </nav>
-    </div>
 
-    <section class="page-content" ng-controller="personageController">
-        <div class="page-content-inner">
-            <div class="dashboard-container">
+            <div class="menu-user-block">
+                <div class="dropdown dropdown-avatar">
+                    <a class="menu-user-info-block" href="javascript: void(0);">
+                        <span class="user-name">XP: <strong>{{personage.experience}}</strong></span>
+                    </a>
+                </div>
+            </div>
 
-                <div class="panel panel-with-sidebar sidebar-large panel-with-borders">
-                    <h4 class="panel-sidebar">
-                        <dl>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <dt>
-                                <strong>Раса: </strong>{{personage.Race.name}}
-                            </dt>
-                            <br/>
-                            <br/>
-                            <dt>
-                                <strong>Возраст: </strong>{{personage.age}} лет
-                            </dt>
-                            <br/>
-                            <br/>
-                            <dt>
-                                <strong>Макс. возраст: </strong>{{personage.max_age}} лет
-                            </dt>
-                            <br/>
-                            <br/>
-                            <dt>
-                                <strong>Очки опыта: </strong>{{personage.experience}}
-                            </dt>
-                        </dl>
-                    </h4>
-                    <h3 class="panel-heading">{{personage.name}}</h3>
-                    <div class="panel-body">
-                        <div class="icons-block">
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
-                                         height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/rangedHit.svg"
-                                         class="ng-scope tooltips" height="40" width="40">
-                                    <span class="ng-binding ng-scope">{{rangedHit}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
-                                         height="40" width="40">
-                                    <span class="ng-binding ng-scope">{{dodge}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                <div class="icon-atr"
-                                     title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{endurancePoints}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
-                                <div class="icon-atr"
-                                     title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
-                                     rel="tooltip">
-                                    <img src="/assets/common/img/erilon-icon/initiative.svg"
-                                         class="ng-scope tooltips" height="40"
-                                         width="40">
-                                    <span class="ng-binding ng-scope">{{initiative}}</span>
-                                </div>
+            <div class="menu-info-block">
+                <div class="left">
+                    <div class="menu-info-block">
+                        <div class="example-buy-btn hidden-xs-down">
+                            <div class="btn expir btn-success-outline btn-rounded">
+                                Права: {{player.Role.name}}
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="panel">
-                    <div class="panel-heading"></div>
-                    <div class="panel-body">
-                        <div class="nav-tabs-horizontal">
+        </div>
+    </nav>
+
+    <section class="page-content">
+
+        <div class="panel">
+            <h3 class="panel-heading">
+                {{personage.name}}
+            </h3>
+            <div class="panel-body">
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#attr"
+                               role="tab">Атрибуты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#sk"
+                               role="tab">Навыки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#adv"
+                               role="tab" ng-click="getPersonageMerits()">Особенности</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" ng-controller="personageAttributesController">
+                        <div id="attr" class="tab-pane active" role="tabpanel">
+                            <table id="attrTable" class="table table-hover">
+                                <tr ng-repeat="personageAttribute in personageAttributes">
+                                    <td>{{ personageAttribute.Attribute.name}}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-justified plus-minus-block">
+                                            <div class="btn-group">
+                                                <button class="btn btn-rounded btn-sm btn-secondary"
+                                                        ng-click="decreaseAttribute(personageAttribute.id)"
+                                                        type="button">
+                                                    <i class="icmn-minus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn btn-rounded btn-sm btn-primary"
+                                                        ng-click="increaseAttribute(personageAttribute.id)"
+                                                        type="button">
+                                                    <i class="icmn-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ personageAttribute.value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="sk" class="tab-pane" role="tabpanel">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#attr" role="tab">Атрибуты</a>
+                                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
+                                       data-target="#attached" role="tab">Прикрепленные</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#sk" role="tab">Навыки</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#adv" role="tab">Особенности</a>
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
+                                       data-target="#trigger" role="tab" ng-click="getPersonageTriggerSkills()">Тригерные</a>
                                 </li>
                             </ul>
-                            <div class="tab-content" ng-controller="personageAttributesController">
-                                <div id="attr" class="tab-pane active" role="tabpanel">
-                                    <table id="attrTable" class="table table-hover">
-                                        <tr ng-repeat="personageAttribute in personageAttributes">
-                                            <td>{{ personageAttribute.Attribute.name}}</td>
-                                            <td>
+                            <div class="tab-content">
+                                <div id="attached" class="tab-pane active" role="tabpanel">
+                                    <table class="table table-hover mobile">
+                                        <thead class="mobile">
+                                        <tr class="mobile">
+                                            <th class="mobile">Навык</th>
+                                            <th class="mobile"></th>
+                                            <th class="mobile">Значение</th>
+                                            <th class="mobile"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="mobile">
+                                        <tr class="mobile"
+                                            ng-repeat="personageAttachedSkill in personageAttachedSkills">
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    {{personageAttachedSkill.AttachedSkill.name}}
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
                                                 <div class="btn-group btn-group-justified plus-minus-block">
                                                     <div class="btn-group">
                                                         <button class="btn btn-rounded btn-sm btn-secondary"
-                                                                ng-click="decreaseAttribute(personageAttribute.id)"
+                                                                ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
                                                                 type="button">
                                                             <i class="icmn-minus"></i>
                                                         </button>
                                                     </div>
                                                     <div class="btn-group">
                                                         <button class="btn btn-rounded btn-sm btn-primary"
-                                                                ng-click="increaseAttribute(personageAttribute.id)"
+                                                                ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
                                                                 type="button">
                                                             <i class="icmn-plus"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ personageAttribute.value }}</td>
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    {{personageAttachedSkill.value}}
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
+                                                        <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                           ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">
+                                                            Удалить
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="personageAttachedSkill.AttachedSkill.default_skill">
+                                                        По умолчанию
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="trigger" class="tab-pane table-responsive" role="tabpanel">
+                                    <table class="table table-hover mobile">
+                                        <thead class="mobile">
+                                        <tr class="mobile">
+                                            <th class="mobile">Навык</th>
+                                            <th class="mobile"></th>
+                                            <th class="mobile">Уровень</th>
+                                            <th class="mobile">Талант</th>
+                                            <th class="mobile">Учитель</th>
+                                            <th class="mobile"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="mobile">
+                                        <tr class="mobile" ng-repeat="personageTriggerSkill in personageTriggerSkills">
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    {{personageTriggerSkill.TriggerSkill.name}}
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
+                                                <div class="btn-group btn-group-justified plus-minus-block">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-rounded btn-sm btn-secondary"
+                                                                ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
+                                                                type="button">
+                                                            <i class="icmn-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-rounded btn-sm btn-primary"
+                                                                ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
+                                                                type="button">
+                                                            <i class="icmn-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                        База
+                                                    </div>
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                                        Эксперт
+                                                    </div>
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                                        Мастер
+                                                    </div>
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                                        Магистр
+                                                    </div>
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                                        Гроссмейстер
+                                                    </div>
+                                                </div>
+                                            </td>
+
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left" ng-if="personageTriggerSkill.talented">
+                                                    <i class="icmn-checkmark4"></i>
+                                                </div>
+
+                                                <div class="text-left" ng-if="!personageTriggerSkill.talented">
+                                                    <i class="icmn-cross3"></i>
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left" ng-if="personageTriggerSkill.tutored">
+                                                    <i class="icmn-checkmark4"></i>
+                                                </div>
+
+                                                <div class="text-left" ng-if="!personageTriggerSkill.tutored">
+                                                    <i class="icmn-cross3"></i>
+                                                </div>
+                                            </td>
+
+                                            <td class="text-right mobile">
+                                                <div class="text-left">
+                                                    <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                                        <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                           ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">
+                                                            Удалить
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="personageTriggerSkill.currentLevel != 0">
+                                                        Нельзя удалить
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="adv" class="tab-pane" role="tabpanel">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
+                                       data-target="#merits" role="tab">Достоинства</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
+                                       data-target="#flaws" role="tab" ng-click="getPersonageFlaws()">Недостатки</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
+                                       data-target="#inherents" role="tab"
+                                       ng-click="getPersonageInherents()">Врожденки</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="merits" class="tab-pane table-responsive active" role="tabpanel">
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="personageMerit in personageMerits">
+                                            <td>{{ personageMerit.Merit.name}}</td>
+                                            <td>
+                                                <div ng-if="!personageMerit.unremovable">
+                                                    {{personageMerit.Merit.cost}}
+                                                </div>
+                                                <div ng-if="personageMerit.unremovable">
+                                                    По умолчанию
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div ng-if="!personageMerit.unremovable">
+                                                    <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                       ng-click="deletePersonageMerit(personageMerit)">
+                                                        Удалить
+                                                    </a>
+                                                </div>
+                                                <div ng-if="personageMerit.unremovable">
+                                                    Нельзя удалить
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div id="sk" class="tab-pane" role="tabpanel">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#attached" role="tab">Прикрепленные</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#trigger" role="tab" ng-click="getPersonageTriggerSkills()">Тригерные</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div id="attached" class="tab-pane active" role="tabpanel">
-                                            <table class="table table-hover mobile">
-                                                <thead class="mobile">
-                                                <tr class="mobile">
-                                                    <th class="mobile">Навык</th>
-                                                    <th class="mobile"></th>
-                                                    <th class="mobile">Значение</th>
-                                                    <th class="mobile"></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody class="mobile">
-                                                    <tr class="mobile" ng-repeat="personageAttachedSkill in personageAttachedSkills">
-                                                        <td class="text-right mobile">
-                                                            <div class="text-left">
-                                                                {{personageAttachedSkill.AttachedSkill.name}}
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="text-right mobile">
-                                                            <div class="btn-group btn-group-justified plus-minus-block">
-                                                                <div class="btn-group">
-                                                                    <button class="btn btn-rounded btn-sm btn-secondary"
-                                                                            ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
-                                                                            type="button">
-                                                                        <i class="icmn-minus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group">
-                                                                    <button class="btn btn-rounded btn-sm btn-primary"
-                                                                            ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)"
-                                                                            type="button">
-                                                                        <i class="icmn-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="text-right mobile">
-                                                            <div class="text-left">
-                                                                {{personageAttachedSkill.value}}
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="text-right mobile">
-                                                            <div class="text-left">
-                                                                <div ng-if="!personageAttachedSkill.AttachedSkill.default_skill">
-                                                                    <a class="link-underlined link-blue" href="javascript: void(0)"
-                                                                       ng-click="deletePersonageAttachedSkill(personageAttachedSkill)">
-                                                                        Удалить
-                                                                    </a>
-                                                                </div>
-                                                                <div ng-if="personageAttachedSkill.AttachedSkill.default_skill">
-                                                                    По умолчанию
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div id="trigger" class="tab-pane table-responsive" role="tabpanel">
-                                            <table class="table table-hover mobile">
-                                                <thead class="mobile">
-                                                    <tr class="mobile">
-                                                        <th class="mobile">Навык</th>
-                                                        <th class="mobile"></th>
-                                                        <th class="mobile">Уровень</th>
-                                                        <th class="mobile">Талант</th>
-                                                        <th class="mobile">Учитель</th>
-                                                        <th class="mobile"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="mobile">
-                                                <tr class="mobile" ng-repeat="personageTriggerSkill in personageTriggerSkills">
-                                                    <td class="text-right mobile">
-                                                        <div class="text-left">
-                                                            {{personageTriggerSkill.TriggerSkill.name}}
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="text-right mobile">
-                                                        <div class="btn-group btn-group-justified plus-minus-block">
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-rounded btn-sm btn-secondary"
-                                                                        ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
-                                                                        type="button">
-                                                                    <i class="icmn-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-rounded btn-sm btn-primary"
-                                                                        ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
-                                                                        type="button">
-                                                                    <i class="icmn-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="text-right mobile">
-                                                        <div class="text-left">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                                База
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                                Эксперт
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                                Мастер
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                                Магистр
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                                Гроссмейстер
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-
-                                                    <td class="text-right mobile">
-                                                        <div class="text-left" ng-if="personageTriggerSkill.talented">
-                                                            <i class="icmn-checkmark4"></i>
-                                                        </div>
-
-                                                        <div class="text-left" ng-if="!personageTriggerSkill.talented">
-                                                            <i class="icmn-cross3"></i>
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="text-right mobile">
-                                                        <div class="text-left" ng-if="personageTriggerSkill.tutored">
-                                                            <i class="icmn-checkmark4"></i>
-                                                        </div>
-
-                                                        <div class="text-left" ng-if="!personageTriggerSkill.tutored">
-                                                            <i class="icmn-cross3"></i>
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="text-right mobile">
-                                                        <div class="text-left">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
-                                                                <a class="link-underlined link-blue" href="javascript: void(0)"
-                                                                        ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">
-                                                                    Удалить
-                                                                </a>
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel != 0">
-                                                                Нельзя удалить
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                <div id="flaws" class="tab-pane table-responsive" role="tabpanel">
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="personageFlaw in personageFlaws">
+                                            <td>{{personageFlaw.Flaw.name}}</td>
+                                            <td>
+                                                <div ng-if="!personageFlaw.personage_race_default">
+                                                    {{personageFlaw.Flaw.cost}}
+                                                </div>
+                                                <div ng-if="personageFlaw.personage_race_default">
+                                                    По умолчанию
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div ng-if="!personageFlaw.personage_race_default && !personageFlaw.Flaw.unremovable">
+                                                    <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                       ng-click="deletePersonageFlaw(personageFlaw)">
+                                                        Удалить
+                                                    </a>
+                                                </div>
+                                                <div ng-if="personageFlaw.personage_race_default || personageFlaw.Flaw.unremovable">
+                                                    Нельзя удалить
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                                <div id="adv" class="tab-pane" role="tabpanel"> Особ контент</div>
+                                <div id="inherents" class="tab-pane table-responsive" role="tabpanel">
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="personageInherent in personageInherents">
+                                            <td>{{personageInherent.Inherent.name}}</td>
+                                            <td>
+                                                <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                                    {{personageInherent.value}}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </section>
 
+</div>
 </div>
 
 </body>
