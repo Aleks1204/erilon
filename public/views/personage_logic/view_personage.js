@@ -240,7 +240,8 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             '<th>Сложность создания</th>' +
             '<th>Мгновенное</th>' +
             '<th>Уровень</th>' +
-            '<th>Учитель</th>' +
+            '<th>Эффект</th>' +
+            '<th>Описание</th>' +
             '</tr>' +
             '</thead>' +
             '</table>' +
@@ -287,15 +288,29 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                 },
                 {data: 'personageSpell.level'},
                 {
-                    data: 'personageSpell.tutored',
+                    data: 'spell.effect',
                     render: function (data, type, row) {
-                        var checked = "";
-                        if (data) {
-                            checked = 'checked';
-                        }
-                        return '<div class="checkbox">' +
-                                   '<input name="tutored" ' + checked + ' type="checkbox" disabled>' +
-                               '</div>';
+                        return '<a href="" class="link-underlined link-blue collapsed" data-toggle="collapse" data-target="#spellEffect' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        'Эффект' +
+                            '</a>' +
+                            '<div id="spellEffect' + row.spell.id + '" class="collapse" aria-expanded="false">' +
+                            '<br>' +
+                            '<div class="card card-block">' + data + '</div>' +
+                        '</div>'
+
+                    }
+                },
+                {
+                    data: 'spell.description',
+                    render: function (data, type, row) {
+                        return '<a href="" class="link-underlined link-blue collapsed" data-toggle="collapse" data-target="#spellDescription' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        'Описание' +
+                            '</a>' +
+                            '<div id="spellDescription' + row.spell.id + '" class="collapse" aria-expanded="false">' +
+                            '<br>' +
+                            '<div class="card card-block">' + data + '</div>' +
+                        '</div>'
+
                     }
                 }
             ],
