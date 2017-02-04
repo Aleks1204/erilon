@@ -233,7 +233,18 @@
 
         <div class="panel">
             <h3 class="panel-heading">
-                {{personage.name}}
+                <div class="dropdown">
+                <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false">
+                    {{personage.name}}
+                    <span class="ink animate"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
+                    <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
+                    <a class="dropdown-item" href="javascript: void(0)">Возраст: {{personage.age}} лет</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
+                </ul>
+                </div>
             </h3>
             <div class="panel-body">
                 <div class="nav-tabs-horizontal">
