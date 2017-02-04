@@ -217,338 +217,346 @@
     </nav>
 
     <section class="page-content" ng-controller="personageController">
-        <div class="page-content-inner">
-            <div class="dashboard-container">
-                <div class="row">
-                    <div class="panel panel-with-sidebar sidebar-large panel-with-borders">
-                        <h4 class="panel-sidebar">
-                            <dl>
-                                <dt>
-                                    <strong>Раса: </strong>{{personage.Race.name}}
-                                </dt>
-                                <br/>
-                                <br/>
-                                <dt>
-                                    <strong>Возраст: </strong>{{personage.age}} лет
-                                </dt>
-                                <br/>
-                                <br/>
-                                <dt>
-                                    <strong>Макс. возраст: </strong>{{personage.max_age}} лет
-                                </dt>
-                                <br/>
-                                <br/>
-                                <dt>
-                                    <strong>Очки опыта: </strong>{{personage.experience}}
-                                </dt>
-                            </dl>
-                        </h4>
-                        <h3 class="panel-heading">{{personage.name}}</h3>
-                        <div class="panel-body">
-                            <div class="icons-block">
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
-                                             height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/rangedHit.svg"
-                                             class="ng-scope tooltips" height="40" width="40">
-                                        <span class="ng-binding ng-scope">{{rangedHit}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
-                                             height="40" width="40">
-                                        <span class="ng-binding ng-scope">{{dodge}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                                    <div class="icon-atr"
-                                         title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{endurancePoints}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
-                                    <div class="icon-atr"
-                                         title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
-                                         rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/initiative.svg"
-                                             class="ng-scope tooltips" height="40"
-                                             width="40">
-                                        <span class="ng-binding ng-scope">{{initiative}}</span>
-                                    </div>
-                                </div>
+            <div class="panel panel-with-sidebar sidebar-large panel-with-borders">
+                <h4 class="panel-sidebar hidden-xs-down">
+                    <dl>
+                        <dt>
+                            <strong>Раса: </strong>{{personage.Race.name}}
+                        </dt>
+                        <br/>
+                        <br/>
+                        <dt>
+                            <strong>Возраст: </strong>{{personage.age}} лет
+                        </dt>
+                        <br/>
+                        <br/>
+                        <dt>
+                            <strong>Макс. возраст: </strong>{{personage.max_age}} лет
+                        </dt>
+                        <br/>
+                        <br/>
+                        <dt>
+                            <strong>Очки опыта: </strong>{{personage.experience}}
+                        </dt>
+                    </dl>
+                </h4>
+                <h3 class="panel-heading hidden-xs-down">{{personage.name}}</h3>
+                <h3 class="panel-heading hidden-md-up">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false">
+                            {{personage.name}}
+                            <span class="ink animate"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
+                            <a class="dropdown-item" href="javascript: void(0)">Возраст: {{personage.age}} лет</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
+                        </ul>
+                    </div>
+                </h3>
+                <div class="panel-body">
+                    <div class="icons-block">
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
+                                     height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
                             </div>
                         </div>
-
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/rangedHit.svg"
+                                     class="ng-scope tooltips" height="40" width="40">
+                                <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
+                                     height="40" width="40">
+                                <span class="ng-binding ng-scope">{{dodge}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
+                            <div class="icon-atr"
+                                 title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
+                            <div class="icon-atr"
+                                 title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                 rel="tooltip">
+                                <img src="/assets/common/img/erilon-icon/initiative.svg"
+                                     class="ng-scope tooltips" height="40"
+                                     width="40">
+                                <span class="ng-binding ng-scope">{{initiative}}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="panel">
-                        <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
-                        <div class="panel-body">
-                            <div class="icons-block">
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[0].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[1].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[2].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[3].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[4].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[5].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[6].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[7].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[8].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[9].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-                                    <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                                        rel="tooltip" title="Описание аттрибута">
-                                        {{personageAttributes[10].Attribute.name}}: {{personageAttributes[0].value}}
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
+            </div>
 
+        <div class="row">
+            <div class="panel">
+                <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
+                <div class="panel-body">
+                    <div class="icons-block">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[0].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[1].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[2].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[3].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[4].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[5].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[6].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[7].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[8].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[9].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
+                                rel="tooltip" title="Описание аттрибута">
+                                {{personageAttributes[10].Attribute.name}}: {{personageAttributes[0].value}}
+                            </h4>
+                        </div>
                     </div>
                 </div>
-
-                <div class="nav-tabs-horizontal">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
-                               data-target="#main_skills" role="tab">Основные</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells"
-                               role="tab" ng-click="getPersonageSpells()">Заклинания</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="main_skills" role="tabpanel" style="width: 98.8%">
-
-                            <div class="row masonry" id="personage_table">
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Прикрепленные навыки
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table id="attachedSkills" class="table" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>Навык</th>
-                                                <th>Значение</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Тригерные навыки
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table id="triggerSkills" class="table" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>Навык</th>
-                                                <th>Уровень</th>
-                                                <th>Талант</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Врожденные особенности
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table id="inherents" class="table" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>Особенность</th>
-                                                <th>Значение</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Достоинства
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table id="merits" class="table" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>Достоинство</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Недостатки
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table id="flaws" class="table" width="100%" cellspacing="0">
-                                            <thead>
-                                            <tr>
-                                                <th>Недостаток</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Заметки
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table class="table table-hover nowrap" id="notices" width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th>Заметка</th>
-                                                <th>Текст</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="spells" role="tabpanel" style="width: 98.8%">
-
-                        </div>
-
-                    </div>
-                </div>
-
 
             </div>
         </div>
+
+        <div class="nav-tabs-horizontal">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
+                       data-target="#main_skills" role="tab">Основные</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells"
+                       role="tab" ng-click="getPersonageSpells()">Заклинания</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="main_skills" role="tabpanel" style="width: 98.8%">
+
+                    <div class="row masonry" id="personage_table">
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Прикрепленные навыки
+                            </h3>
+                            <div class="panel-body">
+                                <table id="attachedSkills" class="table" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>Значение</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Тригерные навыки
+                            </h3>
+                            <div class="panel-body">
+                                <table id="triggerSkills" class="table" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>Уровень</th>
+                                        <th>Талант</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Врожденные особенности
+                            </h3>
+                            <div class="panel-body">
+                                <table id="inherents" class="table" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Особенность</th>
+                                        <th>Значение</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Достоинства
+                            </h3>
+                            <div class="panel-body">
+                                <table id="merits" class="table" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Достоинство</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Недостатки
+                            </h3>
+                            <div class="panel-body">
+                                <table id="flaws" class="table" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Недостаток</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-heading" style="margin-bottom: 0">
+                                Заметки
+                            </h3>
+                            <div class="panel-body">
+                                <table class="table table-hover nowrap" id="notices" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Заметка</th>
+                                        <th>Текст</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="spells" role="tabpanel" style="width: 98.8%">
+
+                </div>
+
+            </div>
+        </div>
+
+
     </section>
 </div>
 </body>
