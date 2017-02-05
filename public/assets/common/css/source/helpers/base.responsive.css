@@ -135,7 +135,7 @@
         padding-top: 20px;
     }
     .panel.panel-with-borders > .panel-body {
-        padding-top: 20px;
+        padding-top: 0px;
     }
     .mode-superclean .top-submenu, .mode-superclean .top-submenu.top-submenu-with-background {
         padding-left: 20px;

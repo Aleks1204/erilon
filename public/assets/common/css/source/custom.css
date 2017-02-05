@@ -83,7 +83,7 @@ nav.top-menu::before, nav.top-menu {
 
 	@media (max-width: 768px) {
 	.icons-block {
-		margin: 30px 0;
+		margin: 0;
 	}
 }
 
@@ -404,5 +404,23 @@ only screen and (min-width: 760px)  {
 	.plus-minus-block {
 		width: 150px;
 		float: right;
+	}
+}
+
+.custom-panel-body {
+	background-image: url(/assets/common/img/bg.png);
+}
+
+@media
+only screen and (min-width: 760px)  {
+	.custom-panel-body {
+		padding: 0.8%;
+	}
+}
+@media
+only screen and (max-width: 760px)  {
+	.custom-panel-body {
+		padding: 17px;
+		padding-left: 9px;
 	}
 }

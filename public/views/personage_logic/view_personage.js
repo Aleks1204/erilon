@@ -227,7 +227,8 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                 }
             });
         });
-        $('#spells').append('<div id="' + id + 'MagicPanel" class="panel" style="width: 99.8%;">' +
+        $('#spells').append('<div class="row" id="personage_table_spells">' +
+            '<div id="' + id + 'MagicPanel" class="panel" style="box-shadow: 0 2px 10px -2px rgba(55, 58, 60, 0.3); width: 99.2%;">' +
             '<h3 class="panel-heading">' + name + '</h3>' +
             '<div class="panel-body table-responsive">' +
             '<table id="' + id + 'Magic" class="table table-hover nowrap" width="100%">' +
@@ -245,6 +246,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             '</tr>' +
             '</thead>' +
             '</table>' +
+            '</div>' +
             '</div>' +
             '</div>');
         $('#' + id + 'Magic').DataTable({
