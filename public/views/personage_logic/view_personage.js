@@ -290,26 +290,25 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                 {
                     data: 'spell.effect',
                     render: function (data, type, row) {
-                        return '<a href="" class="link-underlined link-blue collapsed" data-toggle="collapse" data-target="#spellEffect' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        return '<a href="" class="link-underlined link-blue collapsed hidden-md-up" data-toggle="collapse" data-target="#spellEffect' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
                         'Эффект' +
                             '</a>' +
                             '<div id="spellEffect' + row.spell.id + '" class="collapse" aria-expanded="false">' +
                             '<br>' +
-                            '<div class="card card-block">' + data + '</div>' +
-                        '</div>'
-
+                            '<div>' + data + '</div>' +
+                        '</div> <div class="hidden-xs-down">' + data + '</div>'
                     }
                 },
                 {
                     data: 'spell.description',
                     render: function (data, type, row) {
-                        return '<a href="" class="link-underlined link-blue collapsed" data-toggle="collapse" data-target="#spellDescription' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        return '<a href="" class="link-underlined link-blue collapsed hidden-md-up" data-toggle="collapse" data-target="#spellDescription' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
                         'Описание' +
                             '</a>' +
                             '<div id="spellDescription' + row.spell.id + '" class="collapse" aria-expanded="false">' +
                             '<br>' +
-                            '<div class="card card-block">' + data + '</div>' +
-                        '</div>'
+                            '<div>' + data + '</div>' +
+                        '</div> <div class="hidden-xs-down">' + data + '</div>'
 
                     }
                 }
