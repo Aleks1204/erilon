@@ -41,3 +41,9 @@
 .col-md-6 h5 {
     margin-top: 35px;
 }
+
+media (min-width: 686px) {
+    .panel-body {
+    margin: 25px 0 0;
+    }
+}
