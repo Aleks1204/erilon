@@ -20,6 +20,10 @@ a:hover, a:focus,
 	color: #46be8a;
 }
 
+a:hover.nohover {
+	color: #e6fff4;
+}
+
 body.menu-top nav.top-menu .menu {
 	box-shadow: 1px 3px 6px rgba(0,0,0, .1);
 }
@@ -212,6 +216,7 @@ nav.top-submenu, .top-submenu {
 	border-bottom: none;
 	transition: all 100ms linear;
 	outline: none !important;
+	box-shadow: 1px 3px 6px rgba(0,0,0, .1);
 }
 
 .panel-title a, .panel-title i {
@@ -301,7 +306,7 @@ nav.top-submenu, .top-submenu {
 	color: #fff;
 	background: #111;
 	position: absolute;
-	z-index: 100;
+	z-index: 1000;
 	padding: 15px;
 }
 

@@ -40,6 +40,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function success() {
         $scope.hasInherents();
         $scope.recalculateBasicCharacteristics();
+        $scope.getPersonageInherents();
         $scope.loader = false;
     }
 

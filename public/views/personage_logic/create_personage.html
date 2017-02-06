@@ -207,11 +207,9 @@
             </div>
 
             <div class="menu-user-block">
-                <div class="dropdown dropdown-avatar">
-                    <a class="menu-user-info-block" href="javascript: void(0);">
-                        <span class="user-name">XP: <strong>{{personage.experience}}</strong></span>
-                    </a>
-                </div>
+                <a class="menu-user-info-block nohover" style="hover: 0">
+                    <span class="user-name">XP: <strong>{{personage.experience}}</strong></span>
+                </a>
             </div>
 
             <div class="menu-info-block">
@@ -232,7 +230,7 @@
     <section class="page-content">
 
         <div class="panel">
-            <h3 class="panel-heading">
+            <h3 class="panel-heading" style="padding-bottom: 0">
                 <div class="dropdown">
                 <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false">
                     {{personage.name}}
@@ -250,7 +248,11 @@
                 <div class="nav-tabs-horizontal">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#attr"
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
+                               data-target="#inherents" role="tab">Врожденки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#attr"
                                role="tab">Атрибуты</a>
                         </li>
                         <li class="nav-item">
@@ -263,7 +265,19 @@
                         </li>
                     </ul>
                     <div class="tab-content" ng-controller="personageAttributesController">
-                        <div id="attr" class="tab-pane active" role="tabpanel">
+                        <div id="inherents" class="tab-pane active table-responsive" role="tabpanel">
+                            <table class="table table-hover">
+                                <tr ng-repeat="personageInherent in personageInherents">
+                                    <td>{{personageInherent.Inherent.name}}</td>
+                                    <td>
+                                        <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                            {{personageInherent.value}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="attr" class="tab-pane" role="tabpanel">
                             <table id="attrTable" class="table table-hover">
                                 <tr ng-repeat="personageAttribute in personageAttributes">
                                     <td>{{ personageAttribute.Attribute.name}}</td>
@@ -471,11 +485,6 @@
                                     <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
                                        data-target="#flaws" role="tab" ng-click="getPersonageFlaws()">Недостатки</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
-                                       data-target="#inherents" role="tab"
-                                       ng-click="getPersonageInherents()">Врожденки</a>
-                                </li>
                             </ul>
                             <div class="tab-content">
                                 <div id="merits" class="tab-pane table-responsive active" role="tabpanel">
@@ -525,18 +534,6 @@
                                                 </div>
                                                 <div ng-if="personageFlaw.personage_race_default || personageFlaw.Flaw.unremovable">
                                                     Нельзя удалить
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div id="inherents" class="tab-pane table-responsive" role="tabpanel">
-                                    <table class="table table-hover">
-                                        <tr ng-repeat="personageInherent in personageInherents">
-                                            <td>{{personageInherent.Inherent.name}}</td>
-                                            <td>
-                                                <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
-                                                    {{personageInherent.value}}
                                                 </div>
                                             </td>
                                         </tr>
