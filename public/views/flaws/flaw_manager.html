@@ -4,7 +4,7 @@
     <title>Список недостатков</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="./../../assets/common/css/main.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -13,6 +13,32 @@
     <script src="/views/permissions/permissions.js"></script>
     <script src="flaw_manager.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
+
+
+<!-- Custom Flaw Manager -->
+    <link rel="stylesheet" href="flaw_css/c3.min.css">
+    <link rel="stylesheet" href="flaw_css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="flaw_css/ladda-themeless.min.css">
+    <link rel="stylesheet" href="flaw_css/ladda.min.css">
+    <link rel="stylesheet" href="flaw_css/main.css">
+    <link rel="stylesheet" href="flaw_css/page-one.css">
+    <script type="text/javascript" src="flaw_js/ladda.min.js"></script>
+    <script type="text/javascript" src="flaw_js/spin.min.js"></script>
+    <script src="https://use.fontawesome.com/c9091c49ea.js"></script>
+    <script type="text/javascript" src="flaw_js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="flaw_js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="flaw_js/dataTables.fixedColumns.js"></script>
+    <script type="text/javascript" src="flaw_js/dataTables.responsive.js"></script>
+    <script type="text/javascript" src="flaw_js/demo.temp.js"></script>
+    <script type="text/javascript" src="flaw_js/common.js"></script>
+
+
+
+    <!-- Page-One -->
+    <link rel="stylesheet" type="text/css" href="../assets/common/css/source/mihey/page-one.css">
+
+
+    <link rel="stylesheet" href="./../../assets/common/css/source/apps/flaw.css">
 </head>
 
 <body ng-app="flawManagerApp">
@@ -32,6 +58,7 @@
             </div>
         </div>
 
+<!--
         <table class="table table-striped">
             <tr>
                 <th>Имя</th>
@@ -52,8 +79,869 @@
                 </td>
             </tr>
         </table>
-    </div>
+-->
 
+
+    </div>
+    <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+<!--                    <h4>Basic Responsive Table</h4>-->
+<!--                    <p>Modifier: see documentation</p>-->
+                    <div class="margin-bottom-50">
+                        <table class="table table-hover nowrap" id="example1" width="100%">
+                           <!-- Nav Head Table -->
+                            <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Цена</th>
+                                <th>Неоткл.</th>
+                                <th>Удалить</th>
+                            </tr>
+                            </thead>
+                            <!-- Nav Footer Table -->
+                            <tfoot>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Цена</th>
+                                <th>Неоткл.</th>
+                                <th>Удалить</th>
+                            </tr>
+                            </tfoot>
+                            <!-- Body Table -->
+                            <tbody>
+                            <tr>
+                                <td>«Я НЕ ХОЧУ ЖИТЬ В ТАКОМ МИРЕ»</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>«Я НЕДОСТОИН ЖИТЬ В ТАКОМ МИРЕ»</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Агорафобия</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Акрофобия</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Алчность</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Альбинизм</td>
+                                <td>7</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i>
+</td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Амнезия</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ахондроплазия</td>
+                                <td>13</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Бедность</td>
+                                <td>3</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Безногость</td>
+                                <td>25</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Безрукость</td>
+                                <td>40</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Берсерк</td>
+                                <td>6</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Близорукость</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Боязнь пыток</td>
+                                <td>3</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Брахидактилия</td>
+                                <td>5</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Вежливость</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Весельчак</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Визитная карточка</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Влюбленность</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Волосатость</td>
+                                <td>3</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Враг животных</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Враг животных 2</td>
+                                <td>6</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Враг природы</td>
+                                <td>10</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Галлюцинации</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Гемофилия</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Гиперкинез</td>
+                                <td>2</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Гиперкинез</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Гиперсексуальность</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Гипертония</td>
+                                <td>3</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Глумливость</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Глухота</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Губитель машин</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Дальнозоркость</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Дальтонизм</td>
+                                <td>3</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Дамский угодник</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Доверчивость</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Долг чести</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Долгий сон</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Зависимость от гашиша</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Завистливость</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Задирчивость</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Задирчивость</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Застенчивость</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Зловещая ухмылка</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Инсектофобия</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ихтиоз</td>
+                                <td>12</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Кардиофобия</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Клаустрофобия</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Кодекс чести (не допускать использования запрещенной темной магии)</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Кошмары</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Крепкий сон</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Лень</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Лживые глаза</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Личный враг</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Лунатизм</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Любопытство</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Маниакально-депрессивный психоз</td>
+                                <td>15</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Мания величия 1</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Мания величия 2</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Меченый (метка)</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Мизофобия</td>
+                                <td>1</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Милосердие</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Многососковость</td>
+                                <td>1</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Морская болезнь</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Мот</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Моторные навязчивые состояния</td>
+                                <td>1</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Мстительность</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Награда за голову</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Награда за голову</td>
+                                <td>2</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Нарушения поведения</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Не бить лежачего</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Не избегать боя</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Не использовать грязные приемы боя</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Невозможность начать разговор первым</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Недоверчивость</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Немота</td>
+                                <td>5</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Неожиданный сон</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Нетерпеливость</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Нетерпимость к машинам</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Неудачник</td>
+                                <td>10</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Низкий болевой порог</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Низкий болевой порог</td>
+                                <td>5</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Нозофобия</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Обжорство</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Одноногость</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Однорукость</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Осложненная менструация</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Охотник за славой</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Параноя</td>
+                                <td>5</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Пафос</td>
+                                <td>6</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Пацифизм</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Периодическая бессоница</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Периодическая мигрень</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Периодические боли психосоматического характера</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Петросян</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Пирофобия</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Полидактилия</td>
+                                <td>2</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Пониженный иммунитет</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Порок сердца</td>
+                                <td>7</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Портрет Дориана Грея</td>
+                                <td>10</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Похоть</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr class="active">
+                                <td>Преданость команде</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Преданость расе</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Провалы в памяти</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Проклятье</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Разговор во сне</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Раздвоение личности</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Раздражительность</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Рассеянность</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Решение споров и конфликтных ситуаций с помощью дуэлей (только касаемо топора)</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Рука Бога</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Самодостаточность</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Сердечная слабость</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Синдром д. Стрейнджлава</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Синдром Пиннокио</td>
+                                <td>1</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Склероз</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Скупость</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Слепота</td>
+                                <td>30</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Сомнамбулизм</td>
+                                <td>2</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Социофобия</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Танатофобия</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Тики</td>
+                                <td>1</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Уродство</td>
+                                <td>2</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Фанатизм</td>
+                                <td>3</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Флешбеки</td>
+                                <td>1</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Хвост</td>
+                                <td>2</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Хромота</td>
+                                <td>5</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Хрупкие кости</td>
+                                <td>7</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Хрупкие кости</td>
+                                <td>7</td>
+                                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Честность</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Чувство долга</td>
+                                <td>5</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Эдвин</td>
+                                <td>4</td>
+                                <td></td>
+                                <td><a class="remove" href="javascript:void(0)" title="Remove"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Добавить недостаток -->
+<!--
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h2>Добавить недостаток</h2>
+
+                    <form>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Название недостатка:</label>
+                          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Морская болезнь">
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput2">Стоимость:</label>
+                          <input type="text" class="form-control bfh-number" data-min="-1000" data-max="1000" value="5">
+                        </div>
+                        <h5>Неотключаемый</h5>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput2">Описание:</label>
+                          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Описание здесь">
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput2">Бонус на действия:</label>
+                          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Бонус">
+                        </div>
+                    </form>
+
+
+
+                    <button class="btn btn-primary-outline ladda-button" data-style="zoom-in"><span class="ladda-label">Добавить</span></button>
+                </div>
+            </div>
+-->
+        </div>
     <div class="container" ng-show="hasCreatePermission('Flaw')">
         <h2>Добавить недостаток</h2>
         <form class="form-horizontal" role="form" ng-controller="addFlawController"
@@ -111,6 +999,44 @@
         </form>
     </div>
 </div>
+<!--Removing Table Rows-->
+<script>
+$(window).load(function(){
+  $(function () {
+      $("table#example1").on("click", ".remove", function () {
+        $(this).closest('tr').remove();
+      });
+  });
+  $(function () {
+      $(".remove").tooltip({
+          container: 'body'
+      });
+  });
+  $(document).click(function () {
+      $('.tooltip').remove();
+      $('[title]').tooltip();
+  });
+});
+</script>
 
+<!-- Page Scripts -->
+<script>
+$(function(){
+$('#example1').DataTable({
+  responsive: true
+});
+$('#example2').DataTable({
+  autoWidth: true,
+  scrollX: true,
+  fixedColumns: true
+});
+$('#example3').DataTable({
+  autoWidth: true,
+  scrollX: true,
+  fixedColumns: true
+});
+});
+</script>
+<!-- End Page Scripts -->
 </body>
 </html>

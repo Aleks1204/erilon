@@ -45,6 +45,7 @@
 @import url(vendors/nprogress.css);
 @import url(vendors/juqery-steps.css);
 @import url(vendors/bootstrap-select.css);
+@import url(vendors/dropify.css);
 @import url(pages/pricing-table.css);
 @import url(pages/ecommerce.css);
 @import url(apps/profile.css);
@@ -52,5 +53,4 @@
 @import url(apps/mail.css);
 @import url(apps/calendar.css);
 @import url(apps/gallery.css);
-@import url(apps/custom.css);
-@import url(apps/flaw.css);
+@import url(mihey/page-one.css);
