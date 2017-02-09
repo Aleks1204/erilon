@@ -14,8 +14,28 @@
     padding: 25px 0 0;
 }
 
+.margin-bottom-50 .panel-heading {
+    padding: 35px 0 25px;
+}
+
 .margin-bottom-50 .panel-heading h2 {
-    margin: 25px 0 0;
+    margin: 0;
+}
+
+.margin-bottom-50 .panel-heading .btn {
+    background-color: #46be8a;
+    border-color: #46be8a;
+}
+
+
+.margin-bottom-50 .panel-heading .btn.btn-primary:hover, .margin-bottom-50 .panel-heading .btn.btn-primary:active, .open > .margin-bottom-50 .panel-heading .btn.btn-primary:hover, .open > .margin-bottom-50 .panel-heading .btn.btn-primary:active {
+    background-color: #5bce9c;
+    border-color: #5bce9c;
+}
+
+.margin-bottom-50 .panel-heading .btn:hover:active, .margin-bottom-50 .panel-heading .btn:focus, .margin-bottom-50 .panel-heading .btn.active, .open > .margin-bottom-50 .panel-heading .btn.btn-primary:hover:active, .open > .margin-bottom-50 .panel-heading .btn:focus, .open > .margin-bottom-50 .panel-heading .btn.active {
+    background-color: #46be8a !important;
+    border-color: #46be8a !important;
 }
 
 .margin-bottom-50 .table-hover {
@@ -58,8 +78,99 @@ label {
     border-color: #46be8a;
 }
 
+/* Модальное окно */
+
+.modal.modal-size-large .modal-dialog {
+    max-width: 700px;
+    width: auto;
+}
+
+.panel-body .modal .modal-dialog .modal-body label {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.panel-body .modal .modal-dialog .modal-body .form-control {
+    font-weight: 400 !important;
+    margin-top: 5px;
+}
+
+.panel-body .modal .modal-dialog .modal-body h5 {
+    margin: 40px 0 0;
+}
+
+.panel-body .modal .modal-dialog .modal-footer .btn:nth-of-type(1),
+.panel-body .modal .modal-dialog .modal-footer .btn:nth-of-type(1):hover {
+    background-color: transparent;
+}
+
+.panel-body .modal .modal-dialog .modal-footer .btn:nth-of-type(1):focus {
+    color: #fff;
+}
+
+
+
+
 @media screen and (max-width: 1200px) {
     .panel-body {
         margin: 0 auto;
         max-width: 1100px;}
+}
+
+@media screen and (max-width: 768px) {
+    .panel-body {
+        padding-top: 30px;}
+    .modal.modal-size-large .modal-dialog {
+        margin: 0 auto;
+        max-width: 90%;
+        width: auto;}
+}
+
+@media screen and (max-width: 530px) {
+    .modal-dialog {
+        text-align: left;}
+    
+    .modal-content {
+        margin-top: 10px;}
+    
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 10px;}
+    
+    .panel-body .margin-bottom-50 .panel-heading .modal-footer .btn {
+        padding: 5px 15px;
+        position: relative;
+        top: 0;
+    }  
+    
+    .panel-body .modal-body .form-group {
+        margin-bottom: 0;
+    }
+    
+    .panel-body .modal .modal-dialog .modal-body h5 {
+    margin: 20px 0 0;}
+    
+    
+    
+    
+}
+
+@media screen and (max-width: 480px) {
+    .panel-heading {
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    .panel-body .margin-bottom-50 .panel-heading .btn {
+        position: absolute;
+        top: 80px;
+    }
+    .panel-body .dataTables_filter label {
+        text-align: center !important;
+        white-space: normal !important;
+    }
+    .panel-body .dataTables_filter .form-control {
+        margin-top: 10px;
+    }
 }
