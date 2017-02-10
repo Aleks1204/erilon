@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-controller="permissionsController">
 <head>
     <title>Список недостатков</title>
     <meta charset="utf-8">
@@ -54,8 +54,6 @@
     <script src="/assets/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
     <script src="/assets/vendors/jscrollpane/script/jquery.jscrollpane.min.js"></script>
     <script src="/assets/vendors/tether/dist/js/tether.min.js"></script>
-    
-    
     <script src="/assets/vendors/spin.js/spin.js"></script>
     <script src="/assets/vendors/ladda/dist/ladda.min.js"></script>
     <script src="/assets/vendors/select2/dist/js/select2.full.min.js"></script>
@@ -76,7 +74,7 @@
     <script src="/assets/vendors/ionrangeslider/js/ion.rangeSlider.min.js"></script>
     <script src="/assets/vendors/nestable/jquery.nestable.js"></script>
     <script src="/views/flaws/jquery.dataTables.min.js"></script>
-    Работа с таблицей: 
+<!--    Работа с таблицей: -->
     <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/vendors/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
     <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
@@ -101,13 +99,13 @@
     <!-- Clean UI Scripts -->
     <script src="/assets/common/js/common.js"></script>
     <script src="/assets/common/js/demo.temp.js"></script>
-
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="../../views/permissions/permissions.js"></script>
     <script src="../../views/personage_manager.js"></script>
-    <script src="../../views/permissions/check_player_permissions.js"></script>
+    
+    <script src="flaw_manager.js"></script>
 
+    <script src="../permissions/check_player_permissions.js"></script>
     
 </head>
 
@@ -253,7 +251,7 @@
                         </div>
                         <div class="form-group">
                           <label for="formGroupExampleInput2">Стоимость:</label>
-                          <input type="text" class="form-control bfh-number" data-min="-1000" data-max="1000" value="5">
+                          <input type="text" class="form-control bfh-number" data-min="-1000" data-max="1000" placeholder="5">
                         </div>
                         <h5>Неотключаемый</h5>
                         <div class="form-group">
@@ -1095,16 +1093,16 @@
                     </div>
                 </div>
             </div>
-           
-        
     </div>
 </div>
 
+<!--
     <script>
         $(document).ready(function(){
             $('#myTable').DataTable();
         });
     </script> 
+-->
 
     <!--Removing Table Rows-->
     <script>
@@ -1134,26 +1132,21 @@
             responsive: true
         });
 
-        $('#example2').DataTable({
-            autoWidth: true,
-            scrollX: true,
-            fixedColumns: true
-        });
-
-        $('#example3').DataTable({
-            autoWidth: true,
-            scrollX: true,
-            fixedColumns: true
-        });
+//        $('#example2').DataTable({
+//            "autoWidth": true,
+//            scrollX: true,
+//            fixedColumns: true
+//        });
+//
+//        $('#example3').DataTable({
+//            autoWidth: true,
+//            scrollX: true,
+//            fixedColumns: true
+//        });
     });
     </script>
     <!-- End Page Scripts -->
 
-    <script>
-        $(document).ready(function(){
-            $('#myTable').DataTable();
-        });
-    </script>
 
 </body>
 </html>
