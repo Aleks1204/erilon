@@ -37,6 +37,105 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var raceInherents = $q.defer();
     var personageAttachedSkills = $q.defer();
 
+    $(".inherentsButton").click(function(){
+        $("#inherents").show();
+        $("#attr").hide();
+        $("#attached").hide();
+        $("#trigger").hide();
+        $("#merits").hide();
+        $("#flaws").hide();
+        $("#steps").scrollTo('.inherentsButton');
+        $(".inherentsButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+    });
+
+    $(".attributesButton").click(function(){
+        $("#attr").show();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#trigger").hide();
+        $("#merits").hide();
+        $("#flaws").hide();
+        $("#steps").scrollTo('.attributesButton');
+        $(".attributesButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
+    $(".attachedButton").click(function(){
+        $("#attached").show();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#trigger").hide();
+        $("#merits").hide();
+        $("#flaws").hide();
+        $("#steps").scrollTo('.attachedButton');
+        $(".attachedButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
+    $(".triggerButton").click(function(){
+        $("#trigger").show();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#merits").hide();
+        $("#flaws").hide();
+        $("#steps").scrollTo('.triggerButton');
+        $scope.getPersonageTriggerSkills();
+        $(".triggerButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
+    $(".meritsButton").click(function(){
+        $("#merits").show();
+        $("#trigger").hide();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#flaws").hide();
+        $("#steps").scrollTo('.meritsButton');
+        $scope.getPersonageMerits();
+        $(".meritsButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
+    $(".flawsButton").click(function(){
+        $("#flaws").show();
+        $("#merits").hide();
+        $("#trigger").hide();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#steps").scrollTo('.flawsButton');
+        $scope.getPersonageFlaws();
+        $(".flawsButton").addClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
     function success() {
         $scope.hasInherents();
         $scope.recalculateBasicCharacteristics();
