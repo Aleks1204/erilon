@@ -429,3 +429,13 @@ only screen and (max-width: 760px)  {
 		padding-left: 9px;
 	}
 }
+
+@media
+only screen and (max-width: 760px)  {
+	.filter-button {
+		position: fixed !important;
+		bottom: 5%;
+		right: 30%;
+		z-index: 1000
+	}
+}
