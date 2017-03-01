@@ -11,6 +11,7 @@ function AddDialogCtrl($mdDialog, $http) {
     this.save = function () {
         $http.post('/attachedSkills', {
             name: self.attachedSkill_name,
+            category: self.category,
             description: self.description,
             difficult: self.difficult,
             theoretical: self.theoretical,

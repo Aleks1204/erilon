@@ -10,6 +10,7 @@ var log = require('../log')(module);
 router.post('/attachedSkills', function (req, res) {
     models.AttachedSkill.create({
         name: req.body.name,
+        category: req.body.category,
         description: req.body.description,
         difficult: req.body.difficult,
         theoretical: req.body.theoretical,
@@ -53,6 +54,7 @@ router.put('/attachedSkills/:id', function (req, res) {
         }
 
         attachedSkill.name = req.body.name;
+        attachedSkill.category = req.body.category;
         attachedSkill.description = req.body.description;
         attachedSkill.difficult = req.body.difficult;
         attachedSkill.theoretical = req.body.theoretical;
@@ -60,6 +62,7 @@ router.put('/attachedSkills/:id', function (req, res) {
         attachedSkill.spells_connected = req.body.spells_connected;
         return attachedSkill.update({
             name: req.body.name,
+            category: req.body.category,
             difficult: req.body.difficult,
             description: req.body.description,
             theoretical: req.body.theoretical,

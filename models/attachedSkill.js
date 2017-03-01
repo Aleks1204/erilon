@@ -6,6 +6,7 @@
 module.exports = function(sequelize, DataTypes) {
     var AttachedSkill = sequelize.define("AttachedSkill", {
         name: DataTypes.STRING,
+        category: DataTypes.STRING,
         spells_connected: DataTypes.BOOLEAN,
         description: DataTypes.STRING,
         difficult: DataTypes.BOOLEAN,

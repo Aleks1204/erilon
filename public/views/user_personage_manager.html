@@ -105,12 +105,23 @@
     <script src="personage_manager.js"></script>
     <script src="permissions/check_player_permissions.js"></script>
 </head>
-<body class="theme-default menu-top theme-blue mode-material" ng-app="personageManagerApp">
+<body class="theme-default menu-left mode-material layout-boxed mode-box-shadow" ng-app="personageManagerApp">
 <div class="boxed-container" ng-controller="permissionsController">
 
     <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+        <div class="logo-container">
+            <a href="#" class="logo">
+                <img src="/assets/common/img/logo.png"/>
+            </a>
+        </div>
         <div class="left-menu-inner scroll-pane">
             <ul class="left-menu-list left-menu-list-root list-unstyled">
+                <li class="left-menu-list-active">
+                    <a class="left-menu-link" href="/views/user_personage_manager.html">
+                        <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                        Персонажи
+                    </a>
+                </li>
                 <li>
                     <a class="left-menu-link" href="/views/races/race_manager.html">
                         <i class="left-menu-link-icon fa fa-users"><!-- --></i>

@@ -13,6 +13,7 @@ function UpdateDialogCtrl($mdDialog, $http, attachedSkill) {
     this.save = function () {
         $http.put('/attachedSkills/' + attachedSkill.id, {
             name: self.attachedSkill_name,
+            category: self.category,
             description: self.description,
             difficult: self.difficult,
             theoretical: self.theoretical,

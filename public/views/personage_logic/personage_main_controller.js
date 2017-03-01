@@ -7,7 +7,7 @@ var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
 // app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce, $mdDialog) {
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce  ) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce) {
     $scope.loader = true;
     $scope.meritAvailable = true;
     $scope.showGenerateIneherentsButton = true;
@@ -37,7 +37,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var raceInherents = $q.defer();
     var personageAttachedSkills = $q.defer();
 
-    $(".inherentsButton").click(function(){
+    $(".inherentsButton").click(function () {
         $("#inherents").show();
         $("#attr").hide();
         $("#attached").hide();
@@ -53,7 +53,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
     });
 
-    $(".attributesButton").click(function(){
+    $(".attributesButton").click(function () {
         $("#attr").show();
         $("#inherents").hide();
         $("#attached").hide();
@@ -69,7 +69,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
-    $(".attachedButton").click(function(){
+    $(".attachedButton").click(function () {
         $("#attached").show();
         $("#attr").hide();
         $("#inherents").hide();
@@ -85,7 +85,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
-    $(".triggerButton").click(function(){
+    $(".triggerButton").click(function () {
         $("#trigger").show();
         $("#attr").hide();
         $("#inherents").hide();
@@ -102,7 +102,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
-    $(".meritsButton").click(function(){
+    $(".meritsButton").click(function () {
         $("#merits").show();
         $("#trigger").hide();
         $("#attr").hide();
@@ -119,7 +119,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
-    $(".flawsButton").click(function(){
+    $(".flawsButton").click(function () {
         $("#flaws").show();
         $("#merits").hide();
         $("#trigger").hide();
@@ -136,10 +136,74 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
+    $scope.filteredCategories = [];
+    $scope.filteredDefault = false;
+    $scope.filteredTheoretical = false;
+
+    $scope.attachedSkillsMixed = [];
+    function calculateAttachedSkillsToShow() {
+        angular.forEach($scope.attachedSkills, function (attachedSkill) {
+            var targetPersonageAS = null;
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (attachedSkill.id == personageAttachedSkill.AttachedSkill.id) {
+                    targetPersonageAS = personageAttachedSkill;
+                }
+            });
+            $scope.attachedSkillsMixed.push({
+                attachedSkill: attachedSkill,
+                personageAttachedSkill: targetPersonageAS
+            });
+        });
+    }
+
+    $scope.filterByCategory = function (category, selected) {
+        if (selected) {
+            $scope.filteredCategories.push(category);
+        } else {
+            $scope.filteredCategories.splice($scope.filteredCategories.indexOf(category), 1);
+        }
+    };
+
+    $scope.filterByDefault = function (selected) {
+        $scope.filteredDefault = selected;
+    };
+
+    $scope.filterByTheoretical = function (selected) {
+        $scope.filteredTheoretical = selected;
+    };
+
+    $scope.filtered = function (attachedSkill) {
+        if ($scope.filteredTheoretical) {
+            if (!attachedSkill.theoretical) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredDefault) {
+            if (!attachedSkill.default_skill) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredCategories.length == 0) {
+            return false;
+        }
+
+        var categories = attachedSkill.category.split(",");
+        var result = true;
+        categories.forEach(function (item) {
+            if ($scope.filteredCategories.indexOf(item) != -1) {
+                result = false;
+            }
+        });
+        return result;
+    };
+
     function success() {
         $scope.hasInherents();
         $scope.recalculateBasicCharacteristics();
         $scope.getPersonageInherents();
+        calculateAttachedSkillsToShow();
         $scope.loader = false;
     }
 
@@ -195,7 +259,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         };
 
         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-            $scope.recalculateMagicSchools(data.data);
+            recalculateMagicSchools(data.data);
             $scope.personageAttachedSkills = data.data;
             personageAttachedSkills.resolve();
         });
@@ -353,14 +417,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     };
 
-    $scope.recalculateMagicSchools = function () {
+    function recalculateMagicSchools(personageAttachedSkills) {
         $scope.schools = [];
-        angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+        angular.forEach(personageAttachedSkills, function (personageAttachedSkill) {
             if (personageAttachedSkill.AttachedSkill.spells_connected) {
                 $scope.schools.push(personageAttachedSkill.AttachedSkill);
             }
         });
-    };
+    }
 
     $scope.showSpellDetail = function (spell_id) {
         $scope.loader = true;
@@ -668,15 +732,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         decrease.resolve();
     };
 
-    $scope.showConfirmDeletePersonagMerit = function(personageMerit) {
+    $scope.showConfirmDeletePersonagMerit = function (personageMerit) {
         var confirm = $mdDialog.confirm()
             .title('Подтверждение удаления достоинства')
             .textContent('Данное изменение приведет к удалению достоинства ' + personageMerit.Merit.name + ' так как достоиснтво иммет пререквизиты')
             .ok('Удалить и изменить')
             .cancel('Оставить');
-        $mdDialog.show(confirm).then(function() {
+        $mdDialog.show(confirm).then(function () {
             $scope.deletePersonageMerit(personageMerit);
-        }, function() {
+        }, function () {
             $scope.confirmChanges = false;
         });
     };
@@ -1114,24 +1178,34 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.addPersonageAttachedSkill = function (attachedSkill_id) {
-        $scope.loader = true;
-        jQuery('#addAttachedSkillDialog').modal('hide');
-        $http.get('/attachedSkills/' + attachedSkill_id).success(function (result) {
-            $scope.personageAttachedSkills.push({
-                AttachedSkill: result.attachedSkill,
-                AttachedSkillId: attachedSkill_id,
-                PersonageId: personageId,
-                value: 1
-            });
-            if (result.attachedSkill.difficult) {
-                $scope.personage.experience = $scope.personage.experience - 2;
-            } else {
-                $scope.personage.experience = $scope.personage.experience - 1;
-            }
-            $scope.recalculateMagicSchools($scope.personageAttachedSkills);
-            $scope.loader = false;
+    $scope.addPersonageAttachedSkill = function (attachedSkill) {
+        $scope.personageAttachedSkills.push({
+            AttachedSkill: attachedSkill,
+            AttachedSkillId: attachedSkill.id,
+            PersonageId: personageId,
+            value: 1
         });
+
+        angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+            angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
+                if (personageAttachedSkill.AttachedSkill.id == attachedSkillMixed.attachedSkill.id && attachedSkillMixed.personageAttachedSkill == null) {
+                    attachedSkillMixed.personageAttachedSkill = personageAttachedSkill;
+                }
+            });
+        });
+
+        if (attachedSkill.difficult) {
+            $scope.personage.experience = $scope.personage.experience - 2;
+        } else {
+            $scope.personage.experience = $scope.personage.experience - 1;
+        }
+        $scope.recalculateMagicSchools($scope.personageAttachedSkills);
+    };
+
+    $scope.changeColor = function (value) {
+        if (value == null) {
+            return {'background-color': '#C1BDBD'};
+        }
     };
 
     $scope.showAddDialog = function (values, addingFunction) {
@@ -1159,19 +1233,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             clickOutsideToClose: true
         })
     };
-
-    // var personageAttachedSkillsClicked = false;
-    // $scope.getPersonageAttachedSkills = function () {
-    //     if (!personageAttachedSkillsClicked) {
-    //         personageAttachedSkillsClicked = true;
-    //         $scope.loader = true;
-    //         $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-    //             $scope.recalculateMagicSchools(data.personageAttachedSkills);
-    //             $scope.personageAttachedSkills = data.personageAttachedSkills;
-    //             $scope.loader = false;
-    //         });
-    //     }
-    // };
 
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
@@ -1289,6 +1350,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (!hasSpells) {
             var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
             $scope.personageAttachedSkills.splice(index, 1);
+
+            angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
+                if (attachedSkillMixed.attachedSkill.id == personageAttachedSkill.AttachedSkill.id && attachedSkillMixed.personageAttachedSkill != null) {
+                    attachedSkillMixed.personageAttachedSkill = null;
+                }
+            });
 
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
