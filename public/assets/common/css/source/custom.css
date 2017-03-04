@@ -372,7 +372,12 @@ only screen and (max-width: 760px),
 		left: -9999px;
 	}
 
-	tr.mobile { border-bottom: 1px solid #ccc; }
+	tr.mobile {
+		border: 1px solid #ccc;
+		border-top: 0;
+		border-right: 0;
+		border-left: 0;
+	}
 
 	td.mobile {
 		/* Behave  like a "row" */
@@ -444,5 +449,17 @@ only screen and (max-width: 760px)  {
 		bottom: 5%;
 		right: 30%;
 		z-index: 1000
+	}
+}
+
+@media
+only screen and (max-width: 760px)  {
+	.filter-panel {
+		position: fixed !important;
+		z-index: 1000;
+		bottom: 0px;
+		right: 8px;
+		width: 88%;
+		height: 77%;
 	}
 }

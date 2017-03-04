@@ -10,7 +10,7 @@ var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $sce) {
     $scope.loader = true;
     $scope.meritAvailable = true;
-    $scope.showGenerateIneherentsButton = true;
+    $scope.showGenerateIneherentsButton = false;
 
     $scope.personageMerits = null;
     $scope.personageInherents = null;
@@ -155,6 +155,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
     }
+
+    $scope.showCategories = false;
+    $scope.showCategoriesFilter = function () {
+        $scope.showCategories = true;
+    };
+
+    $scope.hideCategoriesFilter = function () {
+        $scope.showCategories = false;
+    };
 
     $scope.filterByCategory = function (category, selected) {
         if (selected) {
@@ -353,11 +362,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.hasInherents = function () {
         $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).success(function (result) {
-            if (result.result != null) {
-                if (result.result.value == 'TRUE') {
-                    $scope.showGenerateIneherentsButton = false;
-                }
-            }
+            $scope.showGenerateIneherentsButton = result.result == null;
         });
     };
 
@@ -1204,7 +1209,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.changeColor = function (value) {
         if (value == null) {
-            return {'background-color': '#C1BDBD'};
+            return {'background-color': '#C1BDBD', 'border-bottom': '3px solid white'};
         }
     };
 
@@ -1418,45 +1423,45 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.calculateMeritSelectOptions = function () {
-        $scope.loader = true;
-
-        $scope.defaultValue = true;
-
-        $scope.selectMerits = [];
-        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
-            angular.forEach($scope.merits, function (merit) {
-                var alreadyAdded = false;
-                var haveTriggerSkillForThisTalent = true;
-                angular.forEach($scope.personageMerits, function (personageMerit) {
-                    if (merit.id == personageMerit.Merit.id) {
-                        alreadyAdded = true;
-                    }
-                });
-
-                if (merit.name.indexOf('Талант') > -1) {
-                    haveTriggerSkillForThisTalent = false;
-                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                            haveTriggerSkillForThisTalent = true;
-                        }
-                    });
-                }
-
-                angular.forEach(results.raceMerits, function (raceMerit) {
-                    if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == merit.id) {
-                        merit.cost = raceMerit.race_cost;
-                    }
-                });
-
-                if (!alreadyAdded && haveTriggerSkillForThisTalent) {
-                    $scope.selectMerits.push(merit);
-                }
-            });
-            $scope.loader = false;
-            $scope.showAddMeritDialog($scope.selectMerits, $scope.addPersonageMerit, $scope.validatePrerequisites)
-        });
-    };
+    // $scope.calculateMeritSelectOptions = function () {
+    //     $scope.loader = true;
+    //
+    //     $scope.defaultValue = true;
+    //
+    //     $scope.selectMerits = [];
+    //     $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
+    //         angular.forEach($scope.merits, function (merit) {
+    //             var alreadyAdded = false;
+    //             var haveTriggerSkillForThisTalent = true;
+    //             angular.forEach($scope.personageMerits, function (personageMerit) {
+    //                 if (merit.id == personageMerit.Merit.id) {
+    //                     alreadyAdded = true;
+    //                 }
+    //             });
+    //
+    //             if (merit.name.indexOf('Талант') > -1) {
+    //                 haveTriggerSkillForThisTalent = false;
+    //                 angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+    //                     if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+    //                         haveTriggerSkillForThisTalent = true;
+    //                     }
+    //                 });
+    //             }
+    //
+    //             angular.forEach(results.raceMerits, function (raceMerit) {
+    //                 if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == merit.id) {
+    //                     merit.cost = raceMerit.race_cost;
+    //                 }
+    //             });
+    //
+    //             if (!alreadyAdded && haveTriggerSkillForThisTalent) {
+    //                 $scope.selectMerits.push(merit);
+    //             }
+    //         });
+    //         $scope.loader = false;
+    //         $scope.showAddMeritDialog($scope.selectMerits, $scope.addPersonageMerit, $scope.validatePrerequisites)
+    //     });
+    // };
 
     $scope.calculateFlawSelectOptions = function () {
         $scope.loader = true;
@@ -1496,43 +1501,43 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.calculateAttachedSkillSelectOptions = function () {
-        $scope.loader = true;
-        $scope.selectAttachedSkills = [];
-        angular.forEach($scope.attachedSkills, function (attachedSkill) {
-            var contains = false;
-            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-                if (attachedSkill.id == personageAttachedSkill.AttachedSkill.id) {
-                    contains = true;
-                }
-            });
-
-            if (!contains) {
-                $scope.selectAttachedSkills.push(attachedSkill);
-            }
-        });
-        $scope.showAddDialog($scope.selectAttachedSkills, $scope.addPersonageAttachedSkill);
-        $scope.loader = false;
-    };
-
-    $scope.calculateTriggerSkillSelectOptions = function () {
-        $scope.loader = true;
-        $scope.selectTriggerSkills = [];
-        angular.forEach($scope.triggerSkills, function (triggerSkill) {
-            var contains = false;
-            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                if (triggerSkill.id == personageTriggerSkill.TriggerSkill.id) {
-                    contains = true;
-                }
-            });
-
-            if (!contains) {
-                $scope.selectTriggerSkills.push(triggerSkill);
-            }
-        });
-        $scope.showAddDialog($scope.selectTriggerSkills, $scope.addPersonageTriggerSkill);
-        $scope.loader = false;
-    };
+    // $scope.calculateAttachedSkillSelectOptions = function () {
+    //     $scope.loader = true;
+    //     $scope.selectAttachedSkills = [];
+    //     angular.forEach($scope.attachedSkills, function (attachedSkill) {
+    //         var contains = false;
+    //         angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+    //             if (attachedSkill.id == personageAttachedSkill.AttachedSkill.id) {
+    //                 contains = true;
+    //             }
+    //         });
+    //
+    //         if (!contains) {
+    //             $scope.selectAttachedSkills.push(attachedSkill);
+    //         }
+    //     });
+    //     $scope.showAddDialog($scope.selectAttachedSkills, $scope.addPersonageAttachedSkill);
+    //     $scope.loader = false;
+    // };
+    //
+    // $scope.calculateTriggerSkillSelectOptions = function () {
+    //     $scope.loader = true;
+    //     $scope.selectTriggerSkills = [];
+    //     angular.forEach($scope.triggerSkills, function (triggerSkill) {
+    //         var contains = false;
+    //         angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+    //             if (triggerSkill.id == personageTriggerSkill.TriggerSkill.id) {
+    //                 contains = true;
+    //             }
+    //         });
+    //
+    //         if (!contains) {
+    //             $scope.selectTriggerSkills.push(triggerSkill);
+    //         }
+    //     });
+    //     $scope.showAddDialog($scope.selectTriggerSkills, $scope.addPersonageTriggerSkill);
+    //     $scope.loader = false;
+    // };
 
     $scope.viewNotice = function (notice_id) {
         jQuery('#' + notice_id + '_view').modal('show');
