@@ -11,6 +11,7 @@ router.post('/triggerSkills', function(req, res) {
     models.TriggerSkill.create({
         name: req.body.name,
         description: req.body.description,
+        category: req.body.category,
         cost: req.body.cost,
         difficult: req.body.difficult
     }).then(function(triggerSkill) {
@@ -49,12 +50,14 @@ router.put('/triggerSkills/:id', function (req, res){
         triggerSkill.name = req.body.name;
         triggerSkill.cost = req.body.cost;
         triggerSkill.description = req.body.description;
+        triggerSkill.category = req.body.category;
         triggerSkill.difficult = req.body.difficult;
 
         return triggerSkill.update({
             name: req.body.name,
             cost: req.body.cost,
             description: req.body.description,
+            category: req.body.category,
             difficult: req.body.difficult
         }).then(function(triggerSkill) {
             res.send({ status: 'UPDATED', triggerSkill:triggerSkill })

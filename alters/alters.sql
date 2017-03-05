@@ -5,3 +5,5 @@ ALTER TABLE "Spells" RENAME COLUMN experience TO cost;
 ALTER TABLE "Personages" ADD "PlayerId" int NULL;
 ALTER TABLE "Players" ADD "RoleId" int NULL;
 ALTER TABLE "AttachedSkills" ADD COLUMN category VARCHAR(255);
+ALTER TABLE "Merits" ADD COLUMN category VARCHAR(255);
+ALTER TABLE "Flaws" ADD COLUMN category VARCHAR(255);

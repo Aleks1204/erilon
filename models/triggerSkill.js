@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
         name: DataTypes.STRING,
         cost: DataTypes.INTEGER,
         description: DataTypes.STRING,
+        category: DataTypes.STRING,
         difficult: DataTypes.BOOLEAN
 
     }, {

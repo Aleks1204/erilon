@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         name: DataTypes.STRING,
         cost: DataTypes.INTEGER,
         creation_only: DataTypes.BOOLEAN,
+        category: DataTypes.STRING,
         description: DataTypes.STRING,
         action_level_bonus: DataTypes.STRING
     }, {

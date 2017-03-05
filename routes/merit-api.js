@@ -13,6 +13,7 @@ router.post('/merits', function (req, res) {
         cost: req.body.cost,
         creation_only: req.body.creation_only,
         description: req.body.description,
+        category: req.body.category,
         action_level_bonus: req.body.action_level_bonus
     }).then(function (merit) {
         res.send({status: 'CREATED', merit: merit})
@@ -110,11 +111,13 @@ router.put('/merits/:id', function (req, res) {
         merit.name = req.body.name;
         merit.cost = req.body.cost;
         merit.description = req.body.description;
+        merit.category = req.body.category;
         merit.action_level_bonus = req.body.action_level_bonus;
         return merit.update({
             name: req.body.name,
             cost: req.body.cost,
             description: req.body.description,
+            category: req.body.category,
             action_level_bonus: req.body.action_level_bonus
         }).then(function (merit) {
             res.send({status: 'UPDATED', merit: merit})

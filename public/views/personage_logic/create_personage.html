@@ -301,7 +301,8 @@
                                     </td>
                                 </tr>
                             </table>
-                            <button class="btn btn-rounded btn-primary-outline" style="margin-left: 8%" ng-if="showGenerateIneherentsButton"
+                            <button class="btn btn-rounded btn-primary-outline" style="margin-left: 8%"
+                                    ng-if="showGenerateIneherentsButton"
                                     ng-click="randomizeInherentsAndValues()">Сгенерить врожденки
                             </button>
                         </div>
@@ -341,7 +342,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="magic" type="checkbox" ng-model="filter.magic"
-                                                   ng-change="filterByCategory('магические', filter.magic)">
+                                                   ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
                                             Магические
                                         </label>
                                     </div>
@@ -349,7 +350,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="social" type="checkbox" ng-model="filter.social"
-                                                   ng-change="filterByCategory('социальные', filter.social)">
+                                                   ng-change="filterAttachedSkillsByCategory('социальные', filter.social)">
                                             Социальные
                                         </label>
                                     </div>
@@ -358,7 +359,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="languages" type="checkbox" ng-model="filter.language"
-                                                   ng-change="filterByCategory('языки', filter.language)">
+                                                   ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
                                             Языки
                                         </label>
                                     </div>
@@ -366,7 +367,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
-                                                   ng-change="filterByCategory('знания', filter.knowledge)">
+                                                   ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
                                             Знания
                                         </label>
                                     </div>
@@ -375,14 +376,14 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="crafts" type="checkbox" ng-model="filter.craft"
-                                                   ng-change="filterByCategory('ремесла', filter.craft)">
+                                                   ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
                                             Ремесла
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input name="professional" type="checkbox" ng-model="filter.prof"
-                                                   ng-change="filterByCategory('профессиональные', filter.prof)">
+                                                   ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
                                             Профессиональные
                                         </label>
                                     </div>
@@ -391,64 +392,66 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="default" type="checkbox" ng-model="search.default_skill"
-                                                   ng-change="filterByDefault(search.default_skill)">
+                                                   ng-change="filterAttachedSkillsByDefault(search.default_skill)">
                                             По умолчанию
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input name="theoretical" type="checkbox" ng-model="search.theoretical"
-                                                   ng-change="filterByTheoretical(search.theoretical)">
+                                                   ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
                                             Теоретические
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                    ng-click="showCategoriesFilter()">Категория <i class="icmn-filter"></i></button>
-                            <div class="panel filter-panel" ng-show="showCategories">
-                                <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">Категории</h3>
+                                    ng-click="showAttachedSkillsCategoriesFilter()">Категория <i
+                                    class="icmn-filter"></i></button>
+                            <div class="panel filter-panel" ng-show="showAttachedSkillsCategories">
+                                <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
+                                    Категории</h3>
                                 <div class="panel-body">
                                     <ul>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="magic" type="checkbox" ng-model="filter.magic"
-                                                       ng-change="filterByCategory('магические', filter.magic)">
+                                                       ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
                                                 Магические
                                             </label>
                                         </li>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="social" type="checkbox" ng-model="filter.social"
-                                                       ng-change="filterByCategory('социальные', filter.social)">
+                                                       ng-change="filterAttachedSkillsByCategory('социальные', filter.social)">
                                                 Социальные
                                             </label>
                                         </li>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="languages" type="checkbox" ng-model="filter.language"
-                                                       ng-change="filterByCategory('языки', filter.language)">
+                                                       ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
                                                 Языки
                                             </label>
                                         </li>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
-                                                       ng-change="filterByCategory('знания', filter.knowledge)">
+                                                       ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
                                                 Знания
                                             </label>
                                         </li>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="crafts" type="checkbox" ng-model="filter.craft"
-                                                       ng-change="filterByCategory('ремесла', filter.craft)">
+                                                       ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
                                                 Ремесла
                                             </label>
                                         </li>
                                         <li style="list-style-type: none;">
                                             <label>
                                                 <input name="professional" type="checkbox" ng-model="filter.prof"
-                                                       ng-change="filterByCategory('профессиональные', filter.prof)">
+                                                       ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
                                                 Профессиональные
                                             </label>
                                         </li>
@@ -457,7 +460,7 @@
                                             <label>
                                                 <input name="default" type="checkbox"
                                                        ng-model="search.default_skill"
-                                                       ng-change="filterByDefault(search.default_skill)">
+                                                       ng-change="filterAttachedSkillsByDefault(search.default_skill)">
                                                 По умолчанию
                                             </label>
                                         </li>
@@ -465,13 +468,14 @@
                                             <label>
                                                 <input name="theoretical" type="checkbox"
                                                        ng-model="search.theoretical"
-                                                       ng-change="filterByTheoretical(search.theoretical)">
+                                                       ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
                                                 Теоретические
                                             </label>
                                         </li>
                                     </ul>
                                     <button class="btn btn-rounded btn-info-outline filter-button"
-                                            ng-click="hideCategoriesFilter()">Применить <i class="icmn-filter"></i></button>
+                                            ng-click="hideAttachedSkillsCategoriesFilter()">Применить <i
+                                            class="icmn-filter"></i></button>
                                 </div>
                             </div>
 
@@ -488,7 +492,8 @@
                                 </thead>
                                 <tbody class="mobile">
                                 <tr class="mobile"
-                                    ng-repeat="item in attachedSkillsMixed" ng-hide="filtered(item.attachedSkill)"
+                                    ng-repeat="item in attachedSkillsMixed"
+                                    ng-hide="filteredAttachedSkills(item.attachedSkill)"
                                     ng-style="changeColor(item.personageAttachedSkill)">
                                     <td class="text-right mobile attached">
                                         <div class="text-left">
@@ -544,8 +549,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="text-right mobile attached">
-                                        <div class="text-left">
+                                    <td class="text-right mobile attached actions">
+                                        <div class="text-center">
                                             <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
                                                 <a class="link-underlined link-blue" href="javascript: void(0)"
                                                    ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
@@ -554,10 +559,11 @@
                                             </div>
 
                                             <div ng-if="item.personageAttachedSkill == null && !item.personageAttachedSkill.AttachedSkill.default_skill">
-                                                <a class="link-underlined link-blue" href="javascript: void(0)"
-                                                   ng-click="addPersonageAttachedSkill(item.attachedSkill)">
+                                                <button class="btn btn-rounded btn-warning btn-sm"
+                                                        href="javascript: void(0)"
+                                                        ng-click="addPersonageAttachedSkill(item.attachedSkill)">
                                                     Добавить
-                                                </a>
+                                                </button>
                                             </div>
                                             <div ng-if="item.personageAttachedSkill.AttachedSkill.default_skill">
                                                 По умолчанию
@@ -569,6 +575,59 @@
                             </table>
                         </div>
                         <div id="trigger" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                            <div class="row hidden-xs-down hidden-sm-down">
+                                <div class="col-md-2">
+                                    <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                    </h2>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="fight" type="checkbox" ng-model="filter.fight"
+                                                   ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                            Боевые
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
+                                                   ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                            Небоевые
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
+                                    ng-click="showTriggerSkillsCategoriesFilter()">Категория <i class="icmn-filter"></i>
+                            </button>
+                            <div class="panel filter-panel" ng-show="showTriggerSkillsCategories">
+                                <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
+                                    Категории</h3>
+                                <div class="panel-body">
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="fight" type="checkbox" ng-model="filter.fight"
+                                                       ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                                Боевые
+                                            </label>
+                                        </div>
+                                        <br/>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
+                                                       ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                                Небоевые
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-rounded btn-info-outline filter-button"
+                                            ng-click="hideTriggerSkillsCategoriesFilter()">Применить <i
+                                            class="icmn-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <table class="table table-hover mobile">
                                 <thead class="mobile">
                                 <tr class="mobile">
@@ -581,83 +640,98 @@
                                 </tr>
                                 </thead>
                                 <tbody class="mobile">
-                                <tr class="mobile" ng-repeat="personageTriggerSkill in personageTriggerSkills">
-                                    <td class="text-right mobile">
+                                <tr class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed"
+                                    ng-hide="filteredTriggerSkills(triggerSkillMixed.triggerSkill)"
+                                    ng-style="changeColor(triggerSkillMixed.personageTriggerSkill)">
+                                    <td class="text-right mobile trigger">
                                         <div class="text-left">
-                                            {{personageTriggerSkill.TriggerSkill.name}}
+                                            {{triggerSkillMixed.triggerSkill.name}}
                                         </div>
                                     </td>
 
-                                    <td class="text-right mobile">
+                                    <td class="text-right mobile trigger">
                                         <div class="btn-group btn-group-justified plus-minus-block">
                                             <div class="btn-group">
                                                 <button class="btn btn-rounded btn-sm btn-secondary"
-                                                        ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
-                                                        type="button">
+                                                        ng-click="decreaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill.TriggerSkill.id)"
+                                                        type="button"
+                                                        ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
                                                     <i class="icmn-minus"></i>
                                                 </button>
                                             </div>
                                             <div class="btn-group">
                                                 <button class="btn btn-rounded btn-sm btn-primary"
-                                                        ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)"
-                                                        type="button">
+                                                        ng-click="increaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill.TriggerSkill.id)"
+                                                        type="button"
+                                                        ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
                                                     <i class="icmn-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
                                     </td>
 
-                                    <td class="text-right mobile">
+                                    <td class="text-right mobile trigger">
                                         <div class="text-left">
-                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
+                                                -
+                                            </div>
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 0">
                                                 База
                                             </div>
-                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 1">
                                                 Эксперт
                                             </div>
-                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 2">
                                                 Мастер
                                             </div>
-                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 3">
                                                 Магистр
                                             </div>
-                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 4">
                                                 Гроссмейстер
                                             </div>
                                         </div>
                                     </td>
 
 
-                                    <td class="text-right mobile">
-                                        <div class="text-left" ng-if="personageTriggerSkill.talented">
+                                    <td class="text-right mobile trigger">
+                                        <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.talented">
                                             <i class="icmn-checkmark4"></i>
                                         </div>
 
-                                        <div class="text-left" ng-if="!personageTriggerSkill.talented">
+                                        <div class="text-left"
+                                             ng-if="!triggerSkillMixed.personageTriggerSkill.talented">
                                             <i class="icmn-cross3"></i>
                                         </div>
                                     </td>
 
-                                    <td class="text-right mobile">
-                                        <div class="text-left" ng-if="personageTriggerSkill.tutored">
+                                    <td class="text-right mobile trigger">
+                                        <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.tutored">
                                             <i class="icmn-checkmark4"></i>
                                         </div>
 
-                                        <div class="text-left" ng-if="!personageTriggerSkill.tutored">
+                                        <div class="text-left" ng-if="!triggerSkillMixed.personageTriggerSkill.tutored">
                                             <i class="icmn-cross3"></i>
                                         </div>
                                     </td>
 
-                                    <td class="text-right mobile">
-                                        <div class="text-left">
-                                            <div ng-if="personageTriggerSkill.currentLevel == 0">
+                                    <td class="text-right mobile trigger actions">
+                                        <div class="text-center">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 0">
                                                 <a class="link-underlined link-blue" href="javascript: void(0)"
-                                                   ng-click="deletePersonageTriggerSkill(personageTriggerSkill)">
+                                                   ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
                                                     Удалить
                                                 </a>
                                             </div>
-                                            <div ng-if="personageTriggerSkill.currentLevel != 0">
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill != null && triggerSkillMixed.personageTriggerSkill.currentLevel != 0">
                                                 Нельзя удалить
+                                            </div>
+                                            <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
+                                                <button class="btn btn-rounded btn-warning btn-sm"
+                                                        href="javascript: void(0)"
+                                                        ng-click="addPersonageTriggerSkill(triggerSkillMixed.triggerSkill)">
+                                                    Добавить
+                                                </button>
                                             </div>
                                         </div>
                                     </td>
@@ -692,33 +766,182 @@
                             </table>
                         </div>
                         <div id="flaws" class="tab-pane table-responsive" role="tabpanel" style="display: none">
-                            <table class="table table-hover">
-                                <tr ng-repeat="personageFlaw in personageFlaws">
-                                    <td>{{personageFlaw.Flaw.name}}</td>
-                                    <td>
-                                        <div ng-if="!personageFlaw.personage_race_default">
-                                            {{personageFlaw.Flaw.cost}}
+                            <div class="row hidden-xs-down hidden-sm-down">
+                                <div class="col-md-2">
+                                    <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                    </h2>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="phycical" type="checkbox" ng-model="filter.phycical"
+                                                   ng-change="filterFlawsByCategory('физические', filter.phycical)">
+                                            Физические
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="mental" type="checkbox" ng-model="filter.mental"
+                                                   ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                            Ментальные
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="social" type="checkbox" ng-model="filter.social"
+                                                   ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                            Социальные
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="kodeks" type="checkbox" ng-model="filter.kodeks"
+                                                   ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                            Кодекс чести
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="face" type="checkbox" ng-model="filter.face"
+                                                   ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                            Внешность
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="unremovable" type="checkbox" ng-model="search.unremovable"
+                                                   ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                            Не отключаемые
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
+                                    ng-click="showFlawsCategoriesFilter()">Категория <i class="icmn-filter"></i>
+                            </button>
+                            <div class="panel filter-panel" ng-show="showFlawsCategories">
+                                <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
+                                    Категории</h3>
+                                <div class="panel-body">
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="magic" type="checkbox" ng-model="filter.phycical"
+                                                       ng-change="filterFlawsByCategory('физические', filter.phycical)">
+                                                Физические
+                                            </label>
                                         </div>
-                                        <div ng-if="personageFlaw.personage_race_default">
+                                        <br/>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="social" type="checkbox" ng-model="filter.mental"
+                                                       ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                                Ментальные
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="languages" type="checkbox" ng-model="filter.social"
+                                                       ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                                Социальные
+                                            </label>
+                                        </div>
+                                        <br/>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="knowledge" type="checkbox" ng-model="filter.kodeks"
+                                                       ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                                Кодекс чести
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="crafts" type="checkbox" ng-model="filter.face"
+                                                       ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                                Внешность
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="default" type="checkbox" ng-model="search.unremovable"
+                                                       ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                                Не отключаемые
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-rounded btn-info-outline filter-button"
+                                            ng-click="hideFlawsCategoriesFilter()">Применить <i class="icmn-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <table class="table table-hover mobile">
+                                <thead class="mobile">
+                                <tr class="mobile">
+                                    <th class="mobile">Недостаток</th>
+                                    <th class="mobile">Стоимость</th>
+                                    <th class="mobile"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="mobile">
+                                <tr class="mobile"
+                                    ng-repeat="flawMixed in flawsMixed" ng-hide="filteredFlaws(flawMixed.flaw)"
+                                    ng-style="changeColor(flawMixed.personageFlaw)">
+                                    <td class="text-right mobile flaw">
+                                        <div class="text-left">
+                                            {{flawMixed.flaw.name}}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile flaw">
+                                        <div class="text-left" ng-if="!flawMixed.personageFlaw.personage_race_default">
+                                            {{flawMixed.flaw.cost}}
+                                        </div>
+                                        <div class="text-left" ng-if="flawMixed.personageFlaw.personage_race_default">
                                             По умолчанию
                                         </div>
                                     </td>
-                                    <td>
-                                        <div ng-if="!personageFlaw.personage_race_default && !personageFlaw.Flaw.unremovable">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)"
-                                               ng-click="deletePersonageFlaw(personageFlaw)">
-                                                Удалить
-                                            </a>
-                                        </div>
-                                        <div ng-if="personageFlaw.personage_race_default || personageFlaw.Flaw.unremovable">
-                                            Нельзя удалить
+
+
+                                    <td class="text-right mobile flaw actions">
+                                        <div class="text-center">
+                                            <div ng-if="flawMixed.personageFlaw == null">
+                                                <button class="btn btn-rounded btn-warning btn-sm"
+                                                        href="javascript: void(0)"
+                                                        ng-click="addPersonageFlaw(flawMixed.flaw)">
+                                                    Добавить
+                                                </button>
+                                            </div>
+                                            <div ng-if="flawMixed.personageFlaw != null">
+                                                <a ng-hide="flawMixed.personageFlaw.personage_race_default && flawMixed.flaw.unremovable"
+                                                   class="link-underlined link-blue" href="javascript: void(0)"
+                                                   ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
+                                                    Удалить
+                                                </a>
+                                            </div>
+                                            <div ng-if="flawMixed.personageFlaw.personage_race_default && flawMixed.personageFlaw.Flaw.unremovable">
+                                                Нельзя удалить
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
-                    <!--</div>-->
                 </div>
 
             </div>

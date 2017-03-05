@@ -13,6 +13,7 @@ router.post('/flaws', function(req, res) {
         cost: req.body.cost,
         unremovable: req.body.unremovable,
         description: req.body.description,
+        category: req.body.category,
         action_level_bonus: req.body.action_level_bonus
     }).then(function(flaw) {
         res.send({ status: 'CREATED', flaw:flaw })
@@ -47,12 +48,14 @@ router.put('/flaws/:id', function (req, res){
         flaw.cost = req.body.cost;
         flaw.unremovable = req.body.unremovable;
         flaw.description = req.body.description;
+        flaw.category = req.body.category;
         flaw.action_level_bonus = req.body.action_level_bonus;
         return flaw.update({
             name: req.body.name,
             cost: req.body.cost,
             unremovable: req.body.unremovable,
             description: req.body.description,
+            category: req.body.category,
             action_level_bonus: req.body.action_level_bonus
         }).then(function(flaw) {
             res.send({ status: 'UPDATED', flaw:flaw })

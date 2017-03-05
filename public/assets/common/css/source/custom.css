@@ -387,6 +387,10 @@ only screen and (max-width: 760px),
 		padding-left: 50%;
 	}
 
+	td.mobile.actions {
+		padding-left: 0;
+	}
+
 	td.mobile:before {
 		/* Now like a table header */
 		position: absolute;
@@ -401,19 +405,20 @@ only screen and (max-width: 760px),
 	/*
 	Label the data
 	*/
-	td.mobile:nth-of-type(1):before { content: "Навык"; }
-	td.mobile:nth-of-type(2):before { content: "Кнопки"; }
-	td.mobile:nth-of-type(3):before { content: "Уровень"; }
-	td.mobile:nth-of-type(4):before { content: "Талант"; }
-	td.mobile:nth-of-type(5):before { content: "Учитель"; }
-	td.mobile:nth-of-type(6):before { content: "Удалить"; }
+	td.mobile.trigger:nth-of-type(1):before { content: "Навык"; }
+	td.mobile.trigger:nth-of-type(2):before { content: "Кнопки"; }
+	td.mobile.trigger:nth-of-type(3):before { content: "Уровень"; }
+	td.mobile.trigger:nth-of-type(4):before { content: "Талант"; }
+	td.mobile.trigger:nth-of-type(5):before { content: "Учитель"; }
 
 	td.mobile.attached:nth-of-type(1):before { content: "Навык"; }
 	td.mobile.attached:nth-of-type(2):before { content: "Сложность"; }
 	td.mobile.attached:nth-of-type(3):before { content: "Теоретический"; }
 	td.mobile.attached:nth-of-type(4):before { content: "Кнопки"; }
 	td.mobile.attached:nth-of-type(5):before { content: "Значение"; }
-	td.mobile.attached:nth-of-type(6):before { content: "Действия"; }
+
+	td.mobile.flaw:nth-of-type(1):before { content: "Недостаток"; }
+	td.mobile.flaw:nth-of-type(2):before { content: "Стоимость"; }
 }
 
 @media

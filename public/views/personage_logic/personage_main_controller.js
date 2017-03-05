@@ -139,8 +139,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.filteredCategories = [];
     $scope.filteredDefault = false;
     $scope.filteredTheoretical = false;
-
     $scope.attachedSkillsMixed = [];
+
     function calculateAttachedSkillsToShow() {
         angular.forEach($scope.attachedSkills, function (attachedSkill) {
             var targetPersonageAS = null;
@@ -156,52 +156,164 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
-    $scope.showCategories = false;
-    $scope.showCategoriesFilter = function () {
-        $scope.showCategories = true;
+    $scope.filteredAttachedSkillsCategories = [];
+    $scope.showAttachedSkillsCategories = false;
+    $scope.showAttachedSkillsCategoriesFilter = function () {
+        $scope.showAttachedSkillsCategories = true;
     };
 
-    $scope.hideCategoriesFilter = function () {
-        $scope.showCategories = false;
+    $scope.hideAttachedSkillsCategoriesFilter = function () {
+        $scope.showAttachedSkillsCategories = false;
     };
 
-    $scope.filterByCategory = function (category, selected) {
+    $scope.filterAttachedSkillsByCategory = function (category, selected) {
         if (selected) {
-            $scope.filteredCategories.push(category);
+            $scope.filteredAttachedSkillsCategories.push(category);
         } else {
-            $scope.filteredCategories.splice($scope.filteredCategories.indexOf(category), 1);
+            $scope.filteredAttachedSkillsCategories.splice($scope.filteredCategories.indexOf(category), 1);
         }
     };
 
-    $scope.filterByDefault = function (selected) {
-        $scope.filteredDefault = selected;
+    $scope.filterAttachedSkillsByDefault = function (selected) {
+        $scope.filteredAttachedSkillsDefault = selected;
     };
 
-    $scope.filterByTheoretical = function (selected) {
-        $scope.filteredTheoretical = selected;
+    $scope.filterAttachedSkillsByTheoretical = function (selected) {
+        $scope.filteredAttachedSkillsTheoretical = selected;
     };
 
-    $scope.filtered = function (attachedSkill) {
-        if ($scope.filteredTheoretical) {
+    $scope.filteredAttachedSkills = function (attachedSkill) {
+        if ($scope.filteredAttachedSkillsTheoretical) {
             if (!attachedSkill.theoretical) {
                 return true;
             }
         }
 
-        if ($scope.filteredDefault) {
+        if ($scope.filteredAttachedSkillsDefault) {
             if (!attachedSkill.default_skill) {
                 return true;
             }
         }
 
-        if ($scope.filteredCategories.length == 0) {
+        if ($scope.filteredAttachedSkillsCategories.length == 0) {
             return false;
         }
 
         var categories = attachedSkill.category.split(",");
         var result = true;
         categories.forEach(function (item) {
-            if ($scope.filteredCategories.indexOf(item) != -1) {
+            if ($scope.filteredAttachedSkillsCategories.indexOf(item) != -1) {
+                result = false;
+            }
+        });
+        return result;
+    };
+
+    $scope.flawsMixed = [];
+
+    function calculateFlawsToShow() {
+        angular.forEach($scope.flaws, function (flaw) {
+            var targetPersonageFlaw = null;
+            angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                if (flaw.id == personageFlaw.Flaw.id) {
+                    targetPersonageFlaw = personageFlaw;
+                }
+            });
+            $scope.flawsMixed.push({
+                flaw: flaw,
+                personageFlaw: targetPersonageFlaw
+            });
+        });
+    }
+
+    $scope.filteredFlawsCategories = [];
+    $scope.showFlawsCategories = false;
+    $scope.showFlawsCategoriesFilter = function () {
+        $scope.showFlawsCategories = true;
+    };
+
+    $scope.hideFlawsCategoriesFilter = function () {
+        $scope.showFlawsCategories = false;
+    };
+
+    $scope.filterFlawsByCategory = function (category, selected) {
+        if (selected) {
+            $scope.filteredFlawsCategories.push(category);
+        } else {
+            $scope.filteredFlawsCategories.splice($scope.filteredCategories.indexOf(category), 1);
+        }
+    };
+
+    $scope.filterFlawsByUnremovable = function (selected) {
+        $scope.filteredFlawsUnremovable = selected;
+    };
+
+    $scope.filteredFlaws = function (flaw) {
+        if ($scope.filteredFlawsUnremovable) {
+            if (!flaw.unremovable) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredFlawsCategories.length == 0) {
+            return false;
+        }
+
+        var categories = flaw.category.split(",");
+        var result = true;
+        categories.forEach(function (item) {
+            if ($scope.filteredFlawsCategories.indexOf(item) != -1) {
+                result = false;
+            }
+        });
+        return result;
+    };
+
+    $scope.triggerSkillsMixed = [];
+
+    function calculateTriggerSkillsToShow() {
+        angular.forEach($scope.triggerSkills, function (triggerSkill) {
+            var targetPersonageTriggerSkill = null;
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (triggerSkill.id == personageTriggerSkill.TriggerSkill.id) {
+                    targetPersonageTriggerSkill = personageTriggerSkill;
+                }
+            });
+            $scope.triggerSkillsMixed.push({
+                triggerSkill: triggerSkill,
+                personageTriggerSkill: targetPersonageTriggerSkill
+            });
+        });
+    }
+
+    $scope.filteredTriggerSkillsCategories = [];
+    $scope.showTriggerSkillsCategories = false;
+    $scope.showTriggerSkillsCategoriesFilter = function () {
+        $scope.showTriggerSkillsCategories = true;
+    };
+
+    $scope.hideTriggerSkillsCategoriesFilter = function () {
+        $scope.showTriggerSkillsCategories = false;
+    };
+
+    $scope.filterTriggerSkillsByCategory = function (category, selected) {
+        if (selected) {
+            $scope.filteredTriggerSkillsCategories.push(category);
+        } else {
+            $scope.filteredTriggerSkillsCategories.splice($scope.filteredCategories.indexOf(category), 1);
+        }
+    };
+
+    $scope.filteredTriggerSkills = function (triggerSkill) {
+
+        if ($scope.filteredTriggerSkillsCategories.length == 0) {
+            return false;
+        }
+
+        var categories = triggerSkill.category.split(",");
+        var result = true;
+        categories.forEach(function (item) {
+            if ($scope.filteredTriggerSkillsCategories.indexOf(item) != -1) {
                 result = false;
             }
         });
@@ -210,7 +322,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function success() {
         $scope.hasInherents();
-        $scope.recalculateBasicCharacteristics();
+        // $scope.recalculateBasicCharacteristics();
         $scope.getPersonageInherents();
         calculateAttachedSkillsToShow();
         $scope.loader = false;
@@ -274,10 +386,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         $scope.personageAttributes = data.personage.PersonageAttributes;
-        $scope.personageInherents = data.personage.PersonageInherents;
-        $scope.personageFlaws = data.personage.PersonageFlaws;
-        $scope.personageTriggerSkills = data.personage.PersonageTriggerSkills;
-        $scope.notices = data.personage.Notices;
         $scope.playerId = data.personage.PlayerId;
         personage.resolve();
     });
@@ -366,61 +474,61 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.recalculateBasicCharacteristics = function () {
-        angular.forEach($scope.personageAttributes, function (personageAttribute) {
-            switch (personageAttribute.Attribute.name) {
-                case "Сила":
-                    $scope.power = personageAttribute.value;
-                    break;
-                case "Ловкость":
-                    $scope.dexterity = personageAttribute.value;
-                    break;
-                case "Скорость":
-                    $scope.speed = personageAttribute.value;
-                    break;
-                case "Реакция":
-                    $scope.reaction = personageAttribute.value;
-                    break;
-                case "Восприятие":
-                    $scope.perception = personageAttribute.value;
-                    break;
-                case "Выносливость":
-                    $scope.endurance = personageAttribute.value;
-                    break;
-                case "Живучесть":
-                    $scope.vitality = personageAttribute.value;
-                    break;
-                case "Мудрость":
-                    $scope.wisdom = personageAttribute.value;
-                    break;
-                case "Интеллект":
-                    $scope.intelligence = personageAttribute.value;
-                    break;
-                case "Воля":
-                    $scope.will = personageAttribute.value;
-                    break;
-                case "Харизма":
-                    $scope.charisma = personageAttribute.value;
-                    break;
-            }
-        });
-
-        $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
-        $scope.hitChopPunch = $scope.dexterity + $scope.power;
-        $scope.rangedHit = $scope.dexterity + $scope.perception;
-        $scope.parryPiercePunch = $scope.reaction + $scope.speed;
-        $scope.parryChopPunch = $scope.power + $scope.reaction;
-        $scope.dodge = $scope.dexterity + $scope.reaction;
-        if ($scope.speed < $scope.intelligence) {
-            $scope.generalActionPoints = $scope.speed;
-        } else {
-            $scope.generalActionPoints = $scope.intelligence;
-        }
-        $scope.mentalActionPoints = $scope.intelligence;
-        $scope.initiative = $scope.reaction;
-        $scope.endurancePoints = $scope.endurance * 20;
-
-    };
+    // $scope.recalculateBasicCharacteristics = function () {
+    //     angular.forEach($scope.personageAttributes, function (personageAttribute) {
+    //         switch (personageAttribute.Attribute.name) {
+    //             case "Сила":
+    //                 $scope.power = personageAttribute.value;
+    //                 break;
+    //             case "Ловкость":
+    //                 $scope.dexterity = personageAttribute.value;
+    //                 break;
+    //             case "Скорость":
+    //                 $scope.speed = personageAttribute.value;
+    //                 break;
+    //             case "Реакция":
+    //                 $scope.reaction = personageAttribute.value;
+    //                 break;
+    //             case "Восприятие":
+    //                 $scope.perception = personageAttribute.value;
+    //                 break;
+    //             case "Выносливость":
+    //                 $scope.endurance = personageAttribute.value;
+    //                 break;
+    //             case "Живучесть":
+    //                 $scope.vitality = personageAttribute.value;
+    //                 break;
+    //             case "Мудрость":
+    //                 $scope.wisdom = personageAttribute.value;
+    //                 break;
+    //             case "Интеллект":
+    //                 $scope.intelligence = personageAttribute.value;
+    //                 break;
+    //             case "Воля":
+    //                 $scope.will = personageAttribute.value;
+    //                 break;
+    //             case "Харизма":
+    //                 $scope.charisma = personageAttribute.value;
+    //                 break;
+    //         }
+    //     });
+    //
+    //     $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
+    //     $scope.hitChopPunch = $scope.dexterity + $scope.power;
+    //     $scope.rangedHit = $scope.dexterity + $scope.perception;
+    //     $scope.parryPiercePunch = $scope.reaction + $scope.speed;
+    //     $scope.parryChopPunch = $scope.power + $scope.reaction;
+    //     $scope.dodge = $scope.dexterity + $scope.reaction;
+    //     if ($scope.speed < $scope.intelligence) {
+    //         $scope.generalActionPoints = $scope.speed;
+    //     } else {
+    //         $scope.generalActionPoints = $scope.intelligence;
+    //     }
+    //     $scope.mentalActionPoints = $scope.intelligence;
+    //     $scope.initiative = $scope.reaction;
+    //     $scope.endurancePoints = $scope.endurance * 20;
+    //
+    // };
 
     function recalculateMagicSchools(personageAttachedSkills) {
         $scope.schools = [];
@@ -1135,12 +1243,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.addPersonageFlaw = function (flaw_id) {
+    $scope.addPersonageFlaw = function (flaw) {
         $scope.loader = true;
-        jQuery('#addFlawDialog').modal('hide');
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
-                if (flaw_id == meritFlaw.Flaw.id) {
+                if (flaw.id == meritFlaw.Flaw.id) {
                     if (!meritFlaw.presentAbsent) {
                         $scope.showConfirmDeletePersonagMerit(personageMerit);
                     }
@@ -1149,15 +1256,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         if ($scope.confirmChanges) {
-            $http.get('/flaws/' + flaw_id).success(function (result) {
-                $scope.personageFlaws.push({
-                    Flaw: result.flaw,
-                    FlawId: flaw_id,
-                    PersonageId: personageId
-                });
-                $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
-                $scope.loader = false;
+            $scope.personageFlaws.push({
+                Flaw: flaw,
+                FlawId: flaw.id,
+                PersonageId: personageId
             });
+
+            angular.forEach($scope.personageFlaws, function (personageFlaw) {
+                angular.forEach($scope.flawsMixed, function (flawMixed) {
+                    if (personageFlaw.Flaw.id == flawMixed.flaw.id && flawMixed.personageFlaw == null) {
+                        flawMixed.personageFlaw = personageFlaw;
+                    }
+                });
+            });
+
+            $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
+
+            $scope.loader = false;
         } else {
             $scope.loader = false;
         }
@@ -1178,6 +1293,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if ($scope.confirmChanges) {
             var index = $scope.personageFlaws.indexOf(personageFlaw);
             $scope.personageFlaws.splice(index, 1);
+
+            angular.forEach($scope.flawsMixed, function (flawMixed) {
+                if (flawMixed.flaw.id == personageFlaw.Flaw.id && flawMixed.personageFlaw != null) {
+                    flawMixed.personageFlaw = null;
+                }
+            });
+
             $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
         }
         $scope.loader = false;
@@ -1258,6 +1380,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.loader = true;
             $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
                 $scope.personageTriggerSkills = data.data;
+                calculateTriggerSkillsToShow();
                 $scope.loader = false;
             });
         }
@@ -1282,6 +1405,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.loader = true;
             $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
                 $scope.personageFlaws = data.data;
+                calculateFlawsToShow();
                 $scope.loader = false;
             });
         }
@@ -1321,21 +1445,27 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.addPersonageTriggerSkill = function (triggerSkill_id) {
+    $scope.addPersonageTriggerSkill = function (triggerSkill) {
         $scope.loader = true;
-        jQuery('#addTriggerSkillDialog').modal('hide');
-        $http.get('/triggerSkills/' + triggerSkill_id).success(function (result) {
-            $scope.personageTriggerSkills.push({
-                TriggerSkill: result.triggerSkill,
-                TriggerSkillId: triggerSkill_id,
-                PersonageId: personageId,
-                currentLevel: 0,
-                talented: false,
-                tutored: false
-            });
-            $scope.personage.experience = $scope.personage.experience - result.triggerSkill.cost;
-            $scope.loader = false;
+        $scope.personageTriggerSkills.push({
+            TriggerSkill: triggerSkill,
+            TriggerSkillId: triggerSkill.id,
+            PersonageId: personageId,
+            currentLevel: 0,
+            talented: false,
+            tutored: false
         });
+
+        angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+            angular.forEach($scope.triggerSkillsMixed, function (triggerSkillMixed) {
+                if (personageTriggerSkill.TriggerSkill.id == triggerSkillMixed.triggerSkill.id && triggerSkillMixed.personageTriggerSkill == null) {
+                    triggerSkillMixed.personageTriggerSkill = personageTriggerSkill;
+                }
+            });
+        });
+
+        $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
+        $scope.loader = false;
     };
 
     $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
@@ -1353,15 +1483,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if (!hasSpells) {
-            var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
-            $scope.personageAttachedSkills.splice(index, 1);
-
-            angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
-                if (attachedSkillMixed.attachedSkill.id == personageAttachedSkill.AttachedSkill.id && attachedSkillMixed.personageAttachedSkill != null) {
-                    attachedSkillMixed.personageAttachedSkill = null;
-                }
-            });
-
             angular.forEach($scope.personageMerits, function (personageMerit) {
                 angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
                     if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
@@ -1371,6 +1492,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
 
             if ($scope.confirmChanges) {
+                var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
+                $scope.personageAttachedSkills.splice(index, 1);
+
+                angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
+                    if (attachedSkillMixed.attachedSkill.id == personageAttachedSkill.AttachedSkill.id && attachedSkillMixed.personageAttachedSkill != null) {
+                        attachedSkillMixed.personageAttachedSkill = null;
+                    }
+                });
+
                 if (personageAttachedSkill.AttachedSkill.difficult) {
                     $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
                 } else {
@@ -1384,8 +1514,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         $scope.loader = true;
-        var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
-        $scope.personageTriggerSkills.splice(index, 1);
 
         if (personageTriggerSkill.talented) {
             angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -1404,6 +1532,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         if ($scope.confirmChanges) {
+            var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
+            $scope.personageTriggerSkills.splice(index, 1);
+
+            angular.forEach($scope.triggerSkillsMixed, function (triggerSkillMixed) {
+                if (triggerSkillMixed.triggerSkill.id == personageTriggerSkill.TriggerSkill.id && triggerSkillMixed.personageTriggerSkill != null) {
+                    triggerSkillMixed.personageTriggerSkill = null;
+                }
+            });
+
             $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
         }
         $scope.loader = false;
@@ -1463,43 +1600,43 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     //     });
     // };
 
-    $scope.calculateFlawSelectOptions = function () {
-        $scope.loader = true;
-        $scope.selectFlaws = [];
-        angular.forEach($scope.flaws, function (flaw) {
-            var contains = false;
-            angular.forEach($scope.personageFlaws, function (personageFlaw) {
-                if (flaw.id == personageFlaw.Flaw.id) {
-                    contains = true;
-                }
-            });
+    // $scope.calculateFlawSelectOptions = function () {
+    //     $scope.loader = true;
+    //     $scope.selectFlaws = [];
+    //     angular.forEach($scope.flaws, function (flaw) {
+    //         var contains = false;
+    //         angular.forEach($scope.personageFlaws, function (personageFlaw) {
+    //             if (flaw.id == personageFlaw.Flaw.id) {
+    //                 contains = true;
+    //             }
+    //         });
+    //
+    //         if (!contains) {
+    //             $scope.selectFlaws.push(flaw);
+    //         }
+    //     });
+    //     $scope.showAddDialog($scope.selectFlaws, $scope.addPersonageFlaw);
+    //     $scope.loader = false;
+    // };
 
-            if (!contains) {
-                $scope.selectFlaws.push(flaw);
-            }
-        });
-        $scope.showAddDialog($scope.selectFlaws, $scope.addPersonageFlaw);
-        $scope.loader = false;
-    };
-
-    $scope.calculateInherentSelectOptions = function () {
-        $scope.loader = true;
-        $scope.selectInherents = [];
-        angular.forEach($scope.inherents, function (inherent) {
-            var contains = false;
-            angular.forEach($scope.personageInherents, function (personageInherent) {
-                if (inherent.id == personageInherent.Inherent.id) {
-                    contains = true;
-                }
-            });
-
-            if (!contains) {
-                $scope.selectInherents.push(inherent);
-            }
-        });
-        $scope.showAddDialog($scope.selectInherents, $scope.addPersonageInherent);
-        $scope.loader = false;
-    };
+    // $scope.calculateInherentSelectOptions = function () {
+    //     $scope.loader = true;
+    //     $scope.selectInherents = [];
+    //     angular.forEach($scope.inherents, function (inherent) {
+    //         var contains = false;
+    //         angular.forEach($scope.personageInherents, function (personageInherent) {
+    //             if (inherent.id == personageInherent.Inherent.id) {
+    //                 contains = true;
+    //             }
+    //         });
+    //
+    //         if (!contains) {
+    //             $scope.selectInherents.push(inherent);
+    //         }
+    //     });
+    //     $scope.showAddDialog($scope.selectInherents, $scope.addPersonageInherent);
+    //     $scope.loader = false;
+    // };
 
     // $scope.calculateAttachedSkillSelectOptions = function () {
     //     $scope.loader = true;
