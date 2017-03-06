@@ -12,7 +12,7 @@ app.controller("addTriggerSkillController", function ($scope, $http) {
         }).success(function (data) {
             $http.post('/merits', {
                 name: 'Талант к ' + $scope.triggerSkill_name,
-                cost: 5,
+                cost: 10,
                 creation_only: true,
                 description: '',
                 action_level_bonus: ''
