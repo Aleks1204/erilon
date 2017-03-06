@@ -1270,7 +1270,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             });
 
-            $scope.personage.experience = $scope.personage.experience + result.flaw.cost;
+            $scope.personage.experience = $scope.personage.experience + flaw.cost;
 
             $scope.loader = false;
         } else {
