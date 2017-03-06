@@ -136,7 +136,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
-    $scope.filteredCategories = [];
     $scope.filteredDefault = false;
     $scope.filteredTheoretical = false;
     $scope.attachedSkillsMixed = [];
@@ -170,7 +169,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (selected) {
             $scope.filteredAttachedSkillsCategories.push(category);
         } else {
-            $scope.filteredAttachedSkillsCategories.splice($scope.filteredCategories.indexOf(category), 1);
+            $scope.filteredAttachedSkillsCategories.splice($scope.filteredAttachedSkillsCategories.indexOf(category), 1);
         }
     };
 
@@ -240,7 +239,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (selected) {
             $scope.filteredFlawsCategories.push(category);
         } else {
-            $scope.filteredFlawsCategories.splice($scope.filteredCategories.indexOf(category), 1);
+            $scope.filteredFlawsCategories.splice($scope.filteredFlawsCategories.indexOf(category), 1);
         }
     };
 
@@ -300,7 +299,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (selected) {
             $scope.filteredTriggerSkillsCategories.push(category);
         } else {
-            $scope.filteredTriggerSkillsCategories.splice($scope.filteredCategories.indexOf(category), 1);
+            $scope.filteredTriggerSkillsCategories.splice($scope.filteredTriggerSkillsCategories.indexOf(category), 1);
         }
     };
 
