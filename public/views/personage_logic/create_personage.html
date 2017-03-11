@@ -741,28 +741,57 @@
                         </div>
                         <div id="merits" class="tab-pane table-responsive" role="tabpanel" style="display: none">
                             <table class="table table-hover">
-                                <tr ng-repeat="personageMerit in personageMerits">
-                                    <td>{{ personageMerit.Merit.name}}</td>
+                                <thead class="mobile">
+                                <tr class="mobile">
+                                    <th class="mobile">Достоинства</th>
+                                    <th class="mobile">Требования</th>
+                                    <th class="mobile">Значение</th>
+                                    <th class="mobile"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="mobile">
+                                <tr ng-repeat="meritMixed in meritsMixed"
+                                    ng-style="changeColorNotAvailable(meritMixed.available, meritMixed.personageMerit)">
+                                    <td>{{ meritMixed.merit.name }}</td>
+                                    <td class="text-left">
+                                            <span ng-hide="meritMixed.available == true">
+                                                <strong ng-repeat="item in meritMixed.available">
+                                                    {{ item.name }}: {{item.expectedValue}}<span ng-hide="$last">,</span>
+                                                </strong>
+                                            </span>
+                                    </td>
                                     <td>
-                                        <div ng-if="!personageMerit.unremovable">
-                                            {{personageMerit.Merit.cost}}
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                            {{meritMixed.personageMerit.Merit.cost}}
                                         </div>
-                                        <div ng-if="personageMerit.unremovable">
-                                            По умолчанию
+                                        <div ng-if="meritMixed.personageMerit != null && meritMixed.personageMerit.unremovable">
+                                            -
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            {{meritMixed.merit.cost}}
                                         </div>
                                     </td>
                                     <td>
-                                        <div ng-if="!personageMerit.unremovable">
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
                                             <a class="link-underlined link-blue" href="javascript: void(0)"
-                                               ng-click="deletePersonageMerit(personageMerit)">
+                                               ng-click="deletePersonageMerit(meritMixed.personageMerit)">
                                                 Удалить
                                             </a>
                                         </div>
-                                        <div ng-if="personageMerit.unremovable">
-                                            Нельзя удалить
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    ng-disabled="meritMixed.available != true"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageMerit(meritMixed.merit)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit.unremovable">
+                                            По умолчанию
                                         </div>
                                     </td>
                                 </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div id="flaws" class="tab-pane table-responsive" role="tabpanel" style="display: none">

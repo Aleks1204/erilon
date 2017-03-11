@@ -26,17 +26,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    var merits = $q.defer();
-    var inherents = $q.defer();
-    var flaws = $q.defer();
-    var attachedSkills = $q.defer();
-    var triggerSkills = $q.defer();
-    var personage = $q.defer();
-    var raceAttributes = $q.defer();
-    var personageMerits = $q.defer();
-    var raceInherents = $q.defer();
-    var personageAttachedSkills = $q.defer();
-
     $(".inherentsButton").click(function () {
         $("#inherents").show();
         $("#attr").hide();
@@ -93,7 +82,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#merits").hide();
         $("#flaws").hide();
         $("#steps").scrollTo('.triggerButton');
-        $scope.getPersonageTriggerSkills();
         $(".triggerButton").addClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
@@ -110,7 +98,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attached").hide();
         $("#flaws").hide();
         $("#steps").scrollTo('.meritsButton');
-        $scope.getPersonageMerits();
         $(".meritsButton").addClass('active');
         $(".flawsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -127,7 +114,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#inherents").hide();
         $("#attached").hide();
         $("#steps").scrollTo('.flawsButton');
-        $scope.getPersonageFlaws();
         $(".flawsButton").addClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -319,17 +305,152 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result;
     };
 
-    function success() {
-        $scope.hasInherents();
-        // $scope.recalculateBasicCharacteristics();
-        $scope.getPersonageInherents();
-        calculateAttachedSkillsToShow();
+    $scope.meritsMixed = [];
+
+    function calculateMeritsToShow() {
+        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
+            angular.forEach(results.raceMerits, function (raceMerit) {
+                for (var i = 0; i < $scope.personageMerits.length; i++) {
+                    if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == $scope.personageMerits[i].Merit.id) {
+                        $scope.personageMerits[i].Merit.cost = raceMerit.race_cost;
+                    }
+                }
+            });
+
+            angular.forEach($scope.merits, function (merit) {
+                var haveTriggerSkillForThisTalent = true;
+                if (merit.name.indexOf('Талант') > -1) {
+                    haveTriggerSkillForThisTalent = false;
+                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                        if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                            haveTriggerSkillForThisTalent = true;
+                        }
+                    });
+                }
+
+                if (haveTriggerSkillForThisTalent) {
+                    var targetPersonageMerit = null;
+                    angular.forEach($scope.personageMerits, function (personageMerit) {
+                        if (merit.id == personageMerit.Merit.id) {
+                            targetPersonageMerit = personageMerit;
+                        }
+                    });
+                    $scope.meritsMixed.push({
+                        merit: merit,
+                        personageMerit: targetPersonageMerit,
+                        available: getPrerequisites(merit)
+                    });
+                }
+            });
+        });
         $scope.loader = false;
     }
 
-    var all = $q.all([merits.promise, inherents.promise, flaws.promise, attachedSkills.promise,
-        triggerSkills.promise, personage.promise, raceAttributes.promise, raceInherents.promise,
-        personageAttachedSkills.promise]);
+    $scope.updateAttributePrerequisites = function (attribute_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritAttributes, function (meritAttribute) {
+                if (meritAttribute.AttributeId == attribute_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.updateAttachedSkillPrerequisites = function (attachedSkill_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritAttachedSkills, function (meritAttachedSkill) {
+                if (meritAttachedSkill.AttachedSkillId == attachedSkill_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.updateAttributeAttachedSkillPrerequisites = function (id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                if (meritAttributeAttachedSkill.AttributeId == id || meritAttributeAttachedSkill.AttachedSkillId == id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.updateTriggerSkillPrerequisites = function (triggerSkill_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                if (meritTriggerSkill.TriggerSkillId == triggerSkill_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.updateFlawPrerequisites = function (flaw_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritFlaws, function (meritFlaw) {
+                if (meritFlaw.FlawId == flaw_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.updateMeritPrerequisites = function (merit_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritMerits, function (meritMerit) {
+                if (meritMerit.PrerequisiteMeritId == merit_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
+        });
+    };
+
+    $scope.changeColorMeritAvailability = function (available) {
+        if (!available) {
+            return {'background-color': '#ed243c', 'border-bottom': '3px solid white'};
+        }
+    };
+
+    var merits = $q.defer();
+    var inherents = $q.defer();
+    var flaws = $q.defer();
+    var attachedSkills = $q.defer();
+    var triggerSkills = $q.defer();
+    var personage = $q.defer();
+    var raceAttributes = $q.defer();
+    var raceInherents = $q.defer();
+    var personageAttachedSkills = $q.defer();
+    var personageTriggerSkills = $q.defer();
+    var personageFlaws = $q.defer();
+    var personageMerits = $q.defer();
+    var personageInherents = $q.defer();
+
+    function success() {
+        $scope.hasInherents();
+        // $scope.recalculateBasicCharacteristics();
+        calculateAttachedSkillsToShow();
+        calculateTriggerSkillsToShow();
+        calculateFlawsToShow();
+        calculateMeritsToShow();
+        $scope.loader = false;
+    }
+
+    var all = $q.all([
+        merits.promise,
+        inherents.promise,
+        flaws.promise,
+        attachedSkills.promise,
+        triggerSkills.promise,
+        personage.promise,
+        raceAttributes.promise,
+        raceInherents.promise,
+        personageAttachedSkills.promise,
+        personageTriggerSkills.promise,
+        personageFlaws.promise,
+        personageMerits.promise,
+        personageInherents.promise
+    ]);
 
     all.then(success);
 
@@ -358,6 +479,32 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         triggerSkills.resolve();
     });
 
+    $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
+        recalculateMagicSchools(data.data);
+        $scope.personageAttachedSkills = data.data;
+        personageAttachedSkills.resolve();
+    });
+
+    $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageTriggerSkills = data.data;
+        personageTriggerSkills.resolve();
+    });
+
+    $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageFlaws = data.data;
+        personageFlaws.resolve();
+    });
+
+    $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageMerits = data.data;
+        personageMerits.resolve();
+    });
+
+    $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageInherents = data.data;
+        personageInherents.resolve();
+    });
+
     $http.get('/personages/' + personageId).success(function (data) {
         $scope.personage = data.personage;
         $scope.age = data.personage.age;
@@ -377,12 +524,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.experienceValid = function () {
             return $scope.personage.experience < 0;
         };
-
-        $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-            recalculateMagicSchools(data.data);
-            $scope.personageAttachedSkills = data.data;
-            personageAttachedSkills.resolve();
-        });
 
         $scope.personageAttributes = data.personage.PersonageAttributes;
         $scope.playerId = data.personage.PlayerId;
@@ -682,6 +823,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (personageAttachedSkill.value < 3) {
                         if (!personageAttachedSkill.AttachedSkill.theoretical) {
                             personageAttachedSkill.value++;
+                            $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                            $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                             if (personageAttachedSkill.AttachedSkill.difficult) {
                                 $scope.personage.experience = $scope.personage.experience - 2;
                             } else {
@@ -690,6 +833,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         } else {
                             if (personageAttachedSkill.value < wisdomDoubleValue) {
                                 personageAttachedSkill.value++;
+                                $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                                $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                                 if (personageAttachedSkill.AttachedSkill.difficult) {
                                     $scope.personage.experience = $scope.personage.experience - 2;
                                 } else {
@@ -702,6 +847,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             if (!isPrimaryAttributeSet) {
                                 if (!personageAttachedSkill.AttachedSkill.theoretical) {
                                     personageAttachedSkill.value++;
+                                    $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                                    $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                                     if (personageAttachedSkill.AttachedSkill.difficult) {
                                         $scope.personage.experience = $scope.personage.experience - 2;
                                     } else {
@@ -710,6 +857,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 } else {
                                     if (personageAttachedSkill.value < wisdomDoubleValue) {
                                         personageAttachedSkill.value++;
+                                        $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                                        $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                                         if (personageAttachedSkill.AttachedSkill.difficult) {
                                             $scope.personage.experience = $scope.personage.experience - 2;
                                         } else {
@@ -722,6 +871,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             if (isSecondaryAttributeSet < 3) {
                                 if (!personageAttachedSkill.AttachedSkill.theoretical) {
                                     personageAttachedSkill.value++;
+                                    $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                                    $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                                     if (personageAttachedSkill.AttachedSkill.difficult) {
                                         $scope.personage.experience = $scope.personage.experience - 2;
                                     } else {
@@ -730,6 +881,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 } else {
                                     if (personageAttachedSkill.value < wisdomDoubleValue) {
                                         personageAttachedSkill.value++;
+                                        $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                                        $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                                         if (personageAttachedSkill.AttachedSkill.difficult) {
                                             $scope.personage.experience = $scope.personage.experience - 2;
                                         } else {
@@ -782,6 +935,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP',
                                 value: cost.toString()
                             }).success(function () {
+                                $scope.updateTriggerSkillPrerequisites(id);
                                 increaseLevel.resolve();
                             });
                         } else {
@@ -833,6 +987,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
                 if ($scope.confirmChanges) {
                     personageAttachedSkill.value--;
+                    $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
                         $scope.personage.experience = $scope.personage.experience + 2;
                     } else {
@@ -896,6 +1051,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(results.skillLevels, function (skillLevel) {
                         if (skillLevel.level == previousLevel) {
                             personageTriggerSkill.currentLevel--;
+                            $scope.updateTriggerSkillPrerequisites(id);
                         }
                         if (skillLevel.level == currentLevel) {
                             $http.get('/byKey/' + 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP').success(function (result) {
@@ -909,279 +1065,290 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.validatePrerequisites = function (merit) {
+    function getPrerequisites(merit) {
         $scope.loader = true;
-        $scope.meritAvailable = true;
-        var meritObject = angular.fromJson(merit);
 
-        var attributeSatisfiedPromise = $q.defer();
-        var attachedSkillSatisfiedPromise = $q.defer();
-        var attributeAttachedSkillSatisfiedPromise = $q.defer();
-        var triggerSkillSatisfiedPromise = $q.defer();
-        var inherentSatisfiedPromise = $q.defer();
-        var flawSatisfiedPromise = $q.defer();
-        var meritSatisfiedPromise = $q.defer();
-        var attachedSkillExistPromise = $q.defer();
-        var attributeAttachedSkillExistPromise = $q.defer();
-        var triggerSkillExistPromise = $q.defer();
-        var inherentExistPromise = $q.defer();
-        var validatePrerequisites = $q.defer();
+        var invalidPrerequisites = [];
 
-        function success(data) {
-            $scope.loader = false;
-            angular.forEach(data, function (result) {
-                if (!result) {
-                    $scope.meritAvailable = false;
-                }
-            });
-            validatePrerequisites.resolve({meritAvailable: $scope.meritAvailable});
-        }
-
-        var all = $q.all([attributeSatisfiedPromise.promise,
-            attachedSkillSatisfiedPromise.promise, attachedSkillExistPromise.promise,
-            attributeAttachedSkillSatisfiedPromise.promise, attributeAttachedSkillExistPromise.promise,
-            triggerSkillSatisfiedPromise.promise, triggerSkillExistPromise.promise,
-            inherentSatisfiedPromise.promise, inherentExistPromise.promise,
-            flawSatisfiedPromise.promise,
-            meritSatisfiedPromise.promise]);
-        all.then(success);
-
-
-        $http.get('/meritAttributesByMeritId/' + meritObject.id).success(function (results) {
-            var attributeSatisfied = true;
-            angular.forEach(results.meritAttributes, function (meritAttribute) {
+        if (merit.MeritAttributes.length != 0) {
+            angular.forEach(merit.MeritAttributes, function (meritAttribute) {
                 angular.forEach($scope.personageAttributes, function (personageAttribute) {
                     if (meritAttribute.AttributeId == personageAttribute.AttributeId) {
                         if (personageAttribute.value < meritAttribute.value) {
-                            attributeSatisfied = false;
+                            invalidPrerequisites.push({
+                                name: meritAttribute.Attribute.name,
+                                expectedValue: meritAttribute.value
+                            });
                         }
                     }
                 });
             });
-            attributeSatisfiedPromise.resolve(attributeSatisfied);
-        });
+        }
 
-        $http.get('/meritAttachedSkillsByMeritId/' + meritObject.id).success(function (results) {
-            var attachedSkillExist = false;
-            var attachedSkillSatisfied = true;
-            if (results.meritAttachedSkills.length == 0) {
-                attachedSkillExist = true;
-            }
-            angular.forEach(results.meritAttachedSkills, function (meritAttachedSkill) {
+        if (merit.MeritAttachedSkills.length != 0) {
+            angular.forEach(merit.MeritAttachedSkills, function (meritAttachedSkill) {
+                var expected = {
+                    name: meritAttachedSkill.AttachedSkill.name,
+                    expectedValue: meritAttachedSkill.value
+                };
+                var isPresent = false;
                 angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                     if (meritAttachedSkill.AttachedSkillId == personageAttachedSkill.AttachedSkillId) {
-                        attachedSkillExist = true;
-                        if (personageAttachedSkill.value < meritAttachedSkill.value) {
-                            attachedSkillSatisfied = false;
+                        isPresent = true;
+                        if (personageAttachedSkill.currentLevel < meritAttachedSkill.value) {
+                            invalidPrerequisites.push(expected);
                         }
                     }
                 });
+                if (!isPresent) {
+                    invalidPrerequisites.push(expected);
+                }
             });
-            attachedSkillExistPromise.resolve(attachedSkillExist);
-            attachedSkillSatisfiedPromise.resolve(attachedSkillSatisfied);
-        });
+        }
 
-
-        $http.get('/meritAttributeAttachedSkillsByMeritId/' + meritObject.id).success(function (results) {
-            var attributeAttachedSkillSatisfied = true;
-            var attributeAttachedSkillExist = false;
-            if (results.meritAttributeAttachedSkills.length == 0) {
-                attributeAttachedSkillExist = true;
-            }
-            angular.forEach(results.meritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+        if (merit.MeritAttributeAttachedSkills.length != 0) {
+            angular.forEach(merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                var expected = {
+                    name: meritAttributeAttachedSkill.Attribute.name + '+' + meritAttributeAttachedSkill.AttachedSkill.name,
+                    expectedValue: meritAttributeAttachedSkill.value
+                };
+                var isPresent = false;
                 angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                     if (meritAttributeAttachedSkill.AttachedSkillId == personageAttachedSkill.AttachedSkillId) {
-                        attributeAttachedSkillExist = true;
+                        isPresent = true;
                         angular.forEach($scope.personageAttributes, function (personageAttribute) {
                             if (meritAttributeAttachedSkill.AttributeId == personageAttribute.AttributeId) {
                                 if (personageAttachedSkill.value + personageAttribute.value < meritAttributeAttachedSkill.value) {
-                                    attributeAttachedSkillSatisfied = false;
+                                    invalidPrerequisites.push(expected);
                                 }
                             }
                         });
                     }
                 });
+                if (!isPresent) {
+                    invalidPrerequisites.push(expected);
+                }
             });
-            attributeAttachedSkillSatisfiedPromise.resolve(attributeAttachedSkillSatisfied);
-            attributeAttachedSkillExistPromise.resolve(attributeAttachedSkillExist);
-        });
+        }
 
 
-        $http.get('/meritTriggerSkillsByMeritId/' + meritObject.id).success(function (results) {
-            var triggerSkillSatisfied = true;
-            var triggerSkillExist = false;
-            if (results.meritTriggerSkills.length == 0) {
-                triggerSkillExist = true;
-            }
-            angular.forEach(results.meritTriggerSkills, function (meritTriggerSkill) {
+        if (merit.MeritTriggerSkills.length != 0) {
+            angular.forEach(merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                var levelName = '';
+                switch (meritTriggerSkill.level) {
+                    case 0:
+                        levelName = 'База';
+                        break;
+                    case 1:
+                        levelName = 'Эксперт';
+                        break;
+                    case 2:
+                        levelName = 'Мастер';
+                        break;
+                    case 3:
+                        levelName = 'Магистр';
+                        break;
+                    case 4:
+                        levelName = 'Гроссмейстер';
+                        break;
+                    default:
+                        levelName = 'Уровень не указан';
+                        break;
+                }
+                var expected = {
+                    name: meritTriggerSkill.TriggerSkill.name,
+                    expectedValue: levelName
+                };
+                if ($scope.personageTriggerSkills.length == 0) {
+                    invalidPrerequisites.push(expected);
+                }
+                var isPresent = false;
                 angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                     if (meritTriggerSkill.TriggerSkillId == personageTriggerSkill.TriggerSkillId) {
-                        triggerSkillExist = true;
+                        isPresent = true;
                         if (personageTriggerSkill.currentLevel < meritTriggerSkill.level) {
-                            triggerSkillSatisfied = false;
+                            invalidPrerequisites.push(expected);
                         }
                     }
                 });
+                if (!isPresent && $scope.personageTriggerSkills.length != 0) {
+                    invalidPrerequisites.push(expected);
+                }
             });
-            triggerSkillSatisfiedPromise.resolve(triggerSkillSatisfied);
-            triggerSkillExistPromise.resolve(triggerSkillExist);
-        });
+        }
 
-
-        $http.get('/meritInherentsByMeritId/' + meritObject.id).success(function (results) {
-            var inherentSatisfied = true;
-            var inherentExist = false;
-            if (results.meritInherents.length == 0) {
-                inherentExist = true;
-            }
-            angular.forEach(results.meritInherents, function (meritInherent) {
+        if (merit.MeritInherents.length != 0) {
+            angular.forEach(merit.MeritInherents, function (meritInherent) {
+                var isPresent = false;
                 angular.forEach($scope.personageInherents, function (personageInherent) {
-                    if (meritInherent.InherentId == personageInherent.InherentId) {
-                        inherentExist = true;
-                        if (meritInherent.Inherent.min_limit != null && meritInherent.Inherent.max_limit != null) {
-                            if (personageInherent.value == null) {
-                                inherentSatisfied = false;
-                            } else {
-                                switch (meritInherent.lessMoreEqual) {
-                                    case 1:
-                                        if (personageInherent.value < meritInherent.value) {
-                                            inherentSatisfied = false;
-                                        }
-                                        break;
-                                    case 0:
-                                        if (personageInherent.value != meritInherent.value) {
-                                            inherentSatisfied = false;
-                                        }
-                                        break;
-                                    case -1:
-                                        if (personageInherent.value > meritInherent.value) {
-                                            inherentSatisfied = false;
-                                        }
-                                        break;
-                                }
+                    if (personageInherent.InherentId == meritInherent.InherentId) {
+                        if (personageInherent.value != null) {
+                            isPresent = true;
+                            switch (meritInherent.lessMoreEqual) {
+                                case 1:
+                                    if (personageInherent.value < meritInherent.value) {
+                                        invalidPrerequisites.push({
+                                            name: meritInherent.Inherent.name,
+                                            expectedValue: '>' + (meritInherent.value - 1)
+                                        });
+                                    }
+                                    break;
+                                case 0:
+                                    if (personageInherent.value != meritInherent.value) {
+                                        invalidPrerequisites.push({
+                                            name: meritInherent.Inherent.name,
+                                            expectedValue: '=' + meritInherent.value
+                                        });
+                                    }
+                                    break;
+                                case -1:
+                                    if (personageInherent.value > meritInherent.value) {
+                                        invalidPrerequisites.push({
+                                            name: meritInherent.Inherent.name,
+                                            expectedValue: '<' + (meritInherent.value + 1)
+                                        });
+                                    }
+                                    break;
                             }
                         }
                     }
                 });
+                if (!isPresent) {
+                    invalidPrerequisites.push({
+                        name: meritInherent.Inherent.name,
+                        expectedValue: 'присутствует'
+                    });
+                }
             });
-            inherentSatisfiedPromise.resolve(inherentSatisfied);
-            inherentExistPromise.resolve(inherentExist);
-        });
+        }
 
-
-        $http.get('/meritFlawsByMeritId/' + meritObject.id).success(function (results) {
-            var flawSatisfied = true;
-            var personageHasFlaw = false;
-
-            angular.forEach(results.meritFlaws, function (meritFlaw) {
-                personageHasFlaw = false;
+        if (merit.MeritFlaws.length != 0) {
+            angular.forEach(merit.MeritFlaws, function (meritFlaw) {
+                var isPresent = false;
                 angular.forEach($scope.personageFlaws, function (personageFlaw) {
                     if (meritFlaw.FlawId == personageFlaw.FlawId) {
-                        personageHasFlaw = true;
+                        isPresent = true;
                     }
                 });
                 if (meritFlaw.presentAbsent) {
-                    if (!personageHasFlaw) {
-                        flawSatisfied = false;
+                    if (!isPresent) {
+                        invalidPrerequisites.push({
+                            name: meritFlaw.Flaw.name,
+                            expectedValue: 'присутствует'
+                        });
                     }
                 }
                 if (!meritFlaw.presentAbsent) {
-                    if (personageHasFlaw) {
-                        flawSatisfied = false;
+                    if (isPresent) {
+                        invalidPrerequisites.push({
+                            name: meritFlaw.Flaw.name,
+                            expectedValue: 'отсутствует'
+                        });
                     }
                 }
             });
-            flawSatisfiedPromise.resolve(flawSatisfied);
-        });
+        }
 
-
-        $http.get('/meritMeritsByMeritId/' + meritObject.id).success(function (results) {
-            var meritSatisfied = true;
-            var personageHasMerit = false;
-
-            angular.forEach(results.meritMerits, function (meritMerit) {
-                personageHasMerit = false;
+        if (merit.MeritMerits.length != 0) {
+            angular.forEach(merit.MeritMerits, function (meritMerit) {
+                var isPresent = false;
                 angular.forEach($scope.personageMerits, function (personageMerit) {
                     if (meritMerit.PrerequisiteMeritId == personageMerit.MeritId) {
-                        personageHasMerit = true;
+                        isPresent = true;
                     }
                 });
                 if (meritMerit.presentAbsent) {
-                    if (!personageHasMerit) {
-                        meritSatisfied = false;
+                    if (!isPresent) {
+                        invalidPrerequisites.push({
+                            name: meritMerit.MeritPrerequisite.name,
+                            expectedValue: 'присутствует'
+                        });
                     }
                 }
                 if (!meritMerit.presentAbsent) {
-                    if (personageHasMerit) {
-                        meritSatisfied = false;
+                    if (isPresent) {
+                        invalidPrerequisites.push({
+                            name: meritMerit.MeritPrerequisite.name,
+                            expectedValue: 'отсутствует'
+                        });
                     }
                 }
             });
-            meritSatisfiedPromise.resolve(meritSatisfied);
-        });
+        }
 
-        return validatePrerequisites.promise;
-    };
+        if (invalidPrerequisites.length == 0) {
+            return true;
+        } else {
+            return invalidPrerequisites;
+        }
+    }
 
     $scope.addPersonageMerit = function (merit) {
-        var meritObject = angular.fromJson(merit);
+        $scope.loader = true;
+        var changeExperience = $q.defer();
+        var checkIfTalent = $q.defer();
+        var checkPrerequisites = $q.defer();
+        var addMerit = $q.defer();
 
-        if ($scope.meritAvailable) {
-            $scope.loader = true;
-            var changeExperience = $q.defer();
-            var checkIfTalent = $q.defer();
-            var checkPrerequisites = $q.defer();
-            var addMerit = $q.defer();
+        function success(data) {
+            $scope.loader = false;
+            jQuery('#addMeritDialog').modal('hide');
+        }
 
-            function success(data) {
-                $scope.loader = false;
-                jQuery('#addMeritDialog').modal('hide');
+        var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
+        all.then(success);
+
+        $timeout(function () {
+            if ($scope.confirmChanges) {
+                $scope.personage.experience = $scope.personage.experience - merit.cost;
             }
+            changeExperience.resolve();
+        }, 200);
 
-            var all = $q.all([changeExperience.promise, checkIfTalent.promise, checkPrerequisites.promise, addMerit.promise]);
-            all.then(success);
+        $timeout(function () {
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
+                    if (merit.id == meritMerit.MeritPrerequisite.id) {
+                        if (!meritMerit.presentAbsent) {
+                            $scope.showConfirmDeletePersonagMerit(personageMerit);
+                        }
+                    }
+                });
+            });
+            checkPrerequisites.resolve();
+        }, 200);
 
-            $timeout(function () {
-                $scope.personage.experience = $scope.personage.experience - meritObject.cost;
-                changeExperience.resolve();
-            }, 200);
+        $timeout(function () {
+            if (merit.name.indexOf('Талант') > -1) {
+                angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                    if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
+                        personageTriggerSkill.talented = true;
+                    }
+                });
+            }
+            checkIfTalent.resolve();
+        }, 200);
 
-            $timeout(function () {
+        $timeout(function () {
+            if ($scope.confirmChanges) {
+                var personageMerit = {
+                    Merit: merit,
+                    MeritId: merit.id,
+                    PersonageId: personageId
+                };
+                $scope.personageMerits.push(personageMerit);
+
                 angular.forEach($scope.personageMerits, function (personageMerit) {
-                    angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
-                        if (meritObject.id == meritMerit.MeritPrerequisite.id) {
-                            if (!meritMerit.presentAbsent) {
-                                $scope.showConfirmDeletePersonagMerit(personageMerit);
-                            }
+                    angular.forEach($scope.meritsMixed, function (meritMixed) {
+                        if (personageMerit.Merit.id == meritMixed.merit.id && meritMixed.personageMerit == null) {
+                            meritMixed.personageMerit = personageMerit;
                         }
                     });
                 });
-                checkPrerequisites.resolve();
-            }, 200);
-
-            $timeout(function () {
-                if (meritObject.name.indexOf('Талант') > -1) {
-                    angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                        if (meritObject.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                            personageTriggerSkill.talented = true;
-                        }
-                    });
-                }
-                checkIfTalent.resolve();
-            }, 200);
-
-            $timeout(function () {
-                if ($scope.confirmChanges) {
-                    var personageMerit = {
-                        Merit: meritObject,
-                        MeritId: meritObject.id,
-                        PersonageId: personageId
-                    };
-                    $scope.personageMerits.push(personageMerit);
-                }
-                addMerit.resolve();
-            }, 200);
-        }
+                $scope.updateMeritPrerequisites(merit.id);
+            }
+            addMerit.resolve();
+        }, 200);
     };
 
     $scope.deletePersonageMerit = function (personageMerit) {
@@ -1206,6 +1373,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         var index = $scope.personageMerits.indexOf(personageMerit);
         $scope.personageMerits.splice(index, 1);
+
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            if (meritMixed.merit.id == personageMerit.Merit.id && meritMixed.personageMerit != null) {
+                meritMixed.personageMerit = null;
+            }
+        });
+
+        $scope.updateMeritPrerequisites(personageMerit.Merit.id);
         $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
         $scope.loader = false;
     };
@@ -1269,6 +1444,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             });
 
+            $scope.updateFlawPrerequisites(flaw.id);
             $scope.personage.experience = $scope.personage.experience + flaw.cost;
 
             $scope.loader = false;
@@ -1299,6 +1475,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
 
+            $scope.updateFlawPrerequisites(personageFlaw.Flaw.id);
             $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
         }
         $scope.loader = false;
@@ -1325,6 +1502,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             $scope.personage.experience = $scope.personage.experience - 1;
         }
+        $scope.updateAttachedSkillPrerequisites(attachedSkill.id);
+        $scope.updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
         $scope.recalculateMagicSchools($scope.personageAttachedSkills);
     };
 
@@ -1334,30 +1513,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    $scope.showAddDialog = function (values, addingFunction) {
-        $mdDialog.show({
-            locals: {valuesForFilter: values, addItemFunction: addingFunction},
-            controller: DialogCtrl,
-            controllerAs: 'ctrl',
-            templateUrl: 'addItemTemplate.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true
-        })
-    };
-
-    $scope.showAddMeritDialog = function (merits, addMeritFunction, validationFunction) {
-        $mdDialog.show({
-            locals: {
-                meritsForFilter: merits,
-                addMeritFunction: addMeritFunction,
-                validationFunction: validationFunction
-            },
-            controller: MeritDialogCtrl,
-            controllerAs: 'ctrl',
-            templateUrl: 'addMeritTemplate.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true
-        })
+    $scope.changeColorNotAvailable = function (available, isAdded) {
+        if (available != true) {
+            return {'background-color': '#e2b2b3', 'border-bottom': '3px solid white'};
+        } else if (isAdded == null) {
+            return {'background-color': '#C1BDBD', 'border-bottom': '3px solid white'};
+        }
     };
 
     var personageSpellsClicked = false;
@@ -1372,19 +1533,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    var personageTriggerSkillsClicked = false;
-    $scope.getPersonageTriggerSkills = function () {
-        if (!personageTriggerSkillsClicked) {
-            personageTriggerSkillsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageTriggerSkills = data.data;
-                calculateTriggerSkillsToShow();
-                $scope.loader = false;
-            });
-        }
-    };
-
     var noticesClicked = false;
     $scope.getNotices = function () {
         if (!noticesClicked) {
@@ -1392,44 +1540,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.loader = true;
             $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
                 $scope.notices = data.notices;
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageFlawsClicked = false;
-    $scope.getPersonageFlaws = function () {
-        if (!personageFlawsClicked) {
-            personageFlawsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageFlaws = data.data;
-                calculateFlawsToShow();
-                $scope.loader = false;
-            });
-        }
-    };
-
-    var personageMeritsClicked = false;
-    $scope.getPersonageMerits = function () {
-        if (!personageMeritsClicked) {
-            personageMeritsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageMerits = data.data;
-                $scope.loader = false;
-                $scope.calculateShowMerits();
-            });
-        }
-    };
-
-    var personageInherentsClicked = false;
-    $scope.getPersonageInherents = function () {
-        if (!personageInherentsClicked) {
-            personageInherentsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageInherents = data.data;
                 $scope.loader = false;
             });
         }
@@ -1463,7 +1573,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
+        angular.forEach($scope.merits, function (merit) {
+            if (merit.name.indexOf('Талант') > -1) {
+                if (merit.name.indexOf(triggerSkill.name) > -1) {
+                    $scope.meritsMixed.push({
+                        merit: merit,
+                        personageMerit: null
+                    });
+                }
+            }
+        });
+
         $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
+        $scope.updateTriggerSkillPrerequisites(triggerSkill.id);
         $scope.loader = false;
     };
 
@@ -1505,6 +1627,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 } else {
                     $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
                 }
+                $scope.updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                $scope.updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 $scope.recalculateMagicSchools($scope.personageAttachedSkills);
             }
         }
@@ -1540,29 +1664,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
 
+            $scope.updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkill.id);
             $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
         }
         $scope.loader = false;
     };
 
-    $scope.calculateShowMerits = function () {
-        $scope.loader = true;
-        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
-            angular.forEach(results.raceMerits, function (raceMerit) {
-                for (var i = 0; i < $scope.personageMerits.length; i++) {
-                    if (!raceMerit.race_default && raceMerit.race_cost != 0 && raceMerit.MeritId == $scope.personageMerits[i].Merit.id) {
-                        $scope.personageMerits[i].Merit.cost = raceMerit.race_cost;
-                    }
-                }
-            });
-        });
-        $scope.loader = false;
-    };
-
     // $scope.calculateMeritSelectOptions = function () {
     //     $scope.loader = true;
-    //
-    //     $scope.defaultValue = true;
     //
     //     $scope.selectMerits = [];
     //     $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {

@@ -31,16 +31,22 @@ app.controller("personageAttributesController", function ($scope) {
                         if (personageAttribute.value < maxPrice - raceAttribute.base_cost) {
                             personageAttribute.value++;
                             $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                            $scope.updateAttributePrerequisites(personageAttribute.Attribute.id);
+                            $scope.updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                         } else {
                             if (personageAttribute.value == maxPrice - raceAttribute.base_cost + 1) {
                                 if (!isPrimaryAttributeSet) {
                                     personageAttribute.value++;
                                     $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                    $scope.updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                    $scope.updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                                 }
                             } else {
                                 if (isSecondaryAttributeSet < 3) {
                                     personageAttribute.value++;
                                     $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                    $scope.updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                    $scope.updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                                 }
                             }
                         }
@@ -49,7 +55,7 @@ app.controller("personageAttributesController", function ($scope) {
             }
         });
 
-        $scope.recalculateBasicCharacteristics();
+        // $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     };
 
@@ -84,12 +90,14 @@ app.controller("personageAttributesController", function ($scope) {
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
                             $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
+                            $scope.updateAttributePrerequisites(personageAttribute.Attribute.id);
+                            $scope.updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                         }
                     });
                 }
             }
         });
-        $scope.recalculateBasicCharacteristics();
+        // $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     };
 
