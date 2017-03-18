@@ -399,7 +399,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(personageMerit.Merit.MeritAttributes, function (meritAttribute) {
                         if (personageAttribute.Attribute.id == meritAttribute.Attribute.id) {
                             if (personageAttribute.value <= meritAttribute.value) {
-                                $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                $scope.showConfirmDeletePersonageMerit(personageMerit);
                             }
                         }
                     });
@@ -409,7 +409,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
                                 if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
                                     if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
-                                        $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                        $scope.showConfirmDeletePersonageMerit(personageMerit);
                                     }
                                 }
                             });
@@ -431,7 +431,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.showConfirmDeletePersonagMerit = function(personageMerit) {
+    $scope.showConfirmDeletePersonageMerit = function(personageMerit) {
         var confirm = $mdDialog.confirm()
             .title('Подтверждение удаления достоинства')
             .textContent('Данное изменение приведет к удалению достоинства ' + personageMerit.Merit.name + ' так как достоиснтво иммет пререквизиты')
@@ -464,7 +464,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
                         if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
                             if (personageAttachedSkill.value <= meritAttachedSkill.value) {
-                                $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                $scope.showConfirmDeletePersonageMerit(personageMerit);
                             }
                         }
                     });
@@ -474,7 +474,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             angular.forEach($scope.personageAttributes, function (personageAttribute) {
                                 if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
                                     if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
-                                        $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                        $scope.showConfirmDeletePersonageMerit(personageMerit);
                                     }
                                 }
                             });
@@ -519,7 +519,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         if (personageTriggerSkill.TriggerSkill.id == meritTriggerSkill.TriggerSkill.id) {
                             if (currentLevel != 0) {
                                 if (meritTriggerSkill.level == currentLevel) {
-                                    $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                    $scope.showConfirmDeletePersonageMerit(personageMerit);
                                 }
                             }
 
@@ -791,7 +791,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     angular.forEach(personageMerit.Merit.MeritMerits, function (meritMerit) {
                         if (meritObject.id == meritMerit.MeritPrerequisite.id) {
                             if (!meritMerit.presentAbsent) {
-                                $scope.showConfirmDeletePersonagMerit(personageMerit);
+                                $scope.showConfirmDeletePersonageMerit(personageMerit);
                             }
                         }
                     });
@@ -870,7 +870,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritInherents, function (meritInherent) {
                 if (personageInherent.Inherent.id == meritInherent.Inherent.id) {
-                    $scope.showConfirmDeletePersonagMerit(personageMerit);
+                    $scope.showConfirmDeletePersonageMerit(personageMerit);
                 }
             });
         });
@@ -889,7 +889,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                 if (flaw_id == meritFlaw.Flaw.id) {
                     if (!meritFlaw.presentAbsent) {
-                        $scope.showConfirmDeletePersonagMerit(personageMerit);
+                        $scope.showConfirmDeletePersonageMerit(personageMerit);
                     }
                 }
             });
@@ -916,7 +916,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             angular.forEach(personageMerit.Merit.MeritFlaws, function (meritFlaw) {
                 if (personageFlaw.Flaw.id == meritFlaw.Flaw.id) {
                     if (meritFlaw.presentAbsent) {
-                        $scope.showConfirmDeletePersonagMerit(personageMerit);
+                        $scope.showConfirmDeletePersonageMerit(personageMerit);
                     }
                 }
             });
