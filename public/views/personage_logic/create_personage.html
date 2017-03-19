@@ -418,14 +418,24 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="default" type="checkbox" ng-model="show.default_skill"
+                                               ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
+                                        По умолчанию (показывать)
+                                    </label>
+                                </div>
                                 <div class="checkbox">
                                     <label>
                                         <input name="default" type="checkbox" ng-model="search.default_skill"
+                                               ng-disabled="!show.default_skill"
                                                ng-change="filterAttachedSkillsByDefault(search.default_skill)">
-                                        По умолчанию
+                                        По умолчанию (фильтровать)
                                     </label>
                                 </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div class="checkbox">
                                     <label>
                                         <input name="theoretical" type="checkbox" ng-model="search.theoretical"
@@ -770,55 +780,209 @@
                         </table>
                     </div>
                     <div id="merits" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="fight" type="checkbox" ng-model="merit.magic"
+                                               ng-change="filterMeritByCategory('магические', merit.magic)">
+                                        Магические
+                                    </label>
+                                </div>
+                                <br/>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="nonfight" type="checkbox" ng-model="merit.face"
+                                               ng-change="filterMeritByCategory('внешность', merit.face)">
+                                        Внешность
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="fight" type="checkbox" ng-model="merit.speciality"
+                                               ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                        Специализация
+                                    </label>
+                                </div>
+                                <br/>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="nonfight" type="checkbox" ng-model="merit.fight"
+                                               ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                        Боевые
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="fight" type="checkbox" ng-model="merit.talent"
+                                               ng-change="filterMeritByCategory('талант', merit.talent)">
+                                        Талант
+                                    </label>
+                                </div>
+                                <br/>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="nonfight" type="checkbox" ng-model="merit.others"
+                                               ng-change="filterMeritByCategory('остальные', merit.others)">
+                                        Остальные
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="fight" type="checkbox" ng-model="filter.available"
+                                               ng-change="filterMeritByAvailability(filter.available)">
+                                        Доступные
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
+                                ng-click="showMeritCategoriesFilter()">Категория <i class="icmn-filter"></i>
+                        </button>
+                        <div class="panel filter-panel" ng-show="showMeritCategories">
+                            <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
+                                Категории</h3>
+                            <div class="panel-body">
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="fight" type="checkbox" ng-model="merit.magic"
+                                                   ng-change="filterMeritByCategory('магические', merit.magic)">
+                                            Магические
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="nonfight" type="checkbox" ng-model="merit.face"
+                                                   ng-change="filterMeritByCategory('внешность', merit.face)">
+                                            Внешность
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="fight" type="checkbox" ng-model="merit.speciality"
+                                                   ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                            Специализация
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="nonfight" type="checkbox" ng-model="merit.fight"
+                                                   ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                            Боевые
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="fight" type="checkbox" ng-model="merit.talent"
+                                                   ng-change="filterMeritByCategory('талант', merit.talent)">
+                                            Талант
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="nonfight" type="checkbox" ng-model="merit.others"
+                                                   ng-change="filterMeritByCategory('остальные', filter.nonfight)">
+                                            Остальные
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="fight" type="checkbox" ng-model="filter.available"
+                                                   ng-change="filterMeritByAvailability(filter.available)">
+                                            Доступные
+                                        </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-rounded btn-info-outline filter-button"
+                                        ng-click="hideMeritCategoriesFilter()">Применить <i
+                                        class="icmn-filter"></i>
+                                </button>
+                            </div>
+                        </div>
                         <table class="table table-hover">
                             <thead class="mobile">
                             <tr class="mobile">
-                                <th class="mobile">Достоинства</th>
+                                <th class="mobile">Достоинство</th>
                                 <th class="mobile">Требования</th>
-                                <th class="mobile">Значение</th>
+                                <th class="mobile">Стоимость</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
                             <tbody class="mobile">
                             <tr ng-repeat="meritMixed in meritsMixed"
+                                class="mobile"
+                                ng-hide="filteredMerit(meritMixed)"
                                 ng-style="changeColorNotAvailable(meritMixed.available, meritMixed.personageMerit)">
-                                <td>{{ meritMixed.merit.name }}</td>
-                                <td class="text-left">
-                                            <span ng-hide="meritMixed.available == true">
-                                                <strong ng-repeat="item in meritMixed.available">
-                                                    {{ item.name }}: {{item.expectedValue}}<span
-                                                        ng-hide="$last">,</span>
-                                                </strong>
-                                            </span>
-                                </td>
-                                <td>
-                                    <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
-                                        {{meritMixed.personageMerit.Merit.cost}}
-                                    </div>
-                                    <div ng-if="meritMixed.personageMerit != null && meritMixed.personageMerit.unremovable">
-                                        -
-                                    </div>
-                                    <div ng-if="meritMixed.personageMerit == null">
-                                        {{meritMixed.merit.cost}}
+                                <td class="text-right mobile merit">
+                                    <div class="text-left">
+                                        {{ meritMixed.merit.name }}
                                     </div>
                                 </td>
-                                <td>
-                                    <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
-                                        <a class="link-underlined link-blue" href="javascript: void(0)"
-                                           ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
-                                            Удалить
-                                        </a>
+                                <td class="text-right mobile merit">
+                                    <div class="text-left">
+                                    <span ng-hide="meritMixed.available == true">
+                                        <strong ng-repeat="item in meritMixed.available">
+                                            {{ item.name }}: {{item.expectedValue}}<span
+                                                ng-hide="$last">,</span>
+                                        </strong>
+                                    </span>
+                                        <span ng-if="meritMixed.available == true">
+                                                 -
+                                    </span>
                                     </div>
-                                    <div ng-if="meritMixed.personageMerit == null">
-                                        <button class="btn btn-rounded btn-warning btn-sm"
-                                                ng-disabled="meritMixed.available != true"
-                                                href="javascript: void(0)"
-                                                ng-click="addPersonageMerit(meritMixed.merit)">
-                                            Добавить
-                                        </button>
+                                </td>
+                                <td class="text-right mobile merit">
+                                    <div class="text-left">
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                            {{meritMixed.personageMerit.Merit.cost}}
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit != null && meritMixed.personageMerit.unremovable">
+                                            -
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            {{meritMixed.merit.cost}}
+                                        </div>
                                     </div>
-                                    <div ng-if="meritMixed.personageMerit.unremovable">
-                                        По умолчанию
+                                </td>
+                                <td class="text-right mobile merit actions">
+                                    <div class="text-center">
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                            <a class="link-underlined link-blue" href="javascript: void(0)"
+                                               ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
+                                                Удалить
+                                            </a>
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    ng-disabled="meritMixed.available != true"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageMerit(meritMixed.merit)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit.unremovable">
+                                            По умолчанию
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

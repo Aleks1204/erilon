@@ -158,6 +158,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
+    $scope.filterAttachedSkillsByDefaultShow = function (selected) {
+        $scope.filteredAttachedSkillsDefaultShow = selected;
+    };
+
     $scope.filterAttachedSkillsByDefault = function (selected) {
         $scope.filteredAttachedSkillsDefault = selected;
     };
@@ -167,6 +171,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.filteredAttachedSkills = function (attachedSkill) {
+        if (!$scope.filteredAttachedSkillsDefaultShow) {
+            if (attachedSkill.default_skill) {
+                return true;
+            }
+        }
+
         if ($scope.filteredAttachedSkillsTheoretical) {
             if (!attachedSkill.theoretical) {
                 return true;
@@ -333,6 +343,50 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     }
 
+    $scope.filteredMeritCategories = [];
+    $scope.showMeritCategories = false;
+    $scope.showMeritCategoriesFilter = function () {
+        $scope.showMeritCategories = true;
+    };
+
+    $scope.hideMeritCategoriesFilter = function () {
+        $scope.showMeritCategories = false;
+    };
+
+    $scope.filterMeritByAvailability = function (selected) {
+        $scope.filteredMeritAvailable = selected;
+    };
+
+    $scope.filterMeritByCategory = function (category, selected) {
+        if (selected) {
+            $scope.filteredMeritCategories.push(category);
+        } else {
+            $scope.filteredMeritCategories.splice($scope.filteredMeritCategories.indexOf(category), 1);
+        }
+    };
+
+    $scope.filteredMerit = function (meritMixed) {
+
+        if ($scope.filteredMeritAvailable) {
+            if (meritMixed.available != true) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredMeritCategories.length == 0) {
+            return false;
+        }
+
+        var categories = meritMixed.merit.category.split(",");
+        var result = true;
+        categories.forEach(function (item) {
+            if ($scope.filteredMeritCategories.indexOf(item) != -1) {
+                result = false;
+            }
+        });
+        return result;
+    };
+
     function updateAttributePrerequisites(attribute_id) {
         angular.forEach($scope.meritsMixed, function (meritMixed) {
             angular.forEach(meritMixed.merit.MeritAttributes, function (meritAttribute) {
@@ -392,12 +446,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             })
         });
     }
-
-    $scope.changeColorMeritAvailability = function (available) {
-        if (!available) {
-            return {'background-color': '#ed243c', 'border-bottom': '3px solid white'};
-        }
-    };
 
     var merits = $q.defer();
     var inherents = $q.defer();
