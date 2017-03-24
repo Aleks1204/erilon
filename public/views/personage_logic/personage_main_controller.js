@@ -1124,7 +1124,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.decreaseAttachedSkill = function (id) {
         angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
             if (personageAttachedSkill.AttachedSkill.id == id && personageAttachedSkill.value > 0) {
-                checkAttachedSkillRelatedPrerequisites(personageAttachedSkill).then(function (confirmedChanges) {
+                checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
                     if (confirmedChanges) {
                         personageAttachedSkill.value--;
                         updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
@@ -1140,19 +1140,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    function checkAttachedSkillRelatedPrerequisites(personageAttachedSkill) {
+    function checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, action) {
         var result = $q.defer();
         $scope.itemsToDelete = [];
 
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
                 if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
-                    if (personageAttachedSkill.value >= meritAttachedSkill.value) {
-                        $scope.itemsToDelete.push({
-                            targetMerit: personageMerit,
-                            prerequisiteName: personageAttachedSkill.AttachedSkill.name,
-                            prerequisiteValue: personageAttachedSkill.value
-                        });
+                    if (action == 'delete') {
+                        if (personageAttachedSkill.value >= meritAttachedSkill.value) {
+                            $scope.itemsToDelete.push({
+                                targetMerit: personageMerit,
+                                prerequisiteName: personageAttachedSkill.AttachedSkill.name,
+                                prerequisiteValue: meritAttachedSkill.value
+                            });
+                        }
+                    }
+                    if (action == 'decrease') {
+                        if (personageAttachedSkill.value == meritAttachedSkill.value) {
+                            $scope.itemsToDelete.push({
+                                targetMerit: personageMerit,
+                                prerequisiteName: personageAttachedSkill.AttachedSkill.name,
+                                prerequisiteValue: meritAttachedSkill.value
+                            });
+                        }
                     }
                 }
             });
@@ -1161,12 +1172,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
                     angular.forEach($scope.personageAttributes, function (personageAttribute) {
                         if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
-                            if (personageAttachedSkill.value + personageAttribute.value >= meritAttributeAttachedSkill.value) {
-                                $scope.itemsToDelete.push({
-                                    targetMerit: personageMerit,
-                                    prerequisiteName: personageAttachedSkill.AttachedSkill.name + '+' + personageAttribute.Attribute.name,
-                                    prerequisiteValue: meritAttributeAttachedSkill.value
-                                });
+                            if (action == 'delete') {
+                                if (personageAttachedSkill.value + personageAttribute.value >= meritAttributeAttachedSkill.value) {
+                                    $scope.itemsToDelete.push({
+                                        targetMerit: personageMerit,
+                                        prerequisiteName: personageAttachedSkill.AttachedSkill.name + '+' + personageAttribute.Attribute.name,
+                                        prerequisiteValue: meritAttributeAttachedSkill.value
+                                    });
+                                }
+                            }
+                            if (action == 'decrease') {
+                                if (personageAttachedSkill.value + personageAttribute.value == meritAttributeAttachedSkill.value) {
+                                    $scope.itemsToDelete.push({
+                                        targetMerit: personageMerit,
+                                        prerequisiteName: personageAttachedSkill.AttachedSkill.name + '+' + personageAttribute.Attribute.name,
+                                        prerequisiteValue: meritAttributeAttachedSkill.value
+                                    });
+                                }
                             }
                         }
                     });
@@ -1740,7 +1762,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if (!hasSpells) {
-            checkAttachedSkillRelatedPrerequisites(personageAttachedSkill).then(function (result) {
+            checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'delete').then(function (result) {
                 if (result) {
                     var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
                     $scope.personageAttachedSkills.splice(index, 1);
