@@ -18,6 +18,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.personageSpells = null;
     $scope.confirmChanges = true;
     $scope.itemsToDelete = [];
+    $scope.magicSchools = [];
 
     $window.onbeforeunload = function () {
         if (window.location.href.indexOf('localhost') == -1) {
@@ -32,8 +33,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#trigger").hide();
         $("#merits").hide();
         $("#flaws").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.inherentsButton');
         $(".inherentsButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -48,8 +51,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#trigger").hide();
         $("#merits").hide();
         $("#flaws").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.attributesButton');
         $(".attributesButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -64,8 +69,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#trigger").hide();
         $("#merits").hide();
         $("#flaws").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.attachedButton');
         $(".attachedButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -80,8 +87,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attached").hide();
         $("#merits").hide();
         $("#flaws").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.triggerButton');
         $(".triggerButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".attachedButton").removeClass('active');
@@ -96,8 +105,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#inherents").hide();
         $("#attached").hide();
         $("#flaws").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.meritsButton');
         $(".meritsButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
         $(".attachedButton").removeClass('active');
@@ -112,8 +123,28 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attr").hide();
         $("#inherents").hide();
         $("#attached").hide();
+        $("#spells").hide();
         $("#steps").scrollTo('.flawsButton');
         $(".flawsButton").addClass('active');
+        $(".spellsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+    });
+
+    $(".spellsButton").click(function () {
+        $("#spells").show();
+        $("#flaws").hide();
+        $("#merits").hide();
+        $("#trigger").hide();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#steps").scrollTo('.spellsButton');
+        $(".spellsButton").addClass('active');
+        $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
         $(".attachedButton").removeClass('active');
@@ -343,6 +374,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     }
 
+    $scope.spellsBySchool = [];
+
+    function calculateSpellsToShow() {
+        angular.forEach($scope.magicSchools, function (school) {
+            var spells = [];
+            angular.forEach(school.Spells, function (spell) {
+                var targetPersonageSpell = null;
+                angular.forEach($scope.personageSpells, function (personageSpell) {
+                    if (spell.id == personageSpell.Spell.id) {
+                        targetPersonageSpell = personageSpell;
+                    }
+                });
+                spells.push({
+                    spell: spell,
+                    personageSpell: targetPersonageSpell
+                });
+            });
+            $scope.spellsBySchool.push({
+                school: school,
+                spells: spells
+            });
+        });
+    }
+
     $scope.filteredMeritCategories = [];
     $scope.showMeritCategories = false;
     $scope.showMeritCategoriesFilter = function () {
@@ -460,14 +515,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personageFlaws = $q.defer();
     var personageMerits = $q.defer();
     var personageInherents = $q.defer();
+    var personageSpells = $q.defer();
 
     function success() {
         $scope.hasInherents();
-        // $scope.recalculateBasicCharacteristics();
+        recalculateBasicCharacteristics();
         calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
         calculateFlawsToShow();
         calculateMeritsToShow();
+        calculateSpellsToShow();
         $scope.loader = false;
     }
 
@@ -484,7 +541,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         personageTriggerSkills.promise,
         personageFlaws.promise,
         personageMerits.promise,
-        personageInherents.promise
+        personageInherents.promise,
+        personageSpells.promise
     ]);
 
     all.then(success);
@@ -506,6 +564,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $http.get('/attachedSkills').success(function (results) {
         $scope.attachedSkills = results.attachedSkills;
+        angular.forEach(results.attachedSkills, function (attachedSkill) {
+            if (attachedSkill.spells_connected) {
+                $scope.magicSchools.push(attachedSkill);
+            }
+        });
         attachedSkills.resolve();
     });
 
@@ -515,7 +578,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     });
 
     $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-        recalculateMagicSchools(data.data);
         $scope.personageAttachedSkills = data.data;
         personageAttachedSkills.resolve();
     });
@@ -538,6 +600,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
         $scope.personageInherents = data.data;
         personageInherents.resolve();
+    });
+
+    $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
+        $scope.personageSpells = data.personageSpells;
+        personageSpells.resolve();
     });
 
     $http.get('/personages/' + personageId).success(function (data) {
@@ -649,69 +716,60 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    // $scope.recalculateBasicCharacteristics = function () {
-    //     angular.forEach($scope.personageAttributes, function (personageAttribute) {
-    //         switch (personageAttribute.Attribute.name) {
-    //             case "Сила":
-    //                 $scope.power = personageAttribute.value;
-    //                 break;
-    //             case "Ловкость":
-    //                 $scope.dexterity = personageAttribute.value;
-    //                 break;
-    //             case "Скорость":
-    //                 $scope.speed = personageAttribute.value;
-    //                 break;
-    //             case "Реакция":
-    //                 $scope.reaction = personageAttribute.value;
-    //                 break;
-    //             case "Восприятие":
-    //                 $scope.perception = personageAttribute.value;
-    //                 break;
-    //             case "Выносливость":
-    //                 $scope.endurance = personageAttribute.value;
-    //                 break;
-    //             case "Живучесть":
-    //                 $scope.vitality = personageAttribute.value;
-    //                 break;
-    //             case "Мудрость":
-    //                 $scope.wisdom = personageAttribute.value;
-    //                 break;
-    //             case "Интеллект":
-    //                 $scope.intelligence = personageAttribute.value;
-    //                 break;
-    //             case "Воля":
-    //                 $scope.will = personageAttribute.value;
-    //                 break;
-    //             case "Харизма":
-    //                 $scope.charisma = personageAttribute.value;
-    //                 break;
-    //         }
-    //     });
-    //
-    //     $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
-    //     $scope.hitChopPunch = $scope.dexterity + $scope.power;
-    //     $scope.rangedHit = $scope.dexterity + $scope.perception;
-    //     $scope.parryPiercePunch = $scope.reaction + $scope.speed;
-    //     $scope.parryChopPunch = $scope.power + $scope.reaction;
-    //     $scope.dodge = $scope.dexterity + $scope.reaction;
-    //     if ($scope.speed < $scope.intelligence) {
-    //         $scope.generalActionPoints = $scope.speed;
-    //     } else {
-    //         $scope.generalActionPoints = $scope.intelligence;
-    //     }
-    //     $scope.mentalActionPoints = $scope.intelligence;
-    //     $scope.initiative = $scope.reaction;
-    //     $scope.endurancePoints = $scope.endurance * 20;
-    //
-    // };
-
-    function recalculateMagicSchools(personageAttachedSkills) {
-        $scope.schools = [];
-        angular.forEach(personageAttachedSkills, function (personageAttachedSkill) {
-            if (personageAttachedSkill.AttachedSkill.spells_connected) {
-                $scope.schools.push(personageAttachedSkill.AttachedSkill);
+    function recalculateBasicCharacteristics () {
+        angular.forEach($scope.personageAttributes, function (personageAttribute) {
+            switch (personageAttribute.Attribute.name) {
+                case "Сила":
+                    $scope.power = personageAttribute.value;
+                    break;
+                case "Ловкость":
+                    $scope.dexterity = personageAttribute.value;
+                    break;
+                case "Скорость":
+                    $scope.speed = personageAttribute.value;
+                    break;
+                case "Реакция":
+                    $scope.reaction = personageAttribute.value;
+                    break;
+                case "Восприятие":
+                    $scope.perception = personageAttribute.value;
+                    break;
+                case "Выносливость":
+                    $scope.endurance = personageAttribute.value;
+                    break;
+                case "Живучесть":
+                    $scope.vitality = personageAttribute.value;
+                    break;
+                case "Мудрость":
+                    $scope.wisdom = personageAttribute.value;
+                    break;
+                case "Интеллект":
+                    $scope.intelligence = personageAttribute.value;
+                    break;
+                case "Воля":
+                    $scope.will = personageAttribute.value;
+                    break;
+                case "Харизма":
+                    $scope.charisma = personageAttribute.value;
+                    break;
             }
         });
+
+        $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
+        $scope.hitChopPunch = $scope.dexterity + $scope.power;
+        $scope.rangedHit = $scope.dexterity + $scope.perception;
+        $scope.parryPiercePunch = $scope.reaction + $scope.speed;
+        $scope.parryChopPunch = $scope.power + $scope.reaction;
+        $scope.dodge = $scope.dexterity + $scope.reaction;
+        if ($scope.speed < $scope.intelligence) {
+            $scope.generalActionPoints = $scope.speed;
+        } else {
+            $scope.generalActionPoints = $scope.intelligence;
+        }
+        $scope.mentalActionPoints = $scope.intelligence;
+        $scope.initiative = $scope.reaction;
+        $scope.endurancePoints = $scope.endurance * 20;
+
     }
 
     $scope.increaseAttribute = function (id) {
@@ -765,7 +823,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
 
-        // $scope.recalculateBasicCharacteristics();
+        recalculateBasicCharacteristics();
         $scope.loader = false;
     };
 
@@ -787,7 +845,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             }
         });
-        // $scope.recalculateBasicCharacteristics();
+        recalculateBasicCharacteristics();
     };
 
     function checkAttributeRelatedPrerequisites(personageAttribute) {
@@ -847,67 +905,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result.promise;
     }
 
-    $scope.showSpellDetail = function (spell_id) {
-        $scope.loader = true;
-        $scope.spellDetails = {
-            spell: null,
-            personageSpell: null
-        };
-        $http.get('/spells/' + spell_id).success(function (result) {
-            $scope.spellDetails.spell = result.spell;
-            angular.forEach($scope.personageSpells, function (personageSpell) {
-                if (personageSpell.Spell.id == spell_id) {
-                    $scope.spellDetails.personageSpell = personageSpell;
-                }
-            });
-            $scope.loader = false;
-            jQuery('#spellDetails').modal('show');
-        });
+    $scope.addPersonageSpell = function (spell) {
+        $scope.personageSpells.push(spell);
+        $scope.personage.experience = $scope.personage.experience - result.spell.cost;
     };
 
-    $scope.isSpellAdded = function (id) {
-        var spellAdded = false;
-        angular.forEach($scope.personageSpells, function (personageSpell) {
-            if (personageSpell.Spell.id == id) {
-                spellAdded = true;
-            }
-        });
-        return spellAdded;
-    };
-
-    $scope.isSpellAddedAndLevel0 = function (id) {
-        var isSpellAddedAndLevel0 = false;
-        angular.forEach($scope.personageSpells, function (personageSpell) {
-            if (personageSpell.Spell.id == id && personageSpell.level == 0) {
-                isSpellAddedAndLevel0 = true;
-            }
-        });
-        return isSpellAddedAndLevel0;
-    };
-
-    $scope.addPersonageSpell = function (id) {
-        $scope.loader = true;
-        $http.get('/spells/' + id).success(function (result) {
-            $scope.personageSpells.push({
-                Spell: result.spell,
-                SpellId: id,
-                PersonageId: personageId,
-                level: 0,
-                tutored: false
-            });
-            $scope.personage.experience = $scope.personage.experience - result.spell.cost;
-            $scope.loader = false;
-        });
-    };
-
-    $scope.deletePersonageSpell = function (id) {
-        angular.forEach($scope.personageSpells, function (personageSpell) {
-            if (personageSpell.Spell.id == id) {
-                var index = $scope.personageSpells.indexOf(personageSpell);
-                $scope.personageSpells.splice(index, 1);
-                $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
-            }
-        });
+    $scope.deletePersonageSpell = function (personageSpell) {
+        var index = $scope.personageSpells.indexOf(personageSpell);
+        $scope.personageSpells.splice(index, 1);
+        $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
@@ -1141,7 +1147,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritAttachedSkills, function (meritAttachedSkill) {
                 if (personageAttachedSkill.AttachedSkill.id == meritAttachedSkill.AttachedSkill.id) {
-                    if (personageAttachedSkill.value <= meritAttachedSkill.value) {
+                    if (personageAttachedSkill.value >= meritAttachedSkill.value) {
                         $scope.itemsToDelete.push({
                             targetMerit: personageMerit,
                             prerequisiteName: personageAttachedSkill.AttachedSkill.name,
@@ -1155,11 +1161,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 if (personageAttachedSkill.AttachedSkill.id == meritAttributeAttachedSkill.AttachedSkill.id) {
                     angular.forEach($scope.personageAttributes, function (personageAttribute) {
                         if (personageAttribute.Attribute.id == meritAttributeAttachedSkill.Attribute.id) {
-                            if (personageAttachedSkill.value + personageAttribute.value <= meritAttributeAttachedSkill.value) {
+                            if (personageAttachedSkill.value + personageAttribute.value >= meritAttributeAttachedSkill.value) {
                                 $scope.itemsToDelete.push({
                                     targetMerit: personageMerit,
                                     prerequisiteName: personageAttachedSkill.AttachedSkill.name + '+' + personageAttribute.Attribute.name,
-                                    prerequisiteValue: personageAttachedSkill.value + personageAttribute.value
+                                    prerequisiteValue: meritAttributeAttachedSkill.value
                                 });
                             }
                         }
@@ -1669,7 +1675,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
         updateAttachedSkillPrerequisites(attachedSkill.id);
         updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
-        $scope.recalculateMagicSchools($scope.personageAttachedSkills);
     };
 
     $scope.changeColor = function (value) {
@@ -1686,18 +1691,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    var personageSpellsClicked = false;
-    $scope.getPersonageSpells = function () {
-        if (!personageSpellsClicked) {
-            personageSpellsClicked = true;
-            $scope.loader = true;
-            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageSpells = data.personageSpells;
-                $scope.loader = false;
-            });
-        }
-    };
-
     var noticesClicked = false;
     $scope.getNotices = function () {
         if (!noticesClicked) {
@@ -1708,15 +1701,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.loader = false;
             });
         }
-    };
-
-    $scope.recalculateMagicSchools = function (personageAttachedSkills) {
-        $scope.schools = [];
-        angular.forEach(personageAttachedSkills, function (personageAttachedSkill) {
-            if (personageAttachedSkill.AttachedSkill.spells_connected) {
-                $scope.schools.push(personageAttachedSkill.AttachedSkill);
-            }
-        });
     };
 
     $scope.addPersonageTriggerSkill = function (triggerSkill) {
@@ -1774,7 +1758,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     }
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    $scope.recalculateMagicSchools($scope.personageAttachedSkills);
                 }
             });
         }

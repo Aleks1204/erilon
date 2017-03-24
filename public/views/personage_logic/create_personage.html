@@ -277,6 +277,9 @@
                                 <td>
                                     <button class="btn flawsButton">Недостатки</button>
                                 </td>
+                                <td>
+                                    <button class="btn spellsButton">Заклинания</button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -287,6 +290,7 @@
                         <button class="btn margin-inline triggerButton">Тригерные навыки</button>
                         <button class="btn margin-inline meritsButton">Достоинства</button>
                         <button class="btn margin-inline flawsButton">Недостатки</button>
+                        <button class="btn margin-inline spellsButton">Заклинания</button>
                     </div>
 
                     <div class="modal fade" id="confirmChangesModal" tabindex="-1" role="dialog" aria-labelledby=""
@@ -1164,6 +1168,112 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div id="spells" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                        <div class="panel" ng-repeat="item in spellsBySchool">
+                            <h3 class="panel-heading">{{item.school.name}}</h3>
+                            <div class="panel-body table-responsive">
+                                <table class="table table-hover mobile">
+                                    <thead class="mobile">
+                                    <tr class="mobile">
+                                        <th>Заклинание</th>
+                                        <th>Сложность</th>
+                                        <th>Мана</th>
+                                        <th>Поддержание</th>
+                                        <th></th>
+                                        <th>Уровень</th>
+                                        <th>Стоимость</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="mobile">
+                                    <tr class="mobile"
+                                        ng-repeat="spellItem in item.spells">
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left">
+                                                {{spellItem.spell.name}}
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left">
+                                                {{spellItem.spell.complexity}}
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left">
+                                                {{spellItem.spell.mana}}
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left" ng-if="spellItem.spell.mana_support != null">
+                                                {{spellItem.spell.mana_support}} {{spellItem.spell.mana_sup_time}}
+                                            </div>
+                                            <div class="text-left" ng-if="spellItem.spell.mana_support == null">
+                                                -
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="btn-group btn-group-justified plus-minus-block">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-secondary"
+                                                            ng-click=""
+                                                            type="button"
+                                                            ng-disabled="spellItem.personageSpell == null">
+                                                        <i class="icmn-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-primary"
+                                                            ng-click=""
+                                                            type="button"
+                                                            ng-disabled="spellItem.personageSpell == null">
+                                                        <i class="icmn-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left" ng-if="spellItem.personageSpell == null">
+                                                -
+                                            </div>
+                                            <div class="text-left" ng-if="spellItem.personageSpell != null">
+                                                {{spellItem.personageSpell.level}}
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile spell">
+                                            <div class="text-left">
+                                                {{spellItem.spell.cost}}
+                                            </div>
+                                        </td>
+
+                                        <td class="text-right mobile flaw actions">
+                                            <div class="text-center">
+                                                <div ng-if="spellItem.personageSpell == null">
+                                                    <button class="btn btn-rounded btn-warning btn-sm"
+                                                            href="javascript: void(0)"
+                                                            ng-click="">
+                                                        Добавить
+                                                    </button>
+                                                </div>
+                                                <div ng-if="spellItem.personageSpell != null">
+                                                    <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                       ng-click="">
+                                                        Удалить
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

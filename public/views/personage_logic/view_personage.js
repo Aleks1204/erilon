@@ -1,111 +1,8 @@
-(function (i) {
-    var e = /iPhone/i, n = /iPod/i, o = /iPad/i, t = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, r = /Android/i, d = /BlackBerry/i, s = /Opera Mini/i, a = /IEMobile/i, b = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, h = RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), c = function (i, e) {
-        return i.test(e)
-    }, l = function (i) {
-        var l = i || navigator.userAgent;
-        this.apple = {
-            phone: c(e, l),
-            ipod: c(n, l),
-            tablet: c(o, l),
-            device: c(e, l) || c(n, l) || c(o, l)
-        }, this.android = {
-            phone: c(t, l),
-            tablet: !c(t, l) && c(r, l),
-            device: c(t, l) || c(r, l)
-        }, this.other = {
-            blackberry: c(d, l),
-            opera: c(s, l),
-            windows: c(a, l),
-            firefox: c(b, l),
-            device: c(d, l) || c(s, l) || c(a, l) || c(b, l)
-        }, this.seven_inch = c(h, l), this.any = this.apple.device || this.android.device || this.other.device || this.seven_inch
-    }, v = i.isMobile = new l;
-    v.Class = l
-})(window);
-
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
 
 app.controller("personageController", function ($scope, $http, $q, $sce) {
-    // $('[data-toggle="tooltip"]').tooltip();
-    var targets = $( '[rel~=tooltip]' ),
-        target  = false,
-        tooltip = false,
-        title   = false;
-
-    targets.bind( 'mouseenter', function()
-    {
-        target  = $( this );
-        tip     = target.attr( 'title' );
-        tooltip = $( '<div id="tooltip"></div>' );
-
-        if( !tip || tip == '' )
-            return false;
-
-        target.removeAttr( 'title' );
-        tooltip.css( 'opacity', 0 )
-            .html( tip )
-            .appendTo( 'body' );
-
-        var init_tooltip = function()
-        {
-            if( $( window ).width() < tooltip.outerWidth() * 1.5 )
-                tooltip.css( 'max-width', $( window ).width() / 2 );
-            else
-                tooltip.css( 'max-width', 340 );
-
-            var pos_left = target.offset().left + ( target.outerWidth() / 2 ) - ( tooltip.outerWidth() / 2 ),
-                pos_top  = target.offset().top - tooltip.outerHeight() - 20;
-
-            if( pos_left < 0 )
-            {
-                pos_left = target.offset().left + target.outerWidth() / 2 - 20;
-                tooltip.addClass( 'left' );
-            }
-            else
-                tooltip.removeClass( 'left' );
-
-            if( pos_left + tooltip.outerWidth() > $( window ).width() )
-            {
-                pos_left = target.offset().left - tooltip.outerWidth() + target.outerWidth() / 2 + 20;
-                tooltip.addClass( 'right' );
-            }
-            else
-                tooltip.removeClass( 'right' );
-
-            if( pos_top < 0 )
-            {
-                var pos_top  = target.offset().top + target.outerHeight();
-                tooltip.addClass( 'top' );
-            }
-            else
-                tooltip.removeClass( 'top' );
-
-            tooltip.css( { left: pos_left, top: pos_top } )
-                .animate( { top: '+=10', opacity: 1 }, 50 );
-        };
-
-        init_tooltip();
-        $( window ).resize( init_tooltip );
-
-        var remove_tooltip = function()
-        {
-            tooltip.animate( { top: '-=10', opacity: 0 }, 50, function()
-            {
-                $( this ).remove();
-            });
-
-            target.attr( 'title', tip );
-        };
-
-        target.bind( 'mouseleave', remove_tooltip );
-        tooltip.bind( 'click', remove_tooltip );
-    });
-
     $scope.loader = true;
-    $scope.isMobile = isMobile.android.phone;
-    $scope.meritAvailable = true;
-    $scope.currentMerit = null;
 
     var personage = $q.defer();
     var raceAttributes = $q.defer();
@@ -167,7 +64,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         }
     ]);
 
-    function success(data) {
+    function success() {
         $scope.recalculateBasicCharacteristics();
         $scope.loader = false;
     }
