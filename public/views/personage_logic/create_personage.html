@@ -1257,7 +1257,7 @@
                                         <div class="btn-group btn-group-justified plus-minus-block">
                                             <div class="btn-group">
                                                 <button class="btn btn-rounded btn-sm btn-secondary"
-                                                        ng-click=""
+                                                        ng-click="decreaseSpellLevel(spellItem.personageSpell)"
                                                         type="button"
                                                         ng-disabled="spellItem.personageSpell == null">
                                                     <i class="icmn-minus"></i>
@@ -1265,7 +1265,7 @@
                                             </div>
                                             <div class="btn-group">
                                                 <button class="btn btn-rounded btn-sm btn-primary"
-                                                        ng-click=""
+                                                        ng-click="increaseSpellLevel(spellItem.personageSpell)"
                                                         type="button"
                                                         ng-disabled="spellItem.personageSpell == null">
                                                     <i class="icmn-plus"></i>
@@ -1294,16 +1294,19 @@
                                             <div ng-if="spellItem.personageSpell == null">
                                                 <button class="btn btn-rounded btn-warning btn-sm"
                                                         href="javascript: void(0)"
-                                                        ng-click=""
+                                                        ng-click="addPersonageSpell(spellItem.spell)"
                                                         ng-disabled="!item.added">
                                                     Добавить
                                                 </button>
                                             </div>
-                                            <div ng-if="spellItem.personageSpell != null">
+                                            <div ng-if="spellItem.personageSpell != null && spellItem.personageSpell.level == 0">
                                                 <a class="link-underlined link-blue" href="javascript: void(0)"
-                                                   ng-click="">
+                                                   ng-click="deletePersonageSpell(spellItem.personageSpell)">
                                                     Удалить
                                                 </a>
+                                            </div>
+                                            <div ng-if="spellItem.personageSpell != null && spellItem.personageSpell.level != 0">
+                                                Нельзя удалить
                                             </div>
                                         </div>
                                     </td>

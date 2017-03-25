@@ -919,13 +919,38 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.addPersonageSpell = function (spell) {
-        $scope.personageSpells.push(spell);
-        $scope.personage.experience = $scope.personage.experience - result.spell.cost;
+        var personageSpell = {
+            Spell: spell,
+            SpellId: spell.id,
+            PersonageId: personageId,
+            level: 0,
+            tutored: false
+        };
+        $scope.personageSpells.push(personageSpell);
+
+        angular.forEach($scope.spellsBySchool, function (school) {
+            angular.forEach(school.spells, function (spellInSchool) {
+                if (spellInSchool.spell.id == spell.id) {
+                    spellInSchool.personageSpell = personageSpell;
+                }
+            });
+        });
+
+        $scope.personage.experience = $scope.personage.experience - spell.cost;
     };
 
     $scope.deletePersonageSpell = function (personageSpell) {
         var index = $scope.personageSpells.indexOf(personageSpell);
         $scope.personageSpells.splice(index, 1);
+
+        angular.forEach($scope.spellsBySchool, function (school) {
+            angular.forEach(school.spells, function (spellInSchool) {
+                if (spellInSchool.spell.id == personageSpell.Spell.id && spellInSchool.personageSpell != null) {
+                    spellInSchool.personageSpell = null;
+                }
+            });
+        });
+
         $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
     };
 
