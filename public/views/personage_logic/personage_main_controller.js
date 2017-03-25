@@ -951,7 +951,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
+        if (index != -1) {
+            $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
+        }
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
@@ -1582,7 +1584,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         updateMeritPrerequisites(personageMerit.Merit.id);
-        $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
+        if (index != -1) {
+            $scope.personage.experience = $scope.personage.experience + personageMerit.Merit.cost;
+        }
 
     }
 
