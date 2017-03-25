@@ -729,7 +729,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    function recalculateBasicCharacteristics () {
+    function recalculateBasicCharacteristics() {
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
                 case "Сила":
@@ -1717,6 +1717,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (value == null) {
             return {'background-color': '#C1BDBD', 'border-bottom': '3px solid white'};
         }
+    };
+
+    $scope.showHideDescription = function (id) {
+        $scope.test = !$scope.test;
+        $scope.clickedSpell = id;
+    };
+
+    $scope.isShowSpell = function (id) {
+        return !!($scope.test && $scope.clickedSpell == id);
     };
 
     $scope.changeColorNotAvailable = function (available, isAdded) {

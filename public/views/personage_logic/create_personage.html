@@ -1220,13 +1220,15 @@
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody class="mobile">
+                                <tbody class="mobile" ng-repeat="spellItem in item.spells">
                                 <tr class="mobile"
-                                    ng-repeat="spellItem in item.spells"
                                     ng-style="changeColorNotAvailable(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell">
                                         <div class="text-left">
-                                            {{spellItem.spell.name}}
+                                            <a class="link-underlined link-blue" href="javascript: void(0)"
+                                               ng-click="showHideDescription(spellItem.spell.id)">
+                                                {{spellItem.spell.name}}
+                                            </a>
                                         </div>
                                     </td>
 
@@ -1304,6 +1306,26 @@
                                                 </a>
                                             </div>
                                         </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="isShowSpell(spellItem.spell.id)">
+                                    <td colspan="7">
+                                        <ul>
+                                            <li style="list-style-type: none">
+                                                <strong>Эффект:</strong>
+                                                <div>{{spellItem.spell.effect}}</div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr ng-show="isShowSpell(spellItem.spell.id)">
+                                    <td colspan="7">
+                                        <ul>
+                                            <li style="list-style-type: none">
+                                                <strong>Описание:</strong>
+                                                <div>{{spellItem.spell.description}}</div>
+                                            </li>
+                                        </ul>
                                     </td>
                                 </tr>
                                 </tbody>
