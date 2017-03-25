@@ -393,7 +393,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
             $scope.spellsBySchool.push({
                 school: school,
-                spells: spells
+                spells: spells,
+                added: false
+            });
+        });
+    }
+
+    function calculateAddedSchools() {
+        angular.forEach($scope.spellsBySchool, function (school) {
+            school.added = false;
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (personageAttachedSkill.AttachedSkillId == school.school.id) {
+                    school.added = true;
+                }
             });
         });
     }
@@ -525,6 +537,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateFlawsToShow();
         calculateMeritsToShow();
         calculateSpellsToShow();
+        calculateAddedSchools();
         $scope.loader = false;
     }
 
@@ -1697,6 +1710,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
         updateAttachedSkillPrerequisites(attachedSkill.id);
         updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
+        calculateAddedSchools();
     };
 
     $scope.changeColor = function (value) {
@@ -1780,6 +1794,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     }
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                    calculateAddedSchools();
                 }
             });
         }
