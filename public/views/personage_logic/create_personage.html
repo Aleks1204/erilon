@@ -293,6 +293,37 @@
                         <button class="btn margin-inline spellsButton">Заклинания</button>
                     </div>
 
+                    <div class="modal fade" id="confirmSpellsChangesModal" tabindex="-1" role="dialog"
+                         aria-labelledby=""
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalSpellsLabel">Удаление заклинаний</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Данное изменение приведет к удалению заклинаний из данной школы:
+                                        <span ng-repeat="personageSpell in personageSpellsToDelete">
+                                        <span style="font-weight: bold">"{{personageSpell.Spell.name}}"</span><span ng-hide="$last">,</span>
+                                        </span>.
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn" data-dismiss="modal" id="deleteSpellsCancelled">
+                                        Отменить
+                                        изменнения
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                            id="deleteSpellsConfirmed">Удалить и продолжить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="confirmChangesModal" tabindex="-1" role="dialog" aria-labelledby=""
                          aria-hidden="true">
                         <div class="modal-dialog" role="document">

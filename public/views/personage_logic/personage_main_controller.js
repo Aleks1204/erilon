@@ -1798,41 +1798,62 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
-        var hasSpells = false;
+        checkSpellsAddedToSchool(personageAttachedSkill).then(function (deleteSpells) {
+            if (deleteSpells) {
+                checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'delete').then(function (result) {
+                    if (result) {
+                        var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
+                        $scope.personageAttachedSkills.splice(index, 1);
+
+                        angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
+                            if (attachedSkillMixed.attachedSkill.id == personageAttachedSkill.AttachedSkill.id && attachedSkillMixed.personageAttachedSkill != null) {
+                                attachedSkillMixed.personageAttachedSkill = null;
+                            }
+                        });
+
+                        if (personageAttachedSkill.AttachedSkill.difficult) {
+                            $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
+                        } else {
+                            $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+                        }
+                        updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                        updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                        calculateAddedSchools();
+                    }
+                });
+            }
+        });
+    };
+
+    function checkSpellsAddedToSchool(personageAttachedSkill) {
+        $scope.personageSpellsToDelete = [];
+        var result = $q.defer();
 
         if (personageAttachedSkill.AttachedSkill.spells_connected) {
             angular.forEach($scope.personageSpells, function (personageSpell) {
-                if (personageSpell.Spell.AttachedSkillId == personageAttachedSkill.AttachedSkill.id && !hasSpells) {
-                    hasSpells = true;
-                    jQuery('#attachedSkillHasSpellsAlert').modal('show');
+                if (personageSpell.Spell.AttachedSkillId == personageAttachedSkill.AttachedSkill.id) {
+                    $scope.personageSpellsToDelete.push(personageSpell);
                 }
             });
         }
 
-        if (!hasSpells) {
-            checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'delete').then(function (result) {
-                if (result) {
-                    var index = $scope.personageAttachedSkills.indexOf(personageAttachedSkill);
-                    $scope.personageAttachedSkills.splice(index, 1);
-
-                    angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
-                        if (attachedSkillMixed.attachedSkill.id == personageAttachedSkill.AttachedSkill.id && attachedSkillMixed.personageAttachedSkill != null) {
-                            attachedSkillMixed.personageAttachedSkill = null;
-                        }
-                    });
-
-                    if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
-                    } else {
-                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
-                    }
-                    updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    calculateAddedSchools();
-                }
+        if ($scope.personageSpellsToDelete.length) {
+            $('#confirmSpellsChangesModal').modal('show');
+            $('#deleteSpellsConfirmed').click(function () {
+                angular.forEach($scope.personageSpellsToDelete, function (personageSpell) {
+                    $scope.deletePersonageSpell(personageSpell);
+                });
+                result.resolve(true);
             });
+            $('#deleteSpellsCancelled').click(function () {
+                result.resolve(false);
+            });
+        } else {
+            result.resolve(true);
         }
-    };
+
+        return result.promise;
+    }
 
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
