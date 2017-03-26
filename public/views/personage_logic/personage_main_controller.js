@@ -1599,7 +1599,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.parryPiercePunchAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Ловкость'),
+            $('#Скорость'),
             $('#Реакция')
         ]);
     };
