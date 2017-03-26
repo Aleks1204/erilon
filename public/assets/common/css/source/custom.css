@@ -487,3 +487,7 @@ only screen and (max-width: 760px)  {
 	color: black !important;
 	vertical-align: -2px;
 }
+
+.highlight {
+	animation: ripple .25s linear;
+}

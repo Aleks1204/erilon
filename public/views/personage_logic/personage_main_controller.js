@@ -531,7 +531,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function success() {
         $scope.hasInherents();
-        recalculateBasicCharacteristics();
+        recalculateBasicCharacteristics(false);
         calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
         calculateFlawsToShow();
@@ -729,41 +729,81 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    function recalculateBasicCharacteristics() {
+    function recalculateBasicCharacteristics(animate) {
+        var buttonsToAnimate = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
                 case "Сила":
-                    $scope.power = personageAttribute.value;
+                    if ($scope.power != personageAttribute.value) {
+                        buttonsToAnimate.push($('#hitChopPunch'));
+                        buttonsToAnimate.push($('#parryChopPunch'));
+                        $scope.power = personageAttribute.value;
+                    }
                     break;
                 case "Ловкость":
-                    $scope.dexterity = personageAttribute.value;
+                    if ($scope.dexterity != personageAttribute.value) {
+                        $scope.dexterity = personageAttribute.value;
+                        buttonsToAnimate.push($('#hitPiercePunch'));
+                        buttonsToAnimate.push($('#hitChopPunch'));
+                        buttonsToAnimate.push($('#rangedHit'));
+                        buttonsToAnimate.push($('#dodge'));
+                    }
                     break;
                 case "Скорость":
-                    $scope.speed = personageAttribute.value;
+                    if ($scope.speed != personageAttribute.value) {
+                        $scope.speed = personageAttribute.value;
+                        buttonsToAnimate.push($('#hitPiercePunch'));
+                        buttonsToAnimate.push($('parryPiercePunch'));
+                        buttonsToAnimate.push($('#generalActionPoints'));
+                    }
                     break;
                 case "Реакция":
-                    $scope.reaction = personageAttribute.value;
+                    if ($scope.reaction != personageAttribute.value) {
+                        $scope.reaction = personageAttribute.value;
+                        buttonsToAnimate.push($('parryPiercePunch'));
+                        buttonsToAnimate.push($('#parryChopPunch'));
+                        buttonsToAnimate.push($('#dodge'));
+                        buttonsToAnimate.push($('#initiative'));
+                    }
                     break;
                 case "Восприятие":
-                    $scope.perception = personageAttribute.value;
+                    if ($scope.perception != personageAttribute.value) {
+                        $scope.perception = personageAttribute.value;
+                        buttonsToAnimate.push($('#rangedHit'));
+                    }
                     break;
                 case "Выносливость":
-                    $scope.endurance = personageAttribute.value;
+                    if ($scope.endurance != personageAttribute.value) {
+                        $scope.endurance = personageAttribute.value;
+                        buttonsToAnimate.push($('#endurancePoints'));
+                    }
                     break;
                 case "Живучесть":
-                    $scope.vitality = personageAttribute.value;
+                    if ($scope.vitality != personageAttribute.value) {
+                        $scope.vitality = personageAttribute.value;
+                    }
                     break;
                 case "Мудрость":
-                    $scope.wisdom = personageAttribute.value;
+                    if ($scope.wisdom != personageAttribute.value) {
+                        $scope.wisdom = personageAttribute.value;
+                    }
                     break;
                 case "Интеллект":
-                    $scope.intelligence = personageAttribute.value;
+                    if ($scope.intelligence != personageAttribute.value) {
+                        $scope.intelligence = personageAttribute.value;
+                        buttonsToAnimate.push($('#mentalActionPoints'));
+                        buttonsToAnimate.push($('#generalActionPoints'));
+                    }
                     break;
                 case "Воля":
-                    $scope.will = personageAttribute.value;
+                    if ($scope.will != personageAttribute.value) {
+                        $scope.will = personageAttribute.value;
+                    }
                     break;
                 case "Харизма":
-                    $scope.charisma = personageAttribute.value;
+                    if ($scope.charisma != personageAttribute.value) {
+                        $scope.charisma = personageAttribute.value;
+                    }
                     break;
             }
         });
@@ -783,6 +823,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.initiative = $scope.reaction;
         $scope.endurancePoints = $scope.endurance * 20;
 
+        if (animate) {
+            animateButtons(buttonsToAnimate);
+        }
     }
 
     $scope.increaseAttribute = function (id) {
@@ -836,7 +879,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
 
-        recalculateBasicCharacteristics();
+        recalculateBasicCharacteristics(true);
         $scope.loader = false;
     };
 
@@ -847,6 +890,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 checkAttributeRelatedPrerequisites(personageAttribute).then(function (changesConfirmed) {
                     if (changesConfirmed) {
                         personageAttribute.value--;
+                        recalculateBasicCharacteristics(true);
                         angular.forEach($scope.raceAttributes, function (raceAttribute) {
                             if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
                                 $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
@@ -858,7 +902,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             }
         });
-        recalculateBasicCharacteristics();
     };
 
     function checkAttributeRelatedPrerequisites(personageAttribute) {
@@ -1511,8 +1554,93 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return levelName;
     }
 
-    $scope.clickTargetButton = function (buttonId) {
-        $('#hitPiercePunch').click();
+    function animateButtons(buttons) {
+        angular.forEach(buttons, function (button) {
+            if (button.hasClass('highlight')) {
+                button.removeClass('highlight');
+                button.fadeIn("slow", function () {
+                    button.addClass('highlight');
+                });
+            } else {
+                button.fadeIn("slow", function () {
+                    button.addClass('highlight');
+                });
+            }
+        });
+    }
+
+    $scope.hitPiercePunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Скорость')
+        ]);
+    };
+
+    $scope.hitChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Силв')
+        ]);
+    };
+
+    $scope.hitChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Сила')
+        ]);
+    };
+
+    $scope.rangedHitAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Восприятие')
+        ]);
+    };
+
+    $scope.parryPiercePunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Реакция')
+        ]);
+    };
+
+    $scope.parryChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция'),
+            $('#Сила')
+        ]);
+    };
+
+    $scope.dodgeAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция'),
+            $('#Ловкость')
+        ]);
+    };
+
+    $scope.generalActionPointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Интеллект'),
+            $('#Скорость')
+        ]);
+    };
+
+    $scope.mentalActionPointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Интеллект')
+        ]);
+    };
+
+    $scope.endurancePointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Выносливость')
+        ]);
+    };
+
+    $scope.initiativeAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция')
+        ]);
     };
 
     $scope.addPersonageMerit = function (merit) {
