@@ -1664,8 +1664,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             },
             type: 'danger',
             animate: {
-                enter: 'animated bounceIn',
-                exit: 'animated bounceOut'
+                enter: 'animated lightSpeedIn',
+                exit: 'animated hinge'
             }
         });
     }
@@ -1678,7 +1678,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             placement: {
                 align: "center"
             },
-            type: 'danger'
+            type: 'danger',
+            animate: {
+                enter: 'animated lightSpeedIn',
+                exit: 'animated hinge'
+            }
         });
     }
 
