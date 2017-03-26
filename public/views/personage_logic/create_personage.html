@@ -372,30 +372,125 @@
                         </button>
                     </div>
                     <div id="attr" class="tab-pane" role="tabpanel" style="display: none">
-                        <table id="attrTable" class="table table-hover">
-                            <tr ng-repeat="personageAttribute in personageAttributes">
-                                <td>{{ personageAttribute.Attribute.name}}</td>
-                                <td>
-                                    <div class="btn-group btn-group-justified plus-minus-block">
-                                        <div class="btn-group">
-                                            <button class="btn btn-rounded btn-sm btn-secondary"
-                                                    ng-click="decreaseAttribute(personageAttribute.id)"
-                                                    type="button">
-                                                <i class="icmn-minus"></i>
-                                            </button>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-rounded btn-sm btn-primary"
-                                                    ng-click="increaseAttribute(personageAttribute.id)"
-                                                    type="button">
-                                                <i class="icmn-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{ personageAttribute.value }}</td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-2 hidden-xs-down hidden-sm-down">
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="hitPiercePunch"
+                                        title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
+                                         height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" ng-click="clickTargetButton()"
+                                        title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/rangedHit.svg"
+                                         class="ng-scope tooltips" height="40" width="40">
+                                    <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                                </button>
+
+                            </div>
+                            <div class="col-md-2 hidden-xs-down hidden-sm-down">
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
+                                         height="40" width="40">
+                                    <span class="ng-binding ng-scope">{{dodge}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                                </button>
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/initiative.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{initiative}}</span>
+                                </button>
+                            </div>
+                            <div class="col-md-8">
+                                <table id="attrTable" class="table table-hover">
+                                    <tr ng-repeat="personageAttribute in personageAttributes">
+                                        <td>{{ personageAttribute.Attribute.name}}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-justified plus-minus-block">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-secondary"
+                                                            ng-click="decreaseAttribute(personageAttribute.id)"
+                                                            type="button">
+                                                        <i class="icmn-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-primary"
+                                                            ng-click="increaseAttribute(personageAttribute.id)"
+                                                            type="button">
+                                                        <i class="icmn-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ personageAttribute.value }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div id="attached" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">

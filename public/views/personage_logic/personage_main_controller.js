@@ -1511,6 +1511,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return levelName;
     }
 
+    $scope.clickTargetButton = function (buttonId) {
+        $('#hitPiercePunch').click();
+    };
+
     $scope.addPersonageMerit = function (merit) {
         var personageMerit = {
             Merit: merit,

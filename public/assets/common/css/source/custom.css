@@ -480,3 +480,10 @@ only screen and (max-width: 760px)  {
 		height: 77%;
 	}
 }
+
+.produced {
+	font-weight: bold;
+	font-size: large;
+	color: black !important;
+	vertical-align: -2px;
+}
