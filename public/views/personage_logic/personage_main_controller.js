@@ -851,28 +851,36 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             if (personageAttribute.id == id) {
                 angular.forEach($scope.raceAttributes, function (raceAttribute) {
-                    if (raceAttribute.Attribute.id == personageAttribute.Attribute.id && personageAttribute.value < maxPrice - raceAttribute.base_cost + 2) {
-                        if (personageAttribute.value < maxPrice - raceAttribute.base_cost) {
-                            personageAttribute.value++;
-                            $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                            updateAttributePrerequisites(personageAttribute.Attribute.id);
-                            updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
-                        } else {
-                            if (personageAttribute.value == maxPrice - raceAttribute.base_cost + 1) {
-                                if (!isPrimaryAttributeSet) {
-                                    personageAttribute.value++;
-                                    $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                                    updateAttributePrerequisites(personageAttribute.Attribute.id);
-                                    updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
-                                }
+                    if (raceAttribute.Attribute.id == personageAttribute.Attribute.id) {
+                        if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 2) {
+                            if (personageAttribute.value < maxPrice - raceAttribute.base_cost) {
+                                personageAttribute.value++;
+                                $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                             } else {
-                                if (isSecondaryAttributeSet < 3) {
-                                    personageAttribute.value++;
-                                    $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
-                                    updateAttributePrerequisites(personageAttribute.Attribute.id);
-                                    updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
+                                if (personageAttribute.value == maxPrice - raceAttribute.base_cost + 1) {
+                                    if (!isPrimaryAttributeSet) {
+                                        personageAttribute.value++;
+                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                        updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                        updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
+                                    } else {
+                                        exceedLimit(personageAttribute.Attribute.name);
+                                    }
+                                } else {
+                                    if (isSecondaryAttributeSet < 3) {
+                                        personageAttribute.value++;
+                                        $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                                        updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                        updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
+                                    } else {
+                                        exceedLimit(personageAttribute.Attribute.name);
+                                    }
                                 }
                             }
+                        } else {
+                            exceedLimit(personageAttribute.Attribute.name);
                         }
                     }
                 });
@@ -1097,6 +1105,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 } else {
                                     $scope.personage.experience = $scope.personage.experience - 1;
                                 }
+                            } else {
+                                exceedWisdom(personageAttachedSkill.AttachedSkill.name);
                             }
                         }
                     } else {
@@ -1123,6 +1133,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                         }
                                     }
                                 }
+                            } else {
+                                exceedLimit(personageAttachedSkill.AttachedSkill.name);
                             }
                         } else {
                             if (isSecondaryAttributeSet < 3) {
@@ -1145,11 +1157,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                         } else {
                                             $scope.personage.experience = $scope.personage.experience - 1;
                                         }
+                                    } else {
+                                        exceedWisdom(personageAttachedSkill.AttachedSkill.name);
                                     }
                                 }
+                            } else {
+                                exceedLimit(personageAttachedSkill.AttachedSkill.name);
                             }
                         }
                     }
+                } else {
+                    exceedLimit(personageAttachedSkill.AttachedSkill.name);
                 }
             }
         });
@@ -1642,6 +1660,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $('#Реакция')
         ]);
     };
+
+    function exceedLimit(name) {
+        $.notify({
+            icon: 'fa fa-exclamation',
+            message: 'Значение <strong>"'+ name +'"</strong> достигло максимума, доступного при создании персонажа.'
+        },{
+            placement: {
+                align: "center"
+            },
+            type: 'danger'
+        });
+    }
+
+    function exceedWisdom(name) {
+        $.notify({
+            icon: 'fa fa-exclamation',
+            message: 'Значение <strong>"'+ name +'"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
+        },{
+            placement: {
+                align: "center"
+            },
+            type: 'danger'
+        });
+    }
 
     $scope.addPersonageMerit = function (merit) {
         var personageMerit = {
