@@ -824,7 +824,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.endurancePoints = $scope.endurance * 20;
 
         if (animate) {
-            animateButtons(buttonsToAnimate);
+            animateButtons(buttonsToAnimate, 'tada');
         }
     }
 
@@ -1572,18 +1572,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return levelName;
     }
 
-    function animateButtons(buttons) {
+    function animateButtons(buttons, animatedStyle) {
         angular.forEach(buttons, function (button) {
-            if (button.hasClass('highlight')) {
-                button.removeClass('highlight');
-                button.fadeIn("slow", function () {
-                    button.addClass('highlight');
-                });
-            } else {
-                button.fadeIn("slow", function () {
-                    button.addClass('highlight');
-                });
-            }
+            button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass(animatedStyle + ' animated');
+            });
         });
     }
 
@@ -1591,74 +1584,74 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         animateButtons([
             $('#Ловкость'),
             $('#Скорость')
-        ]);
+        ], 'shake');
     };
 
     $scope.hitChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Ловкость'),
             $('#Силв')
-        ]);
+        ], 'shake');
     };
 
     $scope.hitChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Ловкость'),
             $('#Сила')
-        ]);
+        ], 'shake');
     };
 
     $scope.rangedHitAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Ловкость'),
             $('#Восприятие')
-        ]);
+        ], 'shake');
     };
 
     $scope.parryPiercePunchAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Скорость'),
             $('#Реакция')
-        ]);
+        ], 'shake');
     };
 
     $scope.parryChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Реакция'),
             $('#Сила')
-        ]);
+        ], 'shake');
     };
 
     $scope.dodgeAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Реакция'),
             $('#Ловкость')
-        ]);
+        ], 'shake');
     };
 
     $scope.generalActionPointsAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Интеллект'),
             $('#Скорость')
-        ]);
+        ], 'shake');
     };
 
     $scope.mentalActionPointsAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Интеллект')
-        ]);
+        ], 'shake');
     };
 
     $scope.endurancePointsAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Выносливость')
-        ]);
+        ], 'shake');
     };
 
     $scope.initiativeAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Реакция')
-        ]);
+        ], 'shake');
     };
 
     function exceedLimit(name) {
@@ -1669,7 +1662,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             placement: {
                 align: "center"
             },
-            type: 'danger'
+            type: 'danger',
+            animate: {
+                enter: 'animated bounceIn',
+                exit: 'animated bounceOut'
+            }
         });
     }
 
