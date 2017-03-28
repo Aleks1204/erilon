@@ -705,7 +705,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
             var random = Math.floor((Math.random() * probability) + 1);
             if (random == probability) {
-                promises.push($scope.addPersonageInherent(inherent.id));
+                promises.push(addPersonageInherent(inherent.id));
             }
         });
 
@@ -714,6 +714,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             randomizeInherentValues();
             setHasInherents();
             $scope.savePersonage();
+        });
+    }
+
+    function addPersonageInherent(inherent_id) {
+        $http.get('/inherents/' + inherent_id).success(function (result) {
+            $scope.personageInherents.push({
+                Inherent: result.inherent,
+                InherentId: inherent_id,
+                PersonageId: personageId
+            });
         });
     }
 
