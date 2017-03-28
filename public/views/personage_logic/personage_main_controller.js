@@ -2194,11 +2194,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.deleteNotice = function (notice_id) {
+    $scope.deleteNotice = function (notice_id, experience) {
         $http.delete('/notices/' + notice_id).success(function (data) {
             $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
                 $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
                     $scope.notices = data.data;
+                    $scope.personage.experience = $scope.personage.experience + experience;
                 });
             });
         });

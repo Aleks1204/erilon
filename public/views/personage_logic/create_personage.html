@@ -1582,7 +1582,7 @@
                                                         Редактировать
                                                     </button>
                                                     <button type="submit" class="btn btn-danger" data-dismiss="modal"
-                                                            ng-click="deleteNotice(notice.id)">Удалить
+                                                            ng-click="deleteNotice(notice.id, notice.experience)">Удалить
                                                     </button>
                                                 </div>
                                             </div>
@@ -1627,6 +1627,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div ng-if="notice.experience > 0">
+                                        {{notice.experience}}
                                     </div>
                                 </td>
                             </tr>
