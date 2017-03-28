@@ -55,7 +55,13 @@
 }
 
 .alert.alert-danger {
-    background: #fb434a;
+    background: #f2dede;
+    color: #a94442;
+    opacity:0.5;
+}
+
+.alert.alert-danger .close {
+    color: #a94442;
 }
 
 .sweet-overlay {
