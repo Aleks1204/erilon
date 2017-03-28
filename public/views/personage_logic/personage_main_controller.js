@@ -2181,6 +2181,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if ($scope.noticeExperience != '') {
             experienceValue = $scope.noticeExperience;
             $scope.personage.experience = $scope.personage.experience - experienceValue;
+            $http.put('/personages/' + personageId, {
+                race_id: $scope.personage.RaceId,
+                name: $scope.personage.name,
+                age: $scope.age,
+                max_age: $scope.max_age,
+                generated: false,
+                experience: $scope.personage.experience,
+                notes: $scope.notes
+            });
         }
         $http.post('/notices', {
             personage_id: personageId,
@@ -2200,6 +2209,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
                     $scope.notices = data.data;
                     $scope.personage.experience = $scope.personage.experience + experience;
+                    $http.put('/personages/' + personageId, {
+                        race_id: $scope.personage.RaceId,
+                        name: $scope.personage.name,
+                        age: $scope.age,
+                        max_age: $scope.max_age,
+                        generated: false,
+                        experience: $scope.personage.experience,
+                        notes: $scope.notes
+                    });
                 });
             });
         });
