@@ -497,7 +497,7 @@
                             </div>
                             <div class="col-md-8">
                                 <table id="attrTable" class="table table-hover sorted_table">
-                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" style="cursor: grab;" draggable="true">
+                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" class="draggable">
                                         <td id="{{personageAttribute.Attribute.name}}">{{
                                             personageAttribute.Attribute.name}}
                                         </td>

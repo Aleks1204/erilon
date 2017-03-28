@@ -2162,6 +2162,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         containerSelector: 'table',
         itemPath: '> tbody',
         itemSelector: 'tr',
+        delay: 1000,
         group: 'serialization',
         placeholder: '<tr class="placeholder"/>',
         onDrop: function ($item, container, _super) {

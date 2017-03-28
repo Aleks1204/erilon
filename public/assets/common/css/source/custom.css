@@ -561,3 +561,7 @@ table tr.not_added {
     background-color: #eceeef;
     border-bottom: 3px solid white
 }
+
+.draggable {
+    cursor: grab
+}
