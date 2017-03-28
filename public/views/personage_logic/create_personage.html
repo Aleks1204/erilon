@@ -109,6 +109,7 @@
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
+    <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
 
     <script src="../permissions/permissions.js"></script>
     <script src="personage_main_controller.js"></script>
@@ -495,8 +496,8 @@
                                 </button>
                             </div>
                             <div class="col-md-8">
-                                <table id="attrTable" class="table table-hover">
-                                    <tr ng-repeat="personageAttribute in personageAttributes">
+                                <table id="attrTable" class="table table-hover sorted_table">
+                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" style="cursor: grab;" draggable="true">
                                         <td id="{{personageAttribute.Attribute.name}}">{{
                                             personageAttribute.Attribute.name}}
                                         </td>
@@ -1503,7 +1504,8 @@
                             </li>
                         </ul>
 
-                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" style="margin-left: 40px"
+                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal"
+                                style="margin-left: 40px"
                                 data-target="#addNoticeDialog" ng-click="clearNoticeFields()">Добавить заметку
                         </button>
                         <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog"
@@ -1541,14 +1543,16 @@
                                             Отменить
                                         </button>
                                         <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                                id="addNotice" ng-click="addNotice()" ng-disabled="addNoticeForm.$invalid">Добавить
+                                                id="addNotice" ng-click="addNotice()"
+                                                ng-disabled="addNoticeForm.$invalid">Добавить
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <table id="noticeTable" class="table table-hover" style="margin-left: 40px; width: 90%; margin-top: 10px;">
+                        <table id="noticeTable" class="table table-hover"
+                               style="margin-left: 40px; width: 90%; margin-top: 10px;">
                             <tr ng-repeat="notice in notices | orderBy:'-updatedAt'">
                                 <td>
                                     <a class="link-underlined link-blue" data-toggle="modal"
@@ -1563,7 +1567,8 @@
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
-                                                    <h4 class="modal-title" id="modalNotesActionsLabel">{{notice.name}}</h4>
+                                                    <h4 class="modal-title" id="modalNotesActionsLabel">
+                                                        {{notice.name}}</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>{{notice.description}}</p>
@@ -1572,7 +1577,8 @@
                                                     <button type="button" class="btn btn-info" data-dismiss="modal">
                                                         Ок
                                                     </button>
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editNotice(notice.id)">
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                                            ng-click="editNotice(notice.id)">
                                                         Редактировать
                                                     </button>
                                                     <button type="submit" class="btn btn-danger" data-dismiss="modal"
@@ -1589,7 +1595,8 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                     <h4 class="modal-title">Редактировать заметку</h4>
@@ -1598,7 +1605,8 @@
                                                     <form id="updateNoticeForm" name="updateNoticeForm">
                                                         <div class="form-group">
                                                             <label for="noticeTitleUpdate" class="form-control-label">Заголовок:</label>
-                                                            <input type="text" class="form-control" id="noticeTitleUpdate"
+                                                            <input type="text" class="form-control"
+                                                                   id="noticeTitleUpdate"
                                                                    ng-model="notice.name" required>
                                                         </div>
                                                         <div class="form-group">
@@ -1613,7 +1621,8 @@
                                                         Отменить
                                                     </button>
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                                            ng-click="updateNotice(notice)" ng-disabled="updateNoticeForm.$invalid">Сохранить
+                                                            ng-click="updateNotice(notice)"
+                                                            ng-disabled="updateNoticeForm.$invalid">Сохранить
                                                     </button>
                                                 </div>
                                             </div>

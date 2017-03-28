@@ -1314,7 +1314,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var personageAttributePromises = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             personageAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
-                value: personageAttribute.value
+                value: personageAttribute.value,
+                position: personageAttribute.position
             }));
         });
 

@@ -2158,6 +2158,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.noticeDescription = '';
     };
 
+    $('.sorted_table').sortable({
+        containerSelector: 'table',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        group: 'serialization',
+        placeholder: '<tr class="placeholder"/>',
+        onDrop: function ($item, container, _super) {
+            var ser = $('.sorted_table').sortable("serialize").get()[0];
+            var count = 1;
+            angular.forEach(ser, function (item) {
+                item.$scope.personageAttribute.position = count;
+                $http.put('/personageAttributes/' + item.$scope.personageAttribute.id, item.$scope.personageAttribute);
+                count++;
+            });
+            _super($item, container);
+        }
+    });
+
     $scope.addNotice = function () {
         var experienceValue = 0;
         if ($scope.noticeExperience != '') {
@@ -2227,7 +2245,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var personageAttributePromises = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             personageAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
-                value: personageAttribute.value
+                value: personageAttribute.value,
+                position: personageAttribute.position
             }));
         });
 

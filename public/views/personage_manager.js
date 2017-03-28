@@ -56,7 +56,8 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                     raceAttributePromises.push($http.post('/personageAttributes', {
                         personage_id: result.personage.id,
                         attribute_id: raceAttributes[0][i].AttributeId,
-                        value: 1
+                        value: 1,
+                        position: i+1
                     }));
                 }
 

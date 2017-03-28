@@ -8,3 +8,4 @@ ALTER TABLE "AttachedSkills" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Merits" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Flaws" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Notices" ADD COLUMN experience INTEGER;
+ALTER TABLE "PersonageAttributes" ADD COLUMN position INTEGER;

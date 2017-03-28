@@ -82,6 +82,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
                 },
                 "lengthMenu": "Показать _MENU_"
             },
+            stateSave: true,
             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
             "info": false,
             "ajax": dataUrl,
@@ -148,6 +149,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             '</div>');
         $('#' + id + 'Magic').DataTable({
             responsive: true,
+            stateSave: true,
             "language": {
                 "search": "Поиск:",
                 "paginate": {
