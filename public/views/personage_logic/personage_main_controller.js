@@ -2180,6 +2180,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var experienceValue = 0;
         if ($scope.noticeExperience != '') {
             experienceValue = $scope.noticeExperience;
+            $scope.personage.experience = $scope.personage.experience - experienceValue;
         }
         $http.post('/notices', {
             personage_id: personageId,
