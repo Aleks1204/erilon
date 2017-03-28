@@ -2158,23 +2158,35 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.noticeDescription = '';
     };
 
-    $('.sorted_table').sortable({
-        containerSelector: 'table',
-        itemPath: '> tbody',
-        itemSelector: 'tr',
-        group: 'serialization',
-        placeholder: '<tr class="placeholder"/>',
-        onDrop: function ($item, container, _super) {
-            var ser = $('.sorted_table').sortable("serialize").get()[0];
-            var count = 1;
-            angular.forEach(ser, function (item) {
-                item.$scope.personageAttribute.position = count;
-                $http.put('/personageAttributes/' + item.$scope.personageAttribute.id, item.$scope.personageAttribute);
-                count++;
-            });
-            _super($item, container);
-        }
-    });
+    $scope.makeDraggable = function () {
+        var attrTable = $('#attrTable');
+        attrTable.addClass('sorted_table');
+        attrTable.find('tr').addClass('draggable');
+        $('.sorted_table').sortable({
+            containerSelector: 'table',
+            itemPath: '> tbody',
+            itemSelector: 'tr',
+            group: 'serialization',
+            placeholder: '<tr class="placeholder"/>',
+            onDrop: function ($item, container, _super) {
+                var ser = $('.sorted_table').sortable("serialize").get()[0];
+                var count = 1;
+                angular.forEach(ser, function (item) {
+                    item.$scope.personageAttribute.position = count;
+                    $http.put('/personageAttributes/' + item.$scope.personageAttribute.id, item.$scope.personageAttribute);
+                    count++;
+                });
+                _super($item, container);
+            }
+        });
+    };
+
+    $scope.makeUnDraggable = function () {
+        $('.sorted_table').sortable('disable');
+        var attrTable = $('#attrTable');
+        attrTable.removeClass('sorted_table');
+        attrTable.find('tr').removeClass('draggable');
+    };
 
     $scope.addNotice = function () {
         var experienceValue = 0;

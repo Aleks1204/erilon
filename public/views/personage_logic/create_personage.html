@@ -496,8 +496,8 @@
                                 </button>
                             </div>
                             <div class="col-md-8">
-                                <table id="attrTable" class="table table-hover sorted_table">
-                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" class="draggable">
+                                <table id="attrTable" class="table table-hover">
+                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'">
                                         <td id="{{personageAttribute.Attribute.name}}">{{
                                             personageAttribute.Attribute.name}}
                                         </td>
@@ -522,6 +522,10 @@
                                         <td>{{ personageAttribute.value }}</td>
                                     </tr>
                                 </table>
+                                <div class="hidden-xs-down hidden-sm-down">
+                                    <button class="btn btn-rounded btn-warning-outline" ng-click="makeDraggable()">Двигать</button>
+                                    <button class="btn btn-rounded btn-success-outline" ng-click="makeUnDraggable()">Перестать двигать</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1582,7 +1586,8 @@
                                                         Редактировать
                                                     </button>
                                                     <button type="submit" class="btn btn-danger" data-dismiss="modal"
-                                                            ng-click="deleteNotice(notice.id, notice.experience)">Удалить
+                                                            ng-click="deleteNotice(notice.id, notice.experience)">
+                                                        Удалить
                                                     </button>
                                                 </div>
                                             </div>
