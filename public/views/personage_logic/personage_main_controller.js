@@ -996,7 +996,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length) {
+        if ($scope.itemsToDelete.length > 0) {
             var checkMeritPromises = [];
             angular.forEach($scope.itemsToDelete, function (item) {
                 checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
@@ -1043,17 +1043,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.deletePersonageSpell = function (personageSpell) {
         var index = $scope.personageSpells.indexOf(personageSpell);
-        $scope.personageSpells.splice(index, 1);
-
-        angular.forEach($scope.spellsBySchool, function (school) {
-            angular.forEach(school.spells, function (spellInSchool) {
-                if (spellInSchool.spell.id == personageSpell.Spell.id && spellInSchool.personageSpell != null) {
-                    spellInSchool.personageSpell = null;
-                }
-            });
-        });
-
         if (index != -1) {
+            $scope.personageSpells.splice(index, 1);
+
+            angular.forEach($scope.spellsBySchool, function (school) {
+                angular.forEach(school.spells, function (spellInSchool) {
+                    if (spellInSchool.spell.id == personageSpell.Spell.id && spellInSchool.personageSpell != null) {
+                        spellInSchool.personageSpell = null;
+                    }
+                });
+            });
+
             $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
         }
     };
@@ -1348,7 +1348,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length) {
+        if ($scope.itemsToDelete.length > 0) {
             var checkMeritPromises = [];
             angular.forEach($scope.itemsToDelete, function (item) {
                 checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
@@ -1768,7 +1768,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.checkPrerequisitesAndDeletePersonageMerit = function (personageMerit) {
         $scope.itemsToDelete = [];
         checkMeritRelatedPrerequisites(personageMerit, 'delete').then(function () {
-            if ($scope.itemsToDelete.length) {
+            if ($scope.itemsToDelete.length > 0) {
                 var result = $q.defer();
                 $('#confirmChangesModal').modal('show');
                 $('#deleteConfirmed').click(function () {
@@ -1918,7 +1918,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length) {
+        if ($scope.itemsToDelete.length > 0) {
             var checkMeritPromises = [];
             angular.forEach($scope.itemsToDelete, function (item) {
                 checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
@@ -2055,7 +2055,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         }
 
-        if ($scope.personageSpellsToDelete.length) {
+        if ($scope.personageSpellsToDelete.length > 0) {
             $('#confirmSpellsChangesModal').modal('show');
             $('#deleteSpellsConfirmed').click(function () {
                 angular.forEach($scope.personageSpellsToDelete, function (personageSpell) {
@@ -2109,7 +2109,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length) {
+        if ($scope.itemsToDelete.length > 0) {
             var checkMeritPromises = [];
             angular.forEach($scope.itemsToDelete, function (item) {
                 checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
