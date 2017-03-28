@@ -10,6 +10,7 @@ router.post('/notices', function(req, res) {
     models.Notice.create({
         PersonageId: req.body.personage_id, 
         name: req.body.name,
+        experience: req.body.experience,
         description: req.body.description
     }).then(function(notice) {
         res.send({ status: 'CREATED', notice:notice })
@@ -51,9 +52,11 @@ router.put('/notices/:id', function (req, res){
         }
 
         notice.name = req.body.name;
+        notice.experience = req.body.experience;
         notice.description = req.body.description;
         return notice.update({
             name: req.body.name,
+            experience: req.body.experience,
             description: req.body.description
         }).then(function(notice) {
             res.send({ status: 'UPDATED', notice:notice })

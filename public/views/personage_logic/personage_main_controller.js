@@ -657,7 +657,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     });
 
     $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
-        $scope.notices = data.notices;
+        $scope.notices = data.data;
         personageNotices.resolve();
     });
 
@@ -2148,6 +2148,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.clearNoticeFields = function () {
         $scope.noticeName = '';
+        $scope.noticeExperience = '';
         $scope.noticeDescription = '';
     };
 
@@ -2155,13 +2156,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $http.post('/notices', {
             personage_id: personageId,
             name: $scope.noticeName,
+            experience: $scope.noticeExperience,
             description: $scope.noticeDescription
-        }).success(function (data) {
-            jQuery('#addNotice').modal('hide');
-            $('#addNotice').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                    $scope.notices = data.notices;
-                });
+        }).success(function () {
+            $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                $scope.notices = data.data;
             });
         });
     };

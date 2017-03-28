@@ -312,7 +312,8 @@
                                 <div class="modal-body">
                                     <p>Данное изменение приведет к удалению заклинаний из данной школы:
                                         <span ng-repeat="personageSpell in personageSpellsToDelete">
-                                        <span style="font-weight: bold">"{{personageSpell.Spell.name}}"</span><span ng-hide="$last">,</span>
+                                        <span style="font-weight: bold">"{{personageSpell.Spell.name}}"</span><span
+                                                ng-hide="$last">,</span>
                                         </span>.
                                     </p>
                                 </div>
@@ -379,7 +380,8 @@
                     <div id="attr" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row">
                             <div class="col-md-2 hidden-xs-down hidden-sm-down">
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="hitPiercePunch" ng-click="hitPiercePunchAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="hitPiercePunch" ng-click="hitPiercePunchAnimateRelatedAttributes()"
                                         title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
@@ -388,7 +390,8 @@
                                     <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="hitChopPunch" ng-click="hitChopPunchAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="hitChopPunch" ng-click="hitChopPunchAnimateRelatedAttributes()"
                                         title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
@@ -397,7 +400,8 @@
                                     <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="rangedHit" ng-click="rangedHitAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="rangedHit"
+                                        ng-click="rangedHitAnimateRelatedAttributes()"
                                         title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/rangedHit.svg"
@@ -405,7 +409,8 @@
                                     <span class="ng-binding ng-scope">{{rangedHit}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="parryPiercePunch" ng-click="parryPiercePunchAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="parryPiercePunch" ng-click="parryPiercePunchAnimateRelatedAttributes()"
                                         title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
@@ -414,7 +419,8 @@
                                     <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="parryChopPunch" ng-click="parryChopPunchAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="parryChopPunch" ng-click="parryChopPunchAnimateRelatedAttributes()"
                                         title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
@@ -426,7 +432,8 @@
                             </div>
                             <div class="col-md-2 hidden-xs-down hidden-sm-down">
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="dodge" ng-click="dodgeAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="dodge"
+                                        ng-click="dodgeAnimateRelatedAttributes()"
                                         title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
@@ -434,7 +441,9 @@
                                     <span class="ng-binding ng-scope">{{dodge}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="generalActionPoints" ng-click="generalActionPointsAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="generalActionPoints"
+                                        ng-click="generalActionPointsAnimateRelatedAttributes()"
                                         title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
@@ -443,7 +452,8 @@
                                     <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="mentalActionPoints" ng-click="mentalActionPointsAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="mentalActionPoints" ng-click="mentalActionPointsAnimateRelatedAttributes()"
                                         title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
@@ -452,7 +462,8 @@
                                     <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
                                 </button>
 
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="endurancePoints" ng-click="endurancePointsAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="endurancePoints" ng-click="endurancePointsAnimateRelatedAttributes()"
                                         title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
@@ -460,7 +471,8 @@
                                          width="40">
                                     <span class="ng-binding ng-scope">{{endurancePoints}}</span>
                                 </button>
-                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="initiative" ng-click="initiativeAnimateRelatedAttributes()"
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="initiative"
+                                        ng-click="initiativeAnimateRelatedAttributes()"
                                         title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
                                         rel="tooltip">
                                     <img src="/assets/common/img/erilon-icon/initiative.svg"
@@ -472,7 +484,9 @@
                             <div class="col-md-8">
                                 <table id="attrTable" class="table table-hover">
                                     <tr ng-repeat="personageAttribute in personageAttributes">
-                                        <td id="{{personageAttribute.Attribute.name}}">{{ personageAttribute.Attribute.name}}</td>
+                                        <td id="{{personageAttribute.Attribute.name}}">{{
+                                            personageAttribute.Attribute.name}}
+                                        </td>
                                         <td>
                                             <div class="btn-group btn-group-justified plus-minus-block">
                                                 <div class="btn-group">
@@ -1467,44 +1481,84 @@
                         </div>
                     </div>
                     <div id="notes" class="tab-pane table-responsive" role="tabpanel" style="display: none">
-                        Заметки
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoticeDialog">Добавить заметку</button>
-                        <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal"
+                                data-target="#addNoticeDialog" ng-click="clearNoticeFields()">Добавить заметку
+                        </button>
+                        <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog"
+                             aria-labelledby="modalNotesLabel"
+                             aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Добавить заметку</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
+                                        <h4 class="modal-title" id="modalNotesLabel">Добавить заметку</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form>
                                             <div class="form-group">
                                                 <label for="noticeTitle" class="form-control-label">Заголовок:</label>
-                                                <input type="text" class="form-control" id="noticeTitle">
+                                                <input type="text" class="form-control" id="noticeTitle"
+                                                       ng-model="noticeName">
                                             </div>
                                             <div class="form-group">
-                                                <label for="message-text" class="form-control-label">Текст:</label>
-                                                <textarea class="form-control" id="message-text"></textarea>
+                                                <label for="noticeExperience" class="form-control-label">Опыт:</label>
+                                                <input type="number" class="form-control" id="noticeExperience"
+                                                       ng-model="noticeExperience">
                                             </div>
                                             <div class="form-group">
-                                                <label for="noticeExperience" class="form-control-label">Очки опыта:</label>
-                                                <input type="text" class="form-control" id="noticeExperience">
+                                                <label for="noticeBody" class="form-control-label">Текст:</label>
+                                                <textarea class="form-control" id="noticeBody"
+                                                          ng-model="noticeDescription"></textarea>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                        <button type="button" class="btn btn-primary">Добавить</button>
+                                        <button type="button" class="btn" data-dismiss="modal">
+                                            Отменить
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                                                id="addNotice" ng-click="addNotice()">Добавить
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-            </div>
+                        <table id="noticeTable" class="table table-hover">
+                            <tr ng-repeat="notice in notices">
+                                <td>
+                                    <a class="link-underlined link-blue" data-toggle="modal"
+                                       data-target="#{{notice.id}}_view" href="#">{{notice.name}}</a>
+                                    <div class="modal fade" id="{{notice.id}}_view" tabindex="-1" role="dialog"
+                                         aria-labelledby="modalNotesLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title">{{notice.name}}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>{{notice.description}}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn" data-dismiss="modal">
+                                                        Закрыть
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
         </section>
 
     </div>
