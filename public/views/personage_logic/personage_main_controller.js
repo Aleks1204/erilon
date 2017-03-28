@@ -34,6 +34,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#merits").hide();
         $("#flaws").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.inherentsButton');
         $(".inherentsButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -42,6 +43,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".triggerButton").removeClass('active');
         $(".attachedButton").removeClass('active');
         $(".attributesButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".attributesButton").click(function () {
@@ -52,6 +54,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#merits").hide();
         $("#flaws").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.attributesButton');
         $(".attributesButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -60,6 +63,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".triggerButton").removeClass('active');
         $(".attachedButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".attachedButton").click(function () {
@@ -70,6 +74,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#merits").hide();
         $("#flaws").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.attachedButton');
         $(".attachedButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -78,6 +83,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".triggerButton").removeClass('active');
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".triggerButton").click(function () {
@@ -88,6 +94,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#merits").hide();
         $("#flaws").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.triggerButton');
         $(".triggerButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -96,6 +103,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attachedButton").removeClass('active');
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".meritsButton").click(function () {
@@ -106,6 +114,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attached").hide();
         $("#flaws").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.meritsButton');
         $(".meritsButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -114,6 +123,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attachedButton").removeClass('active');
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".flawsButton").click(function () {
@@ -124,6 +134,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#inherents").hide();
         $("#attached").hide();
         $("#spells").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.flawsButton');
         $(".flawsButton").addClass('active');
         $(".spellsButton").removeClass('active');
@@ -132,6 +143,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attachedButton").removeClass('active');
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
     });
 
     $(".spellsButton").click(function () {
@@ -142,8 +154,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attr").hide();
         $("#inherents").hide();
         $("#attached").hide();
+        $("#notes").hide();
         $("#steps").scrollTo('.spellsButton');
         $(".spellsButton").addClass('active');
+        $(".flawsButton").removeClass('active');
+        $(".meritsButton").removeClass('active');
+        $(".triggerButton").removeClass('active');
+        $(".attachedButton").removeClass('active');
+        $(".attributesButton").removeClass('active');
+        $(".inherentsButton").removeClass('active');
+        $(".notesButton").removeClass('active');
+    });
+
+    $(".notesButton").click(function () {
+        $("#notes").show();
+        $("#spells").hide();
+        $("#flaws").hide();
+        $("#merits").hide();
+        $("#trigger").hide();
+        $("#attr").hide();
+        $("#inherents").hide();
+        $("#attached").hide();
+        $("#steps").scrollTo('.notesButton');
+        $(".notesButton").addClass('active');
+        $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
         $(".triggerButton").removeClass('active');
@@ -528,6 +562,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personageMerits = $q.defer();
     var personageInherents = $q.defer();
     var personageSpells = $q.defer();
+    var personageNotices = $q.defer();
 
     function success() {
         $scope.hasInherents();
@@ -555,7 +590,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         personageFlaws.promise,
         personageMerits.promise,
         personageInherents.promise,
-        personageSpells.promise
+        personageSpells.promise,
+        personageNotices.promise
     ]);
 
     all.then(success);
@@ -618,6 +654,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
         $scope.personageSpells = data.personageSpells;
         personageSpells.resolve();
+    });
+
+    $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
+        $scope.notices = data.notices;
+        personageNotices.resolve();
     });
 
     $http.get('/personages/' + personageId).success(function (data) {
@@ -1574,7 +1615,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function animateButtons(buttons, animatedStyle) {
         angular.forEach(buttons, function (button) {
-            button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+            button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 $(this).removeClass(animatedStyle + ' animated');
             });
         });
@@ -1657,8 +1698,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedLimit(name) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Значение <strong>"'+ name +'"</strong> достигло максимума, доступного при создании персонажа.'
-        },{
+            message: 'Значение <strong>"' + name + '"</strong> достигло максимума, доступного при создании персонажа.'
+        }, {
             placement: {
                 align: "center"
             },
@@ -1673,8 +1714,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedWisdom(name) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Значение <strong>"'+ name +'"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
-        },{
+            message: 'Значение <strong>"' + name + '"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
+        }, {
             placement: {
                 align: "center"
             },
@@ -1917,9 +1958,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateAddedSchools();
     };
 
-    $scope.changeColor = function (value) {
-        if (value == null) {
-            return {'background-color': '#C1BDBD', 'border-bottom': '3px solid white'};
+    $scope.addNotAddedClass = function (isAdded) {
+        if (isAdded == null) {
+            return 'not_added';
         }
     };
 
@@ -1932,23 +1973,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return !!($scope.test && $scope.clickedSpell == id);
     };
 
-    $scope.changeColorNotAvailable = function (available, isAdded) {
+    $scope.addDisableOrNotAddedClass = function (available, isAdded) {
         if (available != true) {
-            return {'background-color': '#e2b2b3', 'border-bottom': '3px solid white'};
+            return 'unavailable';
         } else if (isAdded == null) {
-            return {'background-color': '#C1BDBD', 'border-bottom': '3px solid white'};
-        }
-    };
-
-    var noticesClicked = false;
-    $scope.getNotices = function () {
-        if (!noticesClicked) {
-            noticesClicked = true;
-            $scope.loader = true;
-            $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
-                $scope.notices = data.notices;
-                $scope.loader = false;
-            });
+            return 'not_added';
         }
     };
 

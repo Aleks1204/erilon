@@ -1,235 +1,238 @@
 /* ERILON Styles*/
 
 body {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	background: url("../../img/bg.png") repeat !important;
-	width: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: url("../../img/bg.png") repeat !important;
+    width: 100%;
 
 }
+
 .single-page .page-content-inner {
-	background: url("../../img/bg-login.jpg") no-repeat !important;
-	background-size: cover;
+    background: url("../../img/bg-login.jpg") no-repeat !important;
+    background-size: cover;
 }
 
 .logo, .logo h1 {
-		color: #46be8a !important;
+    color: #46be8a !important;
 }
 
 a:hover, a:focus,
 .dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:active, .dropdown-menu .dropdown-item:focus {
-	color: #46be8a;
+    color: #46be8a;
 }
 
 a:hover.nohover {
-	color: #e6fff4;
+    color: #e6fff4;
 }
 
 body.menu-top nav.top-menu .menu {
-	box-shadow: 1px 3px 6px rgba(0,0,0, .1);
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, .1);
 }
 
 .theme-dark.menu-top nav.left-menu .left-menu-list-root > li:hover > .left-menu-link,
 .theme-dark nav.left-menu .left-menu-list li:hover .left-menu-link .left-menu-link-icon,
 .theme-dark nav.left-menu .left-menu-list li.left-menu-list-active:hover > .left-menu-link .left-menu-link-icon {
-	color: #46be8a !important;
+    color: #46be8a !important;
 }
 
 .theme-dark nav.left-menu .left-menu-list li.left-menu-list-active > .left-menu-link,
 .theme-dark nav.left-menu .left-menu-list li.left-menu-list-active .left-menu-link-icon {
-	color: #46be8a;
-	transition: all 300ms linear;
+    color: #46be8a;
+    transition: all 300ms linear;
 }
 
 .theme-dark nav.left-menu .left-menu-list li.left-menu-list-active:hover > .left-menu-link {
-	background: none !important;
-	color: #d2d9e5;
+    background: none !important;
+    color: #d2d9e5;
 }
 
 .theme-dark nav.left-menu .left-menu-list li.left-menu-list-active > .left-menu-link .left-menu-link-icon {
-	color: #514d6a !important;	
+    color: #514d6a !important;
 }
 
 nav.top-menu::before, nav.top-menu {
-	background: #46be8a;
+    background: #46be8a;
 }
 
 .icons-block div {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .icons-block div:last-child {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .icons-block div span {
-	line-height: 1;
-	font-size: 30px;
-	vertical-align: middle;
-	padding-left: 5px;
+    line-height: 1;
+    font-size: 30px;
+    vertical-align: middle;
+    padding-left: 5px;
 }
 
 .icon-atr {
-	background: #ffffff;
-	border: 1px solid #dfe4ed;
-	color: #000;
-	padding: 10px;
-	border-radius: 300px;
-	margin: 0 auto;
-	display: inline-block;
+    background: #ffffff;
+    border: 1px solid #dfe4ed;
+    color: #000;
+    padding: 10px;
+    border-radius: 300px;
+    margin: 0 auto;
+    display: inline-block;
 }
 
 .icon-char {
-	background: #ffffff;
-	color: #000;
-	margin: 0 auto;
-	display: inline-block;
+    background: #ffffff;
+    color: #000;
+    margin: 0 auto;
+    display: inline-block;
 }
 
-	@media (max-width: 768px) {
-	.icons-block {
-		margin: 0;
-	}
+@media (max-width: 768px) {
+    .icons-block {
+        margin: 0;
+    }
 }
 
 .profile-user-content {
-	background: none;
+    background: none;
 }
 
 .profile-user {
-	min-height: 310px;
-	border: none;
+    min-height: 310px;
+    border: none;
 }
 
 .profile-user .profile-user-title .avatar {
-	margin-top: 12px;
+    margin-top: 12px;
 }
 
 .profile-user-title h2 {
-	color: #fff;
-	margin: 0 0 10px 0;
-	transition: all 300ms linear;
+    color: #fff;
+    margin: 0 0 10px 0;
+    transition: all 300ms linear;
 }
 
 .profile-user:hover a h2, .active.profile-user .profile-user-title a h2 {
-	color: #46be8a;
-	margin: 0 0 10px 0;
+    color: #46be8a;
+    margin: 0 0 10px 0;
 }
 
 .profile-user:hover .profile-user-title .avatar, .active.profile-user .profile-user-title .avatar {
-	background: #46be8a;
-	transition: all 300ms linear;
+    background: #46be8a;
+    transition: all 300ms linear;
 }
 
 .profile-user.profile-user-page {
-	opacity: 1 !important;
+    opacity: 1 !important;
 }
 
 .profile-user.profile-user-page:hover .profile-user-title .avatar {
-	background: #fff;
+    background: #fff;
 }
 
 .profile-user.profile-user-page:hover {
-	box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .profile-user-title .label {
-	margin-bottom: 5px;
-	color: #fff;
-	background: #46be8a;
+    margin-bottom: 5px;
+    color: #fff;
+    background: #46be8a;
 }
 
 .panel.profile-user {
-	opacity: .9;
+    opacity: .9;
 }
 
 .panel.profile-user:hover {
-	box-shadow: 1px 3px 6px rgba(0,0,0, .2);
-	opacity: 1;
-	transition: all 300ms linear;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, .2);
+    opacity: 1;
+    transition: all 300ms linear;
 }
 
 .panel.active.profile-user {
-	box-shadow: 1px 3px 6px rgba(0,0,0, .2);
-	opacity: 1;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, .2);
+    opacity: 1;
 }
 
 .dropdown.dropdown-avatar .dropdown-toggle::after, .dropdown.dropdown-avatar .dropdown-toggle, .dropdown.dropdown-avatar .dropdown-toggle:hover::after {
-	color: #e6fff4;
+    color: #e6fff4;
 
 }
 
 .menu-user-info-block {
-	margin: 8px 0 0 0;
-	color: #e6fff4;
+    margin: 8px 0 0 0;
+    color: #e6fff4;
 }
 
 .btn.rights:hover, .btn.expir:hover {
-	cursor: default;
-	background: #fff;
-	color: #46be8a;
+    cursor: default;
+    background: #fff;
+    color: #46be8a;
 }
 
 .logo h1 {
-	color: #fff;
+    color: #fff;
 }
 
 .top-menu .user-name {
-	display: block;
-  margin: 8px 10px 0 0;
-  float: left;
+    display: block;
+    margin: 8px 10px 0 0;
+    float: left;
 }
 
 .top-menu .menu-user-block {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 .top-menu .open > .dropdown-menu {
-	border-radius:  0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
 }
 
 nav.top-submenu, .top-submenu {
-	margin: 20px 0 15px 0;
+    margin: 20px 0 15px 0;
 }
 
 .panel.profile-user-characted .panel-body {
-	padding-top: 0;
+    padding-top: 0;
 }
 
 .expirience-form table.table.table-striped td:first-child {
-	background: #46be8a !important;
-	color: #fff;
-	border-radius: 50px 0 0 50px;
+    background: #46be8a !important;
+    color: #fff;
+    border-radius: 50px 0 0 50px;
 }
-.expirience-form  .table.table-striped tbody tr:nth-of-type(2n+1) {
-	background: none;
+
+.expirience-form .table.table-striped tbody tr:nth-of-type(2n+1) {
+    background: none;
 }
 
 .expirience-form table.table.table-striped td:last-child {
-	background: #46be8a !important;
-	color: #fff;
-	border-radius: 0 50px 50px 0;
+    background: #46be8a !important;
+    color: #fff;
+    border-radius: 0 50px 50px 0;
 }
 
-.nav-tabs-horizontal .nav-tabs .nav-item .nav-link.active, .nav-tabs-horizontal .nav-tabs .nav-item .nav-link:focus {    border-bottom-color: #01a8fe !important;
-	background: #46be8a !important;
-	color: #fff;
-	border-bottom: none;
-	transition: all 100ms linear;
-	outline: none !important;
-	box-shadow: 1px 3px 6px rgba(0,0,0, .1);
+.nav-tabs-horizontal .nav-tabs .nav-item .nav-link.active, .nav-tabs-horizontal .nav-tabs .nav-item .nav-link:focus {
+    border-bottom-color: #01a8fe !important;
+    background: #46be8a !important;
+    color: #fff;
+    border-bottom: none;
+    transition: all 100ms linear;
+    outline: none !important;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, .1);
 }
 
 .panel-title a, .panel-title i {
-	color: #46be8a;
+    color: #46be8a;
 }
 
 .tooltip .tooltip-inner {
-  background: #46be8a;
-  padding: 4px 15px;
-  color: #ffffff;
-  font-size: 14px;
-  opacity: .9;
-	box-shadow: 1px 3px 6px rgba(0,0,0, .1);
+    background: #46be8a;
+    padding: 4px 15px;
+    color: #ffffff;
+    font-size: 14px;
+    opacity: .9;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, .1);
 }
 
 .tooltip.left .tooltip-arrow,
@@ -253,17 +256,17 @@ nav.top-submenu, .top-submenu {
 }
 
 .editable-table + input, .editable-table input:focus {
-  border: 1px solid #46be8a !important;
+    border: 1px solid #46be8a !important;
 }
 
 .table td, .table th {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 .single-page-block-form .form-control {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 20px;
-	font-weight: 100;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 100;
 }
 
 .form-control:focus, .bootstrap-select .btn-default:focus, .bootstrap-select .btn-default:active {
@@ -271,223 +274,290 @@ nav.top-submenu, .top-submenu {
 }
 
 .bootstrap-select .btn-default {
-	border-radius: 500px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	color: #999 !important;	
+    border-radius: 500px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #999 !important;
 }
 
 .bootstrap-select.btn-group .dropdown-menu li {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .single-page-block .single-page-block-inner {
-	padding: 40px;
+    padding: 40px;
 }
 
-*, *:before, *:after {box-sizing:  border-box !important;}
+*, *:before, *:after {
+    box-sizing: border-box !important;
+}
 
 .masonry {
-	-moz-column-width: 30em;
-	-webkit-column-width: 30em;
-	-moz-column-gap: .5em;
-	-webkit-column-gap: .5em;
+    -moz-column-width: 30em;
+    -webkit-column-width: 30em;
+    -moz-column-gap: .5em;
+    -webkit-column-gap: .5em;
 }
 
 .panel {
-	display: inline-block;
-	margin:  .5em;
-	padding:  0;
-	width:98%;
+    display: inline-block;
+    margin: .5em;
+    padding: 0;
+    width: 98%;
 }
 
-#tooltip
-{
-	text-align: center;
-	color: #fff;
-	background: #111;
-	position: absolute;
-	z-index: 1000;
-	padding: 15px;
+#tooltip {
+    text-align: center;
+    color: #fff;
+    background: #111;
+    position: absolute;
+    z-index: 1000;
+    padding: 15px;
 }
 
 #tooltip:after /* triangle decoration */
 {
-	width: 0;
-	height: 0;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-top: 10px solid #111;
-	content: '';
-	position: absolute;
-	left: 50%;
-	bottom: -10px;
-	margin-left: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #111;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    margin-left: -10px;
 }
 
-#tooltip.top:after
-{
-	border-top-color: transparent;
-	border-bottom: 10px solid #111;
-	top: -20px;
-	bottom: auto;
+#tooltip.top:after {
+    border-top-color: transparent;
+    border-bottom: 10px solid #111;
+    top: -20px;
+    bottom: auto;
 }
 
-#tooltip.left:after
-{
-	left: 10px;
-	margin: 0;
+#tooltip.left:after {
+    left: 10px;
+    margin: 0;
 }
 
-#tooltip.right:after
-{
-	right: 10px;
-	left: auto;
-	margin: 0;
+#tooltip.right:after {
+    right: 10px;
+    left: auto;
+    margin: 0;
 }
-
-
-
-
-
-
 
 /*
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
-@media
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
 
-	/* Force table to not be like tables anymore */
-	table.mobile, thead.mobile, tbody.mobile, th.mobile, td.mobile, tr.mobile {
-		display: block;
-	}
+    /* Force table to not be like tables anymore */
+    table.mobile, thead.mobile, tbody.mobile, th.mobile, td.mobile, tr.mobile {
+        display: block;
+    }
 
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead.mobile tr.mobile {
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead.mobile tr.mobile {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
 
-	tr.mobile {
-		border: 1px solid #ccc;
-		border-top: 0;
-		border-right: 0;
-		border-left: 0;
-	}
+    tr.mobile {
+        border: 1px solid #ccc;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+    }
 
-	td.mobile {
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee;
-		position: relative;
-		padding-left: 50%;
-	}
+    td.mobile {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
 
-	td.mobile.actions {
-		padding-left: 0;
-	}
+    td.mobile.actions {
+        padding-left: 0;
+    }
 
-	td.mobile:before {
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		/*top: 6px;*/
-		left: 6px;
-		width: 45%;
-		padding-right: 10px;
-		white-space: nowrap;
-	}
+    td.mobile:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        /*top: 6px;*/
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
 
-	/*
-	Label the data
-	*/
-	td.mobile.trigger:nth-of-type(1):before { content: "Навык"; }
-	td.mobile.trigger:nth-of-type(2):before { content: "Кнопки"; }
-	td.mobile.trigger:nth-of-type(3):before { content: "Уровень"; }
-	td.mobile.trigger:nth-of-type(4):before { content: "Талант"; }
-	td.mobile.trigger:nth-of-type(5):before { content: "Учитель"; }
+    /*
+    Label the data
+    */
+    td.mobile.trigger:nth-of-type(1):before {
+        content: "Навык";
+    }
 
-	td.mobile.attached:nth-of-type(1):before { content: "Навык"; }
-	td.mobile.attached:nth-of-type(2):before { content: "Сложность"; }
-	td.mobile.attached:nth-of-type(3):before { content: "Теоретический"; }
-	td.mobile.attached:nth-of-type(4):before { content: "Кнопки"; }
-	td.mobile.attached:nth-of-type(5):before { content: "Значение"; }
+    td.mobile.trigger:nth-of-type(2):before {
+        content: "Кнопки";
+    }
 
-	td.mobile.flaw:nth-of-type(1):before { content: "Недостаток"; }
-	td.mobile.flaw:nth-of-type(2):before { content: "Стоимость"; }
+    td.mobile.trigger:nth-of-type(3):before {
+        content: "Уровень";
+    }
 
-	td.mobile.merit:nth-of-type(1):before { content: "Достоинство"; }
-	td.mobile.merit:nth-of-type(2):before { content: "Требования"; }
-	td.mobile.merit:nth-of-type(3):before { content: "Стоимость"; }
+    td.mobile.trigger:nth-of-type(4):before {
+        content: "Талант";
+    }
 
-	td.mobile.spell:nth-of-type(1):before { content: "Заклинание"; }
-	td.mobile.spell:nth-of-type(2):before { content: "Сложность"; }
-	td.mobile.spell:nth-of-type(3):before { content: "Мана"; }
-	td.mobile.spell:nth-of-type(4):before { content: "Поддержание"; }
-	td.mobile.spell:nth-of-type(5):before { content: "Кнопки"; }
-	td.mobile.spell:nth-of-type(6):before { content: "Уровень"; }
-	td.mobile.spell:nth-of-type(7):before { content: "Стоимость"; }
+    td.mobile.trigger:nth-of-type(5):before {
+        content: "Учитель";
+    }
+
+    td.mobile.attached:nth-of-type(1):before {
+        content: "Навык";
+    }
+
+    td.mobile.attached:nth-of-type(2):before {
+        content: "Сложность";
+    }
+
+    td.mobile.attached:nth-of-type(3):before {
+        content: "Теоретический";
+    }
+
+    td.mobile.attached:nth-of-type(4):before {
+        content: "Кнопки";
+    }
+
+    td.mobile.attached:nth-of-type(5):before {
+        content: "Значение";
+    }
+
+    td.mobile.flaw:nth-of-type(1):before {
+        content: "Недостаток";
+    }
+
+    td.mobile.flaw:nth-of-type(2):before {
+        content: "Стоимость";
+    }
+
+    td.mobile.merit:nth-of-type(1):before {
+        content: "Достоинство";
+    }
+
+    td.mobile.merit:nth-of-type(2):before {
+        content: "Требования";
+    }
+
+    td.mobile.merit:nth-of-type(3):before {
+        content: "Стоимость";
+    }
+
+    td.mobile.spell:nth-of-type(1):before {
+        content: "Заклинание";
+    }
+
+    td.mobile.spell:nth-of-type(2):before {
+        content: "Сложность";
+    }
+
+    td.mobile.spell:nth-of-type(3):before {
+        content: "Мана";
+    }
+
+    td.mobile.spell:nth-of-type(4):before {
+        content: "Поддержание";
+    }
+
+    td.mobile.spell:nth-of-type(5):before {
+        content: "Кнопки";
+    }
+
+    td.mobile.spell:nth-of-type(6):before {
+        content: "Уровень";
+    }
+
+    td.mobile.spell:nth-of-type(7):before {
+        content: "Стоимость";
+    }
 }
 
-@media
-only screen and (min-width: 760px)  {
-	.plus-minus-block {
-		width: 150px;
-		float: right;
-	}
+@media only screen and (min-width: 760px) {
+    .plus-minus-block {
+        width: 150px;
+        float: right;
+    }
 }
 
 .custom-panel-body {
-	background-image: url(/assets/common/img/bg.png);
+    background-image: url(/assets/common/img/bg.png);
 }
 
-@media
-only screen and (min-width: 760px)  {
-	.custom-panel-body {
-		padding: 0.8%;
-	}
-}
-@media
-only screen and (max-width: 760px)  {
-	.custom-panel-body {
-		padding: 17px;
-		padding-left: 9px;
-	}
+@media only screen and (min-width: 760px) {
+    .custom-panel-body {
+        padding: 0.8%;
+    }
 }
 
-@media
-only screen and (max-width: 760px)  {
-	.filter-button {
-		position: fixed !important;
-		bottom: 5%;
-		right: 30%;
-		z-index: 1000
-	}
+@media only screen and (max-width: 760px) {
+    .custom-panel-body {
+        padding: 17px;
+        padding-left: 9px;
+    }
 }
 
-@media
-only screen and (max-width: 760px)  {
-	.filter-panel {
-		position: fixed !important;
-		z-index: 1000;
-		bottom: 0px;
-		right: 8px;
-		width: 88%;
-		height: 77%;
-	}
+@media only screen and (max-width: 760px) {
+    .filter-button {
+        position: fixed !important;
+        bottom: 5%;
+        right: 30%;
+        z-index: 1000
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .filter-panel {
+        position: fixed !important;
+        z-index: 1000;
+        bottom: 0px;
+        right: 8px;
+        width: 88%;
+        height: 77%;
+    }
 }
 
 .produced {
-	font-weight: bold;
-	font-size: large;
-	color: black !important;
-	vertical-align: -2px;
+    font-weight: bold;
+    font-size: large;
+    color: black !important;
+    vertical-align: -2px;
 }
 
-.highlight {
-	animation: ripple .25s linear;
+table tr.unavailable {
+    position: relative;
+    color: grey;
+}
+
+table tr.unavailable td:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 5%;
+    left: 0;
+    opacity: 0.05;
+    background-color: #f2dede;
+    border-bottom: 3px solid white
+}
+
+table tr.not_added {
+    background-color: #eceeef;
+    border-bottom: 3px solid white
 }

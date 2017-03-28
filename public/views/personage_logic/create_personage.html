@@ -281,6 +281,9 @@
                                 <td>
                                     <button class="btn spellsButton">Заклинания</button>
                                 </td>
+                                <td>
+                                    <button class="btn spellsButton">Заметки</button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -292,6 +295,7 @@
                         <button class="btn margin-inline meritsButton">Достоинства</button>
                         <button class="btn margin-inline flawsButton">Недостатки</button>
                         <button class="btn margin-inline spellsButton">Заклинания</button>
+                        <button class="btn margin-inline notesButton">Заметки</button>
                     </div>
 
                     <div class="modal fade" id="confirmSpellsChangesModal" tabindex="-1" role="dialog"
@@ -665,7 +669,7 @@
                             <tr class="mobile"
                                 ng-repeat="item in attachedSkillsMixed"
                                 ng-hide="filteredAttachedSkills(item.attachedSkill)"
-                                ng-style="changeColor(item.personageAttachedSkill)">
+                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td class="text-right mobile attached">
                                     <div class="text-left">
                                         {{item.attachedSkill.name}}
@@ -813,7 +817,7 @@
                             <tbody class="mobile">
                             <tr class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed.triggerSkill)"
-                                ng-style="changeColor(triggerSkillMixed.personageTriggerSkill)">
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
                                 <td class="text-right mobile trigger">
                                     <div class="text-left">
                                         {{triggerSkillMixed.triggerSkill.name}}
@@ -1063,7 +1067,7 @@
                             <tr ng-repeat="meritMixed in meritsMixed"
                                 class="mobile"
                                 ng-hide="filteredMerit(meritMixed)"
-                                ng-style="changeColorNotAvailable(meritMixed.available, meritMixed.personageMerit)">
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
                                 <td class="text-right mobile merit">
                                     <div class="text-left">
                                         {{ meritMixed.merit.name }}
@@ -1254,7 +1258,7 @@
                             <tbody class="mobile">
                             <tr class="mobile"
                                 ng-repeat="flawMixed in flawsMixed" ng-hide="filteredFlaws(flawMixed.flaw)"
-                                ng-style="changeColor(flawMixed.personageFlaw)">
+                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
                                 <td class="text-right mobile flaw">
                                     <div class="text-left">
                                         {{flawMixed.flaw.name}}
@@ -1349,7 +1353,7 @@
                                 </thead>
                                 <tbody class="mobile" ng-repeat="spellItem in item.spells">
                                 <tr class="mobile"
-                                    ng-style="changeColorNotAvailable(item.added, spellItem.personageSpell)">
+                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell">
                                         <div class="text-left">
                                             <a class="link-underlined link-blue" href="javascript: void(0)"
@@ -1460,6 +1464,42 @@
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div id="notes" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                        Заметки
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoticeDialog">Добавить заметку</button>
+                        <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Добавить заметку</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="noticeTitle" class="form-control-label">Заголовок:</label>
+                                                <input type="text" class="form-control" id="noticeTitle">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="form-control-label">Текст:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="noticeExperience" class="form-control-label">Очки опыта:</label>
+                                                <input type="text" class="form-control" id="noticeExperience">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                        <button type="button" class="btn btn-primary">Добавить</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
