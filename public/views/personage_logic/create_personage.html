@@ -372,12 +372,19 @@
                                 </td>
                             </tr>
                         </table>
-                        <div ng-if="showGenerateIneherentsButton"><ul><li style="list-style-type: none">Врожденные особенности персонажа создаются случайным
-                            образом. По нажатию на кнопку, вы можете создать набор врожденных особенностей для вашего
-                            персонажа.
-                            Создать набор врожденных особенностей для персонажа можно только раз, и изменить их потом
-                            можно будет только по согласованию с мастером.</li></ul>
-                            <button class="btn btn-rounded btn-primary-outline" style="margin-bottom: 10px;margin-left: 40px"
+                        <div ng-if="showGenerateIneherentsButton">
+                            <ul>
+                                <li style="list-style-type: none">Врожденные особенности персонажа создаются случайным
+                                    образом. По нажатию на кнопку, вы можете создать набор врожденных особенностей для
+                                    вашего
+                                    персонажа.
+                                    Создать набор врожденных особенностей для персонажа можно только раз, и изменить их
+                                    потом
+                                    можно будет только по согласованию с мастером.
+                                </li>
+                            </ul>
+                            <button class="btn btn-rounded btn-primary-outline"
+                                    style="margin-bottom: 10px;margin-left: 40px"
                                     ng-click="randomizeInherentsAndValues()">
                                 Сгенерить врожденки
                             </button>
@@ -769,7 +776,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="trigger" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                    <div id="trigger" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
                                 <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
@@ -934,7 +941,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="merits" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                    <div id="merits" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
                                 <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
@@ -1144,7 +1151,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="flaws" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                    <div id="flaws" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
                                 <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
@@ -1320,7 +1327,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="spells" class="tab-pane table-responsive" role="tabpanel" style="display: none">
+                    <div id="spells" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
                                 <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
@@ -1486,8 +1493,17 @@
                             </table>
                         </div>
                     </div>
-                    <div id="notes" class="tab-pane table-responsive" role="tabpanel" style="display: none">
-                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal"
+                    <div id="notes" class="tab-pane" role="tabpanel" style="display: none">
+                        <ul>
+                            <li style="list-style-type: none">Эта страница предназначена для хранения записей о
+                                персонаже, содержащих информацию, не подпадающую под другие категории (благочестие,
+                                репутация и других). В каждой заметке есть поле EXP - указанное количество опыта
+                                снимется с вашего персонажа, если вы добавите заметку. Вы также можете добавлять записи,
+                                не с нимающие с персонажа опыт - в таком случае, просто оставьте поле EXP пустым
+                            </li>
+                        </ul>
+
+                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" style="margin-left: 40px"
                                 data-target="#addNoticeDialog" ng-click="clearNoticeFields()">Добавить заметку
                         </button>
                         <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog"
@@ -1502,11 +1518,11 @@
                                         <h4 class="modal-title" id="modalNotesLabel">Добавить заметку</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form id="addNoticeForm" name="addNoticeForm">
                                             <div class="form-group">
                                                 <label for="noticeTitle" class="form-control-label">Заголовок:</label>
                                                 <input type="text" class="form-control" id="noticeTitle"
-                                                       ng-model="noticeName">
+                                                       ng-model="noticeName" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="noticeExperience" class="form-control-label">Опыт:</label>
@@ -1516,7 +1532,7 @@
                                             <div class="form-group">
                                                 <label for="noticeBody" class="form-control-label">Текст:</label>
                                                 <textarea class="form-control" id="noticeBody"
-                                                          ng-model="noticeDescription"></textarea>
+                                                          ng-model="noticeDescription" required></textarea>
                                             </div>
                                         </form>
                                     </div>
@@ -1524,21 +1540,21 @@
                                         <button type="button" class="btn" data-dismiss="modal">
                                             Отменить
                                         </button>
-                                        <button type="submit" class="btn btn-primary" data-dismiss="modal"
-                                                id="addNotice" ng-click="addNotice()">Добавить
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                id="addNotice" ng-click="addNotice()" ng-disabled="addNoticeForm.$invalid">Добавить
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <table id="noticeTable" class="table table-hover">
-                            <tr ng-repeat="notice in notices">
+                        <table id="noticeTable" class="table table-hover" style="margin-left: 40px; width: 90%; margin-top: 10px;">
+                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt'">
                                 <td>
                                     <a class="link-underlined link-blue" data-toggle="modal"
                                        data-target="#{{notice.id}}_view" href="#">{{notice.name}}</a>
                                     <div class="modal fade" id="{{notice.id}}_view" tabindex="-1" role="dialog"
-                                         aria-labelledby="modalNotesLabel"
+                                         aria-labelledby="modalNotesActionsLabel"
                                          aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1547,14 +1563,57 @@
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
-                                                    <h4 class="modal-title">{{notice.name}}</h4>
+                                                    <h4 class="modal-title" id="modalNotesActionsLabel">{{notice.name}}</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>{{notice.description}}</p>
                                                 </div>
                                                 <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                                                        Ок
+                                                    </button>
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editNotice(notice.id)">
+                                                        Редактировать
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger" data-dismiss="modal"
+                                                            ng-click="deleteNotice(notice.id)">Удалить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="{{notice.id}}_update" tabindex="-1" role="dialog"
+                                         aria-labelledby="modalNotesLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title">Редактировать заметку</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="updateNoticeForm" name="updateNoticeForm">
+                                                        <div class="form-group">
+                                                            <label for="noticeTitleUpdate" class="form-control-label">Заголовок:</label>
+                                                            <input type="text" class="form-control" id="noticeTitleUpdate"
+                                                                   ng-model="notice.name" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="noticeBodyUpdate" class="form-control-label">Текст:</label>
+                                                            <textarea class="form-control" id="noticeBodyUpdate"
+                                                                      ng-model="notice.description" required></textarea>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
                                                     <button type="button" class="btn" data-dismiss="modal">
-                                                        Закрыть
+                                                        Отменить
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                            ng-click="updateNotice(notice)" ng-disabled="updateNoticeForm.$invalid">Сохранить
                                                     </button>
                                                 </div>
                                             </div>

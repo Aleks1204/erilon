@@ -2133,24 +2133,20 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result.promise;
     }
 
-    $scope.viewNotice = function (notice_id) {
-        jQuery('#' + notice_id + '_view').modal('show');
-    };
-
     $scope.editNotice = function (notice_id) {
-        jQuery('#' + notice_id + '_view').modal('hide');
-        jQuery('#' + notice_id + '_edit').modal('show');
+        $('#' + notice_id + '_view').modal('hide');
+        $('#' + notice_id + '_update').modal('show');
     };
 
     $scope.updateNotice = function (notice) {
         $http.put('/notices/' + notice.id, {
             name: notice.name,
+            experience: notice.experience,
             description: notice.description
-        }).success(function (data) {
-            jQuery('#' + notice.id + '_edit').modal('hide');
-            $('#' + notice.id + '_edit').on('hidden.bs.modal', function () {
+        }).success(function () {
+            $('#' + notice.id + '_update').on('hidden.bs.modal', function () {
                 $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                    $scope.notices = data.notices;
+                    $scope.notices = data.data;
                 });
             });
         });
@@ -2163,10 +2159,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.addNotice = function () {
+        var experienceValue = 0;
+        if ($scope.noticeExperience != '') {
+            experienceValue = $scope.noticeExperience;
+        }
         $http.post('/notices', {
             personage_id: personageId,
             name: $scope.noticeName,
-            experience: $scope.noticeExperience,
+            experience: experienceValue,
             description: $scope.noticeDescription
         }).success(function () {
             $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
@@ -2177,10 +2177,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.deleteNotice = function (notice_id) {
         $http.delete('/notices/' + notice_id).success(function (data) {
-            jQuery('#' + notice_id + '_view').modal('hide');
             $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
                 $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                    $scope.notices = data.notices;
+                    $scope.notices = data.data;
                 });
             });
         });
