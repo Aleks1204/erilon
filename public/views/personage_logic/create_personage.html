@@ -372,10 +372,16 @@
                                 </td>
                             </tr>
                         </table>
-                        <button class="btn btn-rounded btn-primary-outline" style="margin-left: 8%"
-                                ng-if="showGenerateIneherentsButton"
-                                ng-click="randomizeInherentsAndValues()">Сгенерить врожденки
-                        </button>
+                        <div ng-if="showGenerateIneherentsButton"><ul><li style="list-style-type: none">Врожденные особенности персонажа создаются случайным
+                            образом. По нажатию на кнопку, вы можете создать набор врожденных особенностей для вашего
+                            персонажа.
+                            Создать набор врожденных особенностей для персонажа можно только раз, и изменить их потом
+                            можно будет только по согласованию с мастером.</li></ul>
+                            <button class="btn btn-rounded btn-primary-outline" style="margin-bottom: 10px;margin-left: 40px"
+                                    ng-click="randomizeInherentsAndValues()">
+                                Сгенерить врожденки
+                            </button>
+                        </div>
                     </div>
                     <div id="attr" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row">
@@ -1537,7 +1543,8 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                     <h4 class="modal-title">{{notice.name}}</h4>
