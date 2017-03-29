@@ -517,18 +517,7 @@ and also iPads specifically.
         position: fixed !important;
         bottom: 5%;
         right: 30%;
-        z-index: 1000
-    }
-}
-
-@media only screen and (max-width: 760px) {
-    .filter-panel {
-        position: fixed !important;
-        z-index: 1000;
-        bottom: 0px;
-        right: 8px;
-        width: 88%;
-        height: 77%;
+        z-index: 100
     }
 }
 
@@ -564,4 +553,37 @@ table tr.not_added {
 
 .draggable {
     cursor: grab
+}
+
+.overlay {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    background-color: rgba(128, 128, 128, 0.7);
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    font-size: 60px;
+}
+
+li {
+    list-style-type: none;
 }

@@ -2073,6 +2073,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result.promise;
     }
 
+    $scope.closeNav = function () {
+        $('#myNav').hide();
+    };
+
+    $scope.openNav = function () {
+        $('#myNav').show();
+    };
+
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
             if (result) {
