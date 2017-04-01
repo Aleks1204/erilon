@@ -47,6 +47,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/common/css/source/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/common/css/source/custom.css">
     <link rel="stylesheet" type="text/css" href="/assets/common/css/source/animate.css">
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/source/slide-menus.css">
 
     <!-- Vendors Scripts -->
     <!-- v1.0.0 -->
@@ -99,7 +100,6 @@
     <!-- Clean UI Scripts -->
     <script src="/assets/common/js/common.js"></script>
     <script src="/assets/common/js/demo.temp.js"></script>
-
     <script src="/assets/vendors/angular/angular.js"></script>
     <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>-->
@@ -110,6 +110,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
     <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
+    <script src="/assets/common/js/menu.js"></script>
 
     <script src="../permissions/permissions.js"></script>
     <script src="personage_main_controller.js"></script>
@@ -548,9 +549,10 @@
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="social" type="checkbox" ng-model="filter.attached_social"
-                                               ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <input id="socialSkillsFilter" name="social" type="checkbox"
+                                           ng-model="filter.attached_social"
+                                           ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <label for="socialSkillsFilter">
                                         Социальные
                                     </label>
                                 </div>
@@ -565,128 +567,176 @@
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
-                                               ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <input id="knowledgeSkillsFilter" name="knowledge" type="checkbox"
+                                           ng-model="filter.knowledge"
+                                           ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <label for="knowledgeSkillsFilter">
                                         Знания
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="crafts" type="checkbox" ng-model="filter.craft"
-                                               ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <input id="craftsSkillsFilter" name="crafts" type="checkbox" ng-model="filter.craft"
+                                           ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <label for="craftsSkillsFilter">
                                         Ремесла
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="professional" type="checkbox" ng-model="filter.prof"
-                                               ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <input id="profSkillsFilter" name="professional" type="checkbox"
+                                           ng-model="filter.prof"
+                                           ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <label for="profSkillsFilter">
                                         Профессиональные
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="default" type="checkbox" ng-model="show.default_skill"
-                                               ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
+                                    <input id="defaultSkillsShow" name="default" type="checkbox"
+                                           ng-model="show.default_skill"
+                                           ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
+                                    <label for="defaultSkillsShow">
                                         По умолчанию (показывать)
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="default" type="checkbox" ng-model="search.default_skill"
-                                               ng-disabled="!show.default_skill"
-                                               ng-change="filterAttachedSkillsByDefault(search.default_skill)">
+                                    <input id="defaultSkillsFilter" name="default" type="checkbox"
+                                           ng-model="search.default_skill"
+                                           ng-disabled="!show.default_skill"
+                                           ng-change="filterAttachedSkillsByDefault(search.default_skill)">
+                                    <label for="defaultSkillsFilter">
                                         По умолчанию (фильтровать)
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="theoretical" type="checkbox" ng-model="search.theoretical"
-                                               ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                    <input id="theoreticalSkillsFilter" name="theoretical" type="checkbox"
+                                           ng-model="search.theoretical"
+                                           ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                    <label for="theoreticalSkillsFilter">
                                         Теоретические
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                ng-click="showAttachedSkillsCategoriesFilter()">Категория <i
-                                class="icmn-filter"></i></button>
-                        <div class="panel filter-panel" ng-show="showAttachedSkillsCategories">
-                            <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
-                                Категории</h3>
-                            <div class="panel-body">
-                                <ul>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="magic" type="checkbox" ng-model="filter.magic"
-                                                   ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
-                                            Магические
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="social" type="checkbox" ng-model="filter.attached_social"
-                                                   ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
-                                            Социальные
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="languages" type="checkbox" ng-model="filter.language"
-                                                   ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
-                                            Языки
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
-                                                   ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
-                                            Знания
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="crafts" type="checkbox" ng-model="filter.craft"
-                                                   ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
-                                            Ремесла
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="professional" type="checkbox" ng-model="filter.prof"
-                                                   ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
-                                            Профессиональные
-                                        </label>
-                                    </li>
-                                    <br/>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="default" type="checkbox"
-                                                   ng-model="search.default_skill"
-                                                   ng-change="filterAttachedSkillsByDefault(search.default_skill)">
-                                            По умолчанию
-                                        </label>
-                                    </li>
-                                    <li style="list-style-type: none;">
-                                        <label>
-                                            <input name="theoretical" type="checkbox"
-                                                   ng-model="search.theoretical"
-                                                   ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
-                                            Теоретические
-                                        </label>
-                                    </li>
-                                </ul>
-                                <button class="btn btn-rounded btn-info-outline filter-button"
-                                        ng-click="hideAttachedSkillsCategoriesFilter()">Применить <i
-                                        class="icmn-filter"></i></button>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedAttachedSkillsFilter" name="added" type="checkbox"
+                                           ng-model="addedAttachedSkillsFilter">
+                                    <label for="addedAttachedSkillsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="o-wrapper-attached-skills hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryAttachedSkillsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryAttachedSkillsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.magic" class="fa fa-check"></i>
+                                            <input name="magic" type="checkbox" ng-model="filter.magic"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Магические
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                        <td>
+                                            <i ng-show="filter.attached_social" class="fa fa-check"></i>
+                                            <input name="social" type="checkbox" ng-model="filter.attached_social"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Социальные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('языки', filter.language)">
+                                        <td>
+                                            <i ng-show="filter.language" class="fa fa-check"></i>
+                                            <input name="languages" type="checkbox" ng-model="filter.language"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Языки
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                        <td>
+                                            <i ng-show="filter.knowledge" class="fa fa-check"></i>
+                                            <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Знания
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                        <td>
+                                            <i ng-show="filter.craft" class="fa fa-check"></i>
+                                            <input name="crafts" type="checkbox" ng-model="filter.craft"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Ремесла
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                        <td>
+                                            <i ng-show="filter.prof" class="fa fa-check"></i>
+                                            <input name="professional" type="checkbox" ng-model="filter.prof"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Профессиональные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByDefaultShow(search.default_skill);filterAttachedSkillsByDefault(search.default_skill)">
+                                        <td>
+                                            <i ng-show="search.default_skill" class="fa fa-check"></i>
+                                            <input name="default" type="checkbox"
+                                                   ng-model="search.default_skill" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            По умолчанию
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                        <td>
+                                            <i ng-show="search.theoretical" class="fa fa-check"></i>
+                                            <input name="theoretical" type="checkbox"
+                                                   ng-model="search.theoretical" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Теоретические
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedAttachedSkillsFilter" class="fa fa-check"></i>
+                                            <input name="addedAttachedSkillsFilter" type="checkbox"
+                                                   ng-model="addedAttachedSkillsFilter" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideAttachedSkillsCategoriesFilerMenu()"></div>
                         </div>
 
                         <table class="table table-hover mobile">
@@ -703,7 +753,7 @@
                             <tbody class="mobile">
                             <tr class="mobile"
                                 ng-repeat="item in attachedSkillsMixed"
-                                ng-hide="filteredAttachedSkills(item.attachedSkill)"
+                                ng-hide="filteredAttachedSkills(item)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td class="text-right mobile attached">
                                     <div class="text-left">
@@ -792,56 +842,76 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                        <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilter"
-                                               ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                    <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilter"
+                                           ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
                                     <label for="fightFilter">
                                         Боевые
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
 
-                                        <input name="nonfight" type="checkbox" ng-model="filter.nonfight" id="nonfightFilter"
-                                               ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                    <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
+                                           id="nonfightFilter"
+                                           ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
                                     <label for="nonfightFilter">
                                         Небоевые
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                ng-click="openNav()">Категория <i class="icmn-filter"></i>
-                        </button>
-
-                        <div id="myNav" class="overlay">
-                            <div class="overlay-content">
-                                <h3 style="margin: 0; padding: 15px; padding-left: 50px;">
-                                    Категории</h3>
-                                <ul>
-                                    <li>
-                                    <div class="checkbox checkbox-info">
-                                        <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilterMobile"
-                                               ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
-                                        <label for="fightFilterMobile">
-                                            Боевые
-                                        </label>
-                                    </div>
-                                    </li>
-                                    <li>
-                                    <div class="checkbox checkbox-info">
-
-                                        <input name="nonfight" type="checkbox" ng-model="filter.nonfight" id="nonfightFilterMobile"
-                                               ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
-                                        <label for="nonfightFilterMobile">
-                                            Небоевые
-                                        </label>
-                                    </div>
-                                    </li>
-                                </ul>
-                                <button class="btn btn-rounded btn-info-outline filter-button"
-                                        ng-click="closeNav()">Применить <i
-                                        class="icmn-filter"></i>
-                                </button>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedTriggerSkillsFilter" name="added" type="checkbox"
+                                           ng-model="addedTriggerSkillsFilter">
+                                    <label for="addedTriggerSkillsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="o-wrapper-trigger-skills hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryTriggerSkillsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryTriggerSkillsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.fight" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.fight" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Боевые
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                        <td>
+                                            <i ng-show="filter.nonfight" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.nonfight" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Не боевые
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedTriggerSkillsFilter" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="addedTriggerSkillsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideTriggerSkillsCategoriesFilerMenu()"></div>
                         </div>
 
                         <table class="table table-hover mobile">
@@ -963,138 +1033,171 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="fight" type="checkbox" ng-model="merit.magic"
-                                               ng-change="filterMeritByCategory('магические', merit.magic)">
+                                    <input id="magicMeritsFilter" name="fight" type="checkbox" ng-model="merit.magic"
+                                           ng-change="filterMeritByCategory('магические', merit.magic)">
+                                    <label for="magicMeritsFilter">
                                         Магические
                                     </label>
                                 </div>
-                                <br/>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="nonfight" type="checkbox" ng-model="merit.face"
-                                               ng-change="filterMeritByCategory('внешность', merit.face)">
+                                    <input id="faceMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.face"
+                                           ng-change="filterMeritByCategory('внешность', merit.face)">
+                                    <label for="faceMeritsFilter">
                                         Внешность
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="fight" type="checkbox" ng-model="merit.speciality"
-                                               ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                    <input id="specMeritsFilter" name="fight" type="checkbox"
+                                           ng-model="merit.speciality"
+                                           ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                    <label for="specMeritsFilter">
                                         Специализация
                                     </label>
                                 </div>
-                                <br/>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="nonfight" type="checkbox" ng-model="merit.fight"
-                                               ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                    <input id="fightMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.fight"
+                                           ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                    <label for="fightMeritsFilter">
                                         Боевые
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="fight" type="checkbox" ng-model="merit.talent"
-                                               ng-change="filterMeritByCategory('талант', merit.talent)">
+                                    <input id="talentMeritsFilter" name="fight" type="checkbox" ng-model="merit.talent"
+                                           ng-change="filterMeritByCategory('талант', merit.talent)">
+                                    <label for="talentMeritsFilter">
                                         Талант
                                     </label>
                                 </div>
-                                <br/>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="nonfight" type="checkbox" ng-model="merit.others"
-                                               ng-change="filterMeritByCategory('остальные', merit.others)">
+                                    <input id="othersMeritsFilter" name="nonfight" type="checkbox"
+                                           ng-model="merit.others"
+                                           ng-change="filterMeritByCategory('остальные', merit.others)">
+                                    <label for="othersMeritsFilter">
                                         Остальные
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="fight" type="checkbox" ng-model="filter.available"
-                                               ng-change="filterMeritByAvailability(filter.available)">
+                                    <input id="availableMeritsFilter" name="fight" type="checkbox"
+                                           ng-model="filter.available"
+                                           ng-change="filterMeritByAvailability(filter.available)">
+                                    <label for="availableMeritsFilter">
                                         Доступные
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedMeritsFilter" name="added" type="checkbox"
+                                           ng-model="addedMeritsFilter">
+                                    <label for="addedMeritsFilter">
+                                        Имеющиеся
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                ng-click="showMeritCategoriesFilter()">Категория <i class="icmn-filter"></i>
-                        </button>
-                        <div class="panel filter-panel" ng-show="showMeritCategories">
-                            <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
-                                Категории</h3>
-                            <div class="panel-body">
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="fight" type="checkbox" ng-model="merit.magic"
-                                                   ng-change="filterMeritByCategory('магические', merit.magic)">
+
+                        <div class="o-wrapper-merits hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryMeritsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryMeritsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterMeritByCategory('магические', merit.magic)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="merit.magic" class="fa fa-check"></i>
+                                            <input name="magic" type="checkbox" ng-model="merit.magic"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Магические
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="nonfight" type="checkbox" ng-model="merit.face"
-                                                   ng-change="filterMeritByCategory('внешность', merit.face)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('внешность', merit.face)">
+                                        <td>
+                                            <i ng-show="merit.face" class="fa fa-check"></i>
+                                            <input name="face" type="checkbox" ng-model="merit.face"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Внешность
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="fight" type="checkbox" ng-model="merit.speciality"
-                                                   ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('специализация', merit.speciality)">
+                                        <td>
+                                            <i ng-show="merit.speciality" class="fa fa-check"></i>
+                                            <input name="speciality" type="checkbox" ng-model="merit.speciality"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Специализация
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="nonfight" type="checkbox" ng-model="merit.fight"
-                                                   ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('боевые', merit.fight)">
+                                        <td>
+                                            <i ng-show="merit.fight" class="fa fa-check"></i>
+                                            <input name="fight" type="checkbox" ng-model="merit.fight"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Боевые
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="fight" type="checkbox" ng-model="merit.talent"
-                                                   ng-change="filterMeritByCategory('талант', merit.talent)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('ремесла', merit.talent)">
+                                        <td>
+                                            <i ng-show="merit.talent" class="fa fa-check"></i>
+                                            <input name="talent" type="checkbox" ng-model="merit.talent"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Талант
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="nonfight" type="checkbox" ng-model="merit.others"
-                                                   ng-change="filterMeritByCategory('остальные', filter.nonfight)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('остальные', merit.others)">
+                                        <td>
+                                            <i ng-show="merit.others" class="fa fa-check"></i>
+                                            <input name="others" type="checkbox" ng-model="merit.others"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Остальные
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="fight" type="checkbox" ng-model="filter.available"
-                                                   ng-change="filterMeritByAvailability(filter.available)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByAvailability(filter.available)">
+                                        <td>
+                                            <i ng-show="filter.available" class="fa fa-check"></i>
+                                            <input name="available" type="checkbox" ng-model="filter.available"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Доступные
-                                        </label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-rounded btn-info-outline filter-button"
-                                        ng-click="hideMeritCategoriesFilter()">Применить <i
-                                        class="icmn-filter"></i>
-                                </button>
-                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedMeritsFilter" class="fa fa-check"></i>
+                                            <input name="addedMeritsFilter" type="checkbox" ng-model="addedMeritsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideMeritsCategoriesFilterMenu()"></div>
                         </div>
+
                         <table class="table table-hover">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -1173,121 +1276,153 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="phycical" type="checkbox" ng-model="filter.phycical"
-                                               ng-change="filterFlawsByCategory('физические', filter.phycical)">
+                                    <input id="physicalFlawsFilter" name="phycical" type="checkbox"
+                                           ng-model="filter.phycical"
+                                           ng-change="filterFlawsByCategory('физические', filter.phycical)">
+                                    <label for="physicalFlawsFilter">
                                         Физические
                                     </label>
                                 </div>
-                                <br/>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="mental" type="checkbox" ng-model="filter.mental"
-                                               ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                    <input id="mentalFlawsFilter" name="mental" type="checkbox" ng-model="filter.mental"
+                                           ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                    <label for="mentalFlawsFilter">
                                         Ментальные
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="social" type="checkbox" ng-model="filter.social"
-                                               ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                    <input id="socialFlawsFilter" name="social" type="checkbox" ng-model="filter.social"
+                                           ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                    <label for="socialFlawsFilter">
                                         Социальные
                                     </label>
                                 </div>
-                                <br/>
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="kodeks" type="checkbox" ng-model="filter.kodeks"
-                                               ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                    <input id="kodeksFlawsFilter" name="kodeks" type="checkbox" ng-model="filter.kodeks"
+                                           ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                    <label for="kodeksFlawsFilter">
                                         Кодекс чести
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="face" type="checkbox" ng-model="filter.face"
-                                               ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                    <input id="faceFlawsFilter" name="face" type="checkbox" ng-model="filter.face"
+                                           ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                    <label for="faceFlawsFilter">
                                         Внешность
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="unremovable" type="checkbox" ng-model="search.unremovable"
-                                               ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                    <input id="unremovableFlawsFilter" name="unremovable" type="checkbox"
+                                           ng-model="search.unremovable"
+                                           ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                    <label for="unremovableFlawsFilter">
                                         Не отключаемые
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedFlawsFilter" name="added" type="checkbox"
+                                           ng-model="addedFlawsFilter">
+                                    <label for="addedFlawsFilter">
+                                        Имеющиеся
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                ng-click="showFlawsCategoriesFilter()">Категория <i class="icmn-filter"></i>
-                        </button>
-                        <div class="panel filter-panel" ng-show="showFlawsCategories">
-                            <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
-                                Категории</h3>
-                            <div class="panel-body">
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="magic" type="checkbox" ng-model="filter.phycical"
-                                                   ng-change="filterFlawsByCategory('физические', filter.phycical)">
+
+                        <div class="o-wrapper-flaws hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideFlawsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryFlawsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryFlawsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterFlawsByCategory('физические', filter.phycical)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.phycical" class="fa fa-check"></i>
+                                            <input name="phycical" type="checkbox" ng-model="filter.phycical"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Физические
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="social" type="checkbox" ng-model="filter.mental"
-                                                   ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('ментальные', filter.mental)">
+                                        <td>
+                                            <i ng-show="filter.mental" class="fa fa-check"></i>
+                                            <input name="mental" type="checkbox" ng-model="filter.mental"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Ментальные
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="languages" type="checkbox" ng-model="filter.social"
-                                                   ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('социальные', filter.social)">
+                                        <td>
+                                            <i ng-show="filter.social" class="fa fa-check"></i>
+                                            <input name="social" type="checkbox" ng-model="filter.social"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Социальные
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="knowledge" type="checkbox" ng-model="filter.kodeks"
-                                                   ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                        <td>
+                                            <i ng-show="filter.kodeks" class="fa fa-check"></i>
+                                            <input name="kodeks" type="checkbox" ng-model="filter.kodeks"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Кодекс чести
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="crafts" type="checkbox" ng-model="filter.face"
-                                                   ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('Внешность', filter.face)">
+                                        <td>
+                                            <i ng-show="filter.face" class="fa fa-check"></i>
+                                            <input name="face" type="checkbox" ng-model="filter.face"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Внешность
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="default" type="checkbox" ng-model="search.unremovable"
-                                                   ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByUnremovable(search.unremovable)">
+                                        <td>
+                                            <i ng-show="search.unremovable" class="fa fa-check"></i>
+                                            <input name="unremovable" type="checkbox" ng-model="search.unremovable"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
                                             Не отключаемые
-                                        </label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-rounded btn-info-outline filter-button"
-                                        ng-click="hideFlawsCategoriesFilter()">Применить <i class="icmn-filter"></i>
-                                </button>
-                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedFlawsFilter" class="fa fa-check"></i>
+                                            <input name="addedFlawsFilter" type="checkbox" ng-model="addedFlawsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideFlawsCategoriesFilterMenu()"></div>
                         </div>
+
                         <table class="table table-hover mobile">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -1298,7 +1433,7 @@
                             </thead>
                             <tbody class="mobile">
                             <tr class="mobile"
-                                ng-repeat="flawMixed in flawsMixed" ng-hide="filteredFlaws(flawMixed.flaw)"
+                                ng-repeat="flawMixed in flawsMixed" ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
                                 <td class="text-right mobile flaw">
                                     <div class="text-left">
@@ -1349,33 +1484,57 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <label>
-                                        <input name="magicSchools" type="checkbox" ng-model="filter.schools">
+                                    <input id="allSchoolsFilter" name="magicSchools" type="checkbox"
+                                           ng-model="filter.schools">
+                                    <label for="allSchoolsFilter">
                                         Все школы
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedSpellsFilter" name="addedSpellsFilter" type="checkbox"
+                                           ng-model="addedSpellsFilter">
+                                    <label for="addedSpellsFilter">
+                                        Имеющиеся
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-rounded btn-info-outline filter-button hidden-md-up"
-                                ng-click="showFlawsCategoriesFilter()">Категория <i class="icmn-filter"></i>
-                        </button>
-                        <div class="panel filter-panel" ng-show="showFlawsCategories">
-                            <h3 class="panel-heading" style="margin: 0; padding: 15px; padding-left: 50px;">
-                                Категории</h3>
-                            <div class="panel-body">
-                                <div class="col-md-2">
-                                    <div class="checkbox checkbox-info">
-                                        <label>
-                                            <input name="magicSchools" type="checkbox" ng-model="filter.schools">
-                                            Все школы
-                                        </label>
-                                    </div>
+
+                        <div class="o-wrapper-spells hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategorySpellsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategorySpellsMenuClose"></i>
                                 </div>
-                                <button class="btn btn-rounded btn-info-outline filter-button"
-                                        ng-click="hideFlawsCategoriesFilter()">Применить <i class="icmn-filter"></i>
-                                </button>
-                            </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr>
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.schools" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.schools" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Все школы
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedSpellsFilter" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="addedSpellsFilter" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideSpellsCategoriesFilterMenu()"></div>
                         </div>
+
                         <br/>
                         <div ng-repeat="item in spellsBySchool" ng-hide="!item.added && !filter.schools">
                             <h3>{{item.school.name}}</h3>
@@ -1393,7 +1552,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="mobile" ng-repeat="spellItem in item.spells">
-                                <tr class="mobile"
+                                <tr class="mobile" ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell">
                                         <div class="text-left">

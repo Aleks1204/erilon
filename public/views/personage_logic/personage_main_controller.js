@@ -206,14 +206,28 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.filteredAttachedSkillsCategories = [];
-    $scope.showAttachedSkillsCategories = false;
-    $scope.showAttachedSkillsCategoriesFilter = function () {
-        $scope.showAttachedSkillsCategories = true;
+
+
+    $scope.isCategoryAttachedSkillsMenuClose = true;
+
+    var attachedSkillsCategoriesFilerMenu = new Menu({
+        wrapper: '.o-wrapper-attached-skills',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 390
+    });
+
+    $scope.openHideAttachedSkillsCategoriesFilerMenu = function () {
+        if ($scope.isCategoryAttachedSkillsMenuClose) {
+            attachedSkillsCategoriesFilerMenu.open();
+            $scope.isCategoryAttachedSkillsMenuClose = false;
+        } else {
+            attachedSkillsCategoriesFilerMenu.close();
+            $scope.isCategoryAttachedSkillsMenuClose = true;
+        }
     };
 
-    $scope.hideAttachedSkillsCategoriesFilter = function () {
-        $scope.showAttachedSkillsCategories = false;
-    };
+    $scope.addedAttachedSkillsFilter = false;
 
     $scope.filterAttachedSkillsByCategory = function (category, selected) {
         if (selected) {
@@ -235,21 +249,25 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.filteredAttachedSkillsTheoretical = selected;
     };
 
-    $scope.filteredAttachedSkills = function (attachedSkill) {
+    $scope.filteredAttachedSkills = function (skillItem) {
+        if(skillItem.personageAttachedSkill === null && $scope.addedAttachedSkillsFilter) {
+            return true;
+        }
+
         if (!$scope.filteredAttachedSkillsDefaultShow) {
-            if (attachedSkill.default_skill) {
+            if (skillItem.attachedSkill.default_skill) {
                 return true;
             }
         }
 
         if ($scope.filteredAttachedSkillsTheoretical) {
-            if (!attachedSkill.theoretical) {
+            if (!skillItem.attachedSkill.theoretical) {
                 return true;
             }
         }
 
         if ($scope.filteredAttachedSkillsDefault) {
-            if (!attachedSkill.default_skill) {
+            if (!skillItem.attachedSkill.default_skill) {
                 return true;
             }
         }
@@ -258,7 +276,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             return false;
         }
 
-        var categories = attachedSkill.category.split(",");
+        var categories = skillItem.attachedSkill.category.split(",");
         var result = true;
         categories.forEach(function (item) {
             if ($scope.filteredAttachedSkillsCategories.indexOf(item) != -1) {
@@ -286,13 +304,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.filteredFlawsCategories = [];
-    $scope.showFlawsCategories = false;
-    $scope.showFlawsCategoriesFilter = function () {
-        $scope.showFlawsCategories = true;
-    };
 
-    $scope.hideFlawsCategoriesFilter = function () {
-        $scope.showFlawsCategories = false;
+    $scope.isCategoryFlawsMenuClose = true;
+
+    var flawsCategoriesFilerMenu = new Menu({
+        wrapper: '.o-wrapper-flaws',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 300
+    });
+
+    $scope.openHideFlawsCategoriesFilterMenu = function () {
+        if ($scope.isCategoryFlawsMenuClose) {
+            flawsCategoriesFilerMenu.open();
+            $scope.isCategoryFlawsMenuClose = false;
+        } else {
+            flawsCategoriesFilerMenu.close();
+            $scope.isCategoryFlawsMenuClose = true;
+        }
     };
 
     $scope.filterFlawsByCategory = function (category, selected) {
@@ -307,9 +336,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.filteredFlawsUnremovable = selected;
     };
 
-    $scope.filteredFlaws = function (flaw) {
+    $scope.addedFlawsFilter = false;
+
+    $scope.filteredFlaws = function (flawItem) {
+        if (flawItem.personageFlaw == null && $scope.addedFlawsFilter){
+            return true;
+        }
+
         if ($scope.filteredFlawsUnremovable) {
-            if (!flaw.unremovable) {
+            if (!flawItem.flaw.unremovable) {
                 return true;
             }
         }
@@ -318,7 +353,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             return false;
         }
 
-        var categories = flaw.category.split(",");
+        var categories = flawItem.flaw.category.split(",");
         var result = true;
         categories.forEach(function (item) {
             if ($scope.filteredFlawsCategories.indexOf(item) != -1) {
@@ -345,15 +380,32 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
-    $scope.filteredTriggerSkillsCategories = [];
-    $scope.showTriggerSkillsCategories = false;
-    $scope.showTriggerSkillsCategoriesFilter = function () {
-        $scope.showTriggerSkillsCategories = true;
+    $('.category-table').find('tr').click(function(event) {
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
+        }
+    });
+
+    $scope.isCategoryTriggerSkillsMenuClose = true;
+
+    var triggerSkillsCategoriesFilerMenu = new Menu({
+        wrapper: '.o-wrapper-trigger-skills',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 133
+    });
+
+    $scope.openHideTriggerSkillsCategoriesFilerMenu = function () {
+        if ($scope.isCategoryTriggerSkillsMenuClose) {
+            triggerSkillsCategoriesFilerMenu.open();
+            $scope.isCategoryTriggerSkillsMenuClose = false;
+        } else {
+            triggerSkillsCategoriesFilerMenu.close();
+            $scope.isCategoryTriggerSkillsMenuClose = true;
+        }
     };
 
-    $scope.hideTriggerSkillsCategoriesFilter = function () {
-        $scope.showTriggerSkillsCategories = false;
-    };
+    $scope.filteredTriggerSkillsCategories = [];
 
     $scope.filterTriggerSkillsByCategory = function (category, selected) {
         if (selected) {
@@ -363,13 +415,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    $scope.filteredTriggerSkills = function (triggerSkill) {
+    $scope.addedTriggerSkillsFilter = false;
+
+    $scope.filteredTriggerSkills = function (skillItem) {
+        if (skillItem.personageTriggerSkill == null && $scope.addedTriggerSkillsFilter) {
+            return true;
+        }
 
         if ($scope.filteredTriggerSkillsCategories.length == 0) {
             return false;
         }
 
-        var categories = triggerSkill.category.split(",");
+        var categories = skillItem.triggerSkill.category.split(",");
         var result = true;
         categories.forEach(function (item) {
             if ($scope.filteredTriggerSkillsCategories.indexOf(item) != -1) {
@@ -408,6 +465,25 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     }
 
+    $scope.isCategoryMeritsMenuClose = true;
+
+    var meritsCategoriesFilterMenu = new Menu({
+        wrapper: '.o-wrapper-merits',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 343
+    });
+
+    $scope.openHideMeritsCategoriesFilterMenu = function () {
+        if ($scope.isCategoryMeritsMenuClose) {
+            meritsCategoriesFilterMenu.open();
+            $scope.isCategoryMeritsMenuClose = false;
+        } else {
+            meritsCategoriesFilterMenu.close();
+            $scope.isCategoryMeritsMenuClose = true;
+        }
+    };
+
     $scope.spellsBySchool = [];
 
     function calculateSpellsToShow() {
@@ -444,15 +520,26 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
-    $scope.filteredMeritCategories = [];
-    $scope.showMeritCategories = false;
-    $scope.showMeritCategoriesFilter = function () {
-        $scope.showMeritCategories = true;
+    $scope.isCategorySpellsMenuClose = true;
+
+    var spellsCategoriesFilterMenu = new Menu({
+        wrapper: '.o-wrapper-spells',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 95
+    });
+
+    $scope.openHideSpellsCategoriesFilterMenu = function () {
+        if ($scope.isCategorySpellsMenuClose) {
+            spellsCategoriesFilterMenu.open();
+            $scope.isCategorySpellsMenuClose = false;
+        } else {
+            spellsCategoriesFilterMenu.close();
+            $scope.isCategorySpellsMenuClose = true;
+        }
     };
 
-    $scope.hideMeritCategoriesFilter = function () {
-        $scope.showMeritCategories = false;
-    };
+    $scope.filteredMeritCategories = [];
 
     $scope.filterMeritByAvailability = function (selected) {
         $scope.filteredMeritAvailable = selected;
@@ -466,7 +553,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
+    $scope.addedMeritsFilter = false;
+
     $scope.filteredMerit = function (meritMixed) {
+        if(meritMixed.personageMerit == null && $scope.addedMeritsFilter) {
+            return true;
+        }
 
         if ($scope.filteredMeritAvailable) {
             if (meritMixed.available != true) {
@@ -1716,7 +1808,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             type: 'danger',
             animate: {
                 enter: 'animated lightSpeedIn',
-                exit: 'animated hinge'
+                exit: 'animated lightSpeedOut'
             }
         });
     }
@@ -1732,7 +1824,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             type: 'danger',
             animate: {
                 enter: 'animated lightSpeedIn',
-                exit: 'animated hinge'
+                exit: 'animated lightSpeedOut'
             }
         });
     }
@@ -1974,20 +2066,27 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
+    $scope.showHideDetails = true;
     $scope.showHideDescription = function (id) {
-        $scope.test = !$scope.test;
+        if (id === $scope.clickedSpell) {
+            $scope.showHideDetails = !$scope.showHideDetails;
+        } else {
+            $scope.showHideDetails = true;
+        }
         $scope.clickedSpell = id;
     };
 
     $scope.isShowSpell = function (id) {
-        return !!($scope.test && $scope.clickedSpell == id);
+        return $scope.showHideDetails && $scope.clickedSpell == id;
     };
 
     $scope.addDisableOrNotAddedClass = function (available, isAdded) {
-        if (available != true) {
-            return 'unavailable';
-        } else if (isAdded == null) {
-            return 'not_added';
+        if(!$scope.addedSpellsFilter) {
+            if (available != true) {
+                return 'unavailable';
+            } else if (isAdded == null) {
+                return 'not_added';
+            }
         }
     };
 
@@ -2072,14 +2171,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         return result.promise;
     }
-
-    $scope.closeNav = function () {
-        $('#myNav').hide();
-    };
-
-    $scope.openNav = function () {
-        $('#myNav').show();
-    };
 
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
