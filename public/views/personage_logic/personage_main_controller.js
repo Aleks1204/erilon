@@ -1146,6 +1146,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.deletePersonageSpell = function (personageSpell) {
         var index = $scope.personageSpells.indexOf(personageSpell);
         if (index !== -1) {
+            var level = personageSpell.level;
+            for (var i = 0; i < level; i++){
+                $scope.decreaseSpellLevel(personageSpell);
+                personageSpell.level--;
+            }
+
             $scope.personageSpells.splice(index, 1);
 
             angular.forEach($scope.spellsBySchool, function (school) {
@@ -1184,7 +1190,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             personageSpell.level++;
             $scope.personage.experience = $scope.personage.experience - cost;
             $http.post('/history', {
-                key: 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP',
+                key: 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId,
                 value: cost.toString()
             }).success(function () {
                 increaseLevel.resolve();
@@ -1208,7 +1214,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         all.then(success);
 
         if (personageSpell.level > 0) {
-            $http.get('/byKey/' + 'SPELL_LEVEL' + personageSpell.level.toString() + 'UP').success(function (result) {
+            $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).success(function (result) {
                 $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
                 personageSpell.level--;
             }).success(function () {
@@ -1361,7 +1367,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         }
                         $scope.personage.experience = $scope.personage.experience - cost;
                         $http.post('/history', {
-                            key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId,
+                            key: 'TRIGGER_LEVEL_' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId,
                             value: cost.toString()
                         }).success(function () {
                             updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
@@ -1396,7 +1402,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
                         }
                         if (skillLevel.level === currentLevel) {
-                            $http.get('/byKey/' + 'TRIGGER_LEVEL' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId).success(function (result) {
+                            $http.get('/byKey/' + 'TRIGGER_LEVEL_' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId).success(function (result) {
                                 $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
                             });
                         }

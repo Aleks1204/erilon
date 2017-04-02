@@ -1627,14 +1627,11 @@
                                                     Добавить
                                                 </button>
                                             </div>
-                                            <div ng-if="spellItem.personageSpell != null && spellItem.personageSpell.level == 0">
+                                            <div ng-if="spellItem.personageSpell != null">
                                                 <a class="link-underlined link-blue" href="javascript: void(0)"
                                                    ng-click="deletePersonageSpell(spellItem.personageSpell)">
                                                     Удалить
                                                 </a>
-                                            </div>
-                                            <div ng-if="spellItem.personageSpell != null && spellItem.personageSpell.level != 0">
-                                                Нельзя удалить
                                             </div>
                                         </div>
                                     </td>
