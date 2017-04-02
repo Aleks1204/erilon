@@ -1,6 +1,6 @@
 var app = angular.module("personageManagerApp", ['ngStorage']);
 
-$('.icons-block div').each(function(){
+$('.icons-block div').each(function () {
     $(this).tooltip({
         title: $(this).find('.tooltips').attr('title')
     });
@@ -57,7 +57,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                         personage_id: result.personage.id,
                         attribute_id: raceAttributes[0][i].AttributeId,
                         value: 1,
-                        position: i+1
+                        position: i + 1
                     }));
                 }
 
@@ -158,9 +158,22 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.showMyPersonages();
 
-    $scope.deletePersonage = function (id) {
-        $http.delete('/personages/' + id).success(function (data) {
-            location.reload();
-        });
+    $scope.deletePersonage = function (personage) {
+        swal({
+                title: "Вы уверены?",
+                text: "Вы уверены что хотите удалить персонажа, его невозможно восставить!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Удалить!",
+                closeOnConfirm: false
+            },
+            function () {
+                $http.delete('/personages/' + personage.id).success(function () {
+                    var index = $scope.personages.indexOf(personage);
+                    $scope.personages.splice(index, 1);
+                    swal("Удален!", "Персонаж безвозвратно удален!", "success");
+                });
+            });
     };
 });

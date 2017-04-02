@@ -3,16 +3,20 @@
  */
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Personage = sequelize.define("Personage", {
         name: DataTypes.STRING,
         age: DataTypes.INTEGER,
         max_age: DataTypes.INTEGER,
         generated: DataTypes.BOOLEAN,
-        experience: DataTypes.INTEGER
+        experience: DataTypes.INTEGER,
+        deleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        }
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Personage.belongsTo(models.Race, {foreignKeyConstraint: true});
                 Personage.belongsTo(models.Player, {foreignKeyConstraint: true});
                 Personage.hasMany(models.PersonageAttribute);

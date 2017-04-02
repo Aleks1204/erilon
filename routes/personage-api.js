@@ -7,7 +7,7 @@ var router = express.Router();
 var log = require('../log')(module);
 
 router.post('/personages', function (req, res) {
-    var Personage = models.Personage.create({
+    models.Personage.create({
         RaceId: req.body.race_id,
         PlayerId: req.body.player_id,
         name: req.body.name,
@@ -23,7 +23,10 @@ router.post('/personages', function (req, res) {
 
 router.get('/personages', function (req, res) {
     models.Personage.findAll({
-        include: [models.Race]
+        include: [models.Race],
+        where: {
+            deleted: false
+        }
     }).then(function (personages) {
         return res.send({personages: personages});
     });
@@ -32,7 +35,8 @@ router.get('/personages', function (req, res) {
 router.get('/personagesByPlayerId/:id', function (req, res) {
     models.Personage.findAll({
         where: {
-            PlayerId: req.params.id
+            PlayerId: req.params.id,
+            deleted: false
         },
         include: [models.Race]
     }).then(function (personages) {
@@ -48,7 +52,10 @@ router.get('/personages/:id', function (req, res) {
                 model: models.PersonageAttribute,
                 include: [models.Attribute]
             }
-        ]
+        ],
+        where: {
+            deleted: false
+        }
     }).then(function (personage) {
         if (!personage) {
             res.statusCode = 404;
@@ -88,8 +95,10 @@ router.delete('/personages/:id', function (req, res) {
             return res.send({error: 'Not found'});
         }
 
-        return personage.destroy().then(function () {
-            return res.send({status: 'REMOVED'});
+        return personage.update({
+            deleted: true
+        }).then(function () {
+            res.send({status: 'REMOVED'})
         });
     });
 });
