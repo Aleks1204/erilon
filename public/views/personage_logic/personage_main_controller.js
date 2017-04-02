@@ -1342,34 +1342,40 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
             if (personageTriggerSkill.TriggerSkill.id === id) {
                 var nextLevel = personageTriggerSkill.currentLevel + 1;
+                var isIncreased = false;
                 $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
                     if (results.skillLevels.length === 0) {
+                        exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
                         increaseLevel.resolve();
-                    }
-                    angular.forEach(results.skillLevels, function (skillLevel) {
-                        if (skillLevel.level === nextLevel) {
-                            var cost = skillLevel.cost;
-                            personageTriggerSkill.currentLevel++;
-                            if (personageTriggerSkill.talented) {
-                                cost = Math.ceil(cost / 1.5);
+                    } else {
+                        angular.forEach(results.skillLevels, function (skillLevel) {
+                            if (skillLevel.level === nextLevel) {
+                                isIncreased = true;
+                                var cost = skillLevel.cost;
+                                personageTriggerSkill.currentLevel++;
+                                if (personageTriggerSkill.talented) {
+                                    cost = Math.ceil(cost / 1.5);
+                                }
+                                if (!personageTriggerSkill.tutored) {
+                                    cost = cost * 2;
+                                } else {
+                                    personageTriggerSkill.tutored = false;
+                                }
+                                $scope.personage.experience = $scope.personage.experience - cost;
+                                $http.post('/history', {
+                                    key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP',
+                                    value: cost.toString()
+                                }).success(function () {
+                                    updateTriggerSkillPrerequisites(id);
+                                    increaseLevel.resolve();
+                                });
                             }
-                            if (!personageTriggerSkill.tutored) {
-                                cost = cost * 2;
-                            } else {
-                                personageTriggerSkill.tutored = false;
-                            }
-                            $scope.personage.experience = $scope.personage.experience - cost;
-                            $http.post('/history', {
-                                key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP',
-                                value: cost.toString()
-                            }).success(function () {
-                                updateTriggerSkillPrerequisites(id);
-                                increaseLevel.resolve();
-                            });
-                        } else {
+                        });
+                        if (!isIncreased) {
+                            exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
                             increaseLevel.resolve();
                         }
-                    });
+                    }
                 });
             }
         });
@@ -1827,6 +1833,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $.notify({
             icon: 'fa fa-exclamation',
             message: 'Значение <strong>"' + name + '"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
+        }, {
+            placement: {
+                align: "center"
+            },
+            type: 'danger',
+            animate: {
+                enter: 'animated lightSpeedIn',
+                exit: 'animated lightSpeedOut'
+            }
+        });
+    }
+
+    function exceedTriggerSkillLevel(name) {
+        $.notify({
+            icon: 'fa fa-exclamation',
+            message: 'Уровень <strong>"' + name + '"</strong> на данный момент максимален'
         }, {
             placement: {
                 align: "center"
