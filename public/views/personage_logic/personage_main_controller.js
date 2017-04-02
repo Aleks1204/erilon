@@ -2384,6 +2384,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    autosize($('#noticeDescription'));
+
     $scope.makeUnDraggable = function () {
         $('.sorted_table').sortable('disable');
         var attrTable = $('#attrTable');
