@@ -890,6 +890,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if ($scope.power !== personageAttribute.value) {
                         buttonsToAnimate.push($('#hitChopPunch'));
                         buttonsToAnimate.push($('#parryChopPunch'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                         $scope.power = personageAttribute.value;
                     }
                     break;
@@ -900,6 +901,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         buttonsToAnimate.push($('#hitChopPunch'));
                         buttonsToAnimate.push($('#rangedHit'));
                         buttonsToAnimate.push($('#dodge'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Скорость":
@@ -908,6 +910,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         buttonsToAnimate.push($('#hitPiercePunch'));
                         buttonsToAnimate.push($('parryPiercePunch'));
                         buttonsToAnimate.push($('#generalActionPoints'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Реакция":
@@ -917,18 +920,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         buttonsToAnimate.push($('#parryChopPunch'));
                         buttonsToAnimate.push($('#dodge'));
                         buttonsToAnimate.push($('#initiative'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Восприятие":
                     if ($scope.perception !== personageAttribute.value) {
                         $scope.perception = personageAttribute.value;
                         buttonsToAnimate.push($('#rangedHit'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Выносливость":
                     if ($scope.endurance !== personageAttribute.value) {
                         $scope.endurance = personageAttribute.value;
                         buttonsToAnimate.push($('#endurancePoints'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Живучесть":
@@ -946,6 +952,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $scope.intelligence = personageAttribute.value;
                         buttonsToAnimate.push($('#mentalActionPoints'));
                         buttonsToAnimate.push($('#generalActionPoints'));
+                        animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
                 case "Воля":
