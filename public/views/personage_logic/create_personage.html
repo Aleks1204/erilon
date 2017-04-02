@@ -939,7 +939,7 @@
                                     <div class="btn-group btn-group-justified plus-minus-block">
                                         <div class="btn-group">
                                             <button class="btn btn-rounded btn-sm btn-secondary"
-                                                    ng-click="decreaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill.TriggerSkill.id)"
+                                                    ng-click="decreaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill)"
                                                     type="button"
                                                     ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
                                                 <i class="icmn-minus"></i>
@@ -947,7 +947,7 @@
                                         </div>
                                         <div class="btn-group">
                                             <button class="btn btn-rounded btn-sm btn-primary"
-                                                    ng-click="increaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill.TriggerSkill.id)"
+                                                    ng-click="increaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill)"
                                                     type="button"
                                                     ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
                                                 <i class="icmn-plus"></i>
@@ -1003,14 +1003,11 @@
 
                                 <td class="text-right mobile trigger actions">
                                     <div class="text-center">
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 0">
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
                                             <a class="link-underlined link-blue" href="javascript: void(0)"
                                                ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
                                                 Удалить
                                             </a>
-                                        </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null && triggerSkillMixed.personageTriggerSkill.currentLevel != 0">
-                                            Нельзя удалить
                                         </div>
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
                                             <button class="btn btn-rounded btn-warning btn-sm"

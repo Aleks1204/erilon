@@ -1327,7 +1327,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    $scope.increaseTriggerSkillLevel = function (id) {
+    $scope.increaseTriggerSkillLevel = function (personageTriggerSkill) {
         $scope.loader = true;
 
         var increaseLevel = $q.defer();
@@ -1339,46 +1339,73 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var all = $q.all([increaseLevel.promise]);
         all.then(success);
 
-        angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            if (personageTriggerSkill.TriggerSkill.id === id) {
-                var nextLevel = personageTriggerSkill.currentLevel + 1;
-                var isIncreased = false;
-                $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
-                    if (results.skillLevels.length === 0) {
-                        exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
-                        increaseLevel.resolve();
-                    } else {
-                        angular.forEach(results.skillLevels, function (skillLevel) {
-                            if (skillLevel.level === nextLevel) {
-                                isIncreased = true;
-                                var cost = skillLevel.cost;
-                                personageTriggerSkill.currentLevel++;
-                                if (personageTriggerSkill.talented) {
-                                    cost = Math.ceil(cost / 1.5);
-                                }
-                                if (!personageTriggerSkill.tutored) {
-                                    cost = cost * 2;
-                                } else {
-                                    personageTriggerSkill.tutored = false;
-                                }
-                                $scope.personage.experience = $scope.personage.experience - cost;
-                                $http.post('/history', {
-                                    key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP',
-                                    value: cost.toString()
-                                }).success(function () {
-                                    updateTriggerSkillPrerequisites(id);
-                                    increaseLevel.resolve();
-                                });
-                            }
-                        });
-                        if (!isIncreased) {
-                            exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
-                            increaseLevel.resolve();
+        var nextLevel = personageTriggerSkill.currentLevel + 1;
+        var isIncreased = false;
+        $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).success(function (results) {
+            if (results.skillLevels.length === 0) {
+                exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
+                increaseLevel.resolve();
+            } else {
+                angular.forEach(results.skillLevels, function (skillLevel) {
+                    if (skillLevel.level === nextLevel) {
+                        isIncreased = true;
+                        var cost = skillLevel.cost;
+                        personageTriggerSkill.currentLevel++;
+                        if (personageTriggerSkill.talented) {
+                            cost = Math.ceil(cost / 1.5);
                         }
+                        if (!personageTriggerSkill.tutored) {
+                            cost = cost * 2;
+                        } else {
+                            personageTriggerSkill.tutored = false;
+                        }
+                        $scope.personage.experience = $scope.personage.experience - cost;
+                        $http.post('/history', {
+                            key: 'TRIGGER_LEVEL' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId,
+                            value: cost.toString()
+                        }).success(function () {
+                            updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
+                            increaseLevel.resolve();
+                        });
                     }
+                });
+                if (!isIncreased) {
+                    exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
+                    increaseLevel.resolve();
+                }
+            }
+        });
+    };
+
+    $scope.decreaseTriggerSkillLevel = function (personageTriggerSkill) {
+        var previousLevel = personageTriggerSkill.currentLevel - 1;
+        var currentLevel = personageTriggerSkill.currentLevel;
+        var levelDefer = $q.defer();
+
+        checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
+            if (result) {
+                $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).success(function (results) {
+                    if (previousLevel === 0) {
+                        personageTriggerSkill.currentLevel--;
+                        levelDefer.resolve(personageTriggerSkill.currentLevel);
+                    }
+                    angular.forEach(results.skillLevels, function (skillLevel) {
+                        if (skillLevel.level === previousLevel) {
+                            personageTriggerSkill.currentLevel--;
+                            levelDefer.resolve(personageTriggerSkill.currentLevel);
+                            updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
+                        }
+                        if (skillLevel.level === currentLevel) {
+                            $http.get('/byKey/' + 'TRIGGER_LEVEL' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId).success(function (result) {
+                                $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                            });
+                        }
+                    });
                 });
             }
         });
+
+        return levelDefer.promise;
     };
 
     $scope.decreaseAttachedSkill = function (id) {
@@ -1479,37 +1506,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         return result.promise;
     }
-
-    $scope.decreaseTriggerSkillLevel = function (id) {
-        angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            if (personageTriggerSkill.TriggerSkill.id === id) {
-
-                var previousLevel = personageTriggerSkill.currentLevel - 1;
-                var currentLevel = personageTriggerSkill.currentLevel;
-
-                checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
-                    if (result) {
-                        $http.get('/skillLevelsByTriggerSkillId/' + id).success(function (results) {
-                            if (previousLevel === 0) {
-                                personageTriggerSkill.currentLevel--;
-                            }
-                            angular.forEach(results.skillLevels, function (skillLevel) {
-                                if (skillLevel.level === previousLevel) {
-                                    personageTriggerSkill.currentLevel--;
-                                    updateTriggerSkillPrerequisites(id);
-                                }
-                                if (skillLevel.level === currentLevel) {
-                                    $http.get('/byKey/' + 'TRIGGER_LEVEL' + skillLevel.level.toString() + 'UP').success(function (result) {
-                                        $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
-                                    });
-                                }
-                            });
-                        });
-                    }
-                });
-            }
-        });
-    };
 
     function getPrerequisites(merit) {
         var invalidPrerequisites = [];
@@ -2245,6 +2241,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
             if (result) {
+                var level = personageTriggerSkill.currentLevel;
+                for (var i = 0; i < level; i++){
+                    $scope.decreaseTriggerSkillLevel(personageTriggerSkill);
+                    personageTriggerSkill.currentLevel--;
+                }
+
                 var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
                 $scope.personageTriggerSkills.splice(index, 1);
 
