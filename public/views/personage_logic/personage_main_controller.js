@@ -1065,6 +1065,25 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.isCategoryAttributesMenuClose = true;
+
+    var attributesCategoriesFilerMenu = new Menu({
+        wrapper: '.o-wrapper-attributes',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 390
+    });
+
+    $scope.openHideAttributesCategoriesFilterMenu = function () {
+        if ($scope.isCategoryAttributesMenuClose) {
+            attributesCategoriesFilerMenu.open();
+            $scope.isCategoryAttributesMenuClose = false;
+        } else {
+            attributesCategoriesFilerMenu.close();
+            $scope.isCategoryAttributesMenuClose = true;
+        }
+    };
+
     function checkAttributeRelatedPrerequisites(personageAttribute) {
         var result = $q.defer();
         $scope.itemsToDelete = [];
