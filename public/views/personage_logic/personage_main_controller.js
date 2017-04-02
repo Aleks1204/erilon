@@ -2067,29 +2067,67 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.addPersonageAttachedSkill = function (attachedSkill) {
-        $scope.personageAttachedSkills.push({
-            AttachedSkill: attachedSkill,
-            AttachedSkillId: attachedSkill.id,
-            PersonageId: personageId,
-            value: 1
-        });
-
-        angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-            angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
-                if (personageAttachedSkill.AttachedSkill.id === attachedSkillMixed.attachedSkill.id && attachedSkillMixed.personageAttachedSkill === null) {
-                    attachedSkillMixed.personageAttachedSkill = personageAttachedSkill;
+        var wizardDefer = $q.defer();
+        var isWizard = false;
+        if (attachedSkill.name.toLowerCase().includes('магия') || attachedSkill.name === 'Алхимия') {
+            angular.forEach($scope.personageInherents, function (personageInherent) {
+                if (personageInherent.Inherent.name === 'Маг') {
+                    isWizard = true;
                 }
             });
-        });
 
-        if (attachedSkill.difficult) {
-            $scope.personage.experience = $scope.personage.experience - 2;
+            if (isWizard) {
+                wizardDefer.resolve(true);
+            } else {
+                swal({
+                        title: "Вы уверены?",
+                        text: "У вас нет врожденной особенности \"Маг\". " +
+                        "Вы будете ограничены в использовании магических навыков: " +
+                        "заклинания вы сможете использовать только в виде свитков, для " +
+                        "написания которых вам понадобятся также навыки Древний Язык и Каллиграфия. " +
+                        "Вы уверены, что хотите взять этот навык?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Да!",
+                        cancelButtonText: "Отменить",
+                        closeOnConfirm: true
+                    },
+                    function (isConfirm) {
+                        wizardDefer.resolve(isConfirm);
+                    });
+            }
         } else {
-            $scope.personage.experience = $scope.personage.experience - 1;
+            wizardDefer.resolve(true);
         }
-        updateAttachedSkillPrerequisites(attachedSkill.id);
-        updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
-        calculateAddedSchools();
+
+        wizardDefer.promise.then(function (result) {
+            if (result) {
+                $scope.personageAttachedSkills.push({
+                    AttachedSkill: attachedSkill,
+                    AttachedSkillId: attachedSkill.id,
+                    PersonageId: personageId,
+                    value: 1
+                });
+
+                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                    angular.forEach($scope.attachedSkillsMixed, function (attachedSkillMixed) {
+                        if (personageAttachedSkill.AttachedSkill.id === attachedSkillMixed.attachedSkill.id && attachedSkillMixed.personageAttachedSkill === null) {
+                            attachedSkillMixed.personageAttachedSkill = personageAttachedSkill;
+                        }
+                    });
+                });
+
+                if (attachedSkill.difficult) {
+                    $scope.personage.experience = $scope.personage.experience - 2;
+                } else {
+                    $scope.personage.experience = $scope.personage.experience - 1;
+                }
+                updateAttachedSkillPrerequisites(attachedSkill.id);
+                updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
+                calculateAddedSchools();
+            }
+        });
     };
 
     $scope.addNotAddedClass = function (isAdded) {

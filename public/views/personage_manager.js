@@ -166,6 +166,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
                 confirmButtonText: "Удалить!",
+                cancelButtonText: "Отменить",
                 closeOnConfirm: false
             },
             function () {
