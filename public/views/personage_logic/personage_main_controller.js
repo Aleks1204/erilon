@@ -1743,7 +1743,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.hitChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
             $('#Ловкость'),
-            $('#Силв')
+            $('#Силa')
         ], 'shake');
     };
 
