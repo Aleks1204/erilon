@@ -847,6 +847,15 @@
                             <div class="c-mask" ng-click="openHideAttachedSkillsCategoriesFilerMenu()"></div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name" class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover mobile">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -860,7 +869,7 @@
                             </thead>
                             <tbody class="mobile">
                             <tr class="mobile"
-                                ng-repeat="item in attachedSkillsMixed"
+                                ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch"
                                 ng-hide="filteredAttachedSkills(item)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td class="text-right mobile attached">
@@ -1022,6 +1031,15 @@
                             <div class="c-mask" ng-click="openHideTriggerSkillsCategoriesFilerMenu()"></div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="triggerSkillsSearch.triggerSkill.name" class="form-control" placeholder="Имя навыка" id="triggerSkillsSearch">
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover mobile">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -1034,7 +1052,7 @@
                             </tr>
                             </thead>
                             <tbody class="mobile">
-                            <tr class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed"
+                            <tr class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed)"
                                 ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
                                 <td class="text-right mobile trigger">
@@ -1303,6 +1321,15 @@
                             <div class="c-mask" ng-click="openHideMeritsCategoriesFilterMenu()"></div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="meritSearch.merit.name" class="form-control" placeholder="Имя достоинства" id="meritSearch">
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -1313,7 +1340,7 @@
                             </tr>
                             </thead>
                             <tbody class="mobile">
-                            <tr ng-repeat="meritMixed in meritsMixed"
+                            <tr ng-repeat="meritMixed in meritsMixed | filter: meritSearch"
                                 class="mobile"
                                 ng-hide="filteredMerit(meritMixed)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
@@ -1528,6 +1555,15 @@
                             <div class="c-mask" ng-click="openHideFlawsCategoriesFilterMenu()"></div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control" placeholder="Имя недостатка" id="flawSearch">
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover mobile">
                             <thead class="mobile">
                             <tr class="mobile">
@@ -1538,7 +1574,7 @@
                             </thead>
                             <tbody class="mobile">
                             <tr class="mobile"
-                                ng-repeat="flawMixed in flawsMixed" ng-hide="filteredFlaws(flawMixed)"
+                                ng-repeat="flawMixed in flawsMixed | filter: flawSearch" ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
                                 <td class="text-right mobile flaw">
                                     <div class="text-left">
@@ -1641,6 +1677,15 @@
                         </div>
 
                         <br/>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="spellSearch.spell.name" class="form-control" placeholder="Заклинание" id="spellSearch">
+                                </div>
+                            </div>
+                        </div>
                         <div ng-repeat="item in spellsBySchool" ng-hide="!item.added && !filter.schools">
                             <h3>{{item.school.name}}</h3>
                             <table class="table table-hover mobile">
@@ -1656,7 +1701,7 @@
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody class="mobile" ng-repeat="spellItem in item.spells">
+                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch">
                                 <tr class="mobile" ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell">
@@ -1824,9 +1869,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="search.notice.name" class="form-control" placeholder="Заметка" id="тщешсуSearch">
+                                </div>
+                            </div>
+                        </div>
+
                         <table id="noticeTable" class="table table-hover"
                                style="margin-left: 10px; width: 95%; margin-top: 10px;">
-                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt'">
+                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: search">
                                 <td>
                                     <a class="link-underlined link-blue" data-toggle="modal"
                                        data-target="#{{notice.id}}_view" href="#">{{notice.name}}</a>
