@@ -25,7 +25,8 @@
     <link rel="stylesheet" type="text/css" href="assets/vendors/jscrollpane/style/jquery.jscrollpane.css">
     <link rel="stylesheet" type="text/css" href="assets/vendors/ladda/dist/ladda-themeless.min.css">
     <link rel="stylesheet" type="text/css" href="assets/vendors/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="assets/vendors/fullcalendar/dist/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="assets/vendors/cleanhtmlaudioplayer/src/player.css">
     <link rel="stylesheet" type="text/css" href="assets/vendors/cleanhtmlvideoplayer/src/player.css">
@@ -95,8 +96,10 @@
     <script src="assets/vendors/chart.js/src/Chart.bundle.min.js"></script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
 
     <!-- UI Scripts -->
     <script type="text/javascript" src="assets/common/js/common.js"></script>
@@ -105,44 +108,45 @@
 </head>
 <body class="theme-default menu-top menu-static theme-blue" ng-app="loginApp">
 <section class="page-content" ng-controller="loginController">
-<div class="page-content-inner">
+    <div class="page-content-inner">
 
-    <!-- Login Erilon Page -->
-    <div class="single-page-block">
-    <div class="row">
-            <div class="col-lg-12">
+        <!-- Login Erilon Page -->
+        <img class="login_bg" src="/assets/common/img/bg-login.jpg"/>
+        <div class="single-page-block">
+            <div class="row">
+                <div class="col-lg-12">
                 <span class="text-center logo">
                     <h1>ЭРИЛОН</h1>
                 </span>
+                </div>
             </div>
-        </div>
-        <div class="single-page-block-inner effect-3d-element">
-            <div class="blur-placeholder"><!-- --></div>
-            <div class="single-page-block-form">
-                <h3 class="text-center">
-                    Войти в систему
-                    <i class="fa fa-key pull-right"></i>
-                </h3>
-                <small>Введите имя игрока для входа:</small>
-                <br />
-                <form id="form-validation" name="form-validation" method="POST">
-                    <div class="form-group">
-                        <input id="validation-name" ng-model="nickName"
-                               class="form-control"
-                               placeholder="Имя ..."
-                               name="validation[name]"
-                               type="text"
-                               data-validation="[NAME]">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="login()">Войти</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- End Login Erilon Page -->
+            <div class="single-page-block-inner effect-3d-element">
+                <div class="blur-placeholder"><!-- --></div>
+                <div class="single-page-block-form">
+                    <h3 class="text-center">
+                        Войти в систему
+                        <i class="fa fa-key pull-right"></i>
+                    </h3>
+                    <small>Введите имя игрока для входа:</small>
+                    <br/>
+                    <form id="form-validation" name="form-validation" method="POST">
+                        <div class="form-group">
+                            <input id="validation-name" ng-model="nickName"
+                                   class="form-control"
+                                   placeholder="Имя ..."
+                                   name="validation[name]"
+                                   type="text"
+                                   data-validation="[NAME]">
+                        </div>
 
-</div>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="login()">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End Login Erilon Page -->
+
+    </div>
 </section>
 
 <div class="main-backdrop"><!-- --></div>

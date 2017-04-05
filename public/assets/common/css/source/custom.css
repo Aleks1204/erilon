@@ -8,11 +8,20 @@ body {
 }
 
 .single-page .page-content-inner {
-    background: url("../../img/bg-login.jpg") no-repeat center center !important;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background: url("../../img/bg-login.jpg") no-repeat !important;
+}
+
+.login_bg {
+    height: 100%;
+    width:100%;
+    position: fixed;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+    .login_bg {
+        margin-left: -112px;
+        width: 1000px;
+    }
 }
 
 .logo, .logo h1 {
