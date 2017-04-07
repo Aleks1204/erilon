@@ -1869,18 +1869,18 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row notice-filter">
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="search.notice.name" class="form-control" placeholder="Заметка" id="тщешсуSearch">
+                                    <input type="text" ng-model="noticeSearch.name" class="form-control" placeholder="Заметка" id="noticeSearch">
                                 </div>
                             </div>
                         </div>
 
                         <table id="noticeTable" class="table table-hover"
                                style="margin-left: 10px; width: 95%; margin-top: 10px;">
-                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: search">
+                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: noticeSearch">
                                 <td>
                                     <a class="link-underlined link-blue" data-toggle="modal"
                                        data-target="#{{notice.id}}_view" href="#">{{notice.name}}</a>
