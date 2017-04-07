@@ -28,6 +28,7 @@ router.get('/personages', function (req, res) {
             deleted: false
         }
     }).then(function (personages) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({personages: personages});
     });
 });
