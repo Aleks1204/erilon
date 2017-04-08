@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "angular": "^1.6.1",
+    "angular-cookies": "^1.6.4",
     "body-parser": "^1.15.2",
     "compression": "1.6.2",
     "cookie-parser": "^1.4.3",
@@ -19,6 +20,7 @@
     "ejs": "^2.5.5",
     "express": "^4.14.0",
     "morgan": "^1.7.0",
+    "ngstorage": "^0.3.11",
     "pg": "^4.5.6",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.28.0",

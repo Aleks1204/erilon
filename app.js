@@ -92,6 +92,7 @@ app.use('', rolePermissionApi);
 app.use('', permissionApi);
 app.use('', noticeApi);
 
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(__dirname + '../public'));
 app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);

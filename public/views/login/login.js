@@ -4,19 +4,20 @@ var app = angular.module("loginApp", ['ngStorage']);
 
 app.controller("loginController", function ($scope, $http, $window, $localStorage) {
     $scope.login = function () {
-        $http.get('/isPlayerExist/' + $scope.nickName).success(function (result) {
-            if (result.status == 'OK') {
-                $localStorage.playerId = result.player.id;
-                $window.location.href = '/views/user_personage_manager.html?id=' + result.player.id;
+        $http.get('/isPlayerExist/' + $scope.nickName).then(function onSuccess(response) {
+            if (response.data.status === 'OK') {
+                $localStorage.playerId = response.data.player.id;
+                $window.location.href = '/views/user_personage_manager.html?id=' + response.data.player.id;
             } else {
                 $http.post('/players', {
                     role_id: 2,
                     name: $scope.nickName
-                }).success(function (result) {
-                    $localStorage.playerId = result.player.id;
-                    $window.location.href = '/views/user_personage_manager.html?id=' + result.player.id;
+                }).then(function (response) {
+                    $localStorage.playerId = response.data.player.id;
+                    $window.location.href = '/views/user_personage_manager.html?id=' + response.data.player.id;
                 });
             }
+        }, function onError(response) {
         });
     };
 
