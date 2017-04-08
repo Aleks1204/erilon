@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "npm install public/assets",
     "start": "node ./bin/www"
   },
   "engines": {
