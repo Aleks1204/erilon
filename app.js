@@ -41,8 +41,6 @@ var rolePermissionApi = require('./routes/role-permission-api');
 var permissionApi = require('./routes/permission-api');
 var noticeApi = require('./routes/notice-api');
 
-var isMobile = require('ismobilejs');
-
 var app = express();
 
 // view engine setup
