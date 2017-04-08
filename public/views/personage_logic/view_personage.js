@@ -1,7 +1,7 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
+var app = angular.module("personageApp", ['ngStorage']);
 
-app.controller("personageController", function ($scope, $http, $q, $sce) {
+app.controller("personageController", function ($scope, $http, $q) {
     $scope.loader = true;
 
     var personage = $q.defer();
@@ -35,19 +35,19 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         {
             "targets": 0,
             "data": function (row, type, val, meta) {
-                if (row.currentLevel == 0) {
+                if (row.currentLevel === 0) {
                     return "";
                 }
-                if (row.currentLevel == 1) {
+                if (row.currentLevel === 1) {
                     return "Эксперт";
                 }
-                if (row.currentLevel == 2) {
+                if (row.currentLevel === 2) {
                     return "Мастер";
                 }
-                if (row.currentLevel == 3) {
+                if (row.currentLevel === 3) {
                     return "Магистр";
                 }
-                if (row.currentLevel == 4) {
+                if (row.currentLevel === 4) {
                     return "Гроссмейтер";
                 }
             }
@@ -97,22 +97,22 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
 
     all.then(success);
 
-    $http.get('/personages/' + personageId).success(function (data) {
-        $scope.personage = data.personage;
-        $scope.age = data.personage.age;
-        if (data.personage.max_age != 0) {
-            $scope.max_age = data.personage.max_age;
+    $http.get('/personages/' + personageId).then(function (response) {
+        $scope.personage = response.data.personage;
+        $scope.age = response.data.personage.age;
+        if (response.data.personage.max_age !== 0) {
+            $scope.max_age = response.data.personage.max_age;
         } else {
-            $scope.max_age = data.personage.Race.max_age;
+            $scope.max_age = response.data.personage.Race.max_age;
         }
-        $http.get('/raceAttributesByRaceId/' + data.personage.RaceId).success(function (data) {
-            $scope.raceAttributes = data.raceAttributes;
+        $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (data) {
+            $scope.raceAttributes = response.data.raceAttributes;
             raceAttributes.resolve();
         });
         $scope.experienceValid = function () {
             return $scope.personage.experience < 0;
         };
-        $scope.personageAttributes = data.personage.PersonageAttributes;
+        $scope.personageAttributes = response.data.personage.PersonageAttributes;
         personage.resolve();
     });
 
@@ -120,7 +120,7 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         var spells = [];
         angular.forEach($scope.personageSpells, function (personageSpell) {
             angular.forEach(attachedSkill.Spells, function (spell) {
-                if (spell.id == personageSpell.SpellId) {
+                if (spell.id === personageSpell.SpellId) {
                     spells.push({personageSpell: personageSpell, spell: spell});
                 }
             });
@@ -224,58 +224,58 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         $scope.schools = [];
         var buffer = [];
         angular.forEach($scope.personageSpells, function (personageSpell) {
-            if (buffer.indexOf(personageSpell.Spell.AttachedSkillId) == -1) {
+            if (buffer.indexOf(personageSpell.Spell.AttachedSkillId) === -1) {
                 buffer.push(personageSpell.Spell.AttachedSkillId);
             }
         });
 
         angular.forEach(buffer, function (attachedSkillId) {
-            $http.get('/attachedSkills/' + attachedSkillId).success(function (data) {
-                $scope.schools.push(data.attachedSkill);
-                if (data.attachedSkill.name == 'Магия воздуха') {
-                    magicTable('air', 'Воздух', data.attachedSkill);
+            $http.get('/attachedSkills/' + attachedSkillId).then(function (response) {
+                $scope.schools.push(response.data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия воздуха') {
+                    magicTable('air', 'Воздух', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия земли') {
-                    magicTable('earth', 'Земля', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия земли') {
+                    magicTable('earth', 'Земля', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия огня') {
-                    magicTable('fire', 'Огонь', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия огня') {
+                    magicTable('fire', 'Огонь', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия воды') {
-                    magicTable('aqua', 'Вода', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия воды') {
+                    magicTable('aqua', 'Вода', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия смерти') {
-                    magicTable('death', 'Смерть', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия смерти') {
+                    magicTable('death', 'Смерть', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия духа') {
-                    magicTable('astral', 'Дух', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия духа') {
+                    magicTable('astral', 'Дух', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия иллюзий') {
-                    magicTable('illusion', 'Иллюзии', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия иллюзий') {
+                    magicTable('illusion', 'Иллюзии', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия призыва') {
-                    magicTable('call', 'Призыв', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия призыва') {
+                    magicTable('call', 'Призыв', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия природы') {
-                    magicTable('nature', 'Природа', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия природы') {
+                    magicTable('nature', 'Природа', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия разума') {
-                    magicTable('mind', 'Разум', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия разума') {
+                    magicTable('mind', 'Разум', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия тела') {
-                    magicTable('body', 'Тело', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия тела') {
+                    magicTable('body', 'Тело', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Магия тени') {
-                    magicTable('shadow', 'Тень', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Магия тени') {
+                    magicTable('shadow', 'Тень', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Начертательная магия') {
-                    magicTable('pentagram', 'Начертательная магия', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Начертательная магия') {
+                    magicTable('pentagram', 'Начертательная магия', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Знахарство') {
-                    magicTable('herbs', 'Знахарство', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Знахарство') {
+                    magicTable('herbs', 'Знахарство', response.data.attachedSkill);
                 }
-                if (data.attachedSkill.name == 'Алхимия') {
-                    magicTable('alchemy', 'Алхимия', data.attachedSkill);
+                if (response.data.attachedSkill.name === 'Алхимия') {
+                    magicTable('alchemy', 'Алхимия', response.data.attachedSkill);
                 }
             });
         });
@@ -355,10 +355,10 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         $http.put('/notices/' + notice.id, {
             name: notice.name,
             description: notice.description
-        }).success(function (data) {
+        }).then(function () {
             jQuery('#' + notice.id + '_edit').modal('hide');
             $('#' + notice.id + '_edit').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
                     $scope.notices = data.notices;
                 });
             });
@@ -370,8 +370,8 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
         if (!personageSpellsClicked) {
             personageSpellsClicked = true;
             $scope.loader = true;
-            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
-                $scope.personageSpells = data.personageSpells;
+            $http.get('/personageSpellsByPersonageId/' + personageId).then(function (response) {
+                $scope.personageSpells = response.data.personageSpells;
                 $scope.calculateMagicSchools();
                 $scope.loader = false;
             });
@@ -388,10 +388,10 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
             personage_id: personageId,
             name: $scope.noticeName,
             description: $scope.noticeDescription
-        }).success(function (data) {
+        }).then(function () {
             jQuery('#addNotice').modal('hide');
             $('#addNotice').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
                     $scope.notices = data.notices;
                 });
             });
@@ -399,10 +399,10 @@ app.controller("personageController", function ($scope, $http, $q, $sce) {
     };
 
     $scope.deleteNotice = function (notice_id) {
-        $http.delete('/notices/' + notice_id).success(function (data) {
+        $http.delete('/notices/' + notice_id).then(function () {
             jQuery('#' + notice_id + '_view').modal('hide');
             $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
+                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
                     $scope.notices = data.notices;
                 });
             });
