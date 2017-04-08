@@ -6,9 +6,6 @@ $('.icons-block div').each(function () {
     });
 });
 
-
-$('.editable').editableTableWidget();
-
 app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage) {
     $scope.loader = false;
 
@@ -43,18 +40,17 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
             max_age: 0,
             experience: $scope.experience,
             generated: false
-        }).success(function (result) {
-
+        }).then(function (response) {
             var raceAttributesByRaceId = $q.defer();
-            $http.get('/raceAttributesByRaceId/' + result.personage.RaceId).success(function (results) {
-                raceAttributesByRaceId.resolve(results.raceAttributes);
+            $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                raceAttributesByRaceId.resolve(response.data.raceAttributes);
             });
 
             $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
                 var raceAttributePromises = [];
                 for (var i = 0; i < raceAttributes[0].length; i++) {
                     raceAttributePromises.push($http.post('/personageAttributes', {
-                        personage_id: result.personage.id,
+                        personage_id: response.data.personage.id,
                         attribute_id: raceAttributes[0][i].AttributeId,
                         value: 1,
                         position: i + 1
@@ -67,15 +63,15 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
             });
 
             var raceMeritsByRaceId = $q.defer();
-            $http.get('/raceMeritsByRaceId/' + result.personage.RaceId).success(function (results) {
-                raceMeritsByRaceId.resolve(results.raceMerits);
+            $http.get('/raceMeritsByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                raceMeritsByRaceId.resolve(response.data.raceMerits);
             });
 
             $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
                 var raceMeritPromises = [];
                 for (var i = 0; i < raceMerits[0].length; i++) {
                     raceMeritPromises.push($http.post('/personageMerits', {
-                        personage_id: result.personage.id,
+                        personage_id: response.data.personage.id,
                         merit_id: raceMerits[0][i].MeritId,
                         unremovable: true
                     }));
@@ -87,15 +83,15 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
             });
 
             var raceFlawsByRaceId = $q.defer();
-            $http.get('/raceFlawsByRaceId/' + result.personage.RaceId).success(function (results) {
-                raceFlawsByRaceId.resolve(results.raceFlaws);
+            $http.get('/raceFlawsByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                raceFlawsByRaceId.resolve(response.data.raceFlaws);
             });
 
             $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
                 var raceFlawPromises = [];
                 for (var i = 0; i < raceFlaws[0].length; i++) {
                     raceFlawPromises.push($http.post('/personageFlaws', {
-                        personage_id: result.personage.id,
+                        personage_id: response.data.personage.id,
                         flaw_id: raceFlaws[0][i].FlawId,
                         personage_race_default: true
                     }));
@@ -108,8 +104,8 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 
             var attachedSkills = $q.defer();
 
-            $http.get('/attachedSkills/').success(function (results) {
-                attachedSkills.resolve(results.attachedSkills);
+            $http.get('/attachedSkills/').then(function (response) {
+                attachedSkills.resolve(response.data.attachedSkills);
             });
 
             $q.all([attachedSkills.promise]).then(function (attachedSkills) {
@@ -117,7 +113,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                 angular.forEach(attachedSkills[0], function (attachedSkill) {
                     if (attachedSkill.default_skill) {
                         defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
-                            personage_id: result.personage.id,
+                            personage_id: response.data.personage.id,
                             attachedSkill_id: attachedSkill.id,
                             value: 0
                         }));
@@ -133,8 +129,8 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
         });
     };
 
-    $http.get('/races').success(function (data) {
-        $scope.races = data.races;
+    $http.get('/races').then(function (response) {
+        $scope.races = response.data.races;
     });
 });
 
@@ -142,16 +138,16 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.showMyPersonages = function () {
         $scope.loader = true;
-        $http.get('/personagesByPlayerId/' + $localStorage.playerId).success(function (data) {
-            $scope.personages = data.personages;
+        $http.get('/personagesByPlayerId/' + $localStorage.playerId).then(function (response) {
+            $scope.personages = response.data.personages;
             $scope.loader = false;
         });
     };
 
     $scope.showAllPersonages = function () {
         $scope.loader = true;
-        $http.get('/personages').success(function (data) {
-            $scope.personages = data.personages;
+        $http.get('/personages').then(function (response) {
+            $scope.personages = response.data.personages;
             $scope.loader = false;
         });
     };
@@ -170,7 +166,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 closeOnConfirm: false
             },
             function () {
-                $http.delete('/personages/' + personage.id).success(function () {
+                $http.delete('/personages/' + personage.id).then(function () {
                     var index = $scope.personages.indexOf(personage);
                     $scope.personages.splice(index, 1);
                     swal("Удален!", "Персонаж безвозвратно удален!", "success");

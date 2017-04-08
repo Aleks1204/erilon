@@ -12,6 +12,7 @@
 .messaging .messaging-list .messaging-list-item {
     padding: 20px 15px;
     border-bottom: 1px solid #eceff4;
+    width:200%;
 }
 
 .messaging .messaging-list .messaging-list-item .avatar {

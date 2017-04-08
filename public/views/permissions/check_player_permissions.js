@@ -6,9 +6,9 @@
 app.controller("permissionsController", function ($scope, $http, $localStorage, $q) {
     var players = $q.defer();
 
-    $http.get('/players/' + $localStorage.playerId).success(function (data) {
-        players.resolve(data);
-        $scope.player = data.player;
+    $http.get('/players/' + $localStorage.playerId).then(function (response) {
+        players.resolve(response.data);
+        $scope.player = response.data.player;
     });
 
     $q.all([players.promise])

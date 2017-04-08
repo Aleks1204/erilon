@@ -68,9 +68,9 @@ app.controller("permissionsManagerController", function ($scope, $http) {
                 $http.post('/rolePermissions', {
                     role_id: role.id,
                     permission_id: permissionId
-                }).success(function (data) {
-                    $http.get('/roles').success(function (data) {
-                        $scope.roles = data.roles;
+                }).then(function () {
+                    $http.get('/roles').success(function (response) {
+                        $scope.roles = response.data.roles;
                     });
                 });
             }
@@ -84,12 +84,12 @@ app.controller("permissionsManagerController", function ($scope, $http) {
             if (permission.name == action + dictionaryName + 'Dictionary') {
                 permissionId = permission.id;
 
-                $http.get('/rolePermissions/' + role.id + '/' + permissionId).success(function (data) {
-                    $http.delete('/rolePermissions/' + data.rolePermission.id);
-                    $http.get('/roles').success(function (data) {
-                        $scope.roles = data.roles;
-                        $http.get('/roles').success(function (data) {
-                            $scope.roles = data.roles;
+                $http.get('/rolePermissions/' + role.id + '/' + permissionId).then(function (response) {
+                    $http.delete('/rolePermissions/' + response.data.rolePermission.id);
+                    $http.get('/roles').then(function (response) {
+                        $scope.roles = response.data.roles;
+                        $http.get('/roles').success(function (response) {
+                            $scope.roles = response.data.roles;
                         });
                     });
                 });
