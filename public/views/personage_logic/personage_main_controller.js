@@ -3,7 +3,7 @@
  */
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'ui.bootstrap']);
+var app = angular.module("personageApp", ['ngStorage']);
 
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window) {
     $scope.loader = true;
@@ -439,8 +439,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.meritsMixed = [];
 
     function calculateMeritsToShow() {
-        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).success(function (results) {
-            angular.forEach(results.raceMerits, function (raceMerit) {
+        $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).then(function (response) {
+            angular.forEach(response.data.raceMerits, function (raceMerit) {
                 for (var i = 0; i < $scope.personageMerits.length; i++) {
                     if (!raceMerit.race_default && raceMerit.race_cost !== 0 && raceMerit.MeritId === $scope.personageMerits[i].Merit.id) {
                         $scope.personageMerits[i].Merit.cost = raceMerit.race_cost;
@@ -700,24 +700,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     all.then(success);
 
-    $http.get('/merits').success(function (results) {
-        $scope.merits = results.merits;
+    $http.get('/merits').then(function (response) {
+        $scope.merits = response.data.merits;
         merits.resolve();
     });
 
-    $http.get('/inherents').success(function (results) {
-        $scope.inherents = results.inherents;
+    $http.get('/inherents').then(function (response) {
+        $scope.inherents = response.data.inherents;
         inherents.resolve();
     });
 
-    $http.get('/flaws').success(function (results) {
-        $scope.flaws = results.flaws;
+    $http.get('/flaws').then(function (response) {
+        $scope.flaws = response.data.flaws;
         flaws.resolve();
     });
 
-    $http.get('/attachedSkills').success(function (results) {
-        $scope.attachedSkills = results.attachedSkills;
-        angular.forEach(results.attachedSkills, function (attachedSkill) {
+    $http.get('/attachedSkills').then(function (response) {
+        $scope.attachedSkills = response.data.attachedSkills;
+        angular.forEach(response.data.attachedSkills, function (attachedSkill) {
             if (attachedSkill.spells_connected) {
                 $scope.magicSchools.push(attachedSkill);
             }
@@ -725,68 +725,68 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         attachedSkills.resolve();
     });
 
-    $http.get('/triggerSkills').success(function (results) {
-        $scope.triggerSkills = results.triggerSkills;
+    $http.get('/triggerSkills').then(function (response) {
+        $scope.triggerSkills = response.data.triggerSkills;
         triggerSkills.resolve();
     });
 
-    $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageAttachedSkills = data.data;
+    $http.get('/personageAttachedSkillsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageAttachedSkills = response.data.data;
         personageAttachedSkills.resolve();
     });
 
-    $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageTriggerSkills = data.data;
+    $http.get('/personageTriggerSkillsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageTriggerSkills = response.data.data;
         personageTriggerSkills.resolve();
     });
 
-    $http.get('/personageFlawsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageFlaws = data.data;
+    $http.get('/personageFlawsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageFlaws = response.data.data;
         personageFlaws.resolve();
     });
 
-    $http.get('/personageMeritsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageMerits = data.data;
+    $http.get('/personageMeritsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageMerits = response.data.data;
         personageMerits.resolve();
     });
 
-    $http.get('/personageInherentsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageInherents = data.data;
+    $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageInherents = response.data.data;
         personageInherents.resolve();
     });
 
-    $http.get('/personageSpellsByPersonageId/' + personageId).success(function (data) {
-        $scope.personageSpells = data.personageSpells;
+    $http.get('/personageSpellsByPersonageId/' + personageId).then(function (response) {
+        $scope.personageSpells = response.data.personageSpells;
         personageSpells.resolve();
     });
 
-    $http.get('/noticesByPersonageId/' + personageId).success(function (data) {
-        $scope.notices = data.data;
+    $http.get('/noticesByPersonageId/' + personageId).then(function (response) {
+        $scope.notices = response.data.data;
         personageNotices.resolve();
     });
 
-    $http.get('/personages/' + personageId).success(function (data) {
-        $scope.personage = data.personage;
-        $scope.age = data.personage.age;
-        if (data.personage.max_age !== 0) {
-            $scope.max_age = data.personage.max_age;
+    $http.get('/personages/' + personageId).then(function (response) {
+        $scope.personage = response.data.personage;
+        $scope.age = response.data.personage.age;
+        if (response.data.personage.max_age !== 0) {
+            $scope.max_age = response.data.personage.max_age;
         } else {
-            $scope.max_age = data.personage.Race.max_age;
+            $scope.max_age = response.data.personage.Race.max_age;
         }
-        $http.get('/raceAttributesByRaceId/' + data.personage.RaceId).success(function (data) {
-            $scope.raceAttributes = data.raceAttributes;
+        $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
+            $scope.raceAttributes = response.data.raceAttributes;
             raceAttributes.resolve();
         });
-        $http.get('/raceInherentsByRaceId/' + data.personage.RaceId).success(function (data) {
-            $scope.raceInherents = data.raceInherents;
+        $http.get('/raceInherentsByRaceId/' + response.data.personage.RaceId).then(function (response) {
+            $scope.raceInherents = response.data.raceInherents;
             raceInherents.resolve();
         });
         $scope.experienceValid = function () {
             return $scope.personage.experience < 0;
         };
 
-        $scope.personageAttributes = data.personage.PersonageAttributes;
-        $scope.playerId = data.personage.PlayerId;
+        $scope.personageAttributes = response.data.personage.PersonageAttributes;
+        $scope.playerId = response.data.personage.PlayerId;
         personage.resolve();
     });
 
@@ -873,12 +873,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $http.post('/history', {
             key: 'HAS_INHERENTS' + personageId,
             value: 'TRUE'
-        }).success($scope.hasInherents);
+        }).then($scope.hasInherents);
     }
 
     $scope.hasInherents = function () {
-        $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).success(function (result) {
-            $scope.showGenerateInherentsButton = result.result === null;
+        $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).then(function (response) {
+            $scope.showGenerateInherentsButton = response.data.result === null;
         });
     };
 
@@ -1092,7 +1092,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function checkAttributeRelatedPrerequisites(personageAttribute) {
-        var result = $q.defer();
         $scope.itemsToDelete = [];
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritAttributes, function (meritAttribute) {
@@ -1124,28 +1123,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length > 0) {
-            var checkMeritPromises = [];
-            angular.forEach($scope.itemsToDelete, function (item) {
-                checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
-            });
-            $q.all(checkMeritPromises).then(function () {
-                $('#confirmChangesModal').modal('show');
-                $('#deleteConfirmed').click(function () {
-                    angular.forEach($scope.itemsToDelete, function (item) {
-                        deletePersonageMerit(item.targetMerit);
-                    });
-                    result.resolve(true);
-                });
-                $('#deleteCancelled').click(function () {
-                    result.resolve(false);
-                });
-            });
-        } else {
-            result.resolve(true);
-        }
-
-        return result.promise;
+        return showAffectedMeritsModal();
     }
 
     $scope.addPersonageSpell = function (spell) {
@@ -1173,7 +1151,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var index = $scope.personageSpells.indexOf(personageSpell);
         if (index !== -1) {
             var level = personageSpell.level;
-            for (var i = 0; i < level; i++){
+            for (var i = 0; i < level; i++) {
                 $scope.decreaseSpellLevel(personageSpell);
                 personageSpell.level--;
             }
@@ -1218,7 +1196,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.post('/history', {
                 key: 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId,
                 value: cost.toString()
-            }).success(function () {
+            }).then(function () {
                 increaseLevel.resolve();
             });
         } else {
@@ -1240,10 +1218,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         all.then(success);
 
         if (personageSpell.level > 0) {
-            $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).success(function (result) {
-                $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+            $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).then(function (response) {
+                $scope.personage.experience = $scope.personage.experience + parseInt(response.data.result.value);
                 personageSpell.level--;
-            }).success(function () {
+            }).then(function () {
                 decreaseLevel.resolve();
             });
         } else {
@@ -1373,12 +1351,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         var nextLevel = personageTriggerSkill.currentLevel + 1;
         var isIncreased = false;
-        $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).success(function (results) {
-            if (results.skillLevels.length === 0) {
+        $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).then(function (response) {
+            if (response.data.skillLevels.length === 0) {
                 exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
                 increaseLevel.resolve();
             } else {
-                angular.forEach(results.skillLevels, function (skillLevel) {
+                angular.forEach(response.data.skillLevels, function (skillLevel) {
                     if (skillLevel.level === nextLevel) {
                         isIncreased = true;
                         var cost = skillLevel.cost;
@@ -1395,7 +1373,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $http.post('/history', {
                             key: 'TRIGGER_LEVEL_' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId,
                             value: cost.toString()
-                        }).success(function () {
+                        }).then(function () {
                             updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
                             increaseLevel.resolve();
                         });
@@ -1409,40 +1387,40 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.decreaseTriggerSkillLevel = function (personageTriggerSkill) {
+    $scope.decreaseTriggerSkillLevel = function (personageTriggerSkill, deletion) {
         var previousLevel = personageTriggerSkill.currentLevel - 1;
         var currentLevel = personageTriggerSkill.currentLevel;
-        var levelDefer = $q.defer();
 
-        checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
+        checkTriggerSkillRelatedPrerequisites(personageTriggerSkill, false).then(function (result) {
             if (result) {
-                $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).success(function (results) {
+                $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).then(function (response) {
                     if (previousLevel === 0) {
+                        console.log('decrease: ' + currentLevel);
                         personageTriggerSkill.currentLevel--;
-                        levelDefer.resolve(personageTriggerSkill.currentLevel);
                     }
-                    angular.forEach(results.skillLevels, function (skillLevel) {
+                    angular.forEach(response.data.skillLevels, function (skillLevel) {
                         if (skillLevel.level === previousLevel) {
                             personageTriggerSkill.currentLevel--;
-                            levelDefer.resolve(personageTriggerSkill.currentLevel);
+                            console.log('decrease: ' + currentLevel);
                             updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkillId);
                         }
                         if (skillLevel.level === currentLevel) {
-                            $http.get('/byKey/' + 'TRIGGER_LEVEL_' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId).success(function (result) {
-                                $scope.personage.experience = $scope.personage.experience + parseInt(result.result.value);
+                            $http.get('/byKey/' + 'TRIGGER_LEVEL_' + skillLevel.level.toString() + '_UP_' + personageId + '_' + personageTriggerSkill.TriggerSkillId).then(function (response) {
+                                $scope.personage.experience = $scope.personage.experience + parseInt(response.data.result.value);
+                                if (deletion && currentLevel !== 0) {
+                                    $scope.decreaseTriggerSkillLevel(personageTriggerSkill, true);
+                                }
                             });
                         }
                     });
                 });
             }
         });
-
-        return levelDefer.promise;
     };
 
     $scope.decreaseAttachedSkill = function (id) {
         angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-            if (personageAttachedSkill.AttachedSkill.id === id && personageAttachedSkill.value > 0) {
+            if (personageAttachedSkill.AttachedSkill.id === id && personageAttachedSkill.value > 1) {
                 checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
                     if (confirmedChanges) {
                         personageAttachedSkill.value--;
@@ -1460,7 +1438,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, action) {
-        var result = $q.defer();
         $scope.itemsToDelete = [];
 
         angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -1515,27 +1492,46 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
+        return showAffectedMeritsModal();
+    }
+
+    function showAffectedMeritsModal() {
+        var result = $q.defer();
         if ($scope.itemsToDelete.length > 0) {
             var checkMeritPromises = [];
             angular.forEach($scope.itemsToDelete, function (item) {
                 checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
             });
+            var stringValue = '';
+            angular.forEach($scope.itemsToDelete, function (item) {
+                stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong>" +
+                    " имеет пререквизит <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
+            });
+
+            stringValue = stringValue.substring(2);
+
             $q.all(checkMeritPromises).then(function () {
-                $('#confirmChangesModal').modal('show');
-                $('#deleteConfirmed').click(function () {
+                swal({
+                    title: "Вы уверены?",
+                    html: "Данное изменение приведет к удалению достоинств: " + stringValue,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: "Согласен!",
+                    cancelButtonText: "Отменить",
+                }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);
                     });
                     result.resolve(true);
-                });
-                $('#deleteCancelled').click(function () {
+                }, function cancel() {
                     result.resolve(false);
                 });
             });
         } else {
             result.resolve(true);
         }
-
         return result.promise;
     }
 
@@ -1922,16 +1918,33 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         checkMeritRelatedPrerequisites(personageMerit, 'delete').then(function () {
             if ($scope.itemsToDelete.length > 0) {
                 var result = $q.defer();
-                $('#confirmChangesModal').modal('show');
-                $('#deleteConfirmed').click(function () {
+
+                var stringValue = '';
+                angular.forEach($scope.itemsToDelete, function (item) {
+                    stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong>" +
+                        " имеет пререквизит <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
+                });
+
+                stringValue = stringValue.substring(2);
+
+                swal({
+                    title: "Вы уверены?",
+                    html: "Данное изменение приведет к удалению достоинств: " + stringValue,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: "Согласен!",
+                    cancelButtonText: "Отменить",
+                }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);
                     });
                     result.resolve(true);
-                });
-                $('#deleteCancelled').click(function () {
+                }, function cancel() {
                     result.resolve(false);
                 });
+
                 result.promise.then(function (confirmedChanges) {
                     if (confirmedChanges) {
                         deletePersonageMerit(personageMerit);
@@ -2046,7 +2059,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function checkFlawRelatedPrerequisites(personageFlaw, action) {
-        var result = $q.defer();
         $scope.itemsToDelete = [];
 
         angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -2070,28 +2082,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
-        if ($scope.itemsToDelete.length > 0) {
-            var checkMeritPromises = [];
-            angular.forEach($scope.itemsToDelete, function (item) {
-                checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
-            });
-            $q.all(checkMeritPromises).then(function () {
-                $('#confirmChangesModal').modal('show');
-                $('#deleteConfirmed').click(function () {
-                    angular.forEach($scope.itemsToDelete, function (item) {
-                        deletePersonageMerit(item.targetMerit);
-                    });
-                    result.resolve(true);
-                });
-                $('#deleteCancelled').click(function () {
-                    result.resolve(false);
-                });
-            });
-        } else {
-            result.resolve(true);
-        }
-
-        return result.promise;
+        return showAffectedMeritsModal();
     }
 
     $scope.addPersonageAttachedSkill = function (attachedSkill) {
@@ -2108,22 +2099,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 wizardDefer.resolve(true);
             } else {
                 swal({
-                        title: "Вы уверены?",
-                        text: "У вас нет врожденной особенности \"Маг\". " +
-                        "Вы будете ограничены в использовании магических навыков: " +
-                        "заклинания вы сможете использовать только в виде свитков, для " +
-                        "написания которых вам понадобятся также навыки Древний Язык и Каллиграфия. " +
-                        "Вы уверены, что хотите взять этот навык?",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Да!",
-                        cancelButtonText: "Отменить",
-                        closeOnConfirm: true
-                    },
-                    function (isConfirm) {
-                        wizardDefer.resolve(isConfirm);
-                    });
+                    title: "Вы уверены?",
+                    text: "У вас нет врожденной особенности \"Маг\". " +
+                    "Вы будете ограничены в использовании магических навыков: " +
+                    "заклинания вы сможете использовать только в виде свитков, для " +
+                    "написания которых вам понадобятся также навыки Древний Язык и Каллиграфия. " +
+                    "Вы уверены, что хотите взять этот навык?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: "Да!",
+                    cancelButtonText: "Нет",
+                }).then(function success() {
+                    wizardDefer.resolve(true);
+                }, function cancel() {
+                    wizardDefer.resolve(false);
+                });
             }
         } else {
             wizardDefer.resolve(true);
@@ -2241,26 +2233,37 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function checkSpellsAddedToSchool(personageAttachedSkill) {
-        $scope.personageSpellsToDelete = [];
+        var personageSpellsToDelete = [];
+        var spellNamesToDelete = '';
         var result = $q.defer();
 
         if (personageAttachedSkill.AttachedSkill.spells_connected) {
             angular.forEach($scope.personageSpells, function (personageSpell) {
                 if (personageSpell.Spell.AttachedSkillId === personageAttachedSkill.AttachedSkill.id) {
-                    $scope.personageSpellsToDelete.push(personageSpell);
+                    personageSpellsToDelete.push(personageSpell);
+                    spellNamesToDelete = spellNamesToDelete + ', ' + personageSpell.Spell.name;
                 }
             });
+            spellNamesToDelete = spellNamesToDelete.substring(2);
         }
 
-        if ($scope.personageSpellsToDelete.length > 0) {
-            $('#confirmSpellsChangesModal').modal('show');
-            $('#deleteSpellsConfirmed').click(function () {
-                angular.forEach($scope.personageSpellsToDelete, function (personageSpell) {
+        if (personageSpellsToDelete.length > 0) {
+            swal({
+                title: "Вы уверены?",
+                html: "Данное изменение приведет к удалению заклинаний из данной школы: <strong>" + spellNamesToDelete
+                + "</strong>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Согласен!",
+                cancelButtonText: "Отменить",
+            }).then(function success() {
+                angular.forEach(personageSpellsToDelete, function (personageSpell) {
                     $scope.deletePersonageSpell(personageSpell);
                 });
                 result.resolve(true);
-            });
-            $('#deleteSpellsCancelled').click(function () {
+            }, function cancel() {
                 result.resolve(false);
             });
         } else {
@@ -2271,13 +2274,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
-        checkTriggerSkillRelatedPrerequisites(personageTriggerSkill).then(function (result) {
+        checkTriggerSkillRelatedPrerequisites(personageTriggerSkill, true).then(function (result) {
             if (result) {
-                var level = personageTriggerSkill.currentLevel;
-                for (var i = 0; i < level; i++){
-                    $scope.decreaseTriggerSkillLevel(personageTriggerSkill);
-                    personageTriggerSkill.currentLevel--;
-                }
+                $scope.decreaseTriggerSkillLevel(personageTriggerSkill, true);
 
                 var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
                 $scope.personageTriggerSkills.splice(index, 1);
@@ -2294,46 +2293,34 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    function checkTriggerSkillRelatedPrerequisites(personageTriggerSkill) {
-        var result = $q.defer();
+    function checkTriggerSkillRelatedPrerequisites(personageTriggerSkill, deletion) {
         $scope.itemsToDelete = [];
 
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach(personageMerit.Merit.MeritTriggerSkills, function (meritTriggerSkill) {
                 if (personageTriggerSkill.TriggerSkill.id === meritTriggerSkill.TriggerSkill.id) {
-                    if (meritTriggerSkill.level === personageTriggerSkill.currentLevel) {
-                        $scope.itemsToDelete.push({
-                            targetMerit: personageMerit,
-                            prerequisiteName: personageTriggerSkill.TriggerSkill.name,
-                            prerequisiteValue: getLevelName(personageTriggerSkill.currentLevel)
-                        });
+                    if (deletion) {
+                        if (meritTriggerSkill.level <= personageTriggerSkill.currentLevel) {
+                            $scope.itemsToDelete.push({
+                                targetMerit: personageMerit,
+                                prerequisiteName: personageTriggerSkill.TriggerSkill.name,
+                                prerequisiteValue: getLevelName(personageTriggerSkill.currentLevel)
+                            });
+                        }
+                    } else {
+                        if (meritTriggerSkill.level === personageTriggerSkill.currentLevel) {
+                            $scope.itemsToDelete.push({
+                                targetMerit: personageMerit,
+                                prerequisiteName: personageTriggerSkill.TriggerSkill.name,
+                                prerequisiteValue: getLevelName(personageTriggerSkill.currentLevel)
+                            });
+                        }
                     }
                 }
             });
         });
 
-        if ($scope.itemsToDelete.length > 0) {
-            var checkMeritPromises = [];
-            angular.forEach($scope.itemsToDelete, function (item) {
-                checkMeritPromises.push(checkMeritRelatedPrerequisites(item.targetMerit, 'delete'));
-            });
-            $q.all(checkMeritPromises).then(function () {
-                $('#confirmChangesModal').modal('show');
-                $('#deleteConfirmed').click(function () {
-                    angular.forEach($scope.itemsToDelete, function (item) {
-                        deletePersonageMerit(item.targetMerit);
-                    });
-                    result.resolve(true);
-                });
-                $('#deleteCancelled').click(function () {
-                    result.resolve(false);
-                });
-            });
-        } else {
-            result.resolve(true);
-        }
-
-        return result.promise;
+        return showAffectedMeritsModal();
     }
 
     $scope.editNotice = function (notice_id) {
@@ -2346,10 +2333,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             name: notice.name,
             experience: notice.experience,
             description: notice.description
-        }).success(function () {
+        }).then(function () {
             $('#' + notice.id + '_update').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                    $scope.notices = data.data;
+                $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
+                    $scope.notices = response.data.data;
                 });
             });
         });
@@ -2413,18 +2400,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             name: $scope.noticeName,
             experience: experienceValue,
             description: $scope.noticeDescription
-        }).success(function () {
-            $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                $scope.notices = data.data;
+        }).then(function () {
+            $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
+                $scope.notices = response.data.data;
             });
         });
     };
 
     $scope.deleteNotice = function (notice_id, experience) {
-        $http.delete('/notices/' + notice_id).success(function (data) {
+        $http.delete('/notices/' + notice_id).then(function (response) {
             $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).success(function (data) {
-                    $scope.notices = data.data;
+                $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
+                    $scope.notices = response.data.data;
                     $scope.personage.experience = $scope.personage.experience + experience;
                     $http.put('/personages/' + personageId, {
                         race_id: $scope.personage.RaceId,
@@ -2474,7 +2461,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             generated: false,
             experience: $scope.personage.experience,
             notes: $scope.notes
-        }).success(function (data) {
+        }).then(function (response) {
             personage.resolve();
         });
 
@@ -2492,10 +2479,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         if ($scope.personageMerits !== null) {
-            $http.get('/personageMeritsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageMeritsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageMerits, function (personageMerit) {
+                angular.forEach(response.data.personageMerits, function (personageMerit) {
                     deletePromises.push($http.delete('/personageMerits/' + personageMerit.id));
                 });
 
@@ -2518,10 +2505,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if ($scope.personageInherents !== null) {
-            $http.get('/personageInherentsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageInherents, function (personageInherent) {
+                angular.forEach(response.data.personageInherents, function (personageInherent) {
                     deletePromises.push($http.delete('/personageInherents/' + personageInherent.id));
                 });
 
@@ -2544,10 +2531,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if ($scope.personageFlaws !== null) {
-            $http.get('/personageFlawsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageFlawsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageFlaws, function (personageFlaw) {
+                angular.forEach(response.data.personageFlaws, function (personageFlaw) {
                     deletePromises.push($http.delete('/personageFlaws/' + personageFlaw.id));
                 });
 
@@ -2570,10 +2557,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if ($scope.personageAttachedSkills !== null) {
-            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageAttachedSkillsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageAttachedSkills, function (personageAttachedSkill) {
+                angular.forEach(response.data.personageAttachedSkills, function (personageAttachedSkill) {
                     deletePromises.push($http.delete('/personageAttachedSkills/' + personageAttachedSkill.id));
                 });
 
@@ -2596,10 +2583,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
         if ($scope.personageTriggerSkills !== null) {
-            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageTriggerSkillsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageTriggerSkills, function (personageTriggerSkill) {
+                angular.forEach(response.data.personageTriggerSkills, function (personageTriggerSkill) {
                     deletePromises.push($http.delete('/personageTriggerSkills/' + personageTriggerSkill.id));
                 });
 
@@ -2625,10 +2612,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
 
         if ($scope.personageSpells !== null) {
-            $http.get('/personageSpellsByPersonageId/' + personageId).success(function (results) {
+            $http.get('/personageSpellsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(results.personageSpells, function (personageSpell) {
+                angular.forEach(response.data.personageSpells, function (personageSpell) {
                     deletePromises.push($http.delete('/personageSpells/' + personageSpell.id));
                 });
 

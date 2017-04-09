@@ -125,7 +125,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                     console.log('attached skills done');
                 });
             });
-            personage.resolve(result.personage.id);
+            personage.resolve(response.data.personage.id);
         });
     };
 
@@ -156,21 +156,21 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.deletePersonage = function (personage) {
         swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить персонажа, его невозможно восставить!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить",
-                closeOnConfirm: false
-            },
-            function () {
-                $http.delete('/personages/' + personage.id).then(function () {
-                    var index = $scope.personages.indexOf(personage);
-                    $scope.personages.splice(index, 1);
-                    swal("Удален!", "Персонаж безвозвратно удален!", "success");
-                });
+            title: "Вы уверены?",
+            text: "Вы уверены что хотите удалить персонажа, его невозможно восстановить!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: "Удалить!",
+            cancelButtonText: "Отменить",
+            closeOnConfirm: true
+        }).then(function success() {
+            $http.delete('/personages/' + personage.id).then(function () {
+                var index = $scope.personages.indexOf(personage);
+                $scope.personages.splice(index, 1);
             });
+        }, function cancel() {
+        });
     };
 });
