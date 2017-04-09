@@ -2513,14 +2513,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var personage = $q.defer();
         var personageAttributeAllPromise = $q.defer();
         var personageMeritAllPromise = $q.defer();
-        var personageInherentAllPromise = $q.defer();
         var personageFlawAllPromise = $q.defer();
         var personageAttachedSkillAllPromise = $q.defer();
         var personageTriggerSkillAllPromise = $q.defer();
         var personageSpellsAllPromise = $q.defer();
 
         $q.all([personageAttributeAllPromise.promise, personage.promise,
-            personageMeritAllPromise.promise, personageInherentAllPromise.promise,
+            personageMeritAllPromise.promise,
             personageFlawAllPromise.promise, personageAttachedSkillAllPromise.promise,
             personageTriggerSkillAllPromise.promise, personageSpellsAllPromise.promise])
             .then(success);
@@ -2574,32 +2573,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         } else {
             personageMeritAllPromise.resolve();
-        }
-
-        if ($scope.personageInherents !== null) {
-            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
-                var deletePromises = [];
-
-                angular.forEach(response.data.personageInherents, function (personageInherent) {
-                    deletePromises.push($http.delete('/personageInherents/' + personageInherent.id));
-                });
-
-                $q.all(deletePromises).then(function () {
-                    var addPromises = [];
-                    angular.forEach($scope.personageInherents, function (personageInherent) {
-                        addPromises.push($http.post('/personageInherents', {
-                            inherent_id: personageInherent.Inherent.id,
-                            personage_id: personageId,
-                            value: personageInherent.value
-                        }));
-                    });
-                    $q.all(addPromises).then(function () {
-                        personageInherentAllPromise.resolve();
-                    });
-                });
-            });
-        } else {
-            personageInherentAllPromise.resolve();
         }
 
         if ($scope.personageFlaws !== null) {
