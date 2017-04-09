@@ -702,7 +702,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name" class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
+                                    <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name"
+                                           class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
                                 </div>
                             </div>
                         </div>
@@ -886,7 +887,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="triggerSkillsSearch.triggerSkill.name" class="form-control" placeholder="Имя навыка" id="triggerSkillsSearch">
+                                    <input type="text" ng-model="triggerSkillsSearch.triggerSkill.name"
+                                           class="form-control" placeholder="Имя навыка" id="triggerSkillsSearch">
                                 </div>
                             </div>
                         </div>
@@ -903,7 +905,8 @@
                             </tr>
                             </thead>
                             <tbody class="mobile">
-                            <tr class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch"
+                            <tr class="mobile"
+                                ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed)"
                                 ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
                                 <td class="text-right mobile trigger">
@@ -1176,7 +1179,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="meritSearch.merit.name" class="form-control" placeholder="Имя достоинства" id="meritSearch">
+                                    <input type="text" ng-model="meritSearch.merit.name" class="form-control"
+                                           placeholder="Имя достоинства" id="meritSearch">
                                 </div>
                             </div>
                         </div>
@@ -1410,7 +1414,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control" placeholder="Имя недостатка" id="flawSearch">
+                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control"
+                                           placeholder="Имя недостатка" id="flawSearch">
                                 </div>
                             </div>
                         </div>
@@ -1425,7 +1430,8 @@
                             </thead>
                             <tbody class="mobile">
                             <tr class="mobile"
-                                ng-repeat="flawMixed in flawsMixed | filter: flawSearch" ng-hide="filteredFlaws(flawMixed)"
+                                ng-repeat="flawMixed in flawsMixed | filter: flawSearch"
+                                ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
                                 <td class="text-right mobile flaw">
                                     <div class="text-left">
@@ -1533,7 +1539,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="spellSearch.spell.name" class="form-control" placeholder="Заклинание" id="spellSearch">
+                                    <input type="text" ng-model="spellSearch.spell.name" class="form-control"
+                                           placeholder="Заклинание" id="spellSearch">
                                 </div>
                             </div>
                         </div>
@@ -1673,58 +1680,16 @@
                             не с нимающие с персонажа опыт - в таком случае, просто оставьте поле EXP пустым
                         </p>
 
-                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal"
-                                style="margin-left: 10px"
-                                data-target="#addNoticeDialog" ng-click="clearNoticeFields()">Добавить заметку
+                        <button type="button" class="btn btn-primary btn-rounded" ng-click="addNotice()"
+                                style="margin-left: 10px">Добавить заметку
                         </button>
-                        <div class="modal fade" id="addNoticeDialog" tabindex="-1" role="dialog"
-                             aria-labelledby="modalNotesLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <h4 class="modal-title" id="modalNotesLabel">Добавить заметку</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="addNoticeForm" name="addNoticeForm">
-                                            <div class="form-group">
-                                                <label for="noticeTitle" class="form-control-label">Заголовок:</label>
-                                                <input type="text" class="form-control" id="noticeTitle"
-                                                       ng-model="noticeName" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="noticeExperience" class="form-control-label">Опыт:</label>
-                                                <input type="number" class="form-control" id="noticeExperience"
-                                                       ng-model="noticeExperience">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="noticeBody" class="form-control-label">Текст:</label>
-                                                <textarea id="noticeDescription" class="form-control" id="noticeBody"
-                                                          ng-model="noticeDescription" required></textarea>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-sm" data-dismiss="modal">
-                                            Отменить
-                                        </button>
-                                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"
-                                                id="addNotice" ng-click="addNotice()"
-                                                ng-disabled="addNoticeForm.$invalid">Добавить
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="form-group row notice-filter">
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="noticeSearch.name" class="form-control" placeholder="Заметка" id="noticeSearch">
+                                    <input type="text" ng-model="noticeSearch.name" class="form-control"
+                                           placeholder="Заметка" id="noticeSearch">
                                 </div>
                             </div>
                         </div>
@@ -1733,84 +1698,7 @@
                                style="margin-left: 10px; width: 95%; margin-top: 10px;">
                             <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: noticeSearch">
                                 <td>
-                                    <a class="link-underlined link-blue" data-toggle="modal"
-                                       data-target="#{{notice.id}}_view" href="#">{{notice.name}}</a>
-                                    <div class="modal fade" id="{{notice.id}}_view" tabindex="-1" role="dialog"
-                                         aria-labelledby="modalNotesActionsLabel"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title" id="modalNotesActionsLabel">
-                                                        {{notice.name}}</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <pre>{{notice.description}}</pre>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info btn-sm"
-                                                            data-dismiss="modal">
-                                                        Ок
-                                                    </button>
-                                                    <button type="button" class="btn btn-success  btn-sm"
-                                                            data-dismiss="modal"
-                                                            ng-click="editNotice(notice.id)">
-                                                        Редактировать
-                                                    </button>
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                            data-dismiss="modal"
-                                                            ng-click="deleteNotice(notice.id, notice.experience)">
-                                                        Удалить
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal fade" id="{{notice.id}}_update" tabindex="-1" role="dialog"
-                                         aria-labelledby="modalNotesLabel"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title">Редактировать заметку</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form id="updateNoticeForm" name="updateNoticeForm">
-                                                        <div class="form-group">
-                                                            <label for="noticeTitleUpdate" class="form-control-label">Заголовок:</label>
-                                                            <input type="text" class="form-control"
-                                                                   id="noticeTitleUpdate"
-                                                                   ng-model="notice.name" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="noticeBodyUpdate" class="form-control-label">Текст:</label>
-                                                            <textarea class="form-control" id="noticeBodyUpdate"
-                                                                      ng-model="notice.description" required></textarea>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm" data-dismiss="modal">
-                                                        Отменить
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                            data-dismiss="modal"
-                                                            ng-click="updateNotice(notice)"
-                                                            ng-disabled="updateNoticeForm.$invalid">Сохранить
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="link-underlined link-blue" ng-click="showNotice(notice)" href="#">{{notice.name}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="notice.experience > 0">

@@ -2323,31 +2323,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return showAffectedMeritsModal();
     }
 
-    $scope.editNotice = function (notice_id) {
-        $('#' + notice_id + '_view').modal('hide');
-        $('#' + notice_id + '_update').modal('show');
-    };
-
-    $scope.updateNotice = function (notice) {
-        $http.put('/notices/' + notice.id, {
-            name: notice.name,
-            experience: notice.experience,
-            description: notice.description
-        }).then(function () {
-            $('#' + notice.id + '_update').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
-                    $scope.notices = response.data.data;
-                });
-            });
-        });
-    };
-
-    $scope.clearNoticeFields = function () {
-        $scope.noticeName = '';
-        $scope.noticeExperience = '';
-        $scope.noticeDescription = '';
-    };
-
     $scope.makeDraggable = function () {
         var attrTable = $('#attrTable');
         attrTable.addClass('sorted_table');
@@ -2371,8 +2346,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    autosize($('#noticeDescription'));
-
     $scope.makeUnDraggable = function () {
         $('.sorted_table').sortable('disable');
         var attrTable = $('#attrTable');
@@ -2380,48 +2353,147 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         attrTable.find('tr').removeClass('draggable');
     };
 
-    $scope.addNotice = function () {
-        var experienceValue = 0;
-        if ($scope.noticeExperience !== '') {
-            experienceValue = $scope.noticeExperience;
-            $scope.personage.experience = $scope.personage.experience - experienceValue;
-            $http.put('/personages/' + personageId, {
-                race_id: $scope.personage.RaceId,
-                name: $scope.personage.name,
-                age: $scope.age,
-                max_age: $scope.max_age,
-                generated: false,
-                experience: $scope.personage.experience,
-                notes: $scope.notes
-            });
-        }
-        $http.post('/notices', {
-            personage_id: personageId,
-            name: $scope.noticeName,
-            experience: experienceValue,
-            description: $scope.noticeDescription
-        }).then(function () {
-            $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
-                $scope.notices = response.data.data;
-            });
+    $scope.showNotice = function (notice) {
+        swal({
+            title: notice.name,
+            html: '<pre>' + notice.description + '</pre>' +
+            '<div class="modal-footer hidden-xs-down hidden-sm-down">' +
+                '<button type="button" class="btn btn-info ok">Ок</button>' +
+                '<button type="button" class="btn btn-success update">Изменить</button>' +
+                '<button type="button" class="btn btn-danger delete">Удалить</button>' +
+            '</div>' +
+            '<div class="modal-footer hidden-md-up">' +
+            '<button type="button" class="btn btn-sm btn-info ok">Ок</button>' +
+            '<button type="button" class="btn btn-sm btn-success update">Изменить</button>' +
+            '<button type="button" class="btn btn-sm btn-danger delete">Удалить</button>' +
+            '</div>',
+            showConfirmButton: false,
+            onOpen: function () {
+                $('.ok').click(function () {
+                    swal.close();
+                });
+                $('.update').click(function () {
+                    swal({
+                        title: 'Multiple inputs',
+                        html: '<form>' +
+                        '<div class="form-group">' +
+                        '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+                        '<input type="text" class="form-control" id="noticeTitle" value="' + notice.name + '">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+                        '<textarea id="noticeDescription" class="form-control">' + notice.description + '</textarea>' +
+                        '</div>' +
+                        '</form>',
+                        showCancelButton: true,
+                        cancelButtonText: "Отменить",
+                        confirmButtonText: "Сохранить",
+                        showLoaderOnConfirm: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve) {
+                                resolve([
+                                    $('#noticeTitle').val(),
+                                    $('#noticeDescription').val()
+                                ])
+                            })
+                        },
+                        onOpen: function () {
+                            $('#noticeTitle').focus();
+                            autosize($('#noticeDescription'));
+                        }
+                    }).then(function success(result) {
+                        $http.put('/notices/' + notice.id, {
+                            name: result[0],
+                            experience: notice.experience,
+                            description: result[1]
+                        }).then(function () {
+                            $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
+                                $scope.notices = response.data.data;
+                                swal.close();
+                            });
+                        });
+                    });
+                });
+                $('.delete').click(function () {
+                    $http.delete('/notices/' + notice.id).then(function () {
+                        $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
+                            $scope.notices = response.data.data;
+                            $scope.personage.experience = $scope.personage.experience + notice.experience;
+                            $http.put('/personages/' + personageId, {
+                                race_id: $scope.personage.RaceId,
+                                name: $scope.personage.name,
+                                age: $scope.age,
+                                max_age: $scope.max_age,
+                                generated: false,
+                                experience: $scope.personage.experience,
+                                notes: $scope.notes
+                            });
+                        });
+                    });
+                    swal.close();
+                });
+            }
         });
     };
 
-    $scope.deleteNotice = function (notice_id, experience) {
-        $http.delete('/notices/' + notice_id).then(function (response) {
-            $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
+    $scope.addNotice = function () {
+
+        swal({
+            title: 'Multiple inputs',
+            html: '<form>' +
+            '<div class="form-group">' +
+            '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+            '<input type="text" class="form-control" id="noticeTitle">' +
+            '</div>' +
+            '<div class="form-group">' +
+            '   <label for="noticeExperience" class="form-control-label">Опыт:</label>' +
+            '<input type="number" class="form-control" id="noticeExperience">' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+            '<textarea id="noticeDescription" class="form-control"></textarea>' +
+            '</div>' +
+            '</form>',
+            showCancelButton: true,
+            cancelButtonText: "Отменить",
+            confirmButtonText: "Добавить",
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    resolve([
+                        $('#noticeTitle').val(),
+                        $('#noticeExperience').val(),
+                        $('#noticeDescription').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#noticeTitle').focus();
+                autosize($('#noticeDescription'));
+            }
+        }).then(function success(result) {
+            var experienceValue = 0;
+            if (result[1] !== '') {
+                experienceValue = result[1];
+                $scope.personage.experience = $scope.personage.experience - experienceValue;
+                $http.put('/personages/' + personageId, {
+                    race_id: $scope.personage.RaceId,
+                    name: $scope.personage.name,
+                    age: $scope.age,
+                    max_age: $scope.max_age,
+                    generated: false,
+                    experience: $scope.personage.experience,
+                    notes: $scope.notes
+                });
+            }
+            $http.post('/notices', {
+                personage_id: personageId,
+                name: result[0],
+                experience: experienceValue,
+                description: result[2]
+            }).then(function () {
                 $http.get("/noticesByPersonageId/" + personageId).then(function (response) {
                     $scope.notices = response.data.data;
-                    $scope.personage.experience = $scope.personage.experience + experience;
-                    $http.put('/personages/' + personageId, {
-                        race_id: $scope.personage.RaceId,
-                        name: $scope.personage.name,
-                        age: $scope.age,
-                        max_age: $scope.max_age,
-                        generated: false,
-                        experience: $scope.personage.experience,
-                        notes: $scope.notes
-                    });
                 });
             });
         });
@@ -2432,10 +2504,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.savePersonage = function () {
-        $scope.loader = true;
+        $('.main-backdrop').toggleClass('main-backdrop-showed');
 
         function success() {
-            $scope.loader = false;
+            $('.main-backdrop').removeClass('main-backdrop-showed');
         }
 
         var personage = $q.defer();
@@ -2639,5 +2711,4 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
 
     };
-})
-;
+});
