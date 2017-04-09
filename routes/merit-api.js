@@ -54,6 +54,7 @@ router.get('/merits', function (req, res) {
             }
         ]
     }).then(function (merits) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({merits: merits});
     });
 });

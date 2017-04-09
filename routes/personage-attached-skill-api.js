@@ -35,6 +35,7 @@ router.get('/personageAttachedSkillsByPersonageId/:id', function (req, res) {
             }
         ]
     }).then(function (personageAttachedSkills) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data: personageAttachedSkills});
     });
 });

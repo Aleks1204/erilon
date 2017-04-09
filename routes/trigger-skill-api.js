@@ -23,6 +23,7 @@ router.get('/triggerSkills', function(req, res) {
     models.TriggerSkill.findAll({
         include: [models.SkillLevel]
     }).then(function(triggerSkills) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({triggerSkills:triggerSkills});
     });
 });

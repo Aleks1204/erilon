@@ -40,6 +40,7 @@ router.get('/noticesByPersonageId/:id', function (req, res) {
             PersonageId: req.params.id
         }
     }).then(function (notices) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data: notices});
     });
 });

@@ -91,6 +91,7 @@ router.get('/personageMeritsByPersonageId/:id', function (req, res) {
             }
         ]
     }).then(function (personageMerits) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data: personageMerits});
     });
 });

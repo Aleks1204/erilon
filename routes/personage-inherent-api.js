@@ -21,6 +21,7 @@ router.get('/personageInherentsByPersonageId/:id', function(req, res) {
         },
         include: [ models.Inherent ]
     }).then(function(personageInherents) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data:personageInherents});
     });
 });

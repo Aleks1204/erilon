@@ -22,6 +22,7 @@ router.get('/personageSpellsByPersonageId/:id', function(req, res) {
         },
         include: [ models.Spell ]
     }).then(function(personageSpells) {
+        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({personageSpells:personageSpells});
     });
 });
