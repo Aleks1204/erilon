@@ -2434,7 +2434,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.savePersonage = function () {
         $scope.loader = true;
 
-        function success(data) {
+        function success() {
             $scope.loader = false;
         }
 
