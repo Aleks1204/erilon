@@ -23,7 +23,6 @@ router.get('/byKey/:key', function(req, res) {
         },
         order: [['updatedAt', 'DESC']]
     }).then(function(result) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({result:result});
     });
 });
