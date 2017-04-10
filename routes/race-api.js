@@ -14,7 +14,7 @@ router.post('/races', function(req, res) {
 
 router.get('/races', function(req, res) {
     models.Race.findAll().then(function(races) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({races:races});
     });
 });

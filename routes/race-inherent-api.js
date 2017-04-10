@@ -21,7 +21,7 @@ router.get('/raceInherentsByRaceId/:id', function(req, res) {
         },
         include: [ models.Inherent ]
     }).then(function(raceInherents) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({raceInherents:raceInherents});
     });
 });

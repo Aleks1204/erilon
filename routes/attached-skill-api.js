@@ -27,7 +27,7 @@ router.get('/attachedSkills', function (req, res) {
             models.Spell
         ]
     }).then(function (attachedSkills) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({attachedSkills: attachedSkills});
     });
 });

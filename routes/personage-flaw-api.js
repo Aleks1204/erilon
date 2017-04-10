@@ -22,7 +22,6 @@ router.get('/personageFlawsByPersonageId/:id', function(req, res) {
         },
         include: [ models.Flaw ]
     }).then(function(personageFlaws) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data:personageFlaws});
     });
 });

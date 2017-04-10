@@ -21,7 +21,6 @@ router.get('/personageTriggerSkillsByPersonageId/:id', function(req, res) {
         },
         include: [ models.TriggerSkill ]
     }).then(function(personageTriggerSkills) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({data:personageTriggerSkills});
     });
 });

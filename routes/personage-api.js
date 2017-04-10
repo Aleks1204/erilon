@@ -28,7 +28,6 @@ router.get('/personages', function (req, res) {
             deleted: false
         }
     }).then(function (personages) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({personages: personages});
     });
 });
@@ -63,7 +62,6 @@ router.get('/personages/:id', function (req, res) {
             return res.send({error: 'Not found'});
         }
 
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
         return res.send({status: 'OK', personage: personage});
     });
 });

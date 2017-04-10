@@ -18,7 +18,7 @@ router.get('/raceAttributesByRaceId/:id', function (req, res) {
         },
         include: [models.Attribute]
     }).then(function (raceAttributes) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({raceAttributes: raceAttributes});
     });
 });

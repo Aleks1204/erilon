@@ -21,7 +21,7 @@ router.get('/raceMeritsByRaceId/:id', function(req, res) {
         },
         include: [ models.Merit ]
     }).then(function(raceMerits) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({raceMerits:raceMerits});
     });
 });

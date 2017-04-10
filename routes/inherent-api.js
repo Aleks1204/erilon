@@ -25,7 +25,7 @@ router.post('/inherents', function(req, res) {
 
 router.get('/inherents', function(req, res) {
     models.Inherent.findAll().then(function(inherents) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({inherents:inherents});
     });
 });

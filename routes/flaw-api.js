@@ -22,7 +22,7 @@ router.post('/flaws', function(req, res) {
 
 router.get('/flaws', function(req, res) {
     models.Flaw.findAll().then(function(flaws) {
-        res.setHeader('Cache-Control', 'public, max-age=31557600');
+
         return res.send({flaws:flaws});
     });
 });
