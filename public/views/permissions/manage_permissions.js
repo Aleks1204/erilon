@@ -35,8 +35,8 @@ app.controller("permissionsManagerController", function ($scope, $http) {
         }
     ];
 
-    $http.get('/roles').success(function (data) {
-        $scope.roles = data.roles;
+    $http.get('/roles').then(function (response) {
+        $scope.roles = response.data.roles;
     });
 
     $scope.hasDeletePermissionForRole = function (dictionaryName, role) {
@@ -55,21 +55,21 @@ app.controller("permissionsManagerController", function ($scope, $http) {
         return hasPermission(dictionaryName, 'view', role);
     };
 
-    $http.get('/permissions').success(function (data) {
-        $scope.permissions = data.permissions;
+    $http.get('/permissions').then(function (response) {
+        $scope.permissions = response.data.permissions;
     });
 
     $scope.addRolePermission = function (role, dictionaryName, action) {
         var permissionId = null;
 
         angular.forEach($scope.permissions, function (permission) {
-            if (permission.name == action + dictionaryName + 'Dictionary') {
+            if (permission.name === action + dictionaryName + 'Dictionary') {
                 permissionId = permission.id;
                 $http.post('/rolePermissions', {
                     role_id: role.id,
                     permission_id: permissionId
                 }).then(function () {
-                    $http.get('/roles').success(function (response) {
+                    $http.get('/roles').then(function (response) {
                         $scope.roles = response.data.roles;
                     });
                 });
@@ -81,14 +81,14 @@ app.controller("permissionsManagerController", function ($scope, $http) {
         var permissionId = null;
 
         angular.forEach($scope.permissions, function (permission) {
-            if (permission.name == action + dictionaryName + 'Dictionary') {
+            if (permission.name === action + dictionaryName + 'Dictionary') {
                 permissionId = permission.id;
 
                 $http.get('/rolePermissions/' + role.id + '/' + permissionId).then(function (response) {
                     $http.delete('/rolePermissions/' + response.data.rolePermission.id);
                     $http.get('/roles').then(function (response) {
                         $scope.roles = response.data.roles;
-                        $http.get('/roles').success(function (response) {
+                        $http.get('/roles').then(function (response) {
                             $scope.roles = response.data.roles;
                         });
                     });

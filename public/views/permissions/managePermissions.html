@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Управление доступом</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Clean UI Styles -->
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+
     <script src="/views/permissions/permissions.js"></script>
     <script src="manage_permissions.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
 <body ng-app="permissionsManagerApp">
 <div ng-controller="permissionsManagerController">
-    <div data-ng-include data-src="'/views/loader.html'"></div>
-    <div data-ng-include data-src="'/views/main-menu.html'"></div>
 
     <p class="lead">Фильтр: <input type="text" ng-model="search"></p>
 
@@ -35,38 +38,38 @@
                 <td style="vertical-align:middle;">
                     <div ng-show="hasViewPermissionForRole(dictionary.name, role)"
                          ng-click="deleteRolePermission(role, dictionary.name, 'view')">
-                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                        <i class="icmn-checkmark4" style="cursor: pointer;"></i>
                     </div>
                     <div ng-hide="hasViewPermissionForRole(dictionary.name, role)"
                          ng-click="addRolePermission(role, dictionary.name, 'view')">
-                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                        <i class="icmn-cross2" style="cursor: pointer;"></i>
                     </div>
                 </td>
 
                 <td style="vertical-align:middle;">
                     <div ng-show="hasCreatePermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'create')">
-                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                        <i class="icmn-checkmark4" style="cursor: pointer;"></i>
                     </div>
                     <div ng-hide="hasCreatePermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'create')">
-                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                        <i class="icmn-cross2" style="cursor: pointer;"></i>
                     </div>
                 </td>
 
                 <td style="vertical-align:middle;">
                     <div ng-show="hasEditPermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'edit')">
-                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                        <i class="icmn-checkmark4" style="cursor: pointer;"></i>
                     </div>
                     <div ng-hide="hasEditPermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'edit')">
-                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                        <i class="icmn-cross2" style="cursor: pointer;"></i>
                     </div>
                 </td>
 
                 <td style="vertical-align:middle;">
                     <div ng-show="hasDeletePermissionForRole(dictionary.name, role)" ng-click="deleteRolePermission(role, dictionary.name, 'delete')">
-                        <span class="glyphicon glyphicon-ok" style="cursor: pointer;"/>
+                        <i class="icmn-checkmark4" style="cursor: pointer;"></i>
                     </div>
                     <div ng-hide="hasDeletePermissionForRole(dictionary.name, role)" ng-click="addRolePermission(role, dictionary.name, 'delete')">
-                        <span class="glyphicon glyphicon-remove" style="cursor: pointer;"/>
+                        <i class="icmn-cross2" style="cursor: pointer;"></i>
                     </div>
                 </td>
             </tr>

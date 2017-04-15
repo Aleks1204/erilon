@@ -7,7 +7,7 @@ function hasPermission(name, action, role) {
     var access = false;
 
     angular.forEach(role.RolePermissions, function (RolePermission) {
-        if (RolePermission.Permission.name == action + name + 'Dictionary') {
+        if (RolePermission.Permission.name === action + name + 'Dictionary') {
             access = true;
         }
     });
@@ -19,7 +19,7 @@ function hasActionPermission(actionName, role) {
     var access = false;
 
     angular.forEach(role.RolePermissions, function (RolePermission) {
-        if (RolePermission.Permission.name == actionName) {
+        if (RolePermission.Permission.name === actionName) {
             access = true;
         }
     });
