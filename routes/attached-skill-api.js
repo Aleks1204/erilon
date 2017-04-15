@@ -27,8 +27,7 @@ router.get('/attachedSkills', function (req, res) {
             models.Spell
         ]
     }).then(function (attachedSkills) {
-
-        return res.send({attachedSkills: attachedSkills});
+        return res.send({data: attachedSkills});
     });
 });
 

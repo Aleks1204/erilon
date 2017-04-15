@@ -716,8 +716,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     });
 
     $http.get('/attachedSkills').then(function (response) {
-        $scope.attachedSkills = response.data.attachedSkills;
-        angular.forEach(response.data.attachedSkills, function (attachedSkill) {
+        $scope.attachedSkills = response.data.data;
+        angular.forEach(response.data.data, function (attachedSkill) {
             if (attachedSkill.spells_connected) {
                 $scope.magicSchools.push(attachedSkill);
             }
@@ -1519,7 +1519,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: "Согласен!",
-                    cancelButtonText: "Отменить",
+                    cancelButtonText: "Отменить"
                 }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);
@@ -2439,7 +2439,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addNotice = function () {
 
         swal({
-            title: 'Multiple inputs',
+            title: 'Добавить заметку',
             html: '<form>' +
             '<div class="form-group">' +
             '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
