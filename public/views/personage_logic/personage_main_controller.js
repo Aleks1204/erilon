@@ -726,7 +726,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     });
 
     $http.get('/triggerSkills').then(function (response) {
-        $scope.triggerSkills = response.data.triggerSkills;
+        $scope.triggerSkills = response.data.data;
         triggerSkills.resolve();
     });
 

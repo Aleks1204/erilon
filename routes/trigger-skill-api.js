@@ -23,8 +23,7 @@ router.get('/triggerSkills', function(req, res) {
     models.TriggerSkill.findAll({
         include: [models.SkillLevel]
     }).then(function(triggerSkills) {
-
-        return res.send({triggerSkills:triggerSkills});
+        return res.send({data:triggerSkills});
     });
 });
 
