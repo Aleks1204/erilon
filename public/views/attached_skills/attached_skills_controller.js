@@ -158,36 +158,36 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     title: 'Изменить навык',
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="noticeTitle" class="form-control-label">Имя:</label>' +
-                    '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
+                        '<label for="name" class="form-control-label">Имя:</label>' +
+                        '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
-                    '<input type="text" class="form-control" value="' + skill.category + '" id="category">' +
+                        '<label for="category" class="form-control-label">Категории:</label>' +
+                        '<input type="text" class="form-control" value="' + skill.category + '" id="category">' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="noticeBody" class="form-control-label">Описание:</label>' +
-                    '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
+                        '<label for="description" class="form-control-label">Описание:</label>' +
+                        '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
                     '</div>' +
                     '<div class="row form-group">' +
-                    '<div class="col-md-4">' +
-                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                    '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
-                    '<label for="difficultSkill">Сложный</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-4">' +
-                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                    '<input id="defaultSkill" name="defaultSkill" type="checkbox" ' + isDefault + '>' +
-                    '<label for="defaultSkill">По умолчанию</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-4">' +
-                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                    '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox" ' + isTheoretical + '>' +
-                    '<label for="theoreticalSkill">Теоретическсий</label>' +
-                    '</div>' +
-                    '</div>' +
+                        '<div class="col-md-4">' +
+                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                                '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
+                                '<label for="difficultSkill">Сложный</label>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="col-md-4">' +
+                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                                '<input id="defaultSkill" name="defaultSkill" type="checkbox" ' + isDefault + '>' +
+                                '<label for="defaultSkill">По умолчанию</label>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="col-md-4">' +
+                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                                '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox" ' + isTheoretical + '>' +
+                                '<label for="theoreticalSkill">Теоретическсий</label>' +
+                            '</div>' +
+                        '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
@@ -232,36 +232,36 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 title: 'Добавить навык',
                 html: '<form>' +
                 '<div class="form-group">' +
-                '<label for="name" class="form-control-label">Имя:</label>' +
-                '<input type="text" class="form-control" id="name">' +
+                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
-                '<input type="text" class="form-control" id="category">' +
+                    '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
+                    '<input type="text" class="form-control" id="category">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="noticeBody" class="form-control-label">Описание:</label>' +
-                '<textarea id="description" class="form-control"></textarea>' +
+                    '<label for="noticeBody" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="row form-group">' +
-                '<div class="col-md-4">' +
-                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
-                '<label for="difficultSkill">Сложный</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-4">' +
-                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                '<input id="defaultSkill" name="defaultSkill" type="checkbox">' +
-                '<label for="defaultSkill">По умолчанию</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-4">' +
-                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox">' +
-                '<label for="theoreticalSkill">Теоретическсий</label>' +
-                '</div>' +
-                '</div>' +
+                    '<div class="col-md-4">' +
+                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                            '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
+                            '<label for="difficultSkill">Сложный</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                            '<input id="defaultSkill" name="defaultSkill" type="checkbox">' +
+                            '<label for="defaultSkill">По умолчанию</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                            '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox">' +
+                            '<label for="theoreticalSkill">Теоретическсий</label>' +
+                        '</div>' +
+                    '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
