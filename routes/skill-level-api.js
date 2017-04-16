@@ -30,7 +30,7 @@ router.get('/skillLevelsByTriggerSkillId/:id', function(req, res) {
             TriggerSkillId: req.params.id
         }
     }).then(function(skillLevels) {
-        return res.send({skillLevels:skillLevels});
+        return res.send({data:skillLevels});
     });
 });
 

@@ -10,4 +10,5 @@ ALTER TABLE "Flaws" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Notices" ADD COLUMN experience INTEGER;
 ALTER TABLE "PersonageAttributes" ADD COLUMN position INTEGER;
 ALTER TABLE "Personages" ADD COLUMN deleted BOOLEAN;
-ALTER TABLE "AttachedSkills" ALTER COLUMN description TYPE TEXT
+ALTER TABLE "AttachedSkills" ALTER COLUMN description TYPE TEXT;
+ALTER TABLE "SkillLevels" ALTER COLUMN description TYPE TEXT;
