@@ -2461,27 +2461,42 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             title: 'Добавить заметку',
             html: '<form>' +
             '<div class="form-group">' +
-            '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
-            '<input type="text" class="form-control" id="noticeTitle">' +
+                '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+                '<input type="text" class="form-control" id="noticeTitle">' +
             '</div>' +
             '<div class="form-group">' +
-            '   <label for="noticeExperience" class="form-control-label">Опыт:</label>' +
-            '<input type="number" class="form-control" id="noticeExperience">' +
+                '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+                '<textarea id="noticeDescription" class="form-control"></textarea>' +
             '</div>' +
-            '<div class="form-group">' +
-            '<label for="noticeBody" class="form-control-label">Текст:</label>' +
-            '<textarea id="noticeDescription" class="form-control"></textarea>' +
-            '</div>' +
+            '<p>Опыт:</p>' +
             '</form>',
             showCancelButton: true,
             cancelButtonText: "Отменить",
             confirmButtonText: "Добавить",
             showLoaderOnConfirm: true,
-            preConfirm: function () {
+            input: 'number',
+            inputValidator: function (value) {
+                return new Promise(function (resolve, reject) {
+                    if ($('#noticeTitle').val() !== '') {
+                        if (value !== '') {
+                            if (parseInt(value) > 0) {
+                                resolve()
+                            } else {
+                                reject('Количество опыта должно быть положительным!')
+                            }
+                        } else {
+                            resolve();
+                        }
+                    } else {
+                        reject('Заголовок не может быть пустым!')
+                    }
+                })
+            },
+            preConfirm: function (value) {
                 return new Promise(function (resolve) {
                     resolve([
                         $('#noticeTitle').val(),
-                        $('#noticeExperience').val(),
+                        value,
                         $('#noticeDescription').val()
                     ])
                 })
