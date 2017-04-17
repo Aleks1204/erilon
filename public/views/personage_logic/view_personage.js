@@ -191,10 +191,10 @@ app.controller("personageController", function ($scope, $http, $q) {
                 {
                     data: 'spell.effect',
                     render: function (data, type, row) {
-                        return '<a href="" class="link-underlined link-blue collapsed hidden-md-up" data-toggle="collapse" data-target="#spellEffect' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up effect">' +
                         'Эффект' +
                             '</a>' +
-                            '<div id="spellEffect' + row.spell.id + '" class="collapse" aria-expanded="false">' +
+                            '<div id="spellEffect' + row.spell.id + '" style="display: none">' +
                             '<br>' +
                             '<div>' + data + '</div>' +
                         '</div> <div class="hidden-xs-down">' + data + '</div>'
@@ -203,10 +203,10 @@ app.controller("personageController", function ($scope, $http, $q) {
                 {
                     data: 'spell.description',
                     render: function (data, type, row) {
-                        return '<a href="" class="link-underlined link-blue collapsed hidden-md-up" data-toggle="collapse" data-target="#spellDescription' + row.spell.id + '" aria-expanded="false" aria-controls="collapseExample">' +
+                        return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up description">' +
                         'Описание' +
                             '</a>' +
-                            '<div id="spellDescription' + row.spell.id + '" class="collapse" aria-expanded="false">' +
+                            '<div id="spellDescription' + row.spell.id + '" style="display: none">' +
                             '<br>' +
                             '<div>' + data + '</div>' +
                         '</div> <div class="hidden-xs-down">' + data + '</div>'
@@ -218,6 +218,14 @@ app.controller("personageController", function ($scope, $http, $q) {
         });
         $('#' + id + 'Magic' + '_filter').addClass("pull-right");
         $('#' + id + 'Magic' + '_paginate').addClass("pull-right");
+        $('#' + id + 'Magic').on('click', '.description', function () {
+            var spellId = this.href.substring(this.href.indexOf(';') + 1);
+            $('#spellDescription' + spellId).toggle();
+        });
+        $('#' + id + 'Magic').on('click', '.effect', function () {
+            var spellId = this.href.substring(this.href.indexOf(';') + 1);
+            $('#spellEffect' + spellId).toggle();
+        });
     }
 
     $scope.calculateMagicSchools = function () {
