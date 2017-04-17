@@ -237,7 +237,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
+    $scope.filteredAttachedSkillsDefault = false;
+
     $scope.filterAttachedSkillsByDefaultShow = function (selected) {
+        if ($scope.filteredAttachedSkillsDefault) {
+            $scope.search.default_skill = false;
+            $scope.filteredAttachedSkillsDefault = false;
+        }
         $scope.filteredAttachedSkillsDefaultShow = selected;
     };
 
@@ -1433,6 +1439,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         }
                     }
                 });
+            } else if (personageAttachedSkill.AttachedSkill.id === id && personageAttachedSkill.AttachedSkill.default_skill && personageAttachedSkill.value > 0) {
+                checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
+                    if (confirmedChanges) {
+                        personageAttachedSkill.value--;
+                        updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                        updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                        if (personageAttachedSkill.AttachedSkill.difficult) {
+                            $scope.personage.experience = $scope.personage.experience + 2;
+                        } else {
+                            $scope.personage.experience = $scope.personage.experience + 1;
+                        }
+                    }
+                });
             }
         });
     };
@@ -2358,9 +2377,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             title: notice.name,
             html: '<pre>' + notice.description + '</pre>' +
             '<div class="modal-footer hidden-xs-down hidden-sm-down">' +
-                '<button type="button" class="btn btn-info ok">Ок</button>' +
-                '<button type="button" class="btn btn-success update">Изменить</button>' +
-                '<button type="button" class="btn btn-danger delete">Удалить</button>' +
+            '<button type="button" class="btn btn-info ok">Ок</button>' +
+            '<button type="button" class="btn btn-success update">Изменить</button>' +
+            '<button type="button" class="btn btn-danger delete">Удалить</button>' +
             '</div>' +
             '<div class="modal-footer hidden-md-up">' +
             '<button type="button" class="btn btn-sm btn-info ok">Ок</button>' +
