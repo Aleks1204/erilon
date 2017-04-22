@@ -61,8 +61,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
     });
 
     $http.get('/attributes').
-    success(function (data) {
-        $scope.attributes = data.attributes;
+    success(function (response) {
+        $scope.attributes = response.data.data;
     });
 
     $http.get('/attachedSkills').

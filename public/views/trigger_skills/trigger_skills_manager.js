@@ -5,10 +5,6 @@
 var app = angular.module("triggerSkillManagerApp", ['ngStorage']);
 
 app.controller("triggerSkillListController", function ($scope, $http, $q, $localStorage) {
-    $http.get('/triggerSkills').then(function (response) {
-        $scope.triggerSkills = response.data.triggerSkills;
-    });
-
     var skillsTable = $('#skills');
 
     var players = $q.defer();

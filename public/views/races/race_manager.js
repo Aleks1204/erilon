@@ -20,8 +20,8 @@ app.controller("addRaceController", function ($scope, $http, $q) {
 
             var attributes = $q.defer();
 
-            $http.get('/attributes').success(function (results) {
-                attributes.resolve(results.attributes);
+            $http.get('/attributes').success(function (response) {
+                attributes.resolve(response.data.data);
             });
 
             $q.all([attributes.promise]).then(function (attributes) {

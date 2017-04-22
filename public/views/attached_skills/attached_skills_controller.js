@@ -5,9 +5,6 @@
 var app = angular.module("attachedSkillManagerApp", ['ngStorage']);
 
 app.controller("attachedSkillListController", function ($scope, $http, $q, $localStorage) {
-    $http.get('/attachedSkills').then(function (response) {
-        $scope.attachedSkills = response.data.attachedSkills;
-    });
 
     var skillsTable = $('#skills');
 
@@ -236,11 +233,11 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
+                    '<label for="category" class="form-control-label">Категории:</label>' +
                     '<input type="text" class="form-control" id="category">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="noticeBody" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
                     '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="row form-group">' +

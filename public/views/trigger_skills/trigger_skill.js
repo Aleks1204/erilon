@@ -117,6 +117,59 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
         });
     });
 
+    levelsTable.on('click', '.edit', function () {
+        var id = this.value;
+        $http.get('/skillLevels/' + id).then(function (response) {
+            var level = response.data.skillLevel;
+            swal({
+                title: 'Редактировать уровень',
+                html: '<form>' +
+                '<div class="form-group">' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control">' + level.description + '</textarea>' +
+                '</div>' +
+                '<p>Стоимость:</p>',
+                input: 'number',
+                inputValue: level.cost,
+                inputClass: 'form-control',
+                showCancelButton: true,
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        if (value !== '') {
+                            if ($('#description').val() !== '') {
+                                resolve()
+                            } else {
+                                reject('Описание не может быть пустым!')
+                            }
+                        } else {
+                            reject('Укажите стоимость за уровень!')
+                        }
+                    })
+                },
+                preConfirm: function (value) {
+                    return new Promise(function (resolve) {
+                        resolve([
+                            value,
+                            $('#description').val()
+                        ])
+                    })
+                },
+                onOpen: function () {
+                    $('#description').focus();
+                    autosize($('#description'));
+                }
+            }).then(function (result) {
+                $http.put('/skillLevels/' + level.id, {
+                    description: result[1],
+                    cost: result[0],
+                    level: level.level
+                }).then(function () {
+                    table.ajax.reload(null, false)
+                });
+            });
+        });
+    });
+
     $scope.addLevel = function () {
         calculateSkillLevelsToShow().then(function () {
             $scope.selectLevels = $scope.selectLevels.substring(0, $scope.selectLevels.length - 1) + "}";

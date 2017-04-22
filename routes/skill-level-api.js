@@ -13,6 +13,12 @@ router.get('/skillLevels', function(req, res) {
     });
 });
 
+router.get('/skillLevels/:id', function(req, res) {
+    models.SkillLevel.findById(req.params.id).then(function (skillLevel) {
+        return res.send({skillLevel:skillLevel});
+    });
+});
+
 router.post('/skillLevels', function(req, res) {
     models.SkillLevel.create({
         TriggerSkillId: req.body.TriggerSkillId,
@@ -21,6 +27,26 @@ router.post('/skillLevels', function(req, res) {
         description: req.body.description
     }).then(function(skillLevel) {
         res.send({ status: 'CREATED', skillLevel:skillLevel})
+    });
+});
+
+router.put('/skillLevels/:id', function (req, res){
+    models.SkillLevel.findById(req.params.id).then(function (skillLevel) {
+        if(!skillLevel) {
+            res.statusCode = 404;
+            return res.send({ error: 'Not found' });
+        }
+
+        skillLevel.level = req.body.level;
+        skillLevel.cost = req.body.cost;
+        skillLevel.description= req.body.description;
+        return skillLevel.update({
+            level: req.body.level,
+            cost: req.body.cost,
+            description: req.body.description
+        }).then(function(attribute) {
+            res.send({ status: 'UPDATED', skillLevel:skillLevel })
+        });
     });
 });
 
