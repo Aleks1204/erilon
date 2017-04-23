@@ -78,6 +78,62 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     orderable: false
                 },
                 {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        var returned = '';
+                        angular.forEach(row.MeritAttachedSkills, function (meritAttachedSkill) {
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritAttachedSkill.AttachedSkill.name + ': ' + meritAttachedSkill.value + '</span>';
+                        });
+
+                        angular.forEach(row.MeritAttributes, function (meritAttribute) {
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritAttribute.Attribute.name + ': ' + meritAttribute.value + '</span>';
+                        });
+
+                        angular.forEach(row.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritAttributeAttachedSkill.Attribute.name + '+' + meritAttributeAttachedSkill.AttachedSkill.name + ': ' + meritAttributeAttachedSkill.value + '</span>';
+                        });
+
+                        angular.forEach(row.MeritTriggerSkills, function (meritTriggerSkill) {
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritTriggerSkill.TriggerSkill.name + ': ' + meritTriggerSkill.level + '</span>';
+                        });
+
+                        angular.forEach(row.MeritInherents, function (meritInherent) {
+                            var sign = '=';
+                            if (meritInherent.lessMoreEqual === 1) {
+                                sign = '>';
+                            }
+                            if (meritInherent.lessMoreEqual === -1) {
+                                sign = '<';
+                            }
+
+                            if (meritInherent.value === null) {
+                                returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritInherent.Inherent.name + ': присутствует</span>';
+                            } else {
+                                returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritInherent.Inherent.name + ': ' + sign + meritInherent.value + '</span>';
+                            }
+                        });
+
+                        angular.forEach(row.MeritFlaws, function (meritFlaw) {
+                            var presence = 'Отсутствует';
+                            if (meritFlaw.presentAbsent) {
+                                presence = 'Присутствует';
+                            }
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritFlaw.Flaw.name + ': ' + presence + '</span>';
+                        });
+
+                        angular.forEach(row.MeritMerits, function (meritMerit) {
+                            var presence = 'Отсутствует';
+                            if (meritMerit.presentAbsent) {
+                                presence = 'Присутствует';
+                            }
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritMerit.MeritPrerequisite.name + ': ' + presence + '</span>';
+                        });
+
+                        return returned;
+                    }
+                },
+                {
                     data: "id",
                     orderable: false,
                     render: function (data, type, row) {
@@ -120,30 +176,30 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     title: 'Изменить достоинство',
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
-                        '<input type="text" class="form-control" value="' + merit.name + '" id="name">' +
+                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<input type="text" class="form-control" value="' + merit.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="cost" class="form-control-label">Стоимость:</label>' +
-                        '<input type="number" class="form-control" id="cost" value="' + merit.cost + '">' +
+                    '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                    '<input type="number" class="form-control" id="cost" value="' + merit.cost + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<input type="text" class="form-control" value="' + merit.category + '" id="category">' +
+                    '<label for="category" class="form-control-label">Категории:</label>' +
+                    '<input type="text" class="form-control" value="' + merit.category + '" id="category">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
-                        '<textarea id="description" class="form-control">' + merit.description + '</textarea>' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control">' + merit.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
-                        '<textarea id="action_level_bonus" class="form-control">' + merit.action_level_bonus + '</textarea>' +
+                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                    '<textarea id="action_level_bonus" class="form-control">' + merit.action_level_bonus + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                            '<input id="creation_only" name="creation_only" type="checkbox" ' + creation_only + '>' +
-                            '<label for="creation_only">Только при создании</label>' +
-                        '</div>' +
+                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                    '<input id="creation_only" name="creation_only" type="checkbox" ' + creation_only + '>' +
+                    '<label for="creation_only">Только при создании</label>' +
+                    '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
@@ -188,30 +244,30 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 title: 'Добавить достоинство',
                 html: '<form>' +
                 '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
-                    '<input type="text" class="form-control" id="name">' +
+                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="cost" class="form-control-label">Стоимость:</label>' +
-                    '<input type="number" class="form-control" id="cost">' +
+                '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                '<input type="number" class="form-control" id="cost">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<input type="text" class="form-control" id="category">' +
+                '<label for="category" class="form-control-label">Категории:</label>' +
+                '<input type="text" class="form-control" id="category">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
-                    '<textarea id="description" class="form-control"></textarea>' +
+                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
-                    '<textarea id="action_level_bonus" class="form-control"></textarea>' +
+                '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                '<textarea id="action_level_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                        '<input id="creation_only" name="creation_only" type="checkbox">' +
-                        '<label for="creation_only">Только при создании</label>' +
-                    '</div>' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="creation_only" name="creation_only" type="checkbox">' +
+                '<label for="creation_only">Только при создании</label>' +
+                '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
