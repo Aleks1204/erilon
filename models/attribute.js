@@ -7,7 +7,8 @@
 module.exports = function(sequelize, DataTypes) {
     var Attribute = sequelize.define("Attribute", {
         name: DataTypes.STRING,
-        action_level_bonus: DataTypes.STRING
+        action_level_bonus: DataTypes.STRING,
+        description: DataTypes.STRING
     }, {
         classMethods: {
             associate: function(models) {

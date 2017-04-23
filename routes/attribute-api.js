@@ -9,6 +9,7 @@ var log = require('../log')(module);
 router.post('/attributes', function(req, res) {
     models.Attribute.create({
         name: req.body.name,
+        description: req.body.description,
         action_level_bonus: req.body.action_level_bonus
     }).then(function(attribute) {
         res.send({ status: 'CREATED', attribute:attribute })
@@ -17,7 +18,7 @@ router.post('/attributes', function(req, res) {
 
 router.get('/attributes', function(req, res) {
     models.Attribute.findAll().then(function(attributes) {
-        return res.send({attributes:attributes});
+        return res.send({data:attributes});
     });
 });
 
@@ -41,9 +42,11 @@ router.put('/attributes/:id', function (req, res){
 
         attribute.name = req.body.name;
         attribute.action_level_bonus = req.body.action_level_bonus;
+        attribute.description= req.body.description;
         return attribute.update({
             name: req.body.name,
-            action_level_bonus: req.body.action_level_bonus
+            action_level_bonus: req.body.action_level_bonus,
+            description: req.body.description
         }).then(function(attribute) {
             res.send({ status: 'UPDATED', attribute:attribute })
         });

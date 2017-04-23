@@ -1,40 +1,196 @@
+/**
+ * Created by artemk on 4/16/16.
+ */
+
 var app = angular.module("attributeManagerApp", ['ngStorage']);
 
-app.controller("addAttributeController", function ($scope, $http) {
-    $scope.createAttribute = function () {
-        $http.post('/attributes', {
-            name: $scope.attribute_name,
-            action_level_bonus: $scope.action_level_bonus
-        }).
-        success(function (result) {
-            $http.get('/races').success(function (results){
-                angular.forEach(results.races, function(race) {
-                    $http.post('/raceAttributes', {
-                        race_id: race.id,
-                        attribute_id: result.attribute.id,
-                        base_cost: 5,
-                        max_value: 12
-                    });
-                });
-                location.reload();
-            });
+app.controller("attributeListController", function ($scope, $http, $q, $localStorage) {
+    var attributesTable = $('#attributesTable');
 
-        });
-    };
-});
+    var players = $q.defer();
 
-app.controller("attributeListController", function ($scope, $http) {
-    $scope.loader = true;
-    $http.get('/attributes').
-    success(function (data) {
-        $scope.attributes = data.attributes;
-        $scope.loader = false;
+    $http.get('/players/' + $localStorage.playerId).then(function (response) {
+        players.resolve(response.data);
+        $scope.player = response.data.player;
     });
 
-    $scope.deleteAttribute = function (id) {
-        $http.delete('/attributes/' + id).
-        success(function (data) {
-            location.reload();
+    $q.all([players.promise])
+        .then(success);
+
+    function success(data) {
+
+        function disableEditButton() {
+            if (hasPermission('Attribute', 'edit', data[0].player.Role)) {
+                return '';
+            } else {
+                return 'disabled'
+            }
+        }
+
+        function disableDeleteButton() {
+            if (hasPermission('Attribute', 'delete', data[0].player.Role)) {
+                return '';
+            } else {
+                return 'disabled'
+            }
+        }
+
+
+        var table = attributesTable.DataTable({
+            responsive: true,
+            info: false,
+            paging: false,
+            searching: false,
+            "ajax": '/attributes',
+            "columns": [
+                {"data": "name"},
+                {
+                    data: 'action_level_bonus',
+                    orderable: false
+                },
+                {
+                    data: 'description',
+                    orderable: false
+                },
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
+                            + data + '"  type="button" ' + disableEditButton() + '></button>' +
+                            '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
+                            + data + '" type="button" ' + disableDeleteButton() + '></button>';
+                    }
+                }
+            ]
         });
-    };
+
+        attributesTable.on('click', '.delete', function () {
+            var id = this.value;
+            swal({
+                title: "Вы уверены?",
+                text: "Вы уверены что хотите удалить данный атрибут?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Да!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                $http.delete('/attributes/' + id).then(function () {
+                    table.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
+
+        attributesTable.on('click', '.edit', function () {
+            $http.get('/attributes/' + this.value).then(function (response) {
+                var attribute = response.data.attribute;
+                swal({
+                    title: 'Изменить атрибут',
+                    html: '<form>' +
+                    '<div class="form-group">' +
+                        '<label for="name" class="form-control-label">Имя:</label>' +
+                        '<input type="text" class="form-control" id="name" value="' + attribute.name + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="description" class="form-control-label">Описание:</label>' +
+                        '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
+                    '</div>' +
+                    '<p>Бонус:</p>' +
+                    '</form>',
+                    showCancelButton: true,
+                    cancelButtonText: "Отменить",
+                    confirmButtonText: "Сохранить",
+                    showLoaderOnConfirm: true,
+                    input: 'textarea',
+                    inputValue: attribute.action_level_bonus,
+                    preConfirm: function (value) {
+                        return new Promise(function (resolve) {
+                            resolve([
+                                value,
+                                $('#name').val(),
+                                $('#description').val()
+                            ])
+                        })
+                    },
+                    inputValidator: function (value) {
+                        return new Promise(function (resolve, reject) {
+                            if ($('#name').val() !== '') {
+                                resolve()
+                            } else {
+                                reject('Имя навыка не может быть пустым!')
+                            }
+                        })
+                    },
+                    onOpen: function () {
+                        $('#name').focus();
+                        autosize($('#description'));
+                    }
+                }).then(function success(result) {
+                    $http.put('/attributes/' + attribute.id, {
+                        name: result[1],
+                        description: result[2],
+                        action_level_bonus: result[0]
+                    }).then(function () {
+                        table.ajax.reload(null, false)
+                    });
+                });
+            });
+        });
+
+
+        $scope.showAddDialog = function () {
+            swal({
+                title: 'Добавить атрибут',
+                html: '<form>' +
+                '<div class="form-group">' +
+                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<input type="text" class="form-control" id="name">' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<textarea id="description" class="form-control"></textarea>' +
+                '</div>' +
+                '<p>Бонус:</p>' +
+                '</form>',
+                showCancelButton: true,
+                cancelButtonText: "Отменить",
+                confirmButtonText: "Добавить",
+                showLoaderOnConfirm: true,
+                input: 'textarea',
+                preConfirm: function (value) {
+                    return new Promise(function (resolve) {
+                        resolve([
+                            value,
+                            $('#name').val(),
+                            $('#description').val()
+                        ])
+                    })
+                },
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        if ($('#name').val() !== '') {
+                            resolve()
+                        } else {
+                            reject('Имя навыка не может быть пустым!')
+                        }
+                    })
+                },
+                onOpen: function () {
+                    $('#name').focus();
+                    autosize($('#description'));
+                }
+            }).then(function success(result) {
+                $http.post('/attributes', {
+                    name: result[1],
+                    description: result[2],
+                    action_level_bonus: result[0]
+                }).then(function () {
+                    table.ajax.reload(null, false)
+                });
+            });
+        };
+    }
 });
