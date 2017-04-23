@@ -1,32 +1,279 @@
+/**
+ * Created by artemk on 4/16/16.
+ */
+
 var app = angular.module("inherentManagerApp", ['ngStorage']);
 
-app.controller("addInherentController", function ($scope, $http) {
-    $scope.createInherent = function () {
-        $http.post('/inherents', {
-            name: $scope.inherent_name,
-            probability: $scope.probability,
-            max_limit: $scope.max_limit,
-            min_limit: $scope.min_limit,
-            description: $scope.description,
-            action_level_bonus: $scope.action_level_bonus
-        }).success(function (data) {
-            location.reload();
-        });
-    };
-});
+app.controller("inherentListController", function ($scope, $http, $q, $localStorage) {
 
-app.controller("inherentListController", function ($scope, $http) {
-    $scope.loader = true;
-    $http.get('/inherents').
-    success(function (data) {
-        $scope.inherents = data.inherents.sort();
-        $scope.loader = false;
+    var inherentsTable = $('#inherents');
+
+    var players = $q.defer();
+
+    $http.get('/players/' + $localStorage.playerId).then(function (response) {
+        players.resolve(response.data);
+        $scope.player = response.data.player;
     });
 
-    $scope.deleteInherent = function (id) {
-        $http.delete('/inherents/' + id).
-        success(function (data) {
-            location.reload();
+    $q.all([players.promise])
+        .then(success);
+
+    function success(data) {
+
+        function disableEditButton() {
+            if (hasPermission('Inherent', 'edit', data[0].player.Role)) {
+                return '';
+            } else {
+                return 'disabled'
+            }
+        }
+
+        function disableDeleteButton() {
+            if (hasPermission('Inherent', 'delete', data[0].player.Role)) {
+                return '';
+            } else {
+                return 'disabled'
+            }
+        }
+
+
+        var table = inherentsTable.DataTable({
+            responsive: true,
+            "language": {
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "След.",
+                    "previous": "Пред."
+                },
+                "lengthMenu": "Показать _MENU_"
+            },
+            stateSave: true,
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "info": false,
+            "ajax": '/inherents',
+            "columns": [
+                {"data": "name"},
+                {
+                    data: 'probability',
+                    orderable: false,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        return '1/' + data;
+                    }
+                },
+                {
+                    data: 'min_limit',
+                    orderable: false,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        if (data === null) {
+                            return '<i class="icmn-minus"></i>';
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                {
+                    data: 'max_limit',
+                    orderable: false,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        if (data === null) {
+                            return '<i class="icmn-minus"></i>';
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                {
+                    data: 'description',
+                    orderable: false
+                },
+                {
+                    data: 'action_level_bonus',
+                    orderable: false
+                },
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
+                            + data + '"  type="button" ' + disableEditButton() + '></button>' +
+                            '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
+                            + data + '" type="button" ' + disableDeleteButton() + '></button>';
+                    }
+                }
+            ]
         });
-    };
+
+        inherentsTable.on('click', '.delete', function () {
+            var id = this.value;
+            swal({
+                title: "Вы уверены?",
+                text: "Вы уверены что хотите удалить данную особенность?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Да!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                $http.delete('/inherents/' + id).then(function () {
+                    table.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
+
+        inherentsTable.on('click', '.edit', function () {
+            $http.get('/inherents/' + this.value).then(function (response) {
+                var inherent = response.data.inherent;
+
+                swal({
+                    title: 'Изменить особенность',
+                    html: '<form>' +
+                    '<div class="form-group">' +
+                        '<label for="name" class="form-control-label">Имя:</label>' +
+                        '<input type="text" class="form-control" id="name" value="' + inherent.name + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="probability" class="form-control-label">Вероятность:</label>' +
+                        '1/<input type="number" class="form-control" id="probability" value="' + inherent.probability + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="min_limit" class="form-control-label">Минимум:</label>' +
+                        '<input type="number" class="form-control" id="min_limit" value="' + inherent.min_limit + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="max_limit" class="form-control-label">Максимум:</label>' +
+                        '<input type="number" class="form-control" id="max_limit" value="' + inherent.max_limit + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="description" class="form-control-label">Описание:</label>' +
+                        '<textarea id="description" class="form-control">' + inherent.description + '</textarea>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                        '<textarea id="action_level_bonus" class="form-control">' + inherent.action_level_bonus + '</textarea>' +
+                    '</div>' +
+                    '</form>',
+                    showCancelButton: true,
+                    cancelButtonText: "Отменить",
+                    confirmButtonText: "Сохранить",
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve) {
+                            resolve([
+                                $('#name').val(),
+                                $('#probability').val(),
+                                $('#min_limit').val(),
+                                $('#max_limit').val(),
+                                $('#description').val(),
+                                $('#action_level_bonus').val()
+                            ])
+                        })
+                    },
+                    onOpen: function () {
+                        $('#name').focus();
+                        autosize($('#description'));
+                        autosize($('#action_level_bonus'));
+                    }
+                }).then(function success(result) {
+                    var min = null;
+                    var max = null;
+                    if (result[2] !== '') {
+                        min = result[2];
+                    }
+                    if (result[3] !== '') {
+                        max = result[3];
+                    }
+                    $http.put('/inherents/' + inherent.id, {
+                        name: result[0],
+                        probability: result[1],
+                        min_limit: min,
+                        max_limit: max,
+                        description: result[4],
+                        action_level_bonus: result[5]
+                    }).then(function () {
+                        table.ajax.reload(null, false)
+                    });
+                });
+            });
+        });
+
+
+        $scope.showAddDialog = function () {
+            swal({
+                title: 'Добавить особенность',
+                html: '<form>' +
+                '<div class="form-group">' +
+                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<input type="text" class="form-control" id="name">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label for="probability" class="form-control-label">Вероятность:</label>' +
+                    '1/<input type="number" class="form-control" id="probability">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label for="min_limit" class="form-control-label">Минимум:</label>' +
+                    '<input type="number" class="form-control" id="min_limit">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label for="max_limit" class="form-control-label">Максимум:</label>' +
+                    '<input type="number" class="form-control" id="max_limit">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control"></textarea>' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                    '<textarea id="action_level_bonus" class="form-control"></textarea>' +
+                '</div>' +
+                '</form>',
+                showCancelButton: true,
+                cancelButtonText: "Отменить",
+                confirmButtonText: "Добавить",
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        resolve([
+                            $('#name').val(),
+                            $('#probability').val(),
+                            $('#min_limit').val(),
+                            $('#max_limit').val(),
+                            $('#description').val(),
+                            $('#action_level_bonus').val()
+                        ])
+                    })
+                },
+                onOpen: function () {
+                    $('#name').focus();
+                    autosize($('#description'));
+                    autosize($('#action_level_bonus'));
+                }
+            }).then(function success(result) {
+                var min = null;
+                var max = null;
+                if (result[2] !== '') {
+                    min = result[2];
+                }
+                if (result[3] !== '') {
+                    max = result[3];
+                }
+                $http.post('/inherents/', {
+                    name: result[0],
+                    probability: result[1],
+                    min_limit: min,
+                    max_limit: max,
+                    description: result[4],
+                    action_level_bonus: result[5]
+                }).then(function () {
+                    table.ajax.reload(null, false)
+                });
+            });
+        };
+    }
 });

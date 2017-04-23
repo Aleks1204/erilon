@@ -1,130 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Список врожденных особенностей</title>
+    <title>Список врожденных достоинств</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+    <!-- Vendors Scripts -->
+    <!-- v1.0.0 -->
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/node_modules/autosize/dist/autosize.min.js"></script>
+    <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+
+    <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <!-- Clean UI Scripts -->
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+    <script src="/assets/common/js/common.min.js"></script>
+
+
+    <!-- Clean UI Scripts -->
     <script src="/views/permissions/permissions.js"></script>
     <script src="inherent_manager.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
 
-<body ng-app="inherentManagerApp">
+<body class="theme-default menu-left layout-boxed mode-box-shadow" ng-app="inherentManagerApp">
 <div ng-controller="permissionsController">
-    <div data-ng-include data-src="'/views/main-menu.html'"></div>
-    <div ng-controller="inherentListController">
-        <div data-ng-include data-src="'/views/loader.html'"></div>
-
-        <div class="row">
-            <div class="col-xs-offset-1 col-xs-2">
-                <p class="lead">
-                    <strong>Поиск особенности:</strong>
-                </p>
+    <div class="boxed-container" ng-controller="inherentListController">
+        <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <img src="/assets/common/img/logo.png"/>
+                </a>
             </div>
-            <div class="col-xs-offset-2 col-xs-4">
-                <p class="lead"><input type="text" ng-model="search"></p>
+            <div class="left-menu-inner scroll-pane">
+                <ul class="left-menu-list left-menu-list-root list-unstyled">
+                    <li>
+                        <a class="left-menu-link" href="/views/user_personage_manager.html?id={{player.id}}">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Персонажи
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/races/race_manager.html">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Расы
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
+                            <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                            Атрибуты
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/merits/merit_manager.html">
+                            <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                            Достоинства
+                        </a>
+                    </li>
+                    <li class="left-menu-list-active">
+                        <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
+                            <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                            Врожденные особенности
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
+                            <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                            Недостатки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
+                            <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                            Прикрепленные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
+                            <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                            Тригерные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/spells/spells_manager.html">
+                            <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                            Заклинания
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </div>
-
-        <table class="table table-striped">
-            <tr ng-repeat="inherent in inherents | orderBy : 'name' | filter : search">
-                <td style="vertical-align:middle;">{{ inherent.name }}</td>
-                <td style="vertical-align:middle;">1/{{ inherent.probability }}</td>
-                <td style="vertical-align:middle;">{{ inherent.min_limit}}</td>
-                <td style="vertical-align:middle;">{{ inherent.max_limit }}</td>
-                <td ng-show="hasDeletePermission('Inherent')">
-                    <button type="button" class="btn btn-link" ng-click="deleteInherent(inherent.id)">х</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="container" ng-show="hasCreatePermission('Inherent')">
-        <h2>Добавить врожденную особенность</h2>
-
-        <form class="form-horizontal" role="form" ng-controller="addInherentController"
-              name="createInherentForm">
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="inherent_name">Название особенности:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" ng-model="inherent_name" class="form-control" id="inherent_name"
-                           placeholder="Сопротивление ядам" required>
+        </nav>
+        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+            <div class="menu-icon-container hidden-md-up">
+                <div class="animate-menu-button left-menu-toggle">
+                    <div><!-- --></div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="probability">Вероятность 1/x: </label>
-
-                <div class="col-sm-10">
-                    <input type="number" ng-model="probability" class="form-control" id="probability" placeholder="6">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="hasValue">Имеет числовое значение</label>
-
-                <div class="col-sm-1">
-                    <div class="pull-left">
-                        <input type="checkbox" ng-model="hasValue" class="form-control pull-left" id="hasValue"/>
+            <div class="menu">
+                <div class="menu-user-block">
+                    <div class="dropdown dropdown-avatar">
+                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="user-name">Игрок: <strong>{{player.name}}</strong></span>
+                            <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Alternative text to the image">
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                    class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                    class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
+                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                                доступом</a>
+                        </ul>
                     </div>
                 </div>
-            </div>
 
-
-            <div ng-show="hasValue">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="min_limit">Минимальное значение: </label>
-
-                    <div class="col-sm-10">
-                        <input type="number" ng-model="min_limit" class="form-control" id="min_limit" placeholder="-3">
+                <div class="menu-info-block">
+                    <div class="left">
+                        <div class="menu-info-block">
+                            <div class="example-buy-btn hidden-xs-down">
+                                <div class="btn expir btn-success-outline btn-rounded">
+                                    Права: {{player.Role.name}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="max_limit">Максимальное значение: </label>
+            </div>
+        </nav>
 
-                    <div class="col-sm-10">
-                        <input type="number" ng-model="max_limit" class="form-control" id="max_limit" placeholder="6">
-                    </div>
+        <section class="page-content">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Врожденные особенности <a ng-show="hasCreatePermission('Inherent')" href="#" class="link-underlined link-blue" ng-click="showAddDialog()">Добавить</a></h3>
+                </div>
+                <div class="panel-body">
+
+                    <table id="inherents" class="table table-hover nowrap" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Вероятность</th>
+                            <th>Минимум</th>
+                            <th>Максимум</th>
+                            <th>Описание</th>
+                            <th>Бонус</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="description">Описание:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" ng-model="description" class="form-control" id="description"
-                           placeholder="Описание здесь">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="action_level_bonus">Бонус на действия:</label>
-
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="action_level_bonus" placeholder="Бонус"
-                           ng-model="action_level_bonus">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" ng-click="createInherent()"
-                            ng-disabled="createInherentForm.$invalid">Добавить
-                    </button>
-                </div>
-            </div>
-        </form>
+        </section>
     </div>
 </div>
+<div class="main-backdrop"><!-- --></div>
 
 </body>
 </html>

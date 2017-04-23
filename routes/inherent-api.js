@@ -1,10 +1,3 @@
-/**
- * Created by artemk on 2/2/16.
- */
-/**
- * Created by artemk on 1/29/16.
- */
-
 var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
@@ -25,8 +18,7 @@ router.post('/inherents', function(req, res) {
 
 router.get('/inherents', function(req, res) {
     models.Inherent.findAll().then(function(inherents) {
-
-        return res.send({inherents:inherents});
+        return res.send({data:inherents});
     });
 });
 
