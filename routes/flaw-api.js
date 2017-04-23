@@ -22,8 +22,7 @@ router.post('/flaws', function(req, res) {
 
 router.get('/flaws', function(req, res) {
     models.Flaw.findAll().then(function(flaws) {
-
-        return res.send({flaws:flaws});
+        return res.send({data:flaws});
     });
 });
 
