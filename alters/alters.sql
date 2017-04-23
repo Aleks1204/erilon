@@ -13,3 +13,4 @@ ALTER TABLE "Personages" ADD COLUMN deleted BOOLEAN;
 ALTER TABLE "AttachedSkills" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "SkillLevels" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "Attributes" ADD COLUMN description TEXT;
+ALTER TABLE "Flaws" ALTER COLUMN description TYPE TEXT;

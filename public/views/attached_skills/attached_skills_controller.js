@@ -58,6 +58,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 {"data": "category"},
                 {
                     data: 'difficult',
+                    className: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
                         if (data) {
@@ -69,6 +70,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 },
                 {
                     data: 'theoretical',
+                    className: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
                         if (data) {
@@ -80,6 +82,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 },
                 {
                     data: 'default_skill',
+                    className: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
                         if (data) {
@@ -91,6 +94,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 },
                 {
                     data: 'spells_connected',
+                    className: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
                         if (data) {

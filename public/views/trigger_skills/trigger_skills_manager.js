@@ -119,6 +119,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
+                        '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                        '<input type="number" class="form-control" value="' + skill.cost + '" id="cost">' +
+                    '</div>' +
+                    '<div class="form-group">' +
                         '<label for="category" class="form-control-label">Категории:</label>' +
                         '<input type="text" class="form-control" value="' + skill.category + '" id="category">' +
                     '</div>' +
@@ -142,10 +146,9 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                             resolve([
                                 $('#name').val(),
                                 $('#category').val().replace(/\s/g, ''),
+                                $('#cost').val(),
                                 $('#description').val(),
-                                $('#difficultSkill').prop("checked"),
-                                $('#defaultSkill').prop("checked"),
-                                $('#theoreticalSkill').prop("checked")
+                                $('#difficultSkill').prop("checked")
                             ])
                         })
                     },
@@ -157,11 +160,9 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     $http.put('/triggerSkills/' + skill.id, {
                         name: result[0],
                         category: result[1],
-                        description: result[2],
-                        difficult: result[3],
-                        theoretical: result[5],
-                        default_skill: result[4],
-                        spells_connected: false
+                        cost: result[2],
+                        description: result[3],
+                        difficult: result[4]
                     }).then(function () {
                         table.ajax.reload(null, false)
                     });
