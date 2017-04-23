@@ -54,8 +54,7 @@ router.get('/merits', function (req, res) {
             }
         ]
     }).then(function (merits) {
-
-        return res.send({merits: merits});
+        return res.send({data: merits});
     });
 });
 
@@ -113,12 +112,14 @@ router.put('/merits/:id', function (req, res) {
         merit.cost = req.body.cost;
         merit.description = req.body.description;
         merit.category = req.body.category;
+        merit.creation_only = req.body.creation_only;
         merit.action_level_bonus = req.body.action_level_bonus;
         return merit.update({
             name: req.body.name,
             cost: req.body.cost,
             description: req.body.description,
             category: req.body.category,
+            creation_only: req.body.creation_only,
             action_level_bonus: req.body.action_level_bonus
         }).then(function (merit) {
             res.send({status: 'UPDATED', merit: merit})
