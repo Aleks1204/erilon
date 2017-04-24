@@ -125,7 +125,7 @@ app.controller("personageController", function ($scope, $http, $q) {
                 }
             });
         });
-        $('#spells').append('<div class="row" id="personage_table_spells">' +
+        $('#spells').append('<div class="row">' +
             '<div id="' + id + 'MagicPanel" class="panel" style="box-shadow: 0 2px 10px -2px rgba(55, 58, 60, 0.3); width: 99.2%;">' +
             '<h3 class="panel-heading">' + name + '</h3>' +
             '<div class="panel-body table-responsive">' +
