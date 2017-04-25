@@ -32,6 +32,16 @@ router.get('/spells', function(req, res) {
     });
 });
 
+router.get('/spellsBySchoolId/:id', function (req, res) {
+    models.Spell.findAll({
+        where: {
+            AttachedSkillId: req.params.id
+        }
+    }).then(function (spells) {
+        return res.send({data: spells});
+    });
+});
+
 router.get('/spells/:id', function(req, res) {
     models.Spell.findById(req.params.id).then(function (spell) {
         if(!spell) {

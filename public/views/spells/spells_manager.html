@@ -1,245 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Заклинания</title>
+    <title>Список заклинаний по школам</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+    <!-- Vendors Scripts -->
+    <!-- v1.0.0 -->
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/node_modules/autosize/dist/autosize.min.js"></script>
+    <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+
+    <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <!-- Clean UI Scripts -->
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+    <script src="/assets/common/js/common.min.js"></script>
+
+
+    <!-- Clean UI Scripts -->
     <script src="/views/permissions/permissions.js"></script>
     <script src="spells_manager.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
-<body ng-app="spells">
 
-
+<body class="theme-default menu-left layout-boxed mode-box-shadow" ng-app="spells">
 <div ng-controller="permissionsController">
-    <div ng-controller="spellsController">
-        <div data-ng-include data-src="'/views/loader.html'"></div>
-
-        <div data-ng-include data-src="'/views/main-menu.html'"></div>
-        <h3 class="text-center">Заклинания</h3>
-
-        <div>
-            <div class="panel-group" id="accordion">
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#skills">
-                            <div class="panel-heading">
-                                Магия
-                            </div>
+    <div class="boxed-container" ng-controller="spellsController">
+        <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <img src="/assets/common/img/logo.png"/>
+                </a>
+            </div>
+            <div class="left-menu-inner scroll-pane">
+                <ul class="left-menu-list left-menu-list-root list-unstyled">
+                    <li>
+                        <a class="left-menu-link" href="/views/user_personage_manager.html?id={{player.id}}">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Персонажи
                         </a>
-                    </h4>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/races/race_manager.html">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Расы
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
+                            <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                            Атрибуты
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/merits/merit_manager.html">
+                            <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                            Достоинства
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
+                            <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                            Врожденные особенности
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
+                            <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                            Недостатки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
+                            <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                            Прикрепленные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
+                            <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                            Тригерные навыки
+                        </a>
+                    </li>
+                    <li class="left-menu-list-active">
+                        <a class="left-menu-link" href="/views/spells/spells_manager.html">
+                            <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                            Заклинания
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+            <div class="menu-icon-container hidden-md-up">
+                <div class="animate-menu-button left-menu-toggle">
+                    <div><!-- --></div>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu-user-block">
+                    <div class="dropdown dropdown-avatar">
+                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="user-name">Игрок: <strong>{{player.name}}</strong></span>
+                            <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Alternative text to the image">
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                    class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                    class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <a class="dropdown-item" href="/views/permissions/managePermissions.html" ng-click="deleteUserCookie()"
+                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                                доступом</a>
+                        </ul>
+                    </div>
+                </div>
 
-                    <div id="skills" class="panel-collapse collapse in">
-                        <div class="panel-body">
-
-                            <div ng-repeat="school in schools | orderBy : 'name'">
-                                <div class="panel-group">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#spells{{school.id}}">
-                                                <div class="panel-heading">
-                                                    {{school.name}}
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="spells{{school.id}}" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr>
-                                                        <th>Название</th>
-                                                        <th>Сложность</th>
-                                                        <th>Сложность создания</th>
-                                                        <th>Мана</th>
-                                                        <th>Поддержание</th>
-                                                        <th>Стоимость</th>
-                                                        <th ng-show="hasDeletePermission('Spell')"></th>
-                                                    </tr>
-                                                    <tr ng-repeat="spell in school.Spells | orderBy : 'name'">
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.name}}
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.complexity}}
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.creating_complexity}}
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.mana}}
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.mana_support}} {{spell.mana_sup_time}}
-                                                        </td>
-                                                        <td style="vertical-align:middle;">
-                                                            {{spell.cost}}
-                                                        </td>
-                                                        <td ng-show="hasDeletePermission('Spell')">
-                                                            <button type="button" class="btn btn-link"
-                                                                    ng-click="deleteSpell(spell.id)">х
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <button type="button" class="btn btn-default pull-right"
-                                                        data-toggle="modal" data-target="#addSpellDialog"
-                                                        ng-click="setSchool(school.id)"
-                                                        ng-show="hasCreatePermission('Spell')">
-                                                    Добавить
-                                                    заклинание
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                <div class="menu-info-block">
+                    <div class="left">
+                        <div class="menu-info-block">
+                            <div class="example-buy-btn hidden-xs-down">
+                                <div class="btn expir btn-success-outline btn-rounded">
+                                    Права: {{player.Role.name}}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
+        </nav>
 
-        <div id="addSpellDialog" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        <section class="page-content" id="spells">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close"
-                                data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Добавить заклинание</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal" role="form"
-                              name="addSpellForm">
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="name">Название:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" ng-model="name" class="form-control" id="name"
-                                           placeholder="Фаербол" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="complexity">Сложность:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" ng-model="complexity" class="form-control" id="complexity"
-                                           placeholder="5" ng-change="setCreatingComplexity()" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="creating_complexity">Сложность
-                                    создания:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" ng-model="creating_complexity" class="form-control"
-                                           id="creating_complexity" placeholder="5" ng-value="{{complexity}}" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="mana">Мана:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" ng-model="mana" class="form-control" id="mana" placeholder="5"
-                                           required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="instant">Мгновенное:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="checkbox" ng-model="instant" class="form-control" id="instant">
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-hide="instant">
-                                <label class="control-label col-sm-3" for="mana_support">Поддержание:</label>
-
-                                <div class="col-sm-6">
-                                    <input type="text" ng-model="mana_support" class="form-control" id="mana_support"
-                                           placeholder="5" ng-required="!instant">
-                                </div>
-                                <div class="col-sm-3">
-                                    <select ng-model="mana_sup_time" class="form-control" id="mana_sup_time"
-                                            ng-required="!instant">
-                                        <option value="в раунд" ng-selected="true">в раунд</option>
-                                        <option value="в минуту">в минуту</option>
-                                        <option value="в час">в час</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="cost">Стоимость:</label>
-
-                                <div class="col-sm-9">
-                                    <input type="number" ng-model="cost" class="form-control" id="cost" placeholder="1"
-                                           required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="effect">Эффект:</label>
-
-                                <div class="col-sm-9">
-                                    <textarea ng-model="effect" class="form-control" id="effect"
-                                              placeholder="Наблюдаемый эффект..." required></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-3" for="description">Описание:</label>
-
-                                <div class="col-sm-9">
-                                    <textarea ng-model="description" class="form-control" id="description"
-                                              placeholder="Описание..." required></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-offset-7 col-md-2 col-xs-offset-5 col-xs-1">
-                                        <button type="button"
-                                                class="btn btn-default pull-right"
-                                                data-dismiss="modal">
-                                            Отмена
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-3 col-xs-1">
-                                        <button type="submit"
-                                                class="btn btn-success pull-left"
-                                                ng-click="addSpell()"
-                                                ng-disabled="addSpellForm.$invalid">
-                                            Добавить
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+        </section>
     </div>
 </div>
+<div class="main-backdrop"><!-- --></div>
 
 </body>
 </html>
