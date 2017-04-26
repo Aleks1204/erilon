@@ -154,12 +154,7 @@
 
             <div class="panel">
                 <div class="panel-heading" style="padding-bottom: 0">
-                    <div class="form-group" ng-show="hasCreatePermission('Attribute')" ng-click="showAddDialog()">
-                        <h3 class="display-inline margin-inline">Атрибуты </h3>
-                        <button class="btn btn-icon btn-success btn-rounded margin-inline">
-                            <i class="icmn-plus3"></i>
-                        </button>
-                    </div>
+                    <h3 class="display-inline margin-inline">Атрибуты <a ng-show="hasCreatePermission('Attribute')" href="#" class="link-underlined link-blue" ng-click="showAddDialog()">Добавить</a></h3>
                 </div>
                 <div class="panel-body">
 
