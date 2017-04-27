@@ -75,7 +75,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     data: "id",
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<a href="trigger_skill.html?id=' + data + '" class="btn btn-icon btn-primary btn-rounded icmn-upload9 margin-inline levelUp" type="button"></a>' +
+                        return '<a href="trigger_skill.html?id=' + data + '" class="btn btn-icon btn-primary btn-rounded icmn-upload9 margin-inline" type="button"></a>' +
                             '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
                             + data + '"  type="button" ' + disableEditButton() + '></button>' +
                             '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'

@@ -10,6 +10,31 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
 
     var players = $q.defer();
 
+    function getLevelName(levelNumber) {
+        var levelName = '';
+        switch (levelNumber) {
+            case 0:
+                levelName = 'База';
+                break;
+            case 1:
+                levelName = 'Эксперт';
+                break;
+            case 2:
+                levelName = 'Мастер';
+                break;
+            case 3:
+                levelName = 'Магистр';
+                break;
+            case 4:
+                levelName = 'Гроссмейстер';
+                break;
+            default:
+                levelName = 'Уровень не указан';
+                break;
+        }
+        return levelName;
+    }
+
     $http.get('/players/' + $localStorage.playerId).then(function (response) {
         players.resolve(response.data);
         $scope.player = response.data.player;
@@ -95,7 +120,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                         });
 
                         angular.forEach(row.MeritTriggerSkills, function (meritTriggerSkill) {
-                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritTriggerSkill.TriggerSkill.name + ': ' + meritTriggerSkill.level + '</span>';
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritTriggerSkill.TriggerSkill.name + ': ' + getLevelName(meritTriggerSkill.level) + '</span>';
                         });
 
                         angular.forEach(row.MeritInherents, function (meritInherent) {

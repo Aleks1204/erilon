@@ -1,7 +1,7 @@
 var meritId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("meritApp", ['ngStorage']);
 
-app.controller("prerequisitesListController", function ($scope, $http) {
+app.controller("prerequisitesListController", function ($scope, $http, $timeout) {
     $scope.lessMoreEqual = 0;
     $scope.presentAbsent = false;
     $scope.types = [
@@ -18,7 +18,7 @@ app.controller("prerequisitesListController", function ($scope, $http) {
             "name": "Тригерный навык",
             "id": 4
         }, {
-            "name": "Врожденная",
+            "name": "Врожденная особенность",
             "id": 5
         }, {
             "name": "Достоинство",
@@ -48,48 +48,175 @@ app.controller("prerequisitesListController", function ($scope, $http) {
         }
     ];
 
-    $http.get('/merits/' + meritId).
-    success(function (data) {
-        $scope.merit = data.merit;
-        $scope.meritAttributes = data.merit.MeritAttributes;
-        $scope.meritAttachedSkills = data.merit.MeritAttachedSkills;
-        $scope.meritAttributeAttachedSkills = data.merit.MeritAttributeAttachedSkills;
-        $scope.meritTriggerSkills = data.merit.MeritTriggerSkills;
-        $scope.meritInherents = data.merit.MeritInherents;
-        $scope.meritFlaws = data.merit.MeritFlaws;
-        $scope.meritMerits = data.merit.MeritMerits;
+    function getLevelName(levelNumber) {
+        var levelName = '';
+        switch (levelNumber) {
+            case 0:
+                levelName = 'База';
+                break;
+            case 1:
+                levelName = 'Эксперт';
+                break;
+            case 2:
+                levelName = 'Мастер';
+                break;
+            case 3:
+                levelName = 'Магистр';
+                break;
+            case 4:
+                levelName = 'Гроссмейстер';
+                break;
+            default:
+                levelName = 'Уровень не указан';
+                break;
+        }
+        return levelName;
+    }
+
+    recalculateTables();
+
+    function recalculateTables() {
+        $http.get('/merits/' + meritId).then(function (response) {
+            $scope.merit = response.data.merit;
+            $scope.meritAttributes = response.data.merit.MeritAttributes;
+            $scope.meritAttachedSkills = response.data.merit.MeritAttachedSkills;
+            $scope.meritAttributeAttachedSkills = response.data.merit.MeritAttributeAttachedSkills;
+            $scope.meritTriggerSkills = response.data.merit.MeritTriggerSkills;
+            $scope.meritInherents = response.data.merit.MeritInherents;
+            $scope.meritFlaws = response.data.merit.MeritFlaws;
+            $scope.meritMerits = response.data.merit.MeritMerits;
+
+            $('#mainPanel').empty();
+
+            angular.forEach(response.data.merit.MeritAttachedSkills, function (meritAttachedSkill) {
+                addPrerequisitesElement(meritAttachedSkill.AttachedSkill.name, meritAttachedSkill.value, '/meritAttachedSkills/' + meritAttachedSkill.id);
+            });
+
+            angular.forEach(response.data.merit.MeritAttributes, function (meritAttribute) {
+                addPrerequisitesElement(meritAttribute.Attribute.name, meritAttribute.value, '/meritAttributes/' + meritAttribute.id);
+            });
+
+            angular.forEach(response.data.merit.MeritAttributeAttachedSkills, function (meritAttributeAttachedSkill) {
+                addPrerequisitesElement(meritAttributeAttachedSkill.AttachedSkill.name + '+' + meritAttributeAttachedSkill.Attribute.name, meritAttributeAttachedSkill.value, '/meritAttributeAttachedSkills/' + meritAttributeAttachedSkill.id);
+            });
+
+            angular.forEach(response.data.merit.MeritTriggerSkills, function (meritTriggerSkill) {
+                addPrerequisitesElement(meritTriggerSkill.TriggerSkill.name, getLevelName(meritTriggerSkill.level), '/meritTriggerSkills/' + meritTriggerSkill.id);
+            });
+
+            angular.forEach(response.data.merit.MeritInherents, function (meritInherent) {
+                var sign = '=';
+                if (meritInherent.lessMoreEqual === 1) {
+                    sign = '>';
+                }
+                if (meritInherent.lessMoreEqual === -1) {
+                    sign = '<';
+                }
+
+                if (meritInherent.value === null) {
+                    addPrerequisitesElement(meritInherent.Inherent.name, 'Присутствует', '/meritInherents/' + meritInherent.id);
+                } else {
+                    addPrerequisitesElement(meritInherent.Inherent.name, meritInherent.value, '/meritInherents/' + meritInherent.id, sign);
+                }
+            });
+
+            angular.forEach(response.data.merit.MeritFlaws, function (meritFlaw) {
+                var presence = 'Отсутствует';
+                if (meritFlaw.presentAbsent) {
+                    presence = 'Присутствует';
+                }
+                addPrerequisitesElement(meritFlaw.Flaw.name, presence, '/meritFlaws/' + meritFlaw.id);
+            });
+
+            angular.forEach(response.data.merit.MeritMerits, function (meritMerit) {
+                var presence = 'Отсутствует';
+                if (meritMerit.presentAbsent) {
+                    presence = 'Присутствует';
+                }
+                addPrerequisitesElement(meritMerit.MeritPrerequisite.name, presence, '/meritMerits/' + meritMerit.id);
+            });
+
+            $timeout(function () {
+                $('#merit_id').selectpicker({liveSearch: true});
+            }, 1000);
+
+            $timeout(function () {
+                $('#flaw_id').selectpicker({liveSearch: true});
+            }, 1000);
+
+            $timeout(function () {
+                $('#inherent_id').selectpicker({liveSearch: true});
+            }, 1000);
+
+            $timeout(function () {
+                $('#attribute_id').selectpicker();
+            }, 1000);
+
+            $timeout(function () {
+                $('#attached_skill_id').selectpicker({liveSearch: true});
+            }, 1000);
+
+            $timeout(function () {
+                $('#trigger_skill_id').selectpicker({liveSearch: true});
+            }, 1000);
+
+            $timeout(function () {
+                $('#level').selectpicker();
+            }, 1000);
+        });
+    }
+
+    function addPrerequisitesElement(prerequisite, value, id, sign) {
+        if (sign === undefined) {
+            sign = '';
+        }
+        $('#mainPanel').append(
+            '<div class="btn-group margin-inline">' +
+                '<div class="btn-group">' +
+                    '<button style="cursor: auto" class="btn btn-rounded btn-sm btn-success">' + prerequisite + ': ' + sign + value + '</button>' +
+                '</div>' +
+                '<div class="btn-group">' +
+                    '<button class="btn btn-rounded btn-sm btn-danger-outline delete">' +
+                        '<i class="icmn-minus"></i>' +
+                        '<input id="prerequisiteId" type="hidden" value="' + id + '"/> ' +
+                    '</button>' +
+                '</div>' +
+            '</div>'
+        )
+    }
+
+    $('#mainPanel').on('click', '.delete', function () {
+        var url = this.querySelectorAll('#prerequisiteId')[0].value;
+
+        $http.delete(url).then(function () {
+            recalculateTables();
+        });
     });
 
-    $http.get('/attributes').
-    success(function (response) {
+    $http.get('/attributes').then(function (response) {
         $scope.attributes = response.data.data;
     });
 
-    $http.get('/attachedSkills').
-    success(function (data) {
-        $scope.attachedSkills = data.attachedSkills;
+    $http.get('/attachedSkills').then(function (response) {
+        $scope.attachedSkills = response.data.data;
     });
 
-    $http.get('/triggerSkills').
-    success(function (data) {
-        $scope.triggerSkills = data.triggerSkills;
+    $http.get('/triggerSkills').then(function (response) {
+        $scope.triggerSkills = response.data.data;
     });
 
-    $http.get('/inherents').
-    success(function (data) {
-        $scope.inherents = data.inherents;
+    $http.get('/inherents').then(function (response) {
+        $scope.inherents = response.data.data;
     });
 
-    $http.get('/flaws').
-    success(function (data) {
-        $scope.flaws = data.flaws;
+    $http.get('/flaws').then(function (response) {
+        $scope.flaws = response.data.data;
     });
 
-    $http.get('/merits').
-    success(function (data) {
+    $http.get('/merits').then(function (response) {
         $scope.merits = [];
-        angular.forEach(data.merits, function (merit) {
-            if (merit.id != meritId) {
+        angular.forEach(response.data.data, function (merit) {
+            if (merit.id !== meritId) {
                 $scope.merits.push(merit);
             }
         });
@@ -102,8 +229,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     merit_id: meritId,
                     attribute_id: $scope.attribute_id,
                     value: $scope.value
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 2:
@@ -111,8 +238,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     merit_id: meritId,
                     attached_skill_id: $scope.attached_skill_id,
                     value: $scope.value
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 3:
@@ -121,8 +248,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     attribute_id: $scope.attribute_id,
                     attached_skill_id: $scope.attached_skill_id,
                     value: $scope.value
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 4:
@@ -130,8 +257,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     merit_id: meritId,
                     attached_skill_id: $scope.trigger_skill_id,
                     level: $scope.level
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 5:
@@ -140,8 +267,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     inherent_id: $scope.inherent_id,
                     lessMoreEqual: $scope.lessMoreEqual,
                     value: $scope.inherentValue
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 6:
@@ -149,8 +276,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     merit_id: meritId,
                     prerequisite_merit_id: $scope.merit_id,
                     presentAbsent: $scope.presentAbsent
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
             case 7:
@@ -158,8 +285,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
                     merit_id: meritId,
                     flaw_id: $scope.flaw_id,
                     presentAbsent: $scope.presentAbsent
-                }).success(function (data) {
-                    location.reload();
+                }).then(function () {
+                    recalculateTables();
                 });
                 break;
         }
@@ -168,62 +295,8 @@ app.controller("prerequisitesListController", function ($scope, $http) {
     $scope.isInherentValueRequired = false;
 
     $scope.isValuePresent = function () {
-        $http.get('/inherents/' + $scope.inherent_id).
-        success(function (result) {
-            if (result.inherent.max_limit != null && result.inherent.min_limit != null) {
-                $scope.isInherentValueRequired = true;
-            } else {
-                $scope.isInherentValueRequired = false;
-            }
+        $http.get('/inherents/' + $scope.inherent_id).then(function (response) {
+            $scope.isInherentValueRequired = response.data.inherent.max_limit !== null && response.data.inherent.min_limit !== null;
         });
     };
-
-    $scope.deleteMeritAttribute = function (id) {
-        $http.delete('/meritAttributes/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritAttachedSkill = function (id) {
-        $http.delete('/meritAttachedSkills/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritAttributeAttachedSkill = function (id) {
-        $http.delete('/meritAttributeAttachedSkills/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritTriggerSkill = function (id) {
-        $http.delete('/meritTriggerSkills/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritInherent = function (id) {
-        $http.delete('/meritInherents/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritFlaw = function (id) {
-        $http.delete('/meritFlaws/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $scope.deleteMeritMerit = function (id) {
-        $http.delete('/meritMerits/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    }
 });
