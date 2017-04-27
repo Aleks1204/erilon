@@ -137,7 +137,9 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     data: "id",
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
+                        return '<a href="merit.html?id=' + data + '" class="btn btn-icon btn-info btn-rounded fa fa-graduation-cap margin-inline" ' +
+                            'type="button" ' + disableEditButton() + '></a>' +
+                            '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
                             + data + '"  type="button" ' + disableEditButton() + '></button>' +
                             '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
                             + data + '" type="button" ' + disableDeleteButton() + '></button>';

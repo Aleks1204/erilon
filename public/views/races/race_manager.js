@@ -96,7 +96,7 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
                     data: "id",
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<a href="race.html?id=' + data + '" class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline levelUp" type="button" ' + disableEditButton() + '></a>' +
+                        return '<a href="race.html?id=' + data + '" class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline" type="button" ' + disableEditButton() + '></a>' +
                             '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
                             + data + '" type="button" ' + disableDeleteButton() + '></button>';
                     }
@@ -122,11 +122,6 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
             }, function cancel() {
             });
         });
-
-        racesTable.on('click', '.edit', function () {
-
-        });
-
 
         $scope.showAddDialog = function () {
             swal({
