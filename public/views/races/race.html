@@ -153,6 +153,30 @@
         </nav>
 
         <section class="page-content">
+            <div class="panel">
+                <div class="panel-heading" style="padding-bottom: 0">
+                    <h3 ng-show="hideEditBlock">{{race.name}}<a ng-click="hideEditBlock = false" class="btn btn-icon icmn-unlocked btn-link" href="javascript: void(0);"></a></h3>
+                    <div class="row" ng-hide="hideEditBlock">
+                        <div class="input-group col-md-2">
+                            <input id="raceName" class="form-control" type="text" ng-model="race.name" style="font-size: 20px">
+                            <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i class="icmn-lock4"></i> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <span ng-show="hideEditDescriptionBlock">
+                        &emsp;&emsp;{{race.description}}
+                        <a ng-click="hideEditDescriptionBlock = false" class="btn btn-icon icmn-unlocked btn-link"
+                           href="javascript: void(0);"></a>
+                    </span>
+                    <div class="input-group" ng-hide="hideEditDescriptionBlock">
+                        <textarea id="raceDescription" class="form-control" ng-model="race.description">
+                            &emsp;&emsp;{{race.description}}
+                        </textarea>
+                        <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i class="icmn-lock4"></i> </span>
+                    </div>
+                </div>
+            </div>
 
             <div class="panel">
                 <div class="panel-heading">
@@ -332,12 +356,14 @@
                                         <select class="form-control"
                                                 name="inherent"
                                                 ng-model="inherent_id" id="inherent_id"
-                                                ng-options="inherent.id as inherent.name for inherent in inherents" required>
+                                                ng-options="inherent.id as inherent.name for inherent in inherents"
+                                                required>
                                             <option style="display:none" value="">Выберите особенность...</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inherent_race_probability" class="form-control-label">Вероятность:</label>
+                                        <label for="inherent_race_probability"
+                                               class="form-control-label">Вероятность:</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="inherent_race_probability" ng-model="inherent_race_probability">
                                     </div>

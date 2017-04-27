@@ -18,6 +18,8 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
         $scope.inherents = response.data.data;
     });
 
+    autosize($('#raceDescription'));
+
     $timeout(function () {
         $('#merit_id').selectpicker({liveSearch: true});
     }, 3000);
@@ -29,6 +31,20 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
     $timeout(function () {
         $('#inherent_id').selectpicker({liveSearch: true});
     }, 3000);
+
+    $scope.hideEditBlock = true;
+    $scope.hideEditDescriptionBlock = true;
+
+    $scope.saveRace = function () {
+        $http.put('/races/' + raceId, {
+            name: $scope.race.name,
+            max_age: $scope.race.max_age,
+            description: $scope.race.description
+        }).then(function () {
+            $scope.hideEditBlock = true;
+            $scope.hideEditDescriptionBlock = true;
+        });
+    };
 
     var raceAttributesTableSelector = $('#racesAttributesTable');
 
