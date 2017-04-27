@@ -707,17 +707,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     all.then(success);
 
     $http.get('/merits').then(function (response) {
-        $scope.merits = response.data.merits;
+        $scope.merits = response.data.data;
         merits.resolve();
     });
 
     $http.get('/inherents').then(function (response) {
-        $scope.inherents = response.data.inherents;
+        $scope.inherents = response.data.data;
         inherents.resolve();
     });
 
     $http.get('/flaws').then(function (response) {
-        $scope.flaws = response.data.flaws;
+        $scope.flaws = response.data.data;
         flaws.resolve();
     });
 
@@ -780,11 +780,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.max_age = response.data.personage.Race.max_age;
         }
         $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
-            $scope.raceAttributes = response.data.raceAttributes;
+            $scope.raceAttributes = response.data.data;
             raceAttributes.resolve();
         });
         $http.get('/raceInherentsByRaceId/' + response.data.personage.RaceId).then(function (response) {
-            $scope.raceInherents = response.data.raceInherents;
+            $scope.raceInherents = response.data.data;
             raceInherents.resolve();
         });
         $scope.experienceValid = function () {
@@ -2587,7 +2587,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageMeritsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(response.data.personageMerits, function (personageMerit) {
+                angular.forEach(response.data.data, function (personageMerit) {
                     deletePromises.push($http.delete('/personageMerits/' + personageMerit.id));
                 });
 
@@ -2613,7 +2613,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageFlawsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(response.data.personageFlaws, function (personageFlaw) {
+                angular.forEach(response.data.data, function (personageFlaw) {
                     deletePromises.push($http.delete('/personageFlaws/' + personageFlaw.id));
                 });
 
@@ -2639,7 +2639,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageAttachedSkillsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(response.data.personageAttachedSkills, function (personageAttachedSkill) {
+                angular.forEach(response.data.data, function (personageAttachedSkill) {
                     deletePromises.push($http.delete('/personageAttachedSkills/' + personageAttachedSkill.id));
                 });
 
@@ -2665,7 +2665,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $http.get('/personageTriggerSkillsByPersonageId/' + personageId).then(function (response) {
                 var deletePromises = [];
 
-                angular.forEach(response.data.personageTriggerSkills, function (personageTriggerSkill) {
+                angular.forEach(response.data.data, function (personageTriggerSkill) {
                     deletePromises.push($http.delete('/personageTriggerSkills/' + personageTriggerSkill.id));
                 });
 
