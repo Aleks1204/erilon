@@ -1,157 +1,291 @@
 var raceId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("raceApp", ['ngStorage']);
+var app = angular.module("raceManagerApp", ['ngStorage']);
 
-app.controller("raceAttributeListController", function ($scope, $http) {
-    $http.get('/raceAttributesByRaceId/' + raceId).
-    success(function (data) {
-        $scope.raceAttributes = data.raceAttributes;
+app.controller("raceListController", function ($scope, $http, $timeout) {
+    $http.get('/races/' + raceId).then(function (response) {
+        $scope.race = response.data.race;
     });
 
-    $http.get('/races/' + raceId).
-    success(function (data) {
-        $scope.race = data.race;
+    $http.get('/merits').then(function (response) {
+        $scope.merits = response.data.data;
     });
 
-    var changingAttributeIds = [];
-    $scope.show = function (id) {
-        var show = false;
-        angular.forEach(changingAttributeIds, function (changingAttributeId) {
-            if (changingAttributeId == id) {
-                show = true;
+    $http.get('/flaws').then(function (response) {
+        $scope.flaws = response.data.data;
+    });
+
+    $http.get('/inherents').then(function (response) {
+        $scope.inherents = response.data.data;
+    });
+
+    $timeout(function () {
+        $('#merit_id').selectpicker({liveSearch: true});
+    }, 3000);
+
+    $timeout(function () {
+        $('#flaw_id').selectpicker({liveSearch: true});
+    }, 3000);
+
+    $timeout(function () {
+        $('#inherent_id').selectpicker({liveSearch: true});
+    }, 3000);
+
+    var raceAttributesTableSelector = $('#racesAttributesTable');
+
+    var raceAttributesTable = raceAttributesTableSelector.DataTable({
+        responsive: true,
+        info: false,
+        paging: false,
+        searching: false,
+        "ajax": '/raceAttributesByRaceId/' + raceId,
+        "columns": [
+            {"data": "Attribute.name"},
+            {"data": "base_cost"},
+            {
+                data: "id",
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-icon btn-success btn-sm btn-rounded icmn-pencil3 margin-right-10 edit" value="'
+                        + data + '"  type="button"></button>';
+                }
             }
-        });
-        return show;
-    };
+        ]
+    });
 
-    $scope.changeRaceAttribute = function (id) {
-        changingAttributeIds.push(id);
-    };
-
-    $scope.saveRaceAttribute = function (id) {
-
-        angular.forEach($scope.raceAttributes, function (raceAttribute) {
-            if (raceAttribute.id == id) {
-                $http.put('/raceAttributes/' + id, {
-                    base_cost: raceAttribute.base_cost
+    raceAttributesTableSelector.on('click', '.edit', function () {
+        $http.get('/raceAttributes/' + this.value).then(function (response) {
+            var raceAttribute = response.data.raceAttribute;
+            swal({
+                title: 'Изменить базовую стоимость атрибута "' + raceAttribute.Attribute.name + '"',
+                showCancelButton: true,
+                cancelButtonText: "Отменить",
+                confirmButtonText: "Сохранить",
+                input: 'number',
+                inputValue: raceAttribute.base_cost,
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        if (value !== '') {
+                            if (parseInt(value) > 0) {
+                                resolve()
+                            } else {
+                                reject('Стоимость не может быть меньше 1!')
+                            }
+                        } else {
+                            reject('Укажите базовую стоимость!')
+                        }
+                    })
+                }
+            }).then(function success(result) {
+                $http.put('/raceAttributes/' + raceAttribute.id, {
+                    base_cost: result[0]
+                }).then(function () {
+                    raceAttributesTable.ajax.reload(null, false)
                 });
+            });
+        });
+    });
+
+    var raceMeritsTableSelector = $('#racesMeritsTable');
+
+    var raceMeritsTable = raceMeritsTableSelector.DataTable({
+        responsive: true,
+        info: false,
+        paging: false,
+        searching: false,
+        "language": {
+            "emptyTable": 'У данной расы нет расовых достоинств'
+        },
+        "ajax": '/raceMeritsByRaceId/' + raceId,
+        "columns": [
+            {"data": "Merit.name"},
+            {
+                data: "race_default",
+                orderable: false,
+                render: function (data, type, row) {
+                    if (data) {
+                        return 'По умолчанию'
+                    } else {
+                        return row.race_cost;
+                    }
+                }
+
+            },
+            {
+                data: "id",
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-merit" value="' + data + '" type="button"></button>';
+                }
             }
-        });
-
-        var index = changingAttributeIds.indexOf(id);
-        changingAttributeIds.splice(index, 1);
-    };
-
-    $scope.deleteRaceAttribute = function (id) {
-        $http.delete('/raceAttributes/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    }
-});
-
-app.controller("raceMeritListController", function ($scope, $http) {
-    $http.get('/raceMeritsByRaceId/' + raceId).
-    success(function (data) {
-        $scope.raceMerits = data.raceMerits;
+        ]
     });
 
-    $scope.deleteRaceMerit = function (id) {
-        $http.delete('/raceMerits/' + id).
-        success(function (data) {
-            location.reload();
+    raceMeritsTableSelector.on('click', '.delete-race-merit', function () {
+        var id = this.value;
+        swal({
+            title: "Вы уверены?",
+            text: "Вы уверены что хотите удалить расовое достоинство?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: "Да!",
+            cancelButtonText: "Отменить"
+        }).then(function success() {
+            $http.delete('/raceMerits/' + id).then(function () {
+                raceMeritsTable.ajax.reload(null, false)
+            });
+        }, function cancel() {
         });
-    };
-});
-
-app.controller("raceFlawListController", function ($scope, $http) {
-    $http.get('/raceFlawsByRaceId/' + raceId).
-    success(function (data) {
-        $scope.raceFlaws = data.raceFlaws;
     });
 
-    $scope.deleteRaceFlaw = function (id) {
-        $http.delete('/raceFlaws/' + id).
-        success(function (data) {
-            location.reload();
-        });
+    $scope.clearRaceMeritForm = function () {
+        $scope.merit_race_cost = '';
+        $scope.merit_race_default = false;
     };
-});
 
-app.controller("raceInherentListController", function ($scope, $http) {
-    $http.get('/raceInherentsByRaceId/' + raceId).
-    success(function (data) {
-        $scope.raceInherents = data.raceInherents;
-    });
-
-    $scope.deleteRaceInherent = function (id) {
-        $http.delete('/raceInherents/' + id).
-        success(function (data) {
-            location.reload();
-        });
-    };
-});
-
-app.controller("addRaceMeritController", function ($scope, $http) {
-    $scope.race_default = false;
-    $scope.race_cost = 0;
-
-    $scope.createRaceMerit = function () {
+    $scope.addRaceMerit = function () {
+        if ($scope.merit_race_cost === '') {
+            $scope.merit_race_cost = 0;
+        }
         $http.post('/raceMerits', {
+            race_id: raceId,
             merit_id: $scope.merit_id,
-            race_id: raceId,
-            race_cost: $scope.race_cost,
-            race_default: $scope.race_default
-        }).
-        success(function (data) {
-            location.reload();
+            race_cost: $scope.merit_race_cost,
+            race_default: $scope.merit_race_default
+        }).then(function () {
+            jQuery('#addRaceMeritModal').modal('hide');
+            $('#addRaceMeritModal').on('hidden.bs.modal', function () {
+                raceMeritsTable.ajax.reload(null, false);
+            });
         });
     };
 
-    $http.get('/merits').
-    success(function (data) {
-        $scope.merits = data.merits;
+    var raceFlawsTableSelector = $('#racesFlawsTable');
+
+    var raceFlawsTable = raceFlawsTableSelector.DataTable({
+        responsive: true,
+        info: false,
+        paging: false,
+        searching: false,
+        "language": {
+            "emptyTable": 'У данной расы нет расовых недостатков'
+        },
+        "ajax": '/raceFlawsByRaceId/' + raceId,
+        "columns": [
+            {"data": "Flaw.name"},
+            {
+                data: "id",
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-flaw" value="' + data + '" type="button"></button>';
+                }
+            }
+        ]
     });
 
-    $scope.isCheckboxChecked = function () {
-        return $scope.race_default;
-    }
-});
+    raceFlawsTableSelector.on('click', '.delete-race-flaw', function () {
+        var id = this.value;
+        swal({
+            title: "Вы уверены?",
+            text: "Вы уверены что хотите удалить расовый недостаток?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: "Да!",
+            cancelButtonText: "Отменить"
+        }).then(function success() {
+            $http.delete('/raceFlaws/' + id).then(function () {
+                raceFlawsTable.ajax.reload(null, false)
+            });
+        }, function cancel() {
+        });
+    });
 
-app.controller("addRaceFlawController", function ($scope, $http) {
-
-    $scope.createRaceFlaw = function () {
+    $scope.addRaceFlaw = function () {
         $http.post('/raceFlaws', {
-            flaw_id: $scope.flaw_id,
-            race_id: raceId
-        }).
-        success(function (data) {
-            location.reload();
-        });
-    };
-
-    $http.get('/flaws').
-    success(function (data) {
-        $scope.flaws = data.flaws;
-    });
-});
-
-app.controller("addRaceInherentController", function ($scope, $http) {
-    $scope.race_default = false;
-    $scope.race_cost = 0;
-
-    $scope.createRaceInherent = function () {
-        $http.post('/raceInherents', {
-            inherent_id: $scope.inherent_id,
             race_id: raceId,
-            race_probability: $scope.race_probability
-        }).
-        success(function (data) {
-            location.reload();
+            flaw_id: $scope.flaw_id
+        }).then(function () {
+            jQuery('#addRaceFlawModal').modal('hide');
+            $('#addRaceFlawModal').on('hidden.bs.modal', function () {
+                raceFlawsTable.ajax.reload(null, false);
+            });
         });
     };
 
-    $http.get('/inherents').
-    success(function (data) {
-        $scope.inherents = data.inherents;
+    var raceInherentsTableSelector = $('#racesInherentsTable');
+
+    var raceInherentsTable = raceInherentsTableSelector.DataTable({
+        responsive: true,
+        info: false,
+        paging: false,
+        searching: false,
+        "language": {
+            "emptyTable": 'У данной расы нет расовых врожденных особенностей'
+        },
+        "ajax": '/raceInherentsByRaceId/' + raceId,
+        "columns": [
+            {"data": "Inherent.name"},
+            {
+                data: "race_probability",
+                orderable: false,
+                render: function (data, type, row) {
+                    if (data === 1) {
+                        return 'По умолчанию'
+                    } else {
+                        return '1/' + data;
+                    }
+                }
+
+            },
+            {
+                data: "id",
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-inherent" value="' + data + '" type="button"></button>';
+                }
+            }
+        ]
     });
+
+    raceInherentsTableSelector.on('click', '.delete-race-inherent', function () {
+        var id = this.value;
+        swal({
+            title: "Вы уверены?",
+            text: "Вы уверены что хотите удалить расовую врожденную особенность?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: "Да!",
+            cancelButtonText: "Отменить"
+        }).then(function success() {
+            $http.delete('/raceInherents/' + id).then(function () {
+                raceInherentsTable.ajax.reload(null, false)
+            });
+        }, function cancel() {
+        });
+    });
+
+    $scope.clearRaceInherentForm = function () {
+        $scope.inherent_race_probability = '';
+    };
+
+    $scope.addRaceInherent = function () {
+        if ($scope.inherent_race_probability === '') {
+            $scope.inherent_race_probability = 1;
+        }
+        $http.post('/raceInherents', {
+            race_id: raceId,
+            inherent_id: $scope.inherent_id,
+            race_probability: $scope.inherent_race_probability
+        }).then(function () {
+            jQuery('#addRaceInherentModal').modal('hide');
+            $('#addRaceInherentModal').on('hidden.bs.modal', function () {
+                raceInherentsTable.ajax.reload(null, false);
+            });
+        });
+    };
 });

@@ -7,7 +7,8 @@
 module.exports = function(sequelize, DataTypes) {
     var Race = sequelize.define("Race", {
         name: DataTypes.STRING,
-        max_age: DataTypes.INTEGER
+        max_age: DataTypes.INTEGER,
+        description: DataTypes.STRING
     }, {
         classMethods: {
             associate: function(models) {

@@ -21,7 +21,7 @@ router.get('/raceFlawsByRaceId/:id', function(req, res) {
         },
         include: [ models.Flaw ]
     }).then(function(raceFlaws) {
-        return res.send({raceFlaws:raceFlaws});
+        return res.send({data:raceFlaws});
     });
 });
 

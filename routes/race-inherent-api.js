@@ -21,8 +21,7 @@ router.get('/raceInherentsByRaceId/:id', function(req, res) {
         },
         include: [ models.Inherent ]
     }).then(function(raceInherents) {
-
-        return res.send({raceInherents:raceInherents});
+        return res.send({data:raceInherents});
     });
 });
 

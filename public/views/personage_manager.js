@@ -130,7 +130,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
     };
 
     $http.get('/races').then(function (response) {
-        $scope.races = response.data.races;
+        $scope.races = response.data.data;
     });
 });
 

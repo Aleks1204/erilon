@@ -11,6 +11,14 @@ router.get('/raceAttributes', function (req, res) {
     });
 });
 
+router.get('/raceAttributes/:id', function (req, res) {
+    models.RaceAttribute.findById(req.params.id, {
+        include: [models.Attribute]
+    }).then(function (raceAttribute) {
+        return res.send({raceAttribute: raceAttribute});
+    });
+});
+
 router.get('/raceAttributesByRaceId/:id', function (req, res) {
     models.RaceAttribute.findAll({
         where: {
@@ -18,8 +26,7 @@ router.get('/raceAttributesByRaceId/:id', function (req, res) {
         },
         include: [models.Attribute]
     }).then(function (raceAttributes) {
-
-        return res.send({raceAttributes: raceAttributes});
+        return res.send({data: raceAttributes});
     });
 });
 

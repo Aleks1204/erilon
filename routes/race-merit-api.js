@@ -21,8 +21,7 @@ router.get('/raceMeritsByRaceId/:id', function(req, res) {
         },
         include: [ models.Merit ]
     }).then(function(raceMerits) {
-
-        return res.send({raceMerits:raceMerits});
+        return res.send({data:raceMerits});
     });
 });
 
