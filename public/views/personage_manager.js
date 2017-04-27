@@ -43,7 +43,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
         }).then(function (response) {
             var raceAttributesByRaceId = $q.defer();
             $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceAttributesByRaceId.resolve(response.data.raceAttributes);
+                raceAttributesByRaceId.resolve(response.data.data);
             });
 
             $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
@@ -64,7 +64,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 
             var raceMeritsByRaceId = $q.defer();
             $http.get('/raceMeritsByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceMeritsByRaceId.resolve(response.data.raceMerits);
+                raceMeritsByRaceId.resolve(response.data.data);
             });
 
             $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
@@ -84,7 +84,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 
             var raceFlawsByRaceId = $q.defer();
             $http.get('/raceFlawsByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceFlawsByRaceId.resolve(response.data.raceFlaws);
+                raceFlawsByRaceId.resolve(response.data.data);
             });
 
             $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
