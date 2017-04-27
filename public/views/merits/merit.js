@@ -152,6 +152,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
                 $('#attribute_id').selectpicker();
             }, 1000);
 
+
             $timeout(function () {
                 $('#attached_skill_id').selectpicker({liveSearch: true});
             }, 1000);
