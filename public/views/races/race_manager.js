@@ -70,7 +70,7 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
                     render: function (data, type, row) {
                         var returned = '';
                         angular.forEach(row.RaceMerits, function (raceMerit) {
-                            var raceCost = raceMerit.base_cost;
+                            var raceCost = raceMerit.race_cost;
                             if (raceMerit.race_default) {
                                 raceCost = 'По умолчанию'
                             }
