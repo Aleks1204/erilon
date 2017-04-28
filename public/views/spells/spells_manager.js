@@ -387,6 +387,26 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                     cancelButtonText: "Отменить",
                     confirmButtonText: "Добавить",
                     showLoaderOnConfirm: true,
+                    input: 'text',
+                    inputClass: 'hide',
+                    inputValidator: function (value) {
+                        return new Promise(function (resolve, reject) {
+                            var name = $('#name').val();
+                            var equal = false;
+                            $http.get('/spells').then(function (response) {
+                                angular.forEach(response.data.spells, function (spell) {
+                                    if (spell.name.toLowerCase() === name.toLowerCase()) {
+                                        equal = true;
+                                    }
+                                });
+                                if (equal) {
+                                    reject('Заклинание с таким именем уже существует!')
+                                } else {
+                                    resolve()
+                                }
+                            });
+                        })
+                    },
                     preConfirm: function () {
                         return new Promise(function (resolve) {
                             resolve([

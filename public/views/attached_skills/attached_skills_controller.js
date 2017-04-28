@@ -269,6 +269,26 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
+                input: 'text',
+                inputClass: 'hide',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        var name = $('#name').val();
+                        var equal = false;
+                        $http.get('/attachedSkills').then(function (response) {
+                            angular.forEach(response.data.data, function (attachedSkill) {
+                                if (attachedSkill.name.toLowerCase() === name.toLowerCase()) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal) {
+                                reject('Навык с таким именем уже существует!')
+                            } else {
+                                resolve()
+                            }
+                        });
+                    })
+                },
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         resolve([

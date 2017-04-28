@@ -301,6 +301,26 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
+                input: 'text',
+                inputClass: 'hide',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        var name = $('#name').val();
+                        var equal = false;
+                        $http.get('/merits').then(function (response) {
+                            angular.forEach(response.data.data, function (merit) {
+                                if (merit.name.toLowerCase() === name.toLowerCase()) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal) {
+                                reject('Достоинство с таким именем уже существует!')
+                            } else {
+                                resolve()
+                            }
+                        });
+                    })
+                },
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         resolve([

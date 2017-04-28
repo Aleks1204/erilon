@@ -202,6 +202,26 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
+                input: 'text',
+                inputClass: 'hide',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        var name = $('#name').val();
+                        var equal = false;
+                        $http.get('/triggerSkills').then(function (response) {
+                            angular.forEach(response.data.data, function (triggerSkill) {
+                                if (triggerSkill.name.toLowerCase() === name.toLowerCase()) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal) {
+                                reject('Навык с таким именем уже существует!')
+                            } else {
+                                resolve()
+                            }
+                        });
+                    })
+                },
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         resolve([

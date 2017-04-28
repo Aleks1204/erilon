@@ -237,6 +237,26 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
+                input: 'text',
+                inputClass: 'hide',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        var name = $('#name').val();
+                        var equal = false;
+                        $http.get('/inherents').then(function (response) {
+                            angular.forEach(response.data.data, function (inherent) {
+                                if (inherent.name.toLowerCase() === name.toLowerCase()) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal) {
+                                reject('Врожденная особенность с таким именем уже существует!')
+                            } else {
+                                resolve()
+                            }
+                        });
+                    })
+                },
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         resolve([

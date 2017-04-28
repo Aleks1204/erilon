@@ -91,12 +91,12 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                     title: 'Изменить атрибут',
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
-                        '<input type="text" class="form-control" id="name" value="' + attribute.name + '">' +
+                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<input type="text" class="form-control" id="name" value="' + attribute.name + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
-                        '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
                     '</div>' +
                     '<p>Бонус:</p>' +
                     '</form>',
@@ -171,8 +171,21 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                 },
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {
-                        if ($('#name').val() !== '') {
-                            resolve()
+                        var name = $('#name').val();
+                        if (name !== '') {
+                            var equal = false;
+                            $http.get('/attributes').then(function (response) {
+                                angular.forEach(response.data.data, function (attribute) {
+                                    if (attribute.name.toLowerCase() === name.toLowerCase()) {
+                                        equal = true;
+                                    }
+                                });
+                                if (equal) {
+                                    reject('Атрибут с таким именем уже существует!')
+                                } else {
+                                    resolve()
+                                }
+                            });
                         } else {
                             reject('Имя навыка не может быть пустым!')
                         }

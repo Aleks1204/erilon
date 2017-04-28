@@ -218,6 +218,26 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
+                input: 'text',
+                inputClass: 'hide',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        var name = $('#name').val();
+                        var equal = false;
+                        $http.get('/flaws').then(function (response) {
+                            angular.forEach(response.data.data, function (flaw) {
+                                if (flaw.name.toLowerCase() === name.toLowerCase()) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal) {
+                                reject('Недостаток с таким именем уже существует!')
+                            } else {
+                                resolve()
+                            }
+                        });
+                    })
+                },
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         resolve([
