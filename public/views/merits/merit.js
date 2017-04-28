@@ -216,7 +216,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
     $http.get('/merits').then(function (response) {
         $scope.merits = [];
         angular.forEach(response.data.data, function (merit) {
-            if (merit.id !== meritId) {
+            if (merit.id.toString() !== meritId) {
                 $scope.merits.push(merit);
             }
         });
