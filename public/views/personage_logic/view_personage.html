@@ -149,31 +149,8 @@
     </nav>
 
     <section class="page-content" ng-controller="personageController">
-        <div class="panel panel-with-sidebar sidebar-large panel-with-borders">
-            <h4 class="panel-sidebar hidden-xs-down">
-                <dl>
-                    <dt>
-                        <strong>Раса: </strong>{{personage.Race.name}}
-                    </dt>
-                    <br/>
-                    <br/>
-                    <dt>
-                        <strong>Возраст: </strong>{{personage.age}} лет
-                    </dt>
-                    <br/>
-                    <br/>
-                    <dt>
-                        <strong>Макс. возраст: </strong>{{personage.max_age}} лет
-                    </dt>
-                    <br/>
-                    <br/>
-                    <dt>
-                        <strong>Очки опыта: </strong>{{personage.experience}}
-                    </dt>
-                </dl>
-            </h4>
-            <h3 class="panel-heading hidden-xs-down">{{personage.name}}</h3>
-            <h3 class="panel-heading hidden-md-up">
+        <div class="panel">
+            <h3 class="panel-heading" style="padding-bottom: 0">
                 <div class="dropdown">
                     <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false">
                         {{personage.name}}
@@ -188,179 +165,118 @@
                 </div>
             </h3>
             <div class="panel-body">
-                <div class="icons-block">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
-                             rel="tooltip">
+                <div class="row">
+                    <div class="col-md-2 hidden-xs-down hidden-sm-down">
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="hitPiercePunch" ng-click="hitPiercePunchAnimateRelatedAttributes()"
+                                title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
                                  height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="hitChopPunch" ng-click="hitChopPunchAnimateRelatedAttributes()"
+                                title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline" id="rangedHit"
+                                ng-click="rangedHitAnimateRelatedAttributes()"
+                                title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/rangedHit.svg"
                                  class="ng-scope tooltips" height="40" width="40">
                             <span class="ng-binding ng-scope">{{rangedHit}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="parryPiercePunch" ng-click="parryPiercePunchAnimateRelatedAttributes()"
+                                title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="parryChopPunch" ng-click="parryChopPunchAnimateRelatedAttributes()"
+                                title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
-                        </div>
+                        </button>
+
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
-                             rel="tooltip">
+                    <div class="col-md-2 hidden-xs-down hidden-sm-down">
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline" id="dodge"
+                                ng-click="dodgeAnimateRelatedAttributes()"
+                                title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
                                  height="40" width="40">
                             <span class="ng-binding ng-scope">{{dodge}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="generalActionPoints"
+                                ng-click="generalActionPointsAnimateRelatedAttributes()"
+                                title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="mentalActionPoints" ng-click="mentalActionPointsAnimateRelatedAttributes()"
+                                title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-center" style="cursor: pointer;">
-                        <div class="icon-atr"
-                             title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
-                             rel="tooltip">
+                        </button>
+
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                id="endurancePoints" ng-click="endurancePointsAnimateRelatedAttributes()"
+                                title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{endurancePoints}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="cursor: pointer">
-                        <div class="icon-atr"
-                             title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
-                             rel="tooltip">
+                        </button>
+                        <button class="btn btn-info-outline btn-rounded produced margin-inline" id="initiative"
+                                ng-click="initiativeAnimateRelatedAttributes()"
+                                title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                rel="tooltip">
                             <img src="/assets/common/img/erilon-icon/initiative.svg"
                                  class="ng-scope tooltips" height="40"
                                  width="40">
                             <span class="ng-binding ng-scope">{{initiative}}</span>
-                        </div>
+                        </button>
                     </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="panel">
-            <h3 class="panel-heading" style="margin-bottom: 0">Характеристики</h3>
-            <div class="panel-body">
-                <div class="icons-block">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[0].Attribute.name}}: {{personageAttributes[0].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[1].Attribute.name}}: {{personageAttributes[1].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[2].Attribute.name}}: {{personageAttributes[2].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[3].Attribute.name}}: {{personageAttributes[3].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[4].Attribute.name}}: {{personageAttributes[4].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[5].Attribute.name}}: {{personageAttributes[5].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[6].Attribute.name}}: {{personageAttributes[6].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[7].Attribute.name}}: {{personageAttributes[7].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[8].Attribute.name}}: {{personageAttributes[8].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[9].Attribute.name}}: {{personageAttributes[9].value}}
-                        </h4>
-                    </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <h4 class="icon-char" style="font-family: 'Josefin Slab'; cursor: pointer;"
-                            rel="tooltip" title="Описание аттрибута">
-                            {{personageAttributes[10].Attribute.name}}: {{personageAttributes[10].value}}
-                        </h4>
+                    <div class="col-md-8">
+                        <table id="attrTable" class="table table-hover">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'">
+                                <td id="{{personageAttribute.Attribute.name}}">{{
+                                    personageAttribute.Attribute.name}}
+                                </td>
+                                <td>{{ personageAttribute.value }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

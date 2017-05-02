@@ -1,7 +1,7 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
 
-app.controller("personageController", function ($scope, $http, $q) {
+app.controller("personageController", function ($scope, $http, $q, $timeout) {
     $scope.loader = true;
 
     var personage = $q.defer();
@@ -63,6 +63,88 @@ app.controller("personageController", function ($scope, $http, $q) {
             }
         }
     ]);
+
+    function animateButtons(buttons, animatedStyle) {
+        angular.forEach(buttons, function (button) {
+            button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).removeClass(animatedStyle + ' animated');
+            });
+        });
+    }
+
+    $scope.hitPiercePunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Скорость')
+        ], 'shake');
+    };
+
+    $scope.hitChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Силa')
+        ], 'shake');
+    };
+
+    $scope.hitChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Сила')
+        ], 'shake');
+    };
+
+    $scope.rangedHitAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Ловкость'),
+            $('#Восприятие')
+        ], 'shake');
+    };
+
+    $scope.parryPiercePunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Скорость'),
+            $('#Реакция')
+        ], 'shake');
+    };
+
+    $scope.parryChopPunchAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция'),
+            $('#Сила')
+        ], 'shake');
+    };
+
+    $scope.dodgeAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция'),
+            $('#Ловкость')
+        ], 'shake');
+    };
+
+    $scope.generalActionPointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Интеллект'),
+            $('#Скорость')
+        ], 'shake');
+    };
+
+    $scope.mentalActionPointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Интеллект')
+        ], 'shake');
+    };
+
+    $scope.endurancePointsAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Выносливость')
+        ], 'shake');
+    };
+
+    $scope.initiativeAnimateRelatedAttributes = function () {
+        animateButtons([
+            $('#Реакция')
+        ], 'shake');
+    };
 
     function success() {
         $scope.recalculateBasicCharacteristics();
@@ -192,24 +274,24 @@ app.controller("personageController", function ($scope, $http, $q) {
                     data: 'spell.effect',
                     render: function (data, type, row) {
                         return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up effect">' +
-                        'Эффект' +
+                            'Эффект' +
                             '</a>' +
                             '<div id="spellEffect' + row.spell.id + '" style="display: none">' +
                             '<br>' +
                             '<div>' + data + '</div>' +
-                        '</div> <div class="hidden-xs-down">' + data + '</div>'
+                            '</div> <div class="hidden-xs-down">' + data + '</div>'
                     }
                 },
                 {
                     data: 'spell.description',
                     render: function (data, type, row) {
                         return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up description">' +
-                        'Описание' +
+                            'Описание' +
                             '</a>' +
                             '<div id="spellDescription' + row.spell.id + '" style="display: none">' +
                             '<br>' +
                             '<div>' + data + '</div>' +
-                        '</div> <div class="hidden-xs-down">' + data + '</div>'
+                            '</div> <div class="hidden-xs-down">' + data + '</div>'
 
                     }
                 }
@@ -345,34 +427,6 @@ app.controller("personageController", function ($scope, $http, $q) {
 
     };
 
-    $scope.showSpellDetail = function (personageSpell) {
-        $scope.currentPersonageSpell = personageSpell;
-        jQuery('#spellDetails').modal('show');
-    };
-
-    $scope.viewNotice = function (notice_id) {
-        jQuery('#' + notice_id + '_view').modal('show');
-    };
-
-    $scope.editNotice = function (notice_id) {
-        jQuery('#' + notice_id + '_view').modal('hide');
-        jQuery('#' + notice_id + '_edit').modal('show');
-    };
-
-    $scope.updateNotice = function (notice) {
-        $http.put('/notices/' + notice.id, {
-            name: notice.name,
-            description: notice.description
-        }).then(function () {
-            jQuery('#' + notice.id + '_edit').modal('hide');
-            $('#' + notice.id + '_edit').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
-                    $scope.notices = data.notices;
-                });
-            });
-        });
-    };
-
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
         if (!personageSpellsClicked) {
@@ -384,36 +438,5 @@ app.controller("personageController", function ($scope, $http, $q) {
                 $scope.loader = false;
             });
         }
-    };
-
-    $scope.clearNoticeFields = function () {
-        $scope.noticeName = '';
-        $scope.noticeDescription = '';
-    };
-
-    $scope.addNotice = function () {
-        $http.post('/notices', {
-            personage_id: personageId,
-            name: $scope.noticeName,
-            description: $scope.noticeDescription
-        }).then(function () {
-            jQuery('#addNotice').modal('hide');
-            $('#addNotice').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
-                    $scope.notices = data.notices;
-                });
-            });
-        });
-    };
-
-    $scope.deleteNotice = function (notice_id) {
-        $http.delete('/notices/' + notice_id).then(function () {
-            jQuery('#' + notice_id + '_view').modal('hide');
-            $('#' + notice_id + '_view').on('hidden.bs.modal', function () {
-                $http.get("/noticesByPersonageId/" + personageId).then(function (data) {
-                    $scope.notices = data.notices;
-                });
-            });
-        });
     };
 });
