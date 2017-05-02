@@ -160,17 +160,25 @@
             <div class="panel">
                 <h3 class="panel-heading" style="padding-bottom: 0">
                     <div class="dropdown">
-                        <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false">
+                        <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false"
+                           ng-show="hideEditBlock">
                             {{personage.name}}
                             <span class="ink animate"></span>
                         </a>
-                        <button type="button" class="btn btn-success" ng-click="savePersonage()">Сохранить</button>
+                        <div class="input-group" ng-hide="hideEditBlock">
+                            <input class="form-control" type="text" ng-model="personage.name" style="font-size: 20px">
+                            <span style="cursor: pointer" ng-click="savePersonageName()" class="input-group-addon"><i
+                                    class="icmn-lock4"></i> </span>
+                        </div>
+                        <a ng-click="hideEditBlock = false" ng-show="hideEditBlock" class="btn btn-icon icmn-unlocked btn-link"
+                           href="javascript: void(0);" style="box-shadow: 0 0"></a>
                         <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
                             <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
                             <a class="dropdown-item" href="javascript: void(0)">Возраст: {{personage.age}} лет</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
                         </ul>
+                        <button type="button" class="btn btn-success" ng-click="savePersonage()">Сохранить</button>
                     </div>
                 </h3>
                 <div class="panel-body">

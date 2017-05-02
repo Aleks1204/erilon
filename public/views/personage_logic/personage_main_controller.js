@@ -6,6 +6,24 @@ var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
 
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window) {
+    $scope.hideEditBlock = true;
+    $scope.hideEditDescriptionBlock = true;
+
+    $scope.savePersonageName = function () {
+        $http.put('/personages/' + personageId, {
+            race_id: $scope.personage.RaceId,
+            name: $scope.personage.name,
+            age: $scope.age,
+            max_age: $scope.max_age,
+            generated: false,
+            experience: $scope.personage.experience,
+            notes: $scope.notes
+        }).then(function () {
+            $scope.hideEditBlock = true;
+            $scope.hideEditDescriptionBlock = true;
+        });
+    };
+
     $scope.loader = true;
     $scope.meritAvailable = true;
     $scope.showGenerateInherentsButton = false;
