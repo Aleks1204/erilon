@@ -371,6 +371,25 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         });
     };
 
+    $scope.isCategoryAttributesMenuClose = true;
+
+    var attributesCategoriesFilerMenu = new Menu({
+        wrapper: '.o-wrapper-attributes',
+        type: 'slide-bottom',
+        mask: '.c-mask',
+        size: 390
+    });
+
+    $scope.openHideAttributesCategoriesFilterMenu = function () {
+        if ($scope.isCategoryAttributesMenuClose) {
+            attributesCategoriesFilerMenu.open();
+            $scope.isCategoryAttributesMenuClose = false;
+        } else {
+            attributesCategoriesFilerMenu.close();
+            $scope.isCategoryAttributesMenuClose = true;
+        }
+    };
+
     function calculateBasicCharacteristics() {
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
