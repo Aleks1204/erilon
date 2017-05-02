@@ -147,7 +147,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
     };
 
     function success() {
-        $scope.recalculateBasicCharacteristics();
+        calculateBasicCharacteristics();
         $scope.loader = false;
     }
 
@@ -371,7 +371,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         });
     };
 
-    $scope.recalculateBasicCharacteristics = function () {
+    function calculateBasicCharacteristics() {
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
                 case "Сила":
@@ -424,8 +424,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $scope.mentalActionPoints = $scope.intelligence;
         $scope.initiative = $scope.reaction;
         $scope.endurancePoints = $scope.endurance * 20;
-
-    };
+    }
 
     var personageSpellsClicked = false;
     $scope.getPersonageSpells = function () {
