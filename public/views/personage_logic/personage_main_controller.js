@@ -1,15 +1,6 @@
 /**
  * Created by artemk on 3/24/16.
  */
-function isMobile() {
-    try {
-        document.createEvent("TouchEvent");
-        return true;
-    }
-    catch (e) {
-        return false;
-    }
-}
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
@@ -93,7 +84,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".notesButton").removeClass('active');
     });
 
-    var attachedButtonNotClicked = true;
     $(".attachedButton").click(function () {
         $("#attached").show();
         $("#attr").hide();
@@ -112,10 +102,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
-        if (attachedButtonNotClicked) {
-            calculateAttachedSkillsToShow();
-            attachedButtonNotClicked = false;
-        }
     });
 
     $(".triggerButton").click(function () {
@@ -235,290 +221,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 personageAttachedSkill: targetPersonageAS
             });
         });
-
-        var table = $('#personageAttachedSkillsMixedTable').DataTable({
-            "createdRow": function (row, data, dataIndex) {
-                if (data.personageAttachedSkill === null) {
-                    $(row).addClass('not_added');
-                }
-                if (data.attachedSkill.default_skill && !$('[name="defaultSkillsShow"]').prop('checked') && !isMobile()) {
-                    $(row).addClass('hidden');
-                }
-            },
-            responsive: true,
-            "language": {
-                "zeroRecords": "Нет таких навыков..."
-            },
-            "autoWidth": false,
-            dom: '',
-            stateSave: true,
-            "info": false,
-            paging: false,
-            pageLength: -1,
-            data: $scope.attachedSkillsMixed,
-            "columns": [
-                {
-                    data: "attachedSkill.name",
-                    className: 'details'
-                },
-                {
-                    data: 'attachedSkill.difficult',
-                    className: 'text-center',
-                    orderable: false,
-                    render: function (data, type, row) {
-                        if (data) {
-                            return '<i class="icmn-plus"></i>';
-                        } else {
-                            return '<i class="icmn-minus"></i>';
-                        }
-                    }
-                },
-                {
-                    data: 'attachedSkill.theoretical',
-                    className: 'text-center',
-                    orderable: false,
-                    render: function (data, type, row) {
-                        if (data) {
-                            return '<i class="icmn-plus"></i>';
-                        } else {
-                            return '<i class="icmn-minus"></i>';
-                        }
-                    }
-                },
-                {
-                    data: 'attachedSkill.id',
-                    className: 'text-center',
-                    orderable: false,
-                    render: function (data, type, row) {
-                        var disabled = '';
-                        if (row.personageAttachedSkill === null) {
-                            disabled = 'disabled';
-                        }
-                        return '<div class="btn-group btn-group-justified plus-minus-block">' +
-                            '<div class="btn-group">' +
-                            '<button class="btn btn-rounded btn-sm btn-secondary decreaseAttachedSkillButton"' +
-                            'type="button"' + disabled + '>' +
-                            '<i class="icmn-minus"></i>' +
-                            '<input type="hidden" value="' + data + '" class="attachedSkillId">' +
-                            '</button>' +
-                            '</div>' +
-                            '<div class="btn-group">' +
-                            '<button class="btn btn-rounded btn-sm btn-primary increaseAttachedSkillButton"' +
-                            'type="button" ' + disabled + '>' +
-                            '<i class="icmn-plus"></i>' +
-                            '<input type="hidden" value="' + data + '" class="attachedSkillId">' +
-                            '</button>' +
-                            '</div>' +
-                            '</div>';
-                    }
-                },
-                {
-                    data: 'personageAttachedSkill',
-                    className: 'text-center',
-                    render: function (data, type, row) {
-                        if (data === null) {
-                            return '-';
-                        } else {
-                            return data.value;
-                        }
-                    }
-                },
-                {
-                    data: "personageAttachedSkill",
-                    orderable: false,
-                    render: function (data, type, row) {
-                        if (data === null) {
-                            return '<button class="btn btn-warning btn-sm btn-rounded add" type="button">' +
-                                '<input type="hidden" value="' + row.attachedSkill.id + '" class="attachedSkillId">Добавить</button>'
-                        } else {
-                            if (data.AttachedSkill.default_skill) {
-                                return 'По умолчанию';
-                            } else {
-                                return '<a href="javascript: void(0)" class="margin-left-10 link-underlined link-blue delete">' +
-                                    '<input type="hidden" value="' + row.attachedSkill.id + '" class="attachedSkillId">Удалить</a>';
-                            }
-                        }
-                    }
-                },
-                {
-                    data: "attachedSkill.description",
-                    orderable: false
-                }
-            ]
-        });
-
-        $('#attachedSkillsSearch').keyup(function () {
-            table.draw();
-        });
-
-        $('[name="magicSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="socialSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="languageFiler"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="knowledgeSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="craftsSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="profSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="theoreticalSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="addedAttachedSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $('[name="defaultSkillsShow"]').click(function () {
-            if (!$('[name="defaultSkillsShow"]').prop('checked')) {
-                $('[name="defaultSkillsFilter"]').prop('checked', false);
-                $('[name="defaultSkillsFilter"]').prop("disabled", true);
-            } else {
-                $('[name="defaultSkillsFilter"]').prop('disabled', false);
-            }
-            table.clear();
-            table.rows.add($scope.attachedSkillsMixed);
-            table.draw(false);
-        });
-
-        $('[name="defaultSkillsFilter"]').click(function () {
-            table.draw();
-        });
-
-        $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex, row) {
-                var value = $('#attachedSkillsSearch').val().toLowerCase();
-                var returned = null;
-
-                if ($('[name="magicSkillsFilter"]').prop('checked') || $('tr[name="magicSkillsFilter"]').find('input').prop('checked')) {
-                    returned = row.attachedSkill.category.includes('магические');
-                }
-                if ($('[name="socialSkillsFilter"]').prop('checked') || $('tr[name="socialSkillsFilter"]').find('input').prop('checked')) {
-                    returned = returned || row.attachedSkill.category.includes('социальные');
-                }
-                if ($('[name="languageFiler"]').prop('checked') || $('tr[name="languageFiler"]').find('input').prop('checked')) {
-                    returned = returned || row.attachedSkill.category.includes('языки');
-                }
-                if ($('[name="knowledgeSkillsFilter"]').prop('checked') || $('tr[name="knowledgeSkillsFilter"]').find('input').prop('checked')) {
-                    returned = returned || row.attachedSkill.category.includes('знания');
-                }
-                if ($('[name="craftsSkillsFilter"]').prop('checked') || $('tr[name="craftsSkillsFilter"]').find('input').prop('checked')) {
-                    returned = returned || row.attachedSkill.category.includes('ремесла');
-                }
-                if ($('[name="profSkillsFilter"]').prop('checked') || $('tr[name="profSkillsFilter"]').find('input').prop('checked')) {
-                    returned = returned || row.attachedSkill.category.includes('профессиональные');
-                }
-                if ($('[name="theoreticalSkillsFilter"]').prop('checked') || $('tr[name="theoreticalSkillsFilter"]').find('input').prop('checked')) {
-                    if (returned !== null) {
-                        returned = returned && row.attachedSkill.theoretical;
-                    } else {
-                        returned = row.attachedSkill.theoretical;
-                    }
-                }
-                if ($('[name="addedAttachedSkillsFilter"]').prop('checked') || $('tr[name="addedAttachedSkillsFilter"]').find('input').prop('checked')) {
-                    if (returned !== null) {
-                        returned = returned && row.personageAttachedSkill !== null;
-                    } else {
-                        returned = row.personageAttachedSkill !== null;
-                    }
-                }
-                if ($('[name="defaultSkillsFilter"]').prop('checked') || $('tr[name="defaultSkillsFilter"]').find('input').prop('checked')) {
-                    if (returned !== null) {
-                        returned = returned && row.attachedSkill.default_skill;
-                    } else {
-                        returned = row.attachedSkill.default_skill;
-                    }
-                }
-
-                if (returned !== null) {
-                    return returned && data[0].toLowerCase().includes(value);
-                } else {
-                    return data[0].toLowerCase().includes(value);
-                }
-            }
-        );
-
-        function bindRebindAttachedSkillsButtons() {
-            var selector = $('#personageAttachedSkillsMixedTable tbody tr td');
-            selector.on('click', '.increaseAttachedSkillButton', function () {
-                var id = parseInt($(this).find('.attachedSkillId').val());
-                var name = $(this).parents('tr').prev().text();
-                increaseAttachedSkill(id);
-                table.clear();
-                table.rows.add($scope.attachedSkillsMixed);
-                table.draw(false);
-                bindRebindAttachedSkillsButtons();
-                $('#personageAttachedSkillsMixedTable').find('tr td:contains("' + name + '")').first().trigger('click');
-            });
-
-            selector.on('click', '.decreaseAttachedSkillButton', function () {
-                var id = parseInt($(this).find('.attachedSkillId').val());
-                var name = $(this).parents('tr').prev().text();
-                decreaseAttachedSkill(id).then(function () {
-                    table.clear();
-                    table.rows.add($scope.attachedSkillsMixed);
-                    table.draw(false);
-                    bindRebindAttachedSkillsButtons();
-                    $('#personageAttachedSkillsMixedTable').find('tr td:contains("' + name + '")').first().trigger('click');
-                });
-            });
-
-            selector.on('click', '.add', function () {
-                var attachedSkillId = parseInt($(this).find('.attachedSkillId').val());
-                var name = $(this).parents('tr').prev().text();
-                angular.forEach($scope.attachedSkills, function (attachedSkill) {
-                    if (attachedSkillId === attachedSkill.id) {
-                        addPersonageAttachedSkill(attachedSkill).then(function () {
-                            table.clear();
-                            table.rows.add($scope.attachedSkillsMixed);
-                            table.draw();
-                            bindRebindAttachedSkillsButtons();
-                            $('#personageAttachedSkillsMixedTable').find('tr td:contains("' + name + '")').first().trigger('click');
-                        });
-                    }
-                });
-            });
-
-            selector.on('click', '.delete', function () {
-                var attachedSkillId = parseInt($(this).find('.attachedSkillId').val());
-                angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
-                    if (attachedSkillId === personageAttachedSkill.AttachedSkill.id) {
-                        deletePersonageAttachedSkill(personageAttachedSkill).then(function () {
-                            table.clear();
-                            table.rows.add($scope.attachedSkillsMixed);
-                            table.draw();
-                            bindRebindAttachedSkillsButtons();
-                        });
-                    }
-                });
-            });
-        }
-
-        bindRebindAttachedSkillsButtons();
-
-        $('#personageAttachedSkillsMixedTable tbody').on('click', '.details', function () {
-            var tr = $(this).parents('tr');
-            var row = table.row(tr);
-
-            if (row.child.isShown()) {
-                bindRebindAttachedSkillsButtons();
-            }
-        });
     }
+
+    $scope.filteredAttachedSkillsCategories = [];
+
 
     $scope.isCategoryAttachedSkillsMenuClose = true;
 
@@ -537,6 +243,71 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             attachedSkillsCategoriesFilerMenu.close();
             $scope.isCategoryAttachedSkillsMenuClose = true;
         }
+    };
+
+    $scope.addedAttachedSkillsFilter = false;
+
+    $scope.filterAttachedSkillsByCategory = function (category, selected) {
+        if (selected) {
+            $scope.filteredAttachedSkillsCategories.push(category);
+        } else {
+            $scope.filteredAttachedSkillsCategories.splice($scope.filteredAttachedSkillsCategories.indexOf(category), 1);
+        }
+    };
+
+    $scope.filteredAttachedSkillsDefault = false;
+
+    $scope.filterAttachedSkillsByDefaultShow = function (selected) {
+        if ($scope.filteredAttachedSkillsDefault) {
+            $scope.search.default_skill = false;
+            $scope.filteredAttachedSkillsDefault = false;
+        }
+        $scope.filteredAttachedSkillsDefaultShow = selected;
+    };
+
+    $scope.filterAttachedSkillsByDefault = function (selected) {
+        $scope.filteredAttachedSkillsDefault = selected;
+    };
+
+    $scope.filterAttachedSkillsByTheoretical = function (selected) {
+        $scope.filteredAttachedSkillsTheoretical = selected;
+    };
+
+    $scope.filteredAttachedSkills = function (skillItem) {
+        if (skillItem.personageAttachedSkill === null && $scope.addedAttachedSkillsFilter) {
+            return true;
+        }
+
+        if (!$scope.filteredAttachedSkillsDefaultShow) {
+            if (skillItem.attachedSkill.default_skill) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredAttachedSkillsTheoretical) {
+            if (!skillItem.attachedSkill.theoretical) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredAttachedSkillsDefault) {
+            if (!skillItem.attachedSkill.default_skill) {
+                return true;
+            }
+        }
+
+        if ($scope.filteredAttachedSkillsCategories.length === 0) {
+            return false;
+        }
+
+        var categories = skillItem.attachedSkill.category.split(",");
+        var result = true;
+        categories.forEach(function (item) {
+            if ($scope.filteredAttachedSkillsCategories.indexOf(item) !== -1) {
+                result = false;
+            }
+        });
+        return result;
     };
 
     $scope.flawsMixed = [];
@@ -924,6 +695,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function success() {
         $scope.hasInherents();
         recalculateBasicCharacteristics(false);
+        calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
         calculateFlawsToShow();
         calculateMeritsToShow();
@@ -1481,7 +1253,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    function increaseAttachedSkill(id) {
+    $scope.increaseAttachedSkill = function (id) {
+        $scope.loader = true;
         var isPrimaryAttributeSet = false;
         var isSecondaryAttributeSet = 0;
         var wisdomDoubleValue = $scope.wisdom * 2;
@@ -1585,7 +1358,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             }
         });
-    }
+        $scope.loader = false;
+    };
 
     $scope.increaseTriggerSkillLevel = function (personageTriggerSkill) {
         $scope.loader = true;
@@ -1668,8 +1442,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    function decreaseAttachedSkill(id) {
-        var deferred = $q.defer();
+    $scope.decreaseAttachedSkill = function (id) {
         angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
             if (personageAttachedSkill.AttachedSkill.id === id && personageAttachedSkill.value > 1) {
                 checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
@@ -1683,7 +1456,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             $scope.personage.experience = $scope.personage.experience + 1;
                         }
                     }
-                    deferred.resolve();
                 });
             } else if (personageAttachedSkill.AttachedSkill.id === id && personageAttachedSkill.AttachedSkill.default_skill && personageAttachedSkill.value > 0) {
                 checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
@@ -1697,12 +1469,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             $scope.personage.experience = $scope.personage.experience + 1;
                         }
                     }
-                    deferred.resolve();
                 });
             }
         });
-        return deferred.promise;
-    }
+    };
 
     function checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, action) {
         $scope.itemsToDelete = [];
@@ -2352,8 +2122,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return showAffectedMeritsModal();
     }
 
-    function addPersonageAttachedSkill(attachedSkill) {
-        var returnedDefer = $q.defer();
+    $scope.addPersonageAttachedSkill = function (attachedSkill) {
         var wizardDefer = $q.defer();
         var isWizard = false;
         if (attachedSkill.name.toLowerCase().includes('магия') || attachedSkill.name === 'Алхимия') {
@@ -2415,11 +2184,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
                 calculateAddedSchools();
             }
-            returnedDefer.resolve();
         });
-
-        return returnedDefer.promise;
-    }
+    };
 
     $scope.addNotAddedClass = function (isAdded) {
         if (isAdded === null) {
@@ -2475,8 +2241,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.loader = false;
     };
 
-    function deletePersonageAttachedSkill(personageAttachedSkill) {
-        var deferred = $q.defer();
+    $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
         checkSpellsAddedToSchool(personageAttachedSkill).then(function (deleteSpells) {
             if (deleteSpells) {
                 checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'delete').then(function (result) {
@@ -2499,12 +2264,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                         calculateAddedSchools();
                     }
-                    deferred.resolve();
                 });
             }
         });
-        return deferred.promise;
-    }
+    };
 
     function checkSpellsAddedToSchool(personageAttachedSkill) {
         var personageSpellsToDelete = [];
