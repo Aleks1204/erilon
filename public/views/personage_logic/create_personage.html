@@ -7,6 +7,7 @@
     <title>Персонаж</title>
 
     <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
     <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
@@ -17,6 +18,9 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/node_modules/autosize/dist/autosize.min.js"></script>
     <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
     <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
 
     <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
@@ -502,6 +506,9 @@
                             <div class="c-mask" ng-click="openHideAttributesCategoriesFilterMenu()"></div>
                         </div>
                     </div>
+
+
+
                     <div id="attached" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
@@ -510,16 +517,13 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <input name="magic" type="checkbox" ng-model="filter.magic" id="magicSkillsFilter"
-                                           ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                    <input name="magicSkillsFilter" type="checkbox" id="magicSkillsFilter" autocomplete="off">
                                     <label for="magicSkillsFilter">
                                         Магические
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <input id="socialSkillsFilter" name="social" type="checkbox"
-                                           ng-model="filter.attached_social"
-                                           ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <input id="socialSkillsFilter" name="socialSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="socialSkillsFilter">
                                         Социальные
                                     </label>
@@ -527,17 +531,13 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <input name="languages" type="checkbox" ng-model="filter.language"
-                                           id="languageFiler"
-                                           ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
+                                    <input name="languageFiler" type="checkbox" id="languageFiler" autocomplete="off">
                                     <label for="languageFiler">
                                         Языки
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <input id="knowledgeSkillsFilter" name="knowledge" type="checkbox"
-                                           ng-model="filter.knowledge"
-                                           ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <input id="knowledgeSkillsFilter" name="knowledgeSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="knowledgeSkillsFilter">
                                         Знания
                                     </label>
@@ -545,16 +545,13 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <input id="craftsSkillsFilter" name="crafts" type="checkbox" ng-model="filter.craft"
-                                           ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <input id="craftsSkillsFilter" name="craftsSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="craftsSkillsFilter">
                                         Ремесла
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <input id="profSkillsFilter" name="professional" type="checkbox"
-                                           ng-model="filter.prof"
-                                           ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <input id="profSkillsFilter" name="profSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="profSkillsFilter">
                                         Профессиональные
                                     </label>
@@ -562,18 +559,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="checkbox checkbox-info">
-                                    <input id="defaultSkillsShow" name="default" type="checkbox"
-                                           ng-model="show.default_skill"
-                                           ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
+                                    <input id="defaultSkillsShow" name="defaultSkillsShow" type="checkbox" autocomplete="off">
                                     <label for="defaultSkillsShow">
                                         По умолчанию (показывать)
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
-                                    <input id="defaultSkillsFilter" name="default" type="checkbox"
-                                           ng-model="search.default_skill"
-                                           ng-disabled="!show.default_skill"
-                                           ng-change="filterAttachedSkillsByDefault(search.default_skill)">
+                                    <input id="defaultSkillsFilter" name="defaultSkillsFilter" type="checkbox" autocomplete="off" disabled>
                                     <label for="defaultSkillsFilter">
                                         По умолчанию (фильтровать)
                                     </label>
@@ -581,9 +573,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <input id="theoreticalSkillsFilter" name="theoretical" type="checkbox"
-                                           ng-model="search.theoretical"
-                                           ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                    <input id="theoreticalSkillsFilter" name="theoreticalSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="theoreticalSkillsFilter">
                                         Теоретические
                                     </label>
@@ -591,8 +581,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
-                                    <input id="addedAttachedSkillsFilter" name="added" type="checkbox"
-                                           ng-model="addedAttachedSkillsFilter">
+                                    <input id="addedAttachedSkillsFilter" name="addedAttachedSkillsFilter" type="checkbox" autocomplete="off">
                                     <label for="addedAttachedSkillsFilter">
                                         Имеющиеся
                                     </label>
@@ -611,7 +600,7 @@
                                 <hr/>
                                 <table class="table table-hover category-table"
                                        style="margin-bottom: 0">
-                                    <tr ng-click="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                    <tr name="magicSkillsFilter">
                                         <td style="width: 15%;">
                                             <i ng-show="filter.magic" class="fa fa-check"></i>
                                             <input name="magic" type="checkbox" ng-model="filter.magic"
@@ -621,7 +610,7 @@
                                             Магические
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <tr name="socialSkillsFilter">
                                         <td>
                                             <i ng-show="filter.attached_social" class="fa fa-check"></i>
                                             <input name="social" type="checkbox" ng-model="filter.attached_social"
@@ -631,7 +620,7 @@
                                             Социальные
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('языки', filter.language)">
+                                    <tr name="languageFiler">
                                         <td>
                                             <i ng-show="filter.language" class="fa fa-check"></i>
                                             <input name="languages" type="checkbox" ng-model="filter.language"
@@ -641,7 +630,7 @@
                                             Языки
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <tr name="knowledgeSkillsFilter">
                                         <td>
                                             <i ng-show="filter.knowledge" class="fa fa-check"></i>
                                             <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
@@ -651,7 +640,7 @@
                                             Знания
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <tr name="craftsSkillsFilter">
                                         <td>
                                             <i ng-show="filter.craft" class="fa fa-check"></i>
                                             <input name="crafts" type="checkbox" ng-model="filter.craft"
@@ -661,7 +650,7 @@
                                             Ремесла
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <tr name="profSkillsFilter">
                                         <td>
                                             <i ng-show="filter.prof" class="fa fa-check"></i>
                                             <input name="professional" type="checkbox" ng-model="filter.prof"
@@ -671,7 +660,7 @@
                                             Профессиональные
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByDefaultShow(search.default_skill);filterAttachedSkillsByDefault(search.default_skill)">
+                                    <tr name="defaultSkillsFilter">
                                         <td>
                                             <i ng-show="search.default_skill" class="fa fa-check"></i>
                                             <input name="default" type="checkbox"
@@ -681,7 +670,7 @@
                                             По умолчанию
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                    <tr name="theoreticalSkillsFilter">
                                         <td>
                                             <i ng-show="search.theoretical" class="fa fa-check"></i>
                                             <input name="theoretical" type="checkbox"
@@ -691,7 +680,7 @@
                                             Теоретические
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr name="addedAttachedSkillsFilter">
                                         <td>
                                             <i ng-show="addedAttachedSkillsFilter" class="fa fa-check"></i>
                                             <input name="addedAttachedSkillsFilter" type="checkbox"
@@ -711,107 +700,26 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name"
-                                           class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
+                                    <input type="text" class="form-control" placeholder="Имя навыка" autocomplete='off' id="attachedSkillsSearch">
                                 </div>
                             </div>
                         </div>
 
-                        <table class="table table-hover mobile">
-                            <thead class="mobile">
-                            <tr class="mobile">
-                                <th class="mobile">Навык</th>
-                                <th class="mobile">Сложность</th>
-                                <th class="mobile">Теоретический</th>
-                                <th class="mobile"></th>
-                                <th class="mobile">Значение</th>
-                                <th class="mobile"></th>
+                        <table id="personageAttachedSkillsMixedTable" class="table border_collapsed">
+                            <thead>
+                            <tr>
+                                <th>Навык</th>
+                                <th>Сложный</th>
+                                <th>Теоретический</th>
+                                <th>Изменить</th>
+                                <th>Значение</th>
+                                <th>Действия</th>
+                                <th>Описание</th>
                             </tr>
                             </thead>
-                            <tbody class="mobile">
-                            <tr class="mobile"
-                                ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch"
-                                ng-hide="filteredAttachedSkills(item)"
-                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
-                                <td class="text-right mobile attached">
-                                    <div class="text-left">
-                                        {{item.attachedSkill.name}}
-                                    </div>
-                                </td>
-
-                                <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.attachedSkill.difficult">
-                                        Сложный
-                                    </div>
-                                    <div class="text-left" ng-if="!item.attachedSkill.difficult">
-                                        Простой
-                                    </div>
-                                </td>
-
-                                <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.attachedSkill.theoretical">
-                                        Да
-                                    </div>
-                                    <div class="text-left" ng-if="!item.attachedSkill.theoretical">
-                                        Нет
-                                    </div>
-                                </td>
-
-                                <td class="text-right mobile attached">
-                                    <div class="btn-group btn-group-justified plus-minus-block">
-                                        <div class="btn-group">
-                                            <button class="btn btn-rounded btn-sm btn-secondary"
-                                                    ng-disabled="item.personageAttachedSkill == null"
-                                                    ng-click="decreaseAttachedSkill(item.personageAttachedSkill.AttachedSkill.id)"
-                                                    type="button">
-                                                <i class="icmn-minus"></i>
-                                            </button>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-rounded btn-sm btn-primary"
-                                                    ng-disabled="item.personageAttachedSkill == null"
-                                                    ng-click="increaseAttachedSkill(item.personageAttachedSkill.AttachedSkill.id)"
-                                                    type="button">
-                                                <i class="icmn-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.personageAttachedSkill != null">
-                                        {{item.personageAttachedSkill.value}}
-                                    </div>
-                                    <div class="text-left" ng-if="item.personageAttachedSkill == null">
-                                        -
-                                    </div>
-                                </td>
-
-                                <td class="text-right mobile attached actions">
-                                    <div class="text-center">
-                                        <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)"
-                                               ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
-                                                Удалить
-                                            </a>
-                                        </div>
-
-                                        <div ng-if="item.personageAttachedSkill == null && !item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            <button class="btn btn-rounded btn-warning btn-sm"
-                                                    href="javascript: void(0)"
-                                                    ng-click="addPersonageAttachedSkill(item.attachedSkill)">
-                                                Добавить
-                                            </button>
-                                        </div>
-                                        <div ng-if="item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            По умолчанию
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
                         </table>
                     </div>
+
                     <div id="trigger" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">

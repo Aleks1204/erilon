@@ -166,7 +166,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
         });
     }
 
-    function addPrerequisitesElement(prerequisite, value, id, sign) {
+    function addPrerequisitesElement(prerequisite, value, url, sign) {
         if (sign === undefined) {
             sign = '';
         }
@@ -178,7 +178,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
                 '<div class="btn-group">' +
                     '<button class="btn btn-rounded btn-sm btn-danger-outline delete">' +
                         '<i class="icmn-minus"></i>' +
-                        '<input id="prerequisiteId" type="hidden" value="' + id + '"/> ' +
+                        '<input class="prerequisite-id" type="hidden" value="' + url + '"/> ' +
                     '</button>' +
                 '</div>' +
             '</div>'
@@ -186,7 +186,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
     }
 
     $('#mainPanel').on('click', '.delete', function () {
-        var url = this.querySelectorAll('#prerequisiteId')[0].value;
+        var url = this.querySelectorAll('.prerequisite-id')[0].value;
 
         $http.delete(url).then(function () {
             recalculateTables();
