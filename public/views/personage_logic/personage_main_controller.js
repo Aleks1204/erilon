@@ -2,6 +2,21 @@
  * Created by artemk on 3/24/16.
  */
 
+// function isMobile() {
+// try{ document.createEvent("TouchEvent"); return true; }
+// catch(e){ return false; }
+// }
+
+function isMobile() {
+    return navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i);
+}
+
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
 
@@ -182,6 +197,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
+        if (isMobile()) {
+            $('tr.spells').find('td:not(:eq(0))').hide();
+        }
     });
 
     $(".notesButton").click(function () {
@@ -2193,18 +2211,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    $scope.showHideDetails = true;
-    $scope.showHideDescription = function (id) {
-        if (id === $scope.clickedSpell) {
-            $scope.showHideDetails = !$scope.showHideDetails;
+    $scope.openDetailsSpells = [];
+    $scope.showHideDescription = function (spell) {
+        var index = $scope.openDetailsSpells.indexOf(spell.id);
+        if (index === -1) {
+            $scope.openDetailsSpells.push(spell.id);
         } else {
-            $scope.showHideDetails = true;
+            $scope.openDetailsSpells.splice(index, 1);
         }
-        $scope.clickedSpell = id;
+        if (isMobile()) {
+            $('tr').find('td.mobile:contains("' + spell.name + '")').nextAll('td').toggle();
+        }
     };
 
     $scope.isShowSpell = function (id) {
-        return $scope.showHideDetails && $scope.clickedSpell === id;
+        return $scope.openDetailsSpells.includes(id);
     };
 
     $scope.addDisableOrNotAddedClass = function (available, isAdded) {

@@ -7,7 +7,7 @@
     <title>Персонаж</title>
 
     <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/min.css">
     <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
     <!-- Vendors Scripts -->
@@ -1577,9 +1577,9 @@
                                 </tr>
                                 </thead>
                                 <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch">
-                                <tr class="mobile" ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
+                                <tr class="mobile spells" ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
-                                    <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell.id)" style="cursor:pointer;">
+                                    <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)" style="cursor:pointer;">
                                         <div class="text-left">
                                             <a class="link-underlined link-blue" href="javascript: void(0)">
                                                 {{spellItem.spell.name}}
