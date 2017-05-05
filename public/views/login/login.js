@@ -4,14 +4,14 @@ var app = angular.module("loginApp", ['ngStorage']);
 
 app.controller("loginController", function ($scope, $http, $window, $localStorage) {
     $scope.login = function () {
-        $http.get('/isPlayerExist/' + $scope.nickName).then(function onSuccess(response) {
+        $http.get('/isPlayerExist/' + $scope.nickName.toLowerCase()).then(function onSuccess(response) {
             if (response.data.status === 'OK') {
                 $localStorage.playerId = response.data.player.id;
                 $window.location.href = '/views/user_personage_manager.html?id=' + response.data.player.id;
             } else {
                 $http.post('/players', {
                     role_id: 2,
-                    name: $scope.nickName
+                    name: $scope.nickName.toLowerCase()
                 }).then(function (response) {
                     $localStorage.playerId = response.data.player.id;
                     $window.location.href = '/views/user_personage_manager.html?id=' + response.data.player.id;
