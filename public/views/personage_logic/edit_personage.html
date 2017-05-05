@@ -1,747 +1,1757 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Персонаж</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
-    <script src="/views/permissions/permissions.js"></script>
+    <!-- Vendors Scripts -->
+    <!-- v1.0.0 -->
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/autosize/dist/autosize.min.js"></script>
+    <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+
+    <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <!-- Clean UI Scripts -->
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/jquery.scrollto/jquery.scrollTo.min.js"></script>
+    <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+    <script src="/node_modules/jquery-sortable/source/js/jquery-sortable-min.js"></script>
+    <script src="/assets/common/js/common.min.js"></script>
+    <script src="/assets/common/js/menu.js"></script>
+
+    <script src="../permissions/permissions.js"></script>
     <script src="edit_personage.js"></script>
-    <script src="dialogCtrl.js"></script>
-    <script src="meritDialogCtrl.js"></script>
-    <script src="/views/permissions/check_player_permissions.js"></script>
+    <script src="../permissions/check_player_permissions.js"></script>
 </head>
-<body ng-app="personageApp">
-
-<div ng-controller="permissionsController">
+<body class="theme-default menu-left mode-material layout-boxed mode-box-shadow" ng-app="personageApp">
+<div class="boxed-container" ng-controller="permissionsController">
     <div ng-controller="personageController">
-        <div data-ng-include data-src="'/views/loader.html'"></div>
-
-        <div data-ng-include data-src="'/views/main-menu.html'"></div>
-        <h3 class="text-center">{{personage.name}}</h3>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-offset-1 col-xs-2">
-                    <p class="lead">
-                        <strong>Раса:</strong>
-                    </p>
-                </div>
-                <div class="col-xs-offset-2 col-xs-4">
-                    <p class="lead">{{personage.Race.name}}</p>
-                </div>
+        <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <img src="/assets/common/img/logo.png"/>
+                </a>
             </div>
 
-            <form name="ageForm">
-                <div class="row">
-                    <div class="col-xs-offset-1 col-xs-2">
-                        <p class="lead">
-                            <strong><label class="control-label" for="age">Возраст:</label></strong>
-                        </p>
-                    </div>
-                    <div class="col-xs-offset-2 col-xs-4">
-                        <input type="number" class="form-control" id="age" name="age" placeholder="25" ng-model="age"
-                               min="0" max="{{max_age}}" required>
-                <span style="color:red" ng-show="ageForm.age.$invalid && ageForm.age.$dirty">
-                    <span ng-show="ageForm.age.$error.required">Введите текущий возраст</span>
-                    <span ng-show="ageForm.age.$error.max">Текущий возраст персонажа больше максимального</span>
-                </span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-offset-1 col-xs-2">
-                        <p class="lead">
-                            <strong><label class="control-label" for="max_age">Макс. возраст:</label></strong>
-                        </p>
-                    </div>
-                    <div class="col-xs-offset-2 col-xs-4">
-                        <input type="number" class="form-control" id="max_age" name="max_age" placeholder="25"
-                               ng-model="max_age"
-                               min="0" max="{{personage.Race.max_age}}" required>
-                <span style="color:red" ng-show="ageForm.max_age.$invalid && ageForm.max_age.$dirty">
-                    <span ng-show="ageForm.max_age.$error.required">Введите максимальный возраст</span>
-                    <span ng-show="ageForm.max_age.$error.max">Максимальный возраст персонажа больше максимального для расы</span>
-                </span>
-                    </div>
-                </div>
-            </form>
-
-            <div data-ng-include data-src="'derivatives_characteristics.html'"></div>
-
-        </div>
-
-        <div>
-            <div class="panel-group" id="accordion">
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#attributes">
-                            <div class="panel-heading">
-                                Характеристики
-                            </div>
+            <div class="left-menu-inner scroll-pane">
+                <ul class="left-menu-list left-menu-list-root list-unstyled">
+                    <li class="left-menu-list-active">
+                        <a class="left-menu-link" href="/views/user_personage_manager.html?id={{player.id}}">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Персонажи
                         </a>
-                    </h4>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/races/race_manager.html">
+                            <i class="left-menu-link-icon fa fa-users"><!-- --></i>
+                            Расы
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
+                            <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
+                            Атрибуты
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/merits/merit_manager.html">
+                            <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
+                            Достоинства
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
+                            <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
+                            Врожденные особенности
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
+                            <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
+                            Недостатки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
+                            <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
+                            Прикрепленные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
+                            <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
+                            Тригерные навыки
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href="/views/spells/spells_manager.html">
+                            <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
+                            Заклинания
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="top-menu" ng-class="{'hidden-top-menu': hideTopMenu}">
+            <div class="menu-icon-container hidden-md-up">
+                <div class="animate-menu-button left-menu-toggle">
+                    <div><!-- --></div>
+                </div>
+            </div>
+            <div class="menu">
 
-                    <div id="attributes" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <table class="table table-striped">
-                                <tr ng-repeat="personageAttribute in personageAttributes">
-                                    <td style="vertical-align:middle;">{{ personageAttribute.Attribute.name}}</td>
-                                    <td style="vertical-align:middle;">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="increaseAttribute(personageAttribute.id)">
-                                            <span class="glyphicon glyphicon-triangle-top"/>
+                <div class="menu-user-block">
+                    <div class="dropdown dropdown-avatar">
+                        <a style="cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="user-name"><strong>{{player.name}}</strong></span>
+                            <span class="avatar" href="profile.html">
+                        <img src="/assets/common/img/temp/avatars/4.jpg" alt="Avatar">
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
+                                    class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
+                                    class="dropdown-icon icmn-exit"></i> Сменить персонажа</a>
+                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
+                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                                доступом</a>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="menu-user-block">
+                    <a class="menu-user-info-block nohover" style="hover: 0">
+                        <span class="user-name">XP: <strong>{{personage.experience}}</strong></span>
+                    </a>
+                </div>
+
+                <div class="menu-info-block">
+                    <div class="left">
+                        <div class="menu-info-block">
+                            <div class="example-buy-btn hidden-xs-down">
+                                <div class="btn expir btn-success-outline btn-rounded">
+                                    Права: {{player.Role.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <section class="page-content">
+
+            <div class="panel">
+                <h3 class="panel-heading" style="padding-bottom: 0">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false"
+                           ng-show="hideEditBlock">
+                            {{personage.name}}
+                            <span class="ink animate"></span>
+                        </a>
+                        <div class="input-group" ng-hide="hideEditBlock">
+                            <input class="form-control" type="text" ng-model="personage.name" style="font-size: 20px">
+                            <span style="cursor: pointer" ng-click="savePersonageName()" class="input-group-addon"><i
+                                    class="icmn-lock4"></i> </span>
+                        </div>
+                        <a ng-click="hideEditBlock = false" ng-show="hideEditBlock"
+                           class="btn btn-icon icmn-unlocked btn-link"
+                           href="javascript: void(0);" style="box-shadow: 0 0"></a>
+                        <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
+                            <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
+                            <a class="dropdown-item" href="javascript: void(0)">Возраст: {{personage.age}} лет</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
+                        </ul>
+                        <button type="button" class="btn btn-success" ng-click="savePersonage()">Сохранить</button>
+                    </div>
+                </h3>
+                <div class="panel-body">
+                    <div class="table-responsive hidden-md-up" id="steps">
+                        <table id="buttons" class="table">
+                            <tr>
+                                <td>
+                                    <button class="btn inherentsButton active">Особенности</button>
+                                </td>
+                                <td>
+                                    <button class="btn attributesButton">Атрибуты</button>
+                                </td>
+                                <td>
+                                    <button class="btn attachedButton">Прикрепленные</button>
+                                </td>
+                                <td>
+                                    <button class="btn triggerButton">Тригерные</button>
+                                </td>
+                                <td>
+                                    <button class="btn meritsButton">Достоинства</button>
+                                </td>
+                                <td>
+                                    <button class="btn flawsButton">Недостатки</button>
+                                </td>
+                                <td>
+                                    <button class="btn spellsButton">Заклинания</button>
+                                </td>
+                                <td>
+                                    <button class="btn notesButton">Заметки</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="hidden-xs-down hidden-sm-down">
+                        <button class="btn margin-inline inherentsButton active">Особенности</button>
+                        <button class="btn margin-inline attributesButton">Атрибуты</button>
+                        <button class="btn margin-inline attachedButton">Прикрепленные навыки</button>
+                        <button class="btn margin-inline triggerButton">Тригерные навыки</button>
+                        <button class="btn margin-inline meritsButton">Достоинства</button>
+                        <button class="btn margin-inline flawsButton">Недостатки</button>
+                        <button class="btn margin-inline spellsButton">Заклинания</button>
+                        <button class="btn margin-inline notesButton">Заметки</button>
+                    </div>
+
+                    <div id="inherents" class="tab-pane active table-responsive" role="tabpanel">
+                        <table class="table table-hover">
+                            <tr ng-repeat="personageInherent in personageInherents">
+                                <td>{{personageInherent.Inherent.name}}</td>
+                                <td>
+                                    <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
+                                        {{personageInherent.value}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div ng-if="showGenerateInherentsButton">
+                            <ul>
+                                <li style="list-style-type: none">Врожденные особенности персонажа создаются случайным
+                                    образом. По нажатию на кнопку, вы можете создать набор врожденных особенностей для
+                                    вашего
+                                    персонажа.
+                                    Создать набор врожденных особенностей для персонажа можно только раз, и изменить их
+                                    потом
+                                    можно будет только по согласованию с мастером.
+                                </li>
+                            </ul>
+                            <button class="btn btn-rounded btn-primary-outline"
+                                    style="margin-bottom: 10px;margin-left: 40px"
+                                    ng-click="randomizeInherentsAndValues()">
+                                Сгенерить врожденки
+                            </button>
+                        </div>
+                    </div>
+                    <div id="attr" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row">
+                            <div class="col-md-2 hidden-xs-down hidden-sm-down">
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="hitPiercePunch" ng-click="hitPiercePunchAnimateRelatedAttributes()"
+                                        title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="ng-scope"
+                                         height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="hitChopPunch" ng-click="hitChopPunchAnimateRelatedAttributes()"
+                                        title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="rangedHit"
+                                        ng-click="rangedHitAnimateRelatedAttributes()"
+                                        title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/rangedHit.svg"
+                                         class="ng-scope tooltips" height="40" width="40">
+                                    <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="parryPiercePunch" ng-click="parryPiercePunchAnimateRelatedAttributes()"
+                                        title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="parryChopPunch" ng-click="parryChopPunchAnimateRelatedAttributes()"
+                                        title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                                </button>
+
+                            </div>
+                            <div class="col-md-2 hidden-xs-down hidden-sm-down">
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="dodge"
+                                        ng-click="dodgeAnimateRelatedAttributes()"
+                                        title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/dodge.svg" class="ng-scope tooltips"
+                                         height="40" width="40">
+                                    <span class="ng-binding ng-scope">{{dodge}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="generalActionPoints"
+                                        ng-click="generalActionPointsAnimateRelatedAttributes()"
+                                        title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="mentalActionPoints" ng-click="mentalActionPointsAnimateRelatedAttributes()"
+                                        title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                                </button>
+
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                        id="endurancePoints" ng-click="endurancePointsAnimateRelatedAttributes()"
+                                        title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                                </button>
+                                <button class="btn btn-info-outline btn-rounded produced margin-inline" id="initiative"
+                                        ng-click="initiativeAnimateRelatedAttributes()"
+                                        title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                        rel="tooltip">
+                                    <img src="/assets/common/img/erilon-icon/initiative.svg"
+                                         class="ng-scope tooltips" height="40"
+                                         width="40">
+                                    <span class="ng-binding ng-scope">{{initiative}}</span>
+                                </button>
+                            </div>
+                            <div class="col-md-8">
+                                <table id="attrTable" class="table table-hover">
+                                    <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'">
+                                        <td id="{{personageAttribute.Attribute.name}}">{{
+                                            personageAttribute.Attribute.name}}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-justified plus-minus-block">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-secondary"
+                                                            ng-click="decreaseAttribute(personageAttribute)"
+                                                            type="button">
+                                                        <i class="icmn-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-rounded btn-sm btn-primary"
+                                                            ng-click="increaseAttribute(personageAttribute)"
+                                                            type="button">
+                                                        <i class="icmn-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ personageAttribute.value }}</td>
+                                    </tr>
+                                </table>
+                                <div class="hidden-xs-down hidden-sm-down">
+                                    <button class="btn btn-rounded btn-warning-outline" ng-click="makeDraggable()">
+                                        Двигать
+                                    </button>
+                                    <button class="btn btn-rounded btn-success-outline" ng-click="makeUnDraggable()">
+                                        Перестать двигать
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o-wrapper-attributes hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideAttributesCategoriesFilterMenu()">
+                                    <button style="margin-top: -10px" id="characteristics">Производные</button>
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <div class="row" style="margin-top: 20px">
+                                    <div class="col-sm-6 col-xs-6">
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg"
+                                                 class="ng-scope"
+                                                 height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{hitPiercePunch}}</span>
                                         </button>
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="decreaseAttribute(personageAttribute.id)">
-                                            <span class="glyphicon glyphicon-triangle-bottom"/>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{hitChopPunch}}</span>
                                         </button>
-                                    </td>
-                                    <td style="vertical-align:middle;">{{ personageAttribute.value }}</td>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/rangedHit.svg"
+                                                 class="ng-scope tooltips" height="40" width="40">
+                                            <span class="ng-binding ng-scope">{{rangedHit}}</span>
+                                        </button>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{parryPiercePunch}}</span>
+                                        </button>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{parryChopPunch}}</span>
+                                        </button>
+
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/dodge.svg"
+                                                 class="ng-scope tooltips"
+                                                 height="40" width="40">
+                                            <span class="ng-binding ng-scope">{{dodge}}</span>
+                                        </button>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{generalActionPoints}}</span>
+                                        </button>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{mentalActionPoints}}</span>
+                                        </button>
+
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{endurancePoints}}</span>
+                                        </button>
+                                        <button class="btn btn-info-outline btn-rounded produced margin-inline"
+                                                title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                                rel="tooltip">
+                                            <img src="/assets/common/img/erilon-icon/initiative.svg"
+                                                 class="ng-scope tooltips" height="40"
+                                                 width="40">
+                                            <span class="ng-binding ng-scope">{{initiative}}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideAttributesCategoriesFilterMenu()"></div>
+                        </div>
+                    </div>
+                    <div id="attached" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input name="magic" type="checkbox" ng-model="filter.magic" id="magicSkillsFilter"
+                                           ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                    <label for="magicSkillsFilter">
+                                        Магические
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="socialSkillsFilter" name="social" type="checkbox"
+                                           ng-model="filter.attached_social"
+                                           ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <label for="socialSkillsFilter">
+                                        Социальные
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input name="languages" type="checkbox" ng-model="filter.language"
+                                           id="languageFiler"
+                                           ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
+                                    <label for="languageFiler">
+                                        Языки
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="knowledgeSkillsFilter" name="knowledge" type="checkbox"
+                                           ng-model="filter.knowledge"
+                                           ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <label for="knowledgeSkillsFilter">
+                                        Знания
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="craftsSkillsFilter" name="crafts" type="checkbox" ng-model="filter.craft"
+                                           ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <label for="craftsSkillsFilter">
+                                        Ремесла
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="profSkillsFilter" name="professional" type="checkbox"
+                                           ng-model="filter.prof"
+                                           ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <label for="profSkillsFilter">
+                                        Профессиональные
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="checkbox checkbox-info">
+                                    <input id="defaultSkillsShow" name="default" type="checkbox"
+                                           ng-model="show.default_skill"
+                                           ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
+                                    <label for="defaultSkillsShow">
+                                        По умолчанию (показывать)
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="defaultSkillsFilter" name="default" type="checkbox"
+                                           ng-model="search.default_skill"
+                                           ng-disabled="!show.default_skill"
+                                           ng-change="filterAttachedSkillsByDefault(search.default_skill)">
+                                    <label for="defaultSkillsFilter">
+                                        По умолчанию (фильтровать)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="theoreticalSkillsFilter" name="theoretical" type="checkbox"
+                                           ng-model="search.theoretical"
+                                           ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                    <label for="theoreticalSkillsFilter">
+                                        Теоретические
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedAttachedSkillsFilter" name="added" type="checkbox"
+                                           ng-model="addedAttachedSkillsFilter">
+                                    <label for="addedAttachedSkillsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o-wrapper-attached-skills hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryAttachedSkillsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryAttachedSkillsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.magic" class="fa fa-check"></i>
+                                            <input name="magic" type="checkbox" ng-model="filter.magic"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Магические
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                        <td>
+                                            <i ng-show="filter.attached_social" class="fa fa-check"></i>
+                                            <input name="social" type="checkbox" ng-model="filter.attached_social"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Социальные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('языки', filter.language)">
+                                        <td>
+                                            <i ng-show="filter.language" class="fa fa-check"></i>
+                                            <input name="languages" type="checkbox" ng-model="filter.language"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Языки
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                        <td>
+                                            <i ng-show="filter.knowledge" class="fa fa-check"></i>
+                                            <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Знания
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                        <td>
+                                            <i ng-show="filter.craft" class="fa fa-check"></i>
+                                            <input name="crafts" type="checkbox" ng-model="filter.craft"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Ремесла
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                        <td>
+                                            <i ng-show="filter.prof" class="fa fa-check"></i>
+                                            <input name="professional" type="checkbox" ng-model="filter.prof"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Профессиональные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByDefaultShow(search.default_skill);filterAttachedSkillsByDefault(search.default_skill)">
+                                        <td>
+                                            <i ng-show="search.default_skill" class="fa fa-check"></i>
+                                            <input name="default" type="checkbox"
+                                                   ng-model="search.default_skill" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            По умолчанию
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterAttachedSkillsByTheoretical(search.theoretical)">
+                                        <td>
+                                            <i ng-show="search.theoretical" class="fa fa-check"></i>
+                                            <input name="theoretical" type="checkbox"
+                                                   ng-model="search.theoretical" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Теоретические
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedAttachedSkillsFilter" class="fa fa-check"></i>
+                                            <input name="addedAttachedSkillsFilter" type="checkbox"
+                                                   ng-model="addedAttachedSkillsFilter" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideAttachedSkillsCategoriesFilerMenu()"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name"
+                                           class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table mobile">
+                            <thead class="mobile">
+                            <tr class="mobile">
+                                <th class="mobile">Навык</th>
+                                <th class="mobile">Сложность</th>
+                                <th class="mobile">Теоретический</th>
+                                <th class="mobile"></th>
+                                <th class="mobile">Значение</th>
+                                <th class="mobile"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="mobile" ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch">
+                            <tr class="mobile attached"
+                                ng-hide="filteredAttachedSkills(item)"
+                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
+                                <td class="text-right mobile attached" ng-click="showHideDescription(item.attachedSkill)" style="cursor:pointer;">
+                                    <div class="text-left">
+                                        <a class="link-underlined link-blue" style="cursor: pointer;">
+                                            {{item.attachedSkill.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(item.attachedSkill.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(item.attachedSkill.id)"></i>
+                                        </a>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile attached">
+                                    <div class="text-left" ng-if="item.attachedSkill.difficult">
+                                        Сложный
+                                    </div>
+                                    <div class="text-left" ng-if="!item.attachedSkill.difficult">
+                                        Простой
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile attached">
+                                    <div class="text-left" ng-if="item.attachedSkill.theoretical">
+                                        Да
+                                    </div>
+                                    <div class="text-left" ng-if="!item.attachedSkill.theoretical">
+                                        Нет
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile attached">
+                                    <div class="btn-group btn-group-justified plus-minus-block">
+                                        <div class="btn-group">
+                                            <button class="btn btn-rounded btn-sm btn-secondary"
+                                                    ng-disabled="item.personageAttachedSkill == null"
+                                                    ng-click="decreaseAttachedSkill(item.personageAttachedSkill)"
+                                                    type="button">
+                                                <i class="icmn-minus"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-rounded btn-sm btn-primary"
+                                                    ng-disabled="item.personageAttachedSkill == null"
+                                                    ng-click="increaseAttachedSkill(item.personageAttachedSkill)"
+                                                    type="button">
+                                                <i class="icmn-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile attached">
+                                    <div class="text-left" ng-if="item.personageAttachedSkill != null">
+                                        {{item.personageAttachedSkill.value}}
+                                    </div>
+                                    <div class="text-left" ng-if="item.personageAttachedSkill == null">
+                                        -
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile attached actions">
+                                    <div class="text-center">
+                                        <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
+                                            <a class="link-underlined link-blue" style="cursor: pointer;"
+                                               ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
+                                                Удалить
+                                            </a>
+                                        </div>
+
+                                        <div ng-if="item.personageAttachedSkill == null && !item.personageAttachedSkill.AttachedSkill.default_skill">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageAttachedSkill(item.attachedSkill)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                        <div ng-if="item.personageAttachedSkill.AttachedSkill.default_skill">
+                                            По умолчанию
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(item.attachedSkill.id)"
+                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Описание:</strong> {{item.attachedSkill.description}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="trigger" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilter"
+                                           ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                    <label for="fightFilter">
+                                        Боевые
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+
+                                    <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
+                                           id="nonfightFilter"
+                                           ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                    <label for="nonfightFilter">
+                                        Небоевые
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedTriggerSkillsFilter" name="added" type="checkbox"
+                                           ng-model="addedTriggerSkillsFilter">
+                                    <label for="addedTriggerSkillsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o-wrapper-trigger-skills hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryTriggerSkillsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryTriggerSkillsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.fight" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.fight" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Боевые
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                        <td>
+                                            <i ng-show="filter.nonfight" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.nonfight" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Не боевые
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedTriggerSkillsFilter" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="addedTriggerSkillsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideTriggerSkillsCategoriesFilerMenu()"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="triggerSkillsSearch.triggerSkill.name"
+                                           class="form-control" placeholder="Имя навыка" id="triggerSkillsSearch">
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table mobile">
+                            <thead class="mobile">
+                            <tr class="mobile">
+                                <th class="mobile">Навык</th>
+                                <th class="mobile"></th>
+                                <th class="mobile">Уровень</th>
+                                <th class="mobile">Талант</th>
+                                <th class="mobile">Учитель</th>
+                                <th class="mobile"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch">
+                            <tr class="mobile trigger"
+                                ng-hide="filteredTriggerSkills(triggerSkillMixed)"
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                <td class="text-right mobile attached" ng-click="showHideDescription(triggerSkillMixed.triggerSkill)" style="cursor:pointer;">
+                                    <div class="text-left">
+                                        <a class="link-underlined link-blue" style="cursor: pointer;">
+                                            {{triggerSkillMixed.triggerSkill.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
+                                        </a>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile trigger">
+                                    <div class="btn-group btn-group-justified plus-minus-block">
+                                        <div class="btn-group">
+                                            <button class="btn btn-rounded btn-sm btn-secondary"
+                                                    ng-click="decreaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill, false)"
+                                                    type="button"
+                                                    ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
+                                                <i class="icmn-minus"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-rounded btn-sm btn-primary"
+                                                    ng-click="increaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill)"
+                                                    type="button"
+                                                    ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
+                                                <i class="icmn-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile trigger">
+                                    <div class="text-left">
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
+                                            -
+                                        </div>
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
+                                            {{getLevelName(triggerSkillMixed.personageTriggerSkill.currentLevel)}}
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                                <td class="text-right mobile trigger">
+                                    <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.talented">
+                                        <i class="icmn-checkmark4"></i>
+                                    </div>
+
+                                    <div class="text-left"
+                                         ng-if="!triggerSkillMixed.personageTriggerSkill.talented">
+                                        <i class="icmn-cross3"></i>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile trigger">
+                                    <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.tutored">
+                                        <i class="icmn-checkmark4"></i>
+                                    </div>
+
+                                    <div class="text-left" ng-if="!triggerSkillMixed.personageTriggerSkill.tutored">
+                                        <i class="icmn-cross3"></i>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile trigger actions">
+                                    <div class="text-center">
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
+                                            <a class="link-underlined link-blue" style="cursor:pointer;"
+                                               ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
+                                                Удалить
+                                            </a>
+                                        </div>
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageTriggerSkill(triggerSkillMixed.triggerSkill)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Описание:</strong> {{triggerSkillMixed.triggerSkill.description}}
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Уровни владения:</strong>
+                                    <p ng-repeat="level in triggerSkillMixed.triggerSkill.SkillLevels | orderBy: 'level'">
+                                        <strong class="padding-left-20">{{getLevelName(level.level)}}: </strong>
+                                        {{level.description}}
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="merits" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="magicMeritsFilter" name="fight" type="checkbox" ng-model="merit.magic"
+                                           ng-change="filterMeritByCategory('магические', merit.magic)">
+                                    <label for="magicMeritsFilter">
+                                        Магические
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="faceMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.face"
+                                           ng-change="filterMeritByCategory('внешность', merit.face)">
+                                    <label for="faceMeritsFilter">
+                                        Внешность
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="specMeritsFilter" name="fight" type="checkbox"
+                                           ng-model="merit.speciality"
+                                           ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                    <label for="specMeritsFilter">
+                                        Специализация
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="fightMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.fight"
+                                           ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                    <label for="fightMeritsFilter">
+                                        Боевые
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="talentMeritsFilter" name="fight" type="checkbox" ng-model="merit.talent"
+                                           ng-change="filterMeritByCategory('талант', merit.talent)">
+                                    <label for="talentMeritsFilter">
+                                        Талант
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="othersMeritsFilter" name="nonfight" type="checkbox"
+                                           ng-model="merit.others"
+                                           ng-change="filterMeritByCategory('остальные', merit.others)">
+                                    <label for="othersMeritsFilter">
+                                        Остальные
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="availableMeritsFilter" name="fight" type="checkbox"
+                                           ng-model="filter.available"
+                                           ng-change="filterMeritByAvailability(filter.available)">
+                                    <label for="availableMeritsFilter">
+                                        Доступные
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedMeritsFilter" name="added" type="checkbox"
+                                           ng-model="addedMeritsFilter">
+                                    <label for="addedMeritsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o-wrapper-merits hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryMeritsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryMeritsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterMeritByCategory('магические', merit.magic)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="merit.magic" class="fa fa-check"></i>
+                                            <input name="magic" type="checkbox" ng-model="merit.magic"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Магические
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('внешность', merit.face)">
+                                        <td>
+                                            <i ng-show="merit.face" class="fa fa-check"></i>
+                                            <input name="face" type="checkbox" ng-model="merit.face"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Внешность
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('специализация', merit.speciality)">
+                                        <td>
+                                            <i ng-show="merit.speciality" class="fa fa-check"></i>
+                                            <input name="speciality" type="checkbox" ng-model="merit.speciality"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Специализация
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('боевые', merit.fight)">
+                                        <td>
+                                            <i ng-show="merit.fight" class="fa fa-check"></i>
+                                            <input name="fight" type="checkbox" ng-model="merit.fight"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Боевые
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('ремесла', merit.talent)">
+                                        <td>
+                                            <i ng-show="merit.talent" class="fa fa-check"></i>
+                                            <input name="talent" type="checkbox" ng-model="merit.talent"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Талант
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByCategory('остальные', merit.others)">
+                                        <td>
+                                            <i ng-show="merit.others" class="fa fa-check"></i>
+                                            <input name="others" type="checkbox" ng-model="merit.others"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Остальные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterMeritByAvailability(filter.available)">
+                                        <td>
+                                            <i ng-show="filter.available" class="fa fa-check"></i>
+                                            <input name="available" type="checkbox" ng-model="filter.available"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Доступные
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedMeritsFilter" class="fa fa-check"></i>
+                                            <input name="addedMeritsFilter" type="checkbox" ng-model="addedMeritsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideMeritsCategoriesFilterMenu()"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="meritSearch.merit.name" class="form-control"
+                                           placeholder="Имя достоинства" id="meritSearch">
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table">
+                            <thead class="mobile">
+                            <tr class="mobile">
+                                <th class="mobile">Достоинство</th>
+                                <th class="mobile">Требования</th>
+                                <th class="mobile">Стоимость</th>
+                                <th class="mobile"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch">
+                            <tr class="mobile merit"
+                                ng-hide="filteredMerit(meritMixed)"
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
+                                <td class="text-right mobile merit" ng-click="showHideDescription(meritMixed.merit)" style="cursor:pointer;">
+                                    <div class="text-left">
+                                        <a class="link-underlined link-blue" style="cursor:pointer;">
+                                            {{meritMixed.merit.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(meritMixed.merit.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(meritMixed.merit.id)"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="text-right mobile merit">
+                                    <div class="text-left">
+                                    <span ng-hide="meritMixed.available == true">
+                                        <strong ng-repeat="item in meritMixed.available">
+                                            {{ item.name }}: {{item.expectedValue}}<span
+                                                ng-hide="$last">,</span>
+                                        </strong>
+                                    </span>
+                                        <span ng-if="meritMixed.available == true">
+                                                 -
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="text-right mobile merit">
+                                    <div class="text-left">
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                            {{meritMixed.personageMerit.Merit.cost}}
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit != null && meritMixed.personageMerit.unremovable">
+                                            -
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            {{meritMixed.merit.cost}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right mobile merit actions">
+                                    <div class="text-center">
+                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                            <a class="link-underlined link-blue" style="cursor:pointer;"
+                                               ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
+                                                Удалить
+                                            </a>
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit == null">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    ng-disabled="meritMixed.available != true"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageMerit(meritMixed.merit)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                        <div ng-if="meritMixed.personageMerit.unremovable">
+                                            По умолчанию
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(meritMixed.merit.id)"
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
+                                <td colspan="4">
+                                    <strong class="padding-left-10">Описание:</strong> {{meritMixed.merit.description}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="flaws" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="physicalFlawsFilter" name="phycical" type="checkbox"
+                                           ng-model="filter.phycical"
+                                           ng-change="filterFlawsByCategory('физические', filter.phycical)">
+                                    <label for="physicalFlawsFilter">
+                                        Физические
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="mentalFlawsFilter" name="mental" type="checkbox" ng-model="filter.mental"
+                                           ng-change="filterFlawsByCategory('ментальные', filter.mental)">
+                                    <label for="mentalFlawsFilter">
+                                        Ментальные
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="socialFlawsFilter" name="social" type="checkbox" ng-model="filter.social"
+                                           ng-change="filterFlawsByCategory('социальные', filter.social)">
+                                    <label for="socialFlawsFilter">
+                                        Социальные
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="kodeksFlawsFilter" name="kodeks" type="checkbox" ng-model="filter.kodeks"
+                                           ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                    <label for="kodeksFlawsFilter">
+                                        Кодекс чести
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="faceFlawsFilter" name="face" type="checkbox" ng-model="filter.face"
+                                           ng-change="filterFlawsByCategory('внешность', filter.face)">
+                                    <label for="faceFlawsFilter">
+                                        Внешность
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="unremovableFlawsFilter" name="unremovable" type="checkbox"
+                                           ng-model="search.unremovable"
+                                           ng-change="filterFlawsByUnremovable(search.unremovable)">
+                                    <label for="unremovableFlawsFilter">
+                                        Не отключаемые
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedFlawsFilter" name="added" type="checkbox"
+                                           ng-model="addedFlawsFilter">
+                                    <label for="addedFlawsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o-wrapper-flaws hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideFlawsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryFlawsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategoryFlawsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr ng-click="filterFlawsByCategory('физические', filter.phycical)">
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.phycical" class="fa fa-check"></i>
+                                            <input name="phycical" type="checkbox" ng-model="filter.phycical"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Физические
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('ментальные', filter.mental)">
+                                        <td>
+                                            <i ng-show="filter.mental" class="fa fa-check"></i>
+                                            <input name="mental" type="checkbox" ng-model="filter.mental"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Ментальные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('социальные', filter.social)">
+                                        <td>
+                                            <i ng-show="filter.social" class="fa fa-check"></i>
+                                            <input name="social" type="checkbox" ng-model="filter.social"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Социальные
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('кодекс чести', filter.kodeks)">
+                                        <td>
+                                            <i ng-show="filter.kodeks" class="fa fa-check"></i>
+                                            <input name="kodeks" type="checkbox" ng-model="filter.kodeks"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Кодекс чести
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('Внешность', filter.face)">
+                                        <td>
+                                            <i ng-show="filter.face" class="fa fa-check"></i>
+                                            <input name="face" type="checkbox" ng-model="filter.face"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Внешность
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByUnremovable(search.unremovable)">
+                                        <td>
+                                            <i ng-show="search.unremovable" class="fa fa-check"></i>
+                                            <input name="unremovable" type="checkbox" ng-model="search.unremovable"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Не отключаемые
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedFlawsFilter" class="fa fa-check"></i>
+                                            <input name="addedFlawsFilter" type="checkbox" ng-model="addedFlawsFilter"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideFlawsCategoriesFilterMenu()"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control"
+                                           placeholder="Имя недостатка" id="flawSearch">
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table mobile">
+                            <thead class="mobile">
+                            <tr class="mobile">
+                                <th class="mobile">Недостаток</th>
+                                <th class="mobile">Стоимость</th>
+                                <th class="mobile"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch">
+                            <tr class="mobile flaw"
+                                ng-hide="filteredFlaws(flawMixed)"
+                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
+                                <td class="text-right mobile flaw" ng-click="showHideDescription(flawMixed.flaw)" style="cursor:pointer;">
+                                    <div class="text-left">
+                                        <a class="link-underlined link-blue" style="cursor:pointer;">
+                                            {{flawMixed.flaw.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(flawMixed.flaw.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(flawMixed.flaw.id)"></i>
+                                        </a>
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile flaw">
+                                    <div class="text-left" ng-if="!flawMixed.personageFlaw.personage_race_default">
+                                        {{flawMixed.flaw.cost}}
+                                    </div>
+                                    <div class="text-left" ng-if="flawMixed.personageFlaw.personage_race_default">
+                                        По умолчанию
+                                    </div>
+                                </td>
+
+
+                                <td class="text-right mobile flaw actions">
+                                    <div class="text-center">
+                                        <div ng-if="flawMixed.personageFlaw == null">
+                                            <button class="btn btn-rounded btn-warning btn-sm"
+                                                    href="javascript: void(0)"
+                                                    ng-click="addPersonageFlaw(flawMixed.flaw)">
+                                                Добавить
+                                            </button>
+                                        </div>
+                                        <div ng-if="flawMixed.personageFlaw != null && !flawMixed.flaw.unremovable">
+                                            <a class="link-underlined link-blue" style="cursor:pointer;"
+                                               ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
+                                                Удалить
+                                            </a>
+                                        </div>
+                                        <div ng-if="flawMixed.personageFlaw.Flaw.unremovable">
+                                            Нельзя удалить
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(flawMixed.flaw.id)"
+                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
+                                <td colspan="3">
+                                    <strong class="padding-left-10">Описание:</strong> {{flawMixed.flaw.description}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="spells" class="tab-pane" role="tabpanel" style="display: none">
+                        <div class="row hidden-xs-down hidden-sm-down">
+                            <div class="col-md-2">
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                </h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input id="allSchoolsFilter" name="magicSchools" type="checkbox"
+                                           ng-model="filter.schools">
+                                    <label for="allSchoolsFilter">
+                                        Все школы
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-info">
+                                    <input id="addedSpellsFilter" name="addedSpellsFilter" type="checkbox"
+                                           ng-model="addedSpellsFilter">
+                                    <label for="addedSpellsFilter">
+                                        Имеющиеся
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o-wrapper-spells hidden-md-up">
+
+                            <nav class="c-menu c-menu--slide-bottom">
+                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()">
+                                    Категория
+                                    <i class="fa fa-angle-double-down" ng-hide="isCategorySpellsMenuClose"></i>
+                                    <i class="fa fa-angle-double-up" ng-show="isCategorySpellsMenuClose"></i>
+                                </div>
+                                <hr/>
+                                <table class="table table-hover category-table"
+                                       style="margin-bottom: 0">
+                                    <tr>
+                                        <td style="width: 15%;">
+                                            <i ng-show="filter.schools" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="filter.schools" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Все школы
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i ng-show="addedSpellsFilter" class="fa fa-check"></i>
+                                            <input type="checkbox" ng-model="addedSpellsFilter" style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Имеющиеся
+                                        </td>
+                                    </tr>
+                                </table>
+                            </nav>
+
+                            <div class="c-mask" ng-click="openHideSpellsCategoriesFilterMenu()"></div>
+                        </div>
+
+                        <br/>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="spellSearch.spell.name" class="form-control"
+                                           placeholder="Заклинание" id="spellSearch">
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="item in spellsBySchool" ng-hide="!item.added && !filter.schools">
+                            <h3>{{item.school.name}}</h3>
+                            <table class="table mobile">
+                                <thead class="mobile">
+                                <tr class="mobile">
+                                    <th>Заклинание</th>
+                                    <th>Сложность</th>
+                                    <th>Мана</th>
+                                    <th>Поддержание</th>
+                                    <th></th>
+                                    <th>Уровень</th>
+                                    <th>Стоимость</th>
+                                    <th></th>
                                 </tr>
+                                </thead>
+                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch">
+                                <tr class="mobile spells" ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
+                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
+                                    <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)" style="cursor:pointer;">
+                                        <div class="text-left">
+                                            <a class="link-underlined link-blue" style="cursor:pointer;">
+                                                {{spellItem.spell.name}}
+                                                <i class="fa fa-angle-double-down" ng-hide="isShowItem(spellItem.spell.id)"></i>
+                                                <i class="fa fa-angle-double-up" ng-show="isShowItem(spellItem.spell.id)"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left">
+                                            {{spellItem.spell.complexity}}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left">
+                                            {{spellItem.spell.mana}}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left" ng-if="spellItem.spell.mana_support != null">
+                                            {{spellItem.spell.mana_support}} {{spellItem.spell.mana_sup_time}}
+                                        </div>
+                                        <div class="text-left" ng-if="spellItem.spell.mana_support == null">
+                                            -
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="btn-group btn-group-justified plus-minus-block">
+                                            <div class="btn-group">
+                                                <button class="btn btn-rounded btn-sm btn-secondary"
+                                                        ng-click="decreaseSpellLevel(spellItem.personageSpell)"
+                                                        type="button"
+                                                        ng-disabled="spellItem.personageSpell == null">
+                                                    <i class="icmn-minus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button class="btn btn-rounded btn-sm btn-primary"
+                                                        ng-click="increaseSpellLevel(spellItem.personageSpell)"
+                                                        type="button"
+                                                        ng-disabled="spellItem.personageSpell == null">
+                                                    <i class="icmn-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left" ng-if="spellItem.personageSpell == null">
+                                            -
+                                        </div>
+                                        <div class="text-left" ng-if="spellItem.personageSpell != null">
+                                            {{spellItem.personageSpell.level}}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left">
+                                            {{spellItem.spell.cost}}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell actions">
+                                        <div class="text-center">
+                                            <div ng-if="spellItem.personageSpell == null">
+                                                <button class="btn btn-rounded btn-warning btn-sm"
+                                                        href="javascript: void(0)"
+                                                        ng-click="addPersonageSpell(spellItem.spell)"
+                                                        ng-disabled="!item.added">
+                                                    Добавить
+                                                </button>
+                                            </div>
+                                            <div ng-if="spellItem.personageSpell != null">
+                                                <a class="link-underlined link-blue" style="cursor:pointer;"
+                                                   ng-click="deletePersonageSpell(spellItem.personageSpell)">
+                                                    Удалить
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="isShowItem(spellItem.spell.id)" style="border-bottom: none"
+                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
+                                    <td colspan="8">
+                                        <strong class="padding-left-10">Эффект:</strong> {{spellItem.spell.effect}}
+                                    </td>
+                                </tr>
+                                <tr ng-show="isShowItem(spellItem.spell.id)"
+                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
+                                    <td colspan="8">
+                                        <strong class="padding-left-10">Описание:</strong> {{spellItem.spell.description}}
+                                    </td>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
+                    <div id="notes" class="tab-pane" role="tabpanel" style="display: none">
+                        <p style="margin-left: 10px">
+                            Эта страница предназначена для хранения записей о
+                            персонаже, содержащих информацию, не подпадающую под другие категории (благочестие,
+                            репутация и других). В каждой заметке есть поле EXP - указанное количество опыта
+                            снимется с вашего персонажа, если вы добавите заметку. Вы также можете добавлять записи,
+                            не с нимающие с персонажа опыт - в таком случае, просто оставьте поле EXP пустым
+                        </p>
 
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#skills">
-                            <div class="panel-heading">
-                                Навыки
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="skills" class="panel-collapse collapse">
-                        <div class="panel-body">
+                        <button type="button" class="btn btn-primary btn-rounded" ng-click="addNotice()"
+                                style="margin-left: 10px">Добавить заметку
+                        </button>
 
-                            <div>
-                                <div class="panel-group" id="skillsAccordeon">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#attachedSkills" ng-click="getPersonageAttachedSkills()">
-                                                <div class="panel-heading">
-                                                    Прикрепленные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="attachedSkills" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageAttachedSkill in personageAttachedSkills">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageAttachedSkill.AttachedSkill.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            <button type="button" class="btn btn-default"
-                                                                    ng-click="increaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
-                                                                <span class="glyphicon glyphicon-triangle-top"/>
-                                                            </button>
-                                                            <button type="button" class="btn btn-default"
-                                                                    ng-click="decreaseAttachedSkill(personageAttachedSkill.AttachedSkill.id)">
-                                                                <span class="glyphicon glyphicon-triangle-bottom"/>
-                                                            </button>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageAttachedSkill.value}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <md-content class="md-padding pull-right">
-                                                    <md-button ng-click="calculateAttachedSkillSelectOptions()" class="md-raised">Добавить прикрепленный навык
-                                                    </md-button>
-                                                </md-content>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#skillsAccordeon"
-                                               href="#triggerSkills" ng-click="getPersonageTriggerSkills()">
-                                                <div class="panel-heading">
-                                                    Триггерные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="triggerSkills" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr>
-                                                        <th style="vertical-align:middle; text-align: center"></th>
-                                                        <th style="vertical-align:middle; text-align: center"></th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">Уровень
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="isMobile">Ур
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">Талант
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="isMobile">Тл
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">Учитель
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"
-                                                            ng-if="isMobile">Уч
-                                                        </th>
-                                                        <th style="vertical-align:middle; text-align: center"></th>
-                                                    </tr>
-                                                    <tr ng-repeat="personageTriggerSkill in personageTriggerSkills">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageTriggerSkill.TriggerSkill.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center">
-                                                            <button type="button" class="btn btn-default"
-                                                                    ng-click="increaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
-                                                                <span class="glyphicon glyphicon-triangle-top"/>
-                                                            </button>
-                                                            <button type="button" class="btn btn-default"
-                                                                    ng-click="decreaseTriggerSkillLevel(personageTriggerSkill.TriggerSkill.id)">
-                                                                <span class="glyphicon glyphicon-triangle-bottom"/>
-                                                            </button>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-if="!isMobile">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                                Эксперт
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                                Мастер
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                                Магистр
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                                Гроссмейстер
-                                                            </div>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;" ng-if="isMobile">
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 1">
-                                                                Э
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 2">
-                                                                М
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 3">
-                                                                Мг
-                                                            </div>
-                                                            <div ng-if="personageTriggerSkill.currentLevel == 4">
-                                                                Г
-                                                            </div>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-show="personageTriggerSkill.talented">
-                                                            <span class="glyphicon glyphicon-ok"/>
-                                                        </td>
-
-                                                        <td style="vertical-align:middle; text-align: center"
-                                                            ng-show="!personageTriggerSkill.talented">
-                                                            <span class="glyphicon glyphicon-remove"/>
-                                                        </td>
-
-                                                        <td>
-                                                            <input type="checkbox" class="form-control" id="tutored"
-                                                                   ng-model="personageTriggerSkill.tutored">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <md-content class="md-padding pull-right">
-                                                    <md-button ng-click="calculateTriggerSkillSelectOptions()" class="md-raised">Добавить тригерный навык
-                                                    </md-button>
-                                                </md-content>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#perks">
-                            <div class="panel-heading">
-                                Особенности
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="perks" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div>
-                                <div class="panel-group" id="perkAccordeon">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#inherents"  ng-click="getPersonageInherents()">
-                                                <div class="panel-heading">
-                                                    Врожденные
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="inherents" class="panel-collapse collapse">
-
-
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageInherent in personageInherents">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageInherent.Inherent.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
-                                                                <input type="number" ng-model="personageInherent.value"
-                                                                       class="form-control" id="inherent_value">
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageInherent(personageInherent)">х</a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <md-content class="md-padding pull-right">
-                                                    <md-button ng-click="calculateInherentSelectOptions()" class="md-raised">Добавить
-                                                        врожденное
-                                                    </md-button>
-                                                </md-content>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#merits"
-                                               ng-click="getPersonageMerits()">
-                                                <div class="panel-heading">
-                                                    Достоинства
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="merits" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageMerit in personageMerits">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageMerit.Merit.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            <div ng-if="!personageMerit.unremovable">
-                                                                {{personageMerit.Merit.cost}}
-                                                            </div>
-                                                            <div ng-if="personageMerit.unremovable">
-                                                                По умолчанию
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div ng-if="!personageMerit.unremovable">
-                                                                <a class="btn btn-link"
-                                                                   ng-click="deletePersonageMerit(personageMerit)">х</a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <md-content class="md-padding pull-right">
-                                                    <md-button ng-click="calculateMeritSelectOptions()" class="md-raised">Добавить
-                                                        достоинство
-                                                    </md-button>
-                                                </md-content>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#perkAccordeon" href="#flaws"  ng-click="getPersonageFlaws()">
-                                                <div class="panel-heading">
-                                                    Недостатки
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="flaws" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="personageFlaw in personageFlaws">
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageFlaw.Flaw.name}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;">
-                                                            {{personageFlaw.Flaw.cost}}
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;"
-                                                            ng-if="personageFlaw.personage_race_default">
-                                                            По умолчанию
-                                                        </td>
-
-                                                        <td style="vertical-align:middle;"
-                                                            ng-if="!personageFlaw.personage_race_default">
-                                                        </td>
-
-                                                        <td ng-hide="personageFlaw.personage_race_default && personageFlaw.Flaw.unremovable">
-                                                            <a class="btn btn-link"
-                                                               ng-click="deletePersonageFlaw(personageFlaw)">х</a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-
-                                                <md-content class="md-padding pull-right">
-                                                    <md-button ng-click="calculateFlawSelectOptions()" class="md-raised">Добавить
-                                                        недостаток
-                                                    </md-button>
-                                                </md-content>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
+                        <div class="form-group row notice-filter">
+                            <div class="col-md-12">
+                                <div class="form-input-icon">
+                                    <i class="icmn-search"></i>
+                                    <input type="text" ng-model="noticeSearch.name" class="form-control"
+                                           placeholder="Заметка" id="noticeSearch">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#spells"
-                           ng-click="getPersonageAttachedSkills();getPersonageSpells()">
-                            <div class="panel-heading">
-                                Заклинания
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="spells" class="panel-collapse collapse">
-                        <div class="panel-body">
-
-                            <div ng-repeat="school in schools">
-                                <div class="panel-group">
-
-                                    <div class="panel panel-default">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#spells{{school.id}}">
-                                                <div class="panel-heading">
-                                                    {{school.name}}
-                                                </div>
-                                            </a>
-                                        </h4>
-                                        <div id="spells{{school.id}}" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <table class="table table-striped">
-                                                    <tr ng-repeat="spell in school.Spells">
-                                                        <td style="vertical-align:middle;">
-                                                            <a href="#" class="btn btn-link" role="button"
-                                                               ng-click="showSpellDetail(spell.id)">
-                                                                {{ spell.name }}
-                                                            </a>
-                                                        </td>
-                                                        <td style="vertical-align:middle;text-align:center;">
-                                                            {{spell.cost}} оп.
-                                                        </td>
-                                                        <td ng-show="!isSpellAdded(spell.id)">
-                                                        </td>
-                                                        <td ng-show="isSpellAdded(spell.id)">
-                                                            <div ng-repeat="personageSpell in personageSpells"
-                                                                 style="margin-top: 7px">
-                                                                <div ng-show="personageSpell.Spell.id == spell.id">
-                                                                    {{personageSpell.level}} ур.
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td ng-show="isSpellAddedAndLevel0(spell.id)">
-                                                            <button type="button" class="btn btn-link"
-                                                                    ng-click="deletePersonageSpell(spell.id)">x
-                                                            </button>
-                                                        </td>
-                                                        <td ng-hide="isSpellAdded(spell.id)">
-                                                            <button type="button" class="btn btn-link"
-                                                                    ng-click="addPersonageSpell(spell.id)">Добавить
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-
-                                        </div>
+                        <table id="noticeTable" class="table table-hover"
+                               style="margin-left: 10px; width: 95%; margin-top: 10px;">
+                            <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: noticeSearch">
+                                <td>
+                                    <a class="link-underlined link-blue" ng-click="showNotice(notice)" style="cursor:pointer;">{{notice.name}}</a>
+                                </td>
+                                <td>
+                                    <div ng-if="notice.experience > 0">
+                                        {{notice.experience}}
                                     </div>
-
-                                </div>
-                            </div>
-
-                        </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#notices"  ng-click="getNotices()">
-                            <div class="panel-heading">
-                                Заметки
-                            </div>
-                        </a>
-                    </h4>
-                    <div id="notices" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div data-ng-include data-src="'notices.html'"></div>
-                            <button type="button" class="btn btn-default pull-right"
-                                    data-toggle="modal" data-target="#addNotice" ng-click="clearNoticeFields()">Добавить
-                                заметку
-                            </button>
-
-                            <div id="addNotice" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title">Создать заметку</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="form-horizontal" role="form" name="addNoticeForm">
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-2"
-                                                           for="noticeName">Заголовок:</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" ng-model="noticeName" class="form-control"
-                                                               name="noticeNameInput" id="noticeName"
-                                                               required>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-2"
-                                                           for="noticeDescription">Текст:</label>
-                                                    <div class="col-sm-10">
-                                                        <textarea ng-model="noticeDescription" class="form-control"
-                                                                  id="noticeDescription" name="noticeDescriptionInput"
-                                                                  required></textarea>
-                                                    </div>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary"
-                                                    ng-click="addNotice()">
-                                                Сохранить
-                                            </button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Отмена
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="spellDetails" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Описание заклинания: <strong>{{spellDetails.spell.name}}</strong></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row" ng-show="spellDetails.personageSpell == null">
-                            <div class="col-md-12 col-xs-12">
-                                <strong class="text-danger">У вас нет этого заклинания!</strong>
-                            </div>
-                        </div>
-                        <div class="row" ng-show="spellDetails.personageSpell != null">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Ваш уровень:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.personageSpell.level}}
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="increaseSpellLevel(spellDetails.personageSpell)">
-                                    <span class="glyphicon glyphicon-triangle-top"/>
-                                </button>
-                                <button type="button" class="btn btn-default"
-                                        ng-click="decreaseSpellLevel(spellDetails.personageSpell)">
-                                    <span class="glyphicon glyphicon-triangle-bottom"/>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row" ng-show="spellDetails.personageSpell != null">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Учитель:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                <input type="checkbox" class="form-control" id="spellTutored"
-                                       ng-model="spellDetails.personageSpell.tutored"
-                                       style="margin-top: -6px; margin-left: -6px;">
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Кодовое название:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.name}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Сложность:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.complexity}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Сложность создания:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.creating_complexity}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Мана:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.mana}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Поддержание:</strong>
-                            </div>
-                            <div ng-show="spellDetails.spell.instant">
-                                <div class="col-md-4 col-xs-4">
-                                    Мгновенное
-                                </div>
-                            </div>
-                            <div ng-hide="spellDetails.spell.instant">
-                                <div class="col-md-4 col-xs-4">
-                                    {{spellDetails.spell.mana_support}} {{spellDetails.spell.mana_sup_time}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Стоимость:</strong>
-                            </div>
-                            <div class="col-md-4 col-xs-4">
-                                {{spellDetails.spell.cost}}
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Эффект:</strong>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                {{spellDetails.spell.effect}}
-                            </div>
-                        </div>
-                        <br/>
-
-                        <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <strong>Описание:</strong>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                {{spellDetails.spell.description}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно!</button>
-                    </div>
                 </div>
             </div>
-        </div>
-
-        <form name="expirienceForm">
-            <table class="table table-striped">
-                <tr>
-                    <td class="lead" style="vertical-align: middle">
-                        <strong>Очки опыта:</strong>
-                    </td>
-
-                    <td class="lead">
-                        <input style="width: 70px; text-align: center" type="number" class="form-control"
-                               id="expirience" name="expirience" ng-model="personage.experience" required>
-                    </td>
-                </tr>
-            </table>
-        </form>
-
-        <div class="alert alert-danger" ng-show="experienceValid()">
-            Вы потратили больше опыта, чем у вас есть!
-        </div>
-
-        <button type="submit" ng-disabled="ageForm.$invalid || experienceValid()" class="btn btn-success btn-block"
-                ng-click="savePersonage()">
-            Сохранить
-        </button>
-
-        <button class="btn btn-warning btn-block" ng-click="reset()">
-            Сброс
-        </button>
-
+        </section>
 
     </div>
 </div>
 
+<div class="main-backdrop"><!-- --></div>
 </body>
 </html>

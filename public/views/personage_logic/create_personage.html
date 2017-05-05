@@ -367,14 +367,14 @@
                                             <div class="btn-group btn-group-justified plus-minus-block">
                                                 <div class="btn-group">
                                                     <button class="btn btn-rounded btn-sm btn-secondary"
-                                                            ng-click="decreaseAttribute(personageAttribute.id)"
+                                                            ng-click="decreaseAttribute(personageAttribute)"
                                                             type="button">
                                                         <i class="icmn-minus"></i>
                                                     </button>
                                                 </div>
                                                 <div class="btn-group">
                                                     <button class="btn btn-rounded btn-sm btn-primary"
-                                                            ng-click="increaseAttribute(personageAttribute.id)"
+                                                            ng-click="increaseAttribute(personageAttribute)"
                                                             type="button">
                                                         <i class="icmn-plus"></i>
                                                     </button>
@@ -766,7 +766,7 @@
                                         <div class="btn-group">
                                             <button class="btn btn-rounded btn-sm btn-secondary"
                                                     ng-disabled="item.personageAttachedSkill == null"
-                                                    ng-click="decreaseAttachedSkill(item.personageAttachedSkill.AttachedSkill.id)"
+                                                    ng-click="decreaseAttachedSkill(item.personageAttachedSkill)"
                                                     type="button">
                                                 <i class="icmn-minus"></i>
                                             </button>
@@ -774,7 +774,7 @@
                                         <div class="btn-group">
                                             <button class="btn btn-rounded btn-sm btn-primary"
                                                     ng-disabled="item.personageAttachedSkill == null"
-                                                    ng-click="increaseAttachedSkill(item.personageAttachedSkill.AttachedSkill.id)"
+                                                    ng-click="increaseAttachedSkill(item.personageAttachedSkill)"
                                                     type="button">
                                                 <i class="icmn-plus"></i>
                                             </button>
