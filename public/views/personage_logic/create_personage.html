@@ -111,7 +111,7 @@
 
                 <div class="menu-user-block">
                     <div class="dropdown dropdown-avatar">
-                        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                        <a style="cursor:pointer;" class="dropdown-toggle" data-toggle="dropdown"
                            aria-expanded="false">
                             <span class="user-name"><strong>{{player.name}}</strong></span>
                             <span class="avatar" href="profile.html">
@@ -718,7 +718,7 @@
                             </div>
                         </div>
 
-                        <table class="table table-hover mobile">
+                        <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Навык</th>
@@ -727,17 +727,19 @@
                                 <th class="mobile"></th>
                                 <th class="mobile">Значение</th>
                                 <th class="mobile"></th>
-                                <th class="mobile">Описание</th>
                             </tr>
                             </thead>
-                            <tbody class="mobile">
-                            <tr class="mobile"
-                                ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch"
+                            <tbody class="mobile" ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch">
+                            <tr class="mobile attached"
                                 ng-hide="filteredAttachedSkills(item)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
-                                <td class="text-right mobile attached">
+                                <td class="text-right mobile attached" ng-click="showHideDescription(item.attachedSkill)" style="cursor:pointer;">
                                     <div class="text-left">
-                                        {{item.attachedSkill.name}}
+                                        <a class="link-underlined link-blue" style="cursor: pointer;">
+                                            {{item.attachedSkill.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(item.attachedSkill.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(item.attachedSkill.id)"></i>
+                                        </a>
                                     </div>
                                 </td>
 
@@ -792,7 +794,7 @@
                                 <td class="text-right mobile attached actions">
                                     <div class="text-center">
                                         <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)"
+                                            <a class="link-underlined link-blue" style="cursor: pointer;"
                                                ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
                                                 Удалить
                                             </a>
@@ -810,11 +812,11 @@
                                         </div>
                                     </div>
                                 </td>
-
-                                <td class="text-right mobile attached">
-                                    <div class="text-left">
-                                        {{item.attachedSkill.description}}
-                                    </div>
+                            </tr>
+                            <tr ng-show="isShowItem(item.attachedSkill.id)"
+                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Описание:</strong> {{item.attachedSkill.description}}
                                 </td>
                             </tr>
                             </tbody>
@@ -910,7 +912,7 @@
                             </div>
                         </div>
 
-                        <table class="table table-hover mobile">
+                        <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Навык</th>
@@ -921,14 +923,17 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile">
-                            <tr class="mobile"
-                                ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch"
+                            <tbody class="mobile" ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch">
+                            <tr class="mobile trigger"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed)"
                                 ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
-                                <td class="text-right mobile trigger">
+                                <td class="text-right mobile attached" ng-click="showHideDescription(triggerSkillMixed.triggerSkill)" style="cursor:pointer;">
                                     <div class="text-left">
-                                        {{triggerSkillMixed.triggerSkill.name}}
+                                        <a class="link-underlined link-blue" style="cursor: pointer;">
+                                            {{triggerSkillMixed.triggerSkill.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
+                                        </a>
                                     </div>
                                 </td>
 
@@ -958,20 +963,8 @@
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
                                             -
                                         </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 0">
-                                            База
-                                        </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 1">
-                                            Эксперт
-                                        </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 2">
-                                            Мастер
-                                        </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 3">
-                                            Магистр
-                                        </div>
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill.currentLevel == 4">
-                                            Гроссмейстер
+                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
+                                            {{getLevelName(triggerSkillMixed.personageTriggerSkill.currentLevel)}}
                                         </div>
                                     </div>
                                 </td>
@@ -1001,7 +994,7 @@
                                 <td class="text-right mobile trigger actions">
                                     <div class="text-center">
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)"
+                                            <a class="link-underlined link-blue" style="cursor:pointer;"
                                                ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
                                                 Удалить
                                             </a>
@@ -1014,6 +1007,22 @@
                                             </button>
                                         </div>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Описание:</strong> {{triggerSkillMixed.triggerSkill.description}}
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
+                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Уровни владения:</strong>
+                                    <p ng-repeat="level in triggerSkillMixed.triggerSkill.SkillLevels | orderBy: 'level'">
+                                        <strong class="padding-left-20">{{getLevelName(level.level)}}: </strong>
+                                        {{level.description}}
+                                    </p>
                                 </td>
                             </tr>
                             </tbody>
@@ -1202,7 +1211,7 @@
                             </div>
                         </div>
 
-                        <table class="table table-hover">
+                        <table class="table">
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Достоинство</th>
@@ -1250,7 +1259,7 @@
                                 <td class="text-right mobile merit actions">
                                     <div class="text-center">
                                         <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)"
+                                            <a class="link-underlined link-blue" style="cursor:pointer;"
                                                ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
                                                 Удалить
                                             </a>
@@ -1437,7 +1446,7 @@
                             </div>
                         </div>
 
-                        <table class="table table-hover mobile">
+                        <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Недостаток</th>
@@ -1477,7 +1486,7 @@
                                         </div>
                                         <div ng-if="flawMixed.personageFlaw != null">
                                             <a ng-hide="flawMixed.personageFlaw.personage_race_default && flawMixed.flaw.unremovable"
-                                               class="link-underlined link-blue" href="javascript: void(0)"
+                                               class="link-underlined link-blue" style="cursor:pointer;"
                                                ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
                                                 Удалить
                                             </a>
@@ -1581,10 +1590,10 @@
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)" style="cursor:pointer;">
                                         <div class="text-left">
-                                            <a class="link-underlined link-blue" href="javascript: void(0)">
+                                            <a class="link-underlined link-blue" style="cursor:pointer;">
                                                 {{spellItem.spell.name}}
-                                                <i class="fa fa-angle-double-down" ng-hide="isShowSpell(spellItem.spell.id)"></i>
-                                                <i class="fa fa-angle-double-up" ng-show="isShowSpell(spellItem.spell.id)"></i>
+                                                <i class="fa fa-angle-double-down" ng-hide="isShowItem(spellItem.spell.id)"></i>
+                                                <i class="fa fa-angle-double-up" ng-show="isShowItem(spellItem.spell.id)"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -1657,7 +1666,7 @@
                                                 </button>
                                             </div>
                                             <div ng-if="spellItem.personageSpell != null">
-                                                <a class="link-underlined link-blue" href="javascript: void(0)"
+                                                <a class="link-underlined link-blue" style="cursor:pointer;"
                                                    ng-click="deletePersonageSpell(spellItem.personageSpell)">
                                                     Удалить
                                                 </a>
@@ -1665,13 +1674,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr ng-show="isShowSpell(spellItem.spell.id)" style="border-bottom: none"
+                                <tr ng-show="isShowItem(spellItem.spell.id)" style="border-bottom: none"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td colspan="8">
                                         <strong class="padding-left-10">Эффект:</strong> {{spellItem.spell.effect}}
                                     </td>
                                 </tr>
-                                <tr ng-show="isShowSpell(spellItem.spell.id)"
+                                <tr ng-show="isShowItem(spellItem.spell.id)"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td colspan="8">
                                         <strong class="padding-left-10">Описание:</strong> {{spellItem.spell.description}}
@@ -1708,7 +1717,7 @@
                                style="margin-left: 10px; width: 95%; margin-top: 10px;">
                             <tr ng-repeat="notice in notices | orderBy:'-updatedAt' | filter: noticeSearch">
                                 <td>
-                                    <a class="link-underlined link-blue" ng-click="showNotice(notice)" href="#">{{notice.name}}</a>
+                                    <a class="link-underlined link-blue" ng-click="showNotice(notice)" style="cursor:pointer;">{{notice.name}}</a>
                                 </td>
                                 <td>
                                     <div ng-if="notice.experience > 0">

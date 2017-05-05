@@ -117,6 +117,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
+        if (isMobile()) {
+            $('tr.attached').find('td:not(:eq(0))').hide();
+        }
     });
 
     $(".triggerButton").click(function () {
@@ -137,6 +140,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
+        if (isMobile()) {
+            $('tr.trigger').find('td:not(:eq(0))').hide();
+        }
     });
 
     $(".meritsButton").click(function () {
@@ -2165,7 +2171,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: "Да!",
-                    cancelButtonText: "Нет",
+                    cancelButtonText: "Нет"
                 }).then(function success() {
                     wizardDefer.resolve(true);
                 }, function cancel() {
@@ -2211,21 +2217,46 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    $scope.openDetailsSpells = [];
-    $scope.showHideDescription = function (spell) {
-        var index = $scope.openDetailsSpells.indexOf(spell.id);
+    $scope.openDetails = [];
+    $scope.showHideDescription = function (item) {
+        var index = $scope.openDetails.indexOf(item.id);
         if (index === -1) {
-            $scope.openDetailsSpells.push(spell.id);
+            $scope.openDetails.push(item.id);
         } else {
-            $scope.openDetailsSpells.splice(index, 1);
+            $scope.openDetails.splice(index, 1);
         }
         if (isMobile()) {
-            $('tr').find('td.mobile:contains("' + spell.name + '")').nextAll('td').toggle();
+            $('tr').find('td.mobile:contains("' + item.name + '")').nextAll('td').toggle();
         }
     };
 
-    $scope.isShowSpell = function (id) {
-        return $scope.openDetailsSpells.includes(id);
+    $scope.getLevelName = function(levelNumber) {
+        var levelName = '';
+        switch (levelNumber) {
+            case 0:
+                levelName = 'База';
+                break;
+            case 1:
+                levelName = 'Эксперт';
+                break;
+            case 2:
+                levelName = 'Мастер';
+                break;
+            case 3:
+                levelName = 'Магистр';
+                break;
+            case 4:
+                levelName = 'Гроссмейстер';
+                break;
+            default:
+                levelName = 'Уровень не указан';
+                break;
+        }
+        return levelName;
+    };
+
+    $scope.isShowItem = function (id) {
+        return $scope.openDetails.includes(id);
     };
 
     $scope.addDisableOrNotAddedClass = function (available, isAdded) {

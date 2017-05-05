@@ -17,3 +17,4 @@ ALTER TABLE "Flaws" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "Inherents" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "Merits" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "Races" ADD COLUMN description TEXT;
+ALTER TABLE "TriggerSkills" ALTER COLUMN description TYPE TEXT;

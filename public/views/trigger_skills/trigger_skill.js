@@ -133,6 +133,8 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
                 inputValue: level.cost,
                 inputClass: 'form-control',
                 showCancelButton: true,
+                confirmButtonText: "Сохранить",
+                cancelButtonText: "Отменить",
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {
                         if (value !== '') {
@@ -191,6 +193,8 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
                 inputClass: 'form-control',
                 inputOptions: $scope.selectLevels,
                 inputPlaceholder: 'Выберите уровень',
+                confirmButtonText: "Добавить",
+                cancelButtonText: "Отменить",
                 showCancelButton: true,
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {
