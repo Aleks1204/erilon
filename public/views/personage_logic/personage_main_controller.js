@@ -163,6 +163,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
+        if (isMobile()) {
+            $('tr.merit').find('td:not(:eq(0))').hide();
+        }
     });
 
     $(".flawsButton").click(function () {
@@ -183,6 +186,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".attributesButton").removeClass('active');
         $(".inherentsButton").removeClass('active');
         $(".notesButton").removeClass('active');
+        if (isMobile()) {
+            $('tr.flaw').find('td:not(:eq(0))').hide();
+        }
     });
 
     $(".spellsButton").click(function () {

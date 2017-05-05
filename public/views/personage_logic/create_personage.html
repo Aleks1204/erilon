@@ -1220,14 +1220,17 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile">
-                            <tr ng-repeat="meritMixed in meritsMixed | filter: meritSearch"
-                                class="mobile"
+                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch">
+                            <tr class="mobile merit"
                                 ng-hide="filteredMerit(meritMixed)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
-                                <td class="text-right mobile merit">
+                                <td class="text-right mobile merit" ng-click="showHideDescription(meritMixed.merit)" style="cursor:pointer;">
                                     <div class="text-left">
-                                        {{ meritMixed.merit.name }}
+                                        <a class="link-underlined link-blue" style="cursor:pointer;">
+                                            {{meritMixed.merit.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(meritMixed.merit.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(meritMixed.merit.id)"></i>
+                                        </a>
                                     </div>
                                 </td>
                                 <td class="text-right mobile merit">
@@ -1276,6 +1279,12 @@
                                             По умолчанию
                                         </div>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(meritMixed.merit.id)"
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
+                                <td colspan="4">
+                                    <strong class="padding-left-10">Описание:</strong> {{meritMixed.merit.description}}
                                 </td>
                             </tr>
                             </tbody>
@@ -1454,14 +1463,17 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile">
-                            <tr class="mobile"
-                                ng-repeat="flawMixed in flawsMixed | filter: flawSearch"
+                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch">
+                            <tr class="mobile flaw"
                                 ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
-                                <td class="text-right mobile flaw">
+                                <td class="text-right mobile flaw" ng-click="showHideDescription(flawMixed.flaw)" style="cursor:pointer;">
                                     <div class="text-left">
-                                        {{flawMixed.flaw.name}}
+                                        <a class="link-underlined link-blue" style="cursor:pointer;">
+                                            {{flawMixed.flaw.name}}
+                                            <i class="fa fa-angle-double-down" ng-hide="isShowItem(flawMixed.flaw.id)"></i>
+                                            <i class="fa fa-angle-double-up" ng-show="isShowItem(flawMixed.flaw.id)"></i>
+                                        </a>
                                     </div>
                                 </td>
 
@@ -1495,6 +1507,12 @@
                                             Нельзя удалить
                                         </div>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(flawMixed.flaw.id)"
+                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
+                                <td colspan="3">
+                                    <strong class="padding-left-10">Описание:</strong> {{flawMixed.flaw.description}}
                                 </td>
                             </tr>
                             </tbody>
