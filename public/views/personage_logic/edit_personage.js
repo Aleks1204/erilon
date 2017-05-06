@@ -41,7 +41,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.loader = true;
     $scope.meritAvailable = true;
-    $scope.showGenerateInherentsButton = false;
 
     $scope.personageMerits = null;
     $scope.personageInherents = null;
@@ -723,7 +722,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personageNotices = $q.defer();
 
     function success() {
-        $scope.hasInherents();
         recalculateBasicCharacteristics(false);
         calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
@@ -843,98 +841,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.playerId = response.data.personage.PlayerId;
         personage.resolve();
     });
-
-    $scope.randomizeInherentsAndValues = function () {
-        $scope.loader = true;
-        randomizeInherents();
-        $scope.loader = true;
-    };
-
-    function randomizeInherents() {
-        angular.forEach($scope.inherents, function (inherent) {
-            var probability = inherent.probability;
-
-            angular.forEach($scope.raceInherents, function (raceInherent) {
-                if (raceInherent.Inherent.id === inherent.id) {
-                    probability = raceInherent.race_probability;
-                }
-            });
-
-            var random = Math.floor((Math.random() * probability) + 1);
-            if (random === probability) {
-                $scope.personageInherents.push({
-                    Inherent: inherent,
-                    InherentId: inherent.id,
-                    PersonageId: personageId
-                });
-            }
-        });
-
-        randomizeInherentValues();
-        setHasInherents();
-        updateInherentsPrerequisites();
-
-        angular.forEach($scope.personageInherents, function (personageInherent) {
-            $http.post('/personageInherents', {
-                inherent_id: personageInherent.InherentId,
-                personage_id: personageId,
-                value: personageInherent.value
-            });
-        });
-    }
-
-    function randomizeInherentValues() {
-        angular.forEach($scope.personageInherents, function (personageInherent) {
-            if (personageInherent.Inherent.name === 'Внешность') {
-                var random = Math.floor((Math.random() * 9) + 1);
-                switch (random) {
-                    case 1:
-                        personageInherent.value = -3;
-                        break;
-                    case 2:
-                        personageInherent.value = -2;
-                        break;
-                    case 3:
-                        personageInherent.value = -1;
-                        break;
-                    case 4:
-                        personageInherent.value = 0;
-                        break;
-                    case 5:
-                        personageInherent.value = 0;
-                        break;
-                    case 6:
-                        personageInherent.value = 0;
-                        break;
-                    case 7:
-                        personageInherent.value = 1;
-                        break;
-                    case 8:
-                        personageInherent.value = 2;
-                        break;
-                    case 9:
-                        personageInherent.value = 3;
-                        break;
-                }
-            }
-            if (personageInherent.Inherent.name === 'Маг' || personageInherent.Inherent.name === 'Везение') {
-                personageInherent.value = Math.floor((Math.random() * 6) + 1);
-            }
-        });
-    }
-
-    function setHasInherents() {
-        $http.post('/history', {
-            key: 'HAS_INHERENTS' + personageId,
-            value: 'TRUE'
-        }).then($scope.hasInherents);
-    }
-
-    $scope.hasInherents = function () {
-        $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).then(function (response) {
-            $scope.showGenerateInherentsButton = response.data.result === null;
-        });
-    };
 
     function recalculateBasicCharacteristics(animate) {
         var buttonsToAnimate = [];
