@@ -1044,10 +1044,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.increaseAttribute = function (personageAttribute) {
         $scope.loader = true;
+        var maxPrice = 8;
 
         angular.forEach($scope.raceAttributes, function (raceAttribute) {
             if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                if (personageAttribute.value < raceAttribute.max_value) {
+                if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 6) {
                     personageAttribute.value++;
                     $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
                     updateAttributePrerequisites(personageAttribute.Attribute.id);
