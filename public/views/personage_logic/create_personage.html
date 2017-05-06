@@ -794,10 +794,10 @@
                                 <td class="text-right mobile attached actions">
                                     <div class="text-center">
                                         <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            <a class="link-underlined link-blue" style="cursor: pointer;"
+                                            <button class="btn btn-default-outline btn-rounded btn-sm" style="cursor: pointer;"
                                                ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
                                                 Удалить
-                                            </a>
+                                            </button>
                                         </div>
 
                                         <div ng-if="item.personageAttachedSkill == null && !item.personageAttachedSkill.AttachedSkill.default_skill">
