@@ -840,7 +840,7 @@
 
                                     <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
                                            id="nonfightFilter"
-                                           ng-change="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                           ng-change="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
                                     <label for="nonfightFilter">
                                         Небоевые
                                     </label>
@@ -877,13 +877,13 @@
                                             Боевые
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterTriggerSkillsByCategory('не боевые', filter.nonfight)">
+                                    <tr ng-click="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
                                         <td>
                                             <i ng-show="filter.nonfight" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.nonfight" style="display: none;">
                                         </td>
                                         <td class="text-left">
-                                            Не боевые
+                                            Небоевые
                                         </td>
                                     </tr>
                                     <tr>
