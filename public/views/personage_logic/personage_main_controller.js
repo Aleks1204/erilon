@@ -936,6 +936,31 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.personageInherentValue = null;
+    $scope.addPersonageInherent = function () {
+        var value = null;
+        if ($scope.personageInherentValue !== null) {
+            value = $scope.personageInherentValue;
+        }
+        $http.post('/personageInherents', {
+            inherent_id: $scope.inherent_id,
+            personage_id: personageId,
+            value: value
+        }).then(function () {
+            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
+                $scope.personageInherents = response.data.data;
+            });
+        });
+    };
+
+    $scope.deletePersonageInherent = function (personageInherentId) {
+        $http.delete('/personageInherents/' + personageInherentId).then(function () {
+            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
+                $scope.personageInherents = response.data.data;
+            });
+        });
+    };
+
     function recalculateBasicCharacteristics(animate) {
         var buttonsToAnimate = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
@@ -1986,7 +2011,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: "Согласен!",
-                    cancelButtonText: "Отменить",
+                    cancelButtonText: "Отменить"
                 }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);

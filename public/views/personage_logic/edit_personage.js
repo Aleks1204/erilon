@@ -233,6 +233,31 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
+    $scope.personageInherentValue = null;
+    $scope.addPersonageInherent = function () {
+        var value = null;
+        if ($scope.personageInherentValue !== null) {
+            value = $scope.personageInherentValue;
+        }
+        $http.post('/personageInherents', {
+            inherent_id: $scope.inherent_id,
+            personage_id: personageId,
+            value: value
+        }).then(function () {
+            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
+                $scope.personageInherents = response.data.data;
+            });
+        });
+    };
+
+    $scope.deletePersonageInherent = function (personageInherentId) {
+        $http.delete('/personageInherents/' + personageInherentId).then(function () {
+            $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
+                $scope.personageInherents = response.data.data;
+            });
+        });
+    };
+
     $scope.filteredDefault = false;
     $scope.filteredTheoretical = false;
     $scope.attachedSkillsMixed = [];
