@@ -124,7 +124,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<input type="text" class="form-control" value="' + skill.category + '" id="category">' +
+                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                            '<option value="боевые">боевые</option>' +
+                            '<option value="небоевые">небоевые</option>' +
+                        '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="description" class="form-control-label">Описание:</label>' +
@@ -145,7 +148,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         return new Promise(function (resolve) {
                             resolve([
                                 $('#name').val(),
-                                $('#category').val().replace(/\s/g, ''),
+                                $('#category').val().toString(),
                                 $('#cost').val(),
                                 $('#description').val(),
                                 $('#difficultSkill').prop("checked")
@@ -155,6 +158,8 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     onOpen: function () {
                         $('#name').focus();
                         autosize($('#description'));
+                        $('#category').selectpicker('val', skill.category.split(','));
+                        $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {
                     $http.put('/triggerSkills/' + skill.id, {
@@ -185,7 +190,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
-                    '<input type="text" class="form-control" id="category">' +
+                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                        '<option value="боевые">боевые</option>' +
+                        '<option value="небоевые">небоевые</option>' +
+                    '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="noticeBody" class="form-control-label">Описание:</label>' +
@@ -227,7 +235,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         resolve([
                             $('#name').val(),
                             $('#cost').val(),
-                            $('#category').val().replace(/\s/g, ''),
+                            $('#category').val().toString(),
                             $('#description').val(),
                             $('#difficultSkill').prop("checked")
                         ])
@@ -236,6 +244,8 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                 onOpen: function () {
                     $('#name').focus();
                     autosize($('#description'));
+                    $('#category').selectpicker();
+                    $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }
             }).then(function success(result) {
                 $http.post('/triggerSkills', {

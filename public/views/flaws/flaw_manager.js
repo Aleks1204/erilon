@@ -129,7 +129,13 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<input type="text" class="form-control" value="' + flaw.category + '" id="category">' +
+                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                            '<option value="физические">физические</option>' +
+                            '<option value="социальные">социальные</option>' +
+                            '<option value="ментальные">ментальные</option>' +
+                            '<option value="кодекс чести">кодекс чести</option>' +
+                            '<option value="внешность">внешность</option>' +
+                        '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="description" class="form-control-label">Описание:</label>' +
@@ -154,7 +160,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                         return new Promise(function (resolve) {
                             resolve([
                                 $('#name').val(),
-                                $('#category').val().replace(/\s/g, ''),
+                                $('#category').val().toString(),
                                 $('#cost').val(),
                                 $('#description').val(),
                                 $('#action_level_bonus').val(),
@@ -166,6 +172,8 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                         $('#name').focus();
                         autosize($('#description'));
                         autosize($('#action_level_bonus'));
+                        $('#category').selectpicker('val', flaw.category.split(','));
+                        $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {
                     $http.put('/flaws/' + flaw.id, {
@@ -197,7 +205,13 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<input type="text" class="form-control" id="category">' +
+                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                        '<option value="физические">физические</option>' +
+                        '<option value="социальные">социальные</option>' +
+                        '<option value="ментальные">ментальные</option>' +
+                        '<option value="кодекс чести">кодекс чести</option>' +
+                        '<option value="внешность">внешность</option>' +
+                    '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="description" class="form-control-label">Описание:</label>' +
@@ -242,7 +256,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                     return new Promise(function (resolve) {
                         resolve([
                             $('#name').val(),
-                            $('#category').val().replace(/\s/g, ''),
+                            $('#category').val().toString(),
                             $('#cost').val(),
                             $('#description').val(),
                             $('#action_level_bonus').val(),
@@ -254,6 +268,8 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                     $('#name').focus();
                     autosize($('#description'));
                     autosize($('#action_level_bonus'));
+                    $('#category').selectpicker();
+                    $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }
             }).then(function success(result) {
                 $http.post('/flaws', {

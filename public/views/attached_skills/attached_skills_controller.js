@@ -164,7 +164,14 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<input type="text" class="form-control" value="' + skill.category + '" id="category">' +
+                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                            '<option value="магические">магические</option>' +
+                            '<option value="социальные">социальные</option>' +
+                            '<option value="языки">языки</option>' +
+                            '<option value="знания">знания</option>' +
+                            '<option value="ремесла">ремесла</option>' +
+                            '<option value="профессиональные">профессиональные</option>' +
+                        '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<label for="description" class="form-control-label">Описание:</label>' +
@@ -199,7 +206,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                         return new Promise(function (resolve) {
                             resolve([
                                 $('#name').val(),
-                                $('#category').val().replace(/\s/g, ''),
+                                $('#category').val().toString(),
                                 $('#description').val(),
                                 $('#difficultSkill').prop("checked"),
                                 $('#defaultSkill').prop("checked"),
@@ -210,6 +217,8 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     onOpen: function () {
                         $('#name').focus();
                         autosize($('#description'));
+                        $('#category').selectpicker('val', skill.category.split(','));
+                        $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {
                     $http.put('/attachedSkills/' + skill.id, {
@@ -238,7 +247,14 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<input type="text" class="form-control" id="category">' +
+                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                            '<option value="магические">магические</option>' +
+                            '<option value="социальные">социальные</option>' +
+                            '<option value="языки">языки</option>' +
+                            '<option value="знания">знания</option>' +
+                            '<option value="ремесла">ремесла</option>' +
+                            '<option value="профессиональные">профессиональные</option>' +
+                        '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label for="description" class="form-control-label">Описание:</label>' +
@@ -293,7 +309,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     return new Promise(function (resolve) {
                         resolve([
                             $('#name').val(),
-                            $('#category').val().replace(/\s/g, ''),
+                            $('#category').val().toString(),
                             $('#description').val(),
                             $('#difficultSkill').prop("checked"),
                             $('#defaultSkill').prop("checked"),
@@ -304,6 +320,8 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 onOpen: function () {
                     $('#name').focus();
                     autosize($('#description'));
+                    $('#category').selectpicker();
+                    $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }
             }).then(function success(result) {
                 $http.post('/attachedSkills', {
