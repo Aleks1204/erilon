@@ -53,6 +53,8 @@ app.controller("loginController", function ($scope, $http, $window, $localStorag
         changeImgPositon();
     });
 
+    $('#validation-name').focus();
+
     // Mouse Move 3d Effect
     var rotation = function(e){
         var perX = (e.clientX/$(window).width())-0.5;
