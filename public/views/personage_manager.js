@@ -105,7 +105,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
             var attachedSkills = $q.defer();
 
             $http.get('/attachedSkills/').then(function (response) {
-                attachedSkills.resolve(response.data.attachedSkills);
+                attachedSkills.resolve(response.data.data);
             });
 
             $q.all([attachedSkills.promise]).then(function (attachedSkills) {
