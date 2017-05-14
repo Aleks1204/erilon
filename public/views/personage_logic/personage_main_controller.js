@@ -1126,21 +1126,71 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseAttribute = function (personageAttribute) {
         if (personageAttribute.value > 1) {
-            checkAttributeRelatedPrerequisites(personageAttribute).then(function (changesConfirmed) {
-                if (changesConfirmed) {
-                    personageAttribute.value--;
-                    recalculateBasicCharacteristics(true);
-                    angular.forEach($scope.raceAttributes, function (raceAttribute) {
-                        if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
-                            updateAttributePrerequisites(personageAttribute.Attribute.id);
-                            updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
+            checkTheoreticAttachedSkills(personageAttribute).then(function (confirmed) {
+                if (confirmed) {
+                    checkAttributeRelatedPrerequisites(personageAttribute).then(function (changesConfirmed) {
+                        if (changesConfirmed) {
+                            personageAttribute.value--;
+                            recalculateBasicCharacteristics(true);
+                            angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                                if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
+                                    $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
+                                    updateAttributePrerequisites(personageAttribute.Attribute.id);
+                                    updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
+                                }
+                            });
                         }
                     });
                 }
             });
         }
     };
+
+    function checkTheoreticAttachedSkills(personageAttribute) {
+        var result = $q.defer();
+        var affectedSkills = [];
+        if (personageAttribute.Attribute.name === 'Мудрость') {
+            var doubleWisdom = (personageAttribute.value - 1) * 2;
+            angular.forEach($scope.personageAttachedSkills, function (personageAttachedSkill) {
+                if (personageAttachedSkill.value > doubleWisdom) {
+                    affectedSkills.push(personageAttachedSkill);
+                }
+            });
+            if (affectedSkills.length > 0) {
+                var stringValue = '';
+                angular.forEach(affectedSkills, function (affectedSkill) {
+                    stringValue = stringValue + ", <strong>" + affectedSkill.AttachedSkill.name + "</strong>";
+                });
+
+                stringValue = stringValue.substring(2);
+
+                swal({
+                    title: "Вы уверены?",
+                    html: "У вас есть следующие теоретические навыки, превышающие " +
+                    "удвоенное значение Мудрости: " + stringValue + ". Их значение будет понижено",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: "Согласен!",
+                    cancelButtonText: "Отменить"
+                }).then(function success() {
+                    angular.forEach(affectedSkills, function (affectedSkill) {
+                        $scope.decreaseAttachedSkill(affectedSkill);
+                        $scope.decreaseAttachedSkill(affectedSkill);
+                    });
+                    result.resolve(true);
+                }, function cancel() {
+                    result.resolve(false);
+                });
+            } else {
+                result.resolve(true);
+            }
+        } else {
+            result.resolve(true);
+        }
+        return result.promise;
+    }
 
     $scope.isCategoryAttributesMenuClose = true;
 
