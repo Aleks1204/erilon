@@ -228,8 +228,20 @@
 
                     <div id="inherents" class="tab-pane active table-responsive" role="tabpanel">
                         <table class="table table-hover">
-                            <tr ng-repeat="personageInherent in personageInherents">
-                                <td>{{personageInherent.Inherent.name}}</td>
+                            <tbody ng-repeat="personageInherent in personageInherents">
+                            <tr>
+                                <td ng-click="showHideDescription(personageInherent.Inherent)"
+                                    style="cursor:pointer;">
+                                    <div class="text-left">
+                                        <a class="link-underlined link-blue" style="cursor: pointer;">
+                                            {{personageInherent.Inherent.name}}
+                                            <i class="fa fa-angle-double-down"
+                                               ng-hide="isShowItem(personageInherent.Inherent.id)"></i>
+                                            <i class="fa fa-angle-double-up"
+                                               ng-show="isShowItem(personageInherent.Inherent.id)"></i>
+                                        </a>
+                                    </div>
+                                </td>
                                 <td>
                                     <div ng-if="personageInherent.Inherent.min_limit && personageInherent.Inherent.max_limit">
                                         {{personageInherent.value}}
@@ -242,6 +254,13 @@
                                     </button>
                                 </td>
                             </tr>
+                            <tr ng-show="isShowItem(personageInherent.Inherent.id)">
+                                <td colspan="2">
+                                    <strong class="padding-left-10">Описание:</strong>
+                                    {{personageInherent.Inherent.description}}
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
                         <div ng-if="showGenerateInherentsButton">
                             <ul>
@@ -434,12 +453,12 @@
                                     </tbody>
                                 </table>
                                 <!--<div class="hidden-xs-down hidden-sm-down">-->
-                                    <!--<button class="btn btn-rounded btn-warning-outline" ng-click="makeDraggable()">-->
-                                        <!--Двигать-->
-                                    <!--</button>-->
-                                    <!--<button class="btn btn-rounded btn-success-outline" ng-click="makeUnDraggable()">-->
-                                        <!--Перестать двигать-->
-                                    <!--</button>-->
+                                <!--<button class="btn btn-rounded btn-warning-outline" ng-click="makeDraggable()">-->
+                                <!--Двигать-->
+                                <!--</button>-->
+                                <!--<button class="btn btn-rounded btn-success-outline" ng-click="makeUnDraggable()">-->
+                                <!--Перестать двигать-->
+                                <!--</button>-->
                                 <!--</div>-->
                             </div>
                         </div>
