@@ -217,7 +217,11 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     onOpen: function () {
                         $('#name').focus();
                         autosize($('#description'));
-                        $('#category').selectpicker('val', skill.category.split(','));
+                        if (skill.category === null) {
+                            $('#category').selectpicker();
+                        } else {
+                            $('#category').selectpicker('val', skill.category.split(','));
+                        }
                         $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {

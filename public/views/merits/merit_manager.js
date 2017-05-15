@@ -256,7 +256,11 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                         $('#name').focus();
                         autosize($('#description'));
                         autosize($('#action_level_bonus'));
-                        $('#category').selectpicker('val', merit.category.split(','));
+                        if (merit.category === null) {
+                            $('#category').selectpicker();
+                        } else {
+                            $('#category').selectpicker('val', merit.category.split(','));
+                        }
                         $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {

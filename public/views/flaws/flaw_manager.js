@@ -172,7 +172,11 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                         $('#name').focus();
                         autosize($('#description'));
                         autosize($('#action_level_bonus'));
-                        $('#category').selectpicker('val', flaw.category.split(','));
+                        if (flaw.category === null) {
+                            $('#category').selectpicker();
+                        } else {
+                            $('#category').selectpicker('val', flaw.category.split(','));
+                        }
                         $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {
