@@ -889,36 +889,48 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 var random = Math.floor((Math.random() * 9) + 1);
                 switch (random) {
                     case 1:
-                        personageInherent.value = -3;
+                        personageInherent.value = personageInherent.Inherent.min_limit;
                         break;
                     case 2:
-                        personageInherent.value = -2;
+                        personageInherent.value = personageInherent.Inherent.min_limit + 1;
                         break;
                     case 3:
-                        personageInherent.value = -1;
+                        personageInherent.value = personageInherent.Inherent.min_limit + 2;
                         break;
                     case 4:
-                        personageInherent.value = 0;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
                         break;
                     case 5:
-                        personageInherent.value = 0;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
                         break;
                     case 6:
-                        personageInherent.value = 0;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
                         break;
                     case 7:
-                        personageInherent.value = 1;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 2;
                         break;
                     case 8:
-                        personageInherent.value = 2;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 1;
                         break;
                     case 9:
-                        personageInherent.value = 3;
+                        personageInherent.value = personageInherent.Inherent.max_limit;
                         break;
                 }
             }
             if (personageInherent.Inherent.name === 'Маг' || personageInherent.Inherent.name === 'Везение') {
-                personageInherent.value = Math.floor((Math.random() * 6) + 1);
+                var min = personageInherent.Inherent.min_limit;
+                var max = personageInherent.Inherent.max_limit;
+                angular.forEach($scope.raceInherents, function (raceInherent) {
+                    if (raceInherent.Inherent.id === personageInherent.Inherent.id) {
+                        if (raceInherent.race_min !== null) {
+                            min = raceInherent.race_min;
+                        }
+                        if (raceInherent.race_max !== null) {
+                            max = raceInherent.race_max;
+                        }
+                    }
+                });
+                personageInherent.value = Math.floor((Math.random() * max) + min);
             }
         });
     }
@@ -1073,15 +1085,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var isPrimaryAttributeSet = false;
         var isSecondaryAttributeSet = 0;
 
-        angular.forEach($scope.raceAttributes, function (raceAttribute) {
-            if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                if (personageAttribute.value > maxPrice - raceAttribute.base_cost) {
-                    isSecondaryAttributeSet++;
+        angular.forEach($scope.personageAttributes, function (personageAttributeInList) {
+            angular.forEach($scope.raceAttributes, function (raceAttribute) {
+                if (raceAttribute.Attribute.id === personageAttributeInList.Attribute.id) {
+                    if (personageAttributeInList.value > maxPrice - raceAttribute.base_cost) {
+                        isSecondaryAttributeSet++;
+                    }
+                    if (personageAttributeInList.value > maxPrice - raceAttribute.base_cost + 1) {
+                        isPrimaryAttributeSet = true;
+                    }
                 }
-                if (personageAttribute.value > maxPrice - raceAttribute.base_cost + 1) {
-                    isPrimaryAttributeSet = true;
-                }
-            }
+            });
         });
 
 

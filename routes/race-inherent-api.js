@@ -29,7 +29,9 @@ router.post('/raceInherents', function(req, res) {
     models.RaceInherent.create({
         RaceId: req.body.race_id,
         InherentId: req.body.inherent_id,
-        race_probability: req.body.race_probability
+        race_probability: req.body.race_probability,
+        race_min: req.body.race_min,
+        race_max: req.body.race_max
     }).then(function(raceInherent) {
         res.send({ status: 'CREATED', raceInherent:raceInherent})
     });

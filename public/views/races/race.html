@@ -334,6 +334,8 @@
                         <tr>
                             <th>Имя</th>
                             <th>Вероятность</th>
+                            <th>Мин</th>
+                            <th>Макс</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -357,6 +359,7 @@
                                                 name="inherent"
                                                 ng-model="inherent_id" id="inherent_id"
                                                 ng-options="inherent.id as inherent.name for inherent in inherents"
+                                                ng-change="checkInherentValues(inherent_id)"
                                                 required>
                                             <option style="display:none" value="">Выберите особенность...</option>
                                         </select>
@@ -366,6 +369,18 @@
                                                class="form-control-label">Вероятность:</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="inherent_race_probability" ng-model="inherent_race_probability">
+                                    </div>
+                                    <div class="form-group" ng-show="inherentHasValue">
+                                        <label for="race_min"
+                                               class="form-control-label">Минимум:</label>
+                                        <input type="number" class="form-control form-control-rounded"
+                                               id="race_min" ng-model="race_min">
+                                    </div>
+                                    <div class="form-group" ng-show="inherentHasValue">
+                                        <label for="race_max"
+                                               class="form-control-label">Максимум:</label>
+                                        <input type="number" class="form-control form-control-rounded"
+                                               id="race_max" ng-model="race_max">
                                     </div>
                                 </form>
                             </div>

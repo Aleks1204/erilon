@@ -5,7 +5,9 @@
 
 module.exports = function(sequelize, DataTypes) {
     var RaceInherent = sequelize.define("RaceInherent", {
-        race_probability: DataTypes.INTEGER
+        race_probability: DataTypes.INTEGER,
+        race_min: DataTypes.INTEGER,
+        race_max: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models) {

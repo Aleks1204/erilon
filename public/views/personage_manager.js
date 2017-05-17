@@ -13,119 +13,187 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
         $('select').selectpicker('refresh');
     };
 
-    $scope.createPersonage = function () {
-        $scope.loader = true;
+    function checkHalElfMerits() {
+        var returned = $q.defer();
 
-        function success(data) {
-            $window.location.href = '/views/personage_logic/create_personage.html?id=' + data[0];
+        if ($('#race_id').find('option:selected').text() === 'Полуэльф') {
+            swal({
+                title: 'Особенные достоинства полуэльфов',
+                html:
+                '<p>Полуэльфы обладают возможностью приобретать нижеперечисленные атрибуты по цене на 1 ехр ниже при создании. ' +
+                'Вы можете выбрать один или несколько атрибутов, или не выбирать ни одного. ' +
+                'Каждый выбранный атрибут обойдется вам в 10 ехр сейчас, но, возможно, позволит сэкономить на дальнейшей прокачке. ' +
+                '<strong style="font-size: 22px">Это ваш единственный шанс выбрать!</strong></p>' +
+                '<form>' +
+                '<div class="row form-group">' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="elfDexterity" type="checkbox">' +
+                '<label for="elfDexterity">Эльфийская ловкость (10 ехр)</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="elfSpeed" type="checkbox">' +
+                '<label for="elfSpeed">Эльфийская скорость (10 ехр)</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="elfPerception" type="checkbox">' +
+                '<label for="elfPerception">Эльфийская восприятие (10 ехр)</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="elfCharisma" type="checkbox">' +
+                '<label for="elfCharisma">Эльфийская харизма (10 ехр)</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</form>',
+                showCancelButton: true,
+                cancelButtonText: "Отменить",
+                confirmButtonText: "Создать",
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        resolve([
+                            $('#elfDexterity').prop("checked"),
+                            $('#elfSpeed').prop("checked"),
+                            $('#elfPerception').prop("checked"),
+                            $('#elfCharisma').prop("checked")
+                        ])
+                    })
+                }
+            }).then(function success(result) {
+                returned.resolve(true);
+            }, function cancel() {
+                returned.resolve(false);
+            });
+        } else {
+            returned.resolve(true);
         }
+        return returned.promise;
+    }
 
-        var personage = $q.defer();
-        var raceAttributeAllPromise = $q.defer();
-        var raceMeritAllPromise = $q.defer();
-        var raceFlawAllPromise = $q.defer();
-        var defaultAttachedSkillAllPromise = $q.defer();
+    $scope.createPersonage = function () {
+        checkHalElfMerits().then(function (result) {
+            if (result) {
+                $scope.loader = true;
 
-        $q.all([personage.promise, raceAttributeAllPromise.promise,
-            raceMeritAllPromise.promise, raceFlawAllPromise.promise,
-            defaultAttachedSkillAllPromise.promise])
-            .then(success);
-
-
-        $http.post('/personages', {
-            name: $scope.name,
-            race_id: $scope.race_id,
-            player_id: $localStorage.playerId,
-            age: 0,
-            max_age: 0,
-            experience: $scope.experience,
-            generated: false
-        }).then(function (response) {
-            var raceAttributesByRaceId = $q.defer();
-            $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceAttributesByRaceId.resolve(response.data.data);
-            });
-
-            $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
-                var raceAttributePromises = [];
-                for (var i = 0; i < raceAttributes[0].length; i++) {
-                    raceAttributePromises.push($http.post('/personageAttributes', {
-                        personage_id: response.data.personage.id,
-                        attribute_id: raceAttributes[0][i].AttributeId,
-                        value: 1,
-                        position: i + 1
-                    }));
+                function success(data) {
+                    $window.location.href = '/views/personage_logic/create_personage.html?id=' + data[0];
                 }
 
-                $q.all(raceAttributePromises).then(function () {
-                    raceAttributeAllPromise.resolve();
+                var personage = $q.defer();
+                var raceAttributeAllPromise = $q.defer();
+                var raceMeritAllPromise = $q.defer();
+                var raceFlawAllPromise = $q.defer();
+                var defaultAttachedSkillAllPromise = $q.defer();
+
+                $q.all([personage.promise, raceAttributeAllPromise.promise,
+                    raceMeritAllPromise.promise, raceFlawAllPromise.promise,
+                    defaultAttachedSkillAllPromise.promise])
+                    .then(success);
+
+
+                $http.post('/personages', {
+                    name: $scope.name,
+                    race_id: $scope.race_id,
+                    player_id: $localStorage.playerId,
+                    age: 0,
+                    max_age: 0,
+                    experience: $scope.experience,
+                    generated: false
+                }).then(function (response) {
+                    var raceAttributesByRaceId = $q.defer();
+                    $http.get('/raceAttributesByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                        raceAttributesByRaceId.resolve(response.data.data);
+                    });
+
+                    $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
+                        var raceAttributePromises = [];
+                        for (var i = 0; i < raceAttributes[0].length; i++) {
+                            raceAttributePromises.push($http.post('/personageAttributes', {
+                                personage_id: response.data.personage.id,
+                                attribute_id: raceAttributes[0][i].AttributeId,
+                                value: 1,
+                                position: i + 1
+                            }));
+                        }
+
+                        $q.all(raceAttributePromises).then(function () {
+                            raceAttributeAllPromise.resolve();
+                        });
+                    });
+
+                    var raceMeritsByRaceId = $q.defer();
+                    $http.get('/raceMeritsByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                        raceMeritsByRaceId.resolve(response.data.data);
+                    });
+
+                    $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
+                        var raceMeritPromises = [];
+                        for (var i = 0; i < raceMerits[0].length; i++) {
+                            raceMeritPromises.push($http.post('/personageMerits', {
+                                personage_id: response.data.personage.id,
+                                merit_id: raceMerits[0][i].MeritId,
+                                unremovable: true
+                            }));
+                        }
+
+                        $q.all(raceMeritPromises).then(function () {
+                            raceMeritAllPromise.resolve();
+                        });
+                    });
+
+                    var raceFlawsByRaceId = $q.defer();
+                    $http.get('/raceFlawsByRaceId/' + response.data.personage.RaceId).then(function (response) {
+                        raceFlawsByRaceId.resolve(response.data.data);
+                    });
+
+                    $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
+                        var raceFlawPromises = [];
+                        for (var i = 0; i < raceFlaws[0].length; i++) {
+                            raceFlawPromises.push($http.post('/personageFlaws', {
+                                personage_id: response.data.personage.id,
+                                flaw_id: raceFlaws[0][i].FlawId,
+                                personage_race_default: true
+                            }));
+                        }
+
+                        $q.all(raceFlawPromises).then(function () {
+                            raceFlawAllPromise.resolve();
+                        });
+                    });
+
+                    var attachedSkills = $q.defer();
+
+                    $http.get('/attachedSkills/').then(function (response) {
+                        attachedSkills.resolve(response.data.data);
+                    });
+
+                    $q.all([attachedSkills.promise]).then(function (attachedSkills) {
+                        var defaultAttachedSkillPromises = [];
+                        angular.forEach(attachedSkills[0], function (attachedSkill) {
+                            if (attachedSkill.default_skill) {
+                                defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
+                                    personage_id: response.data.personage.id,
+                                    attachedSkill_id: attachedSkill.id,
+                                    value: 0
+                                }));
+                            }
+                        });
+
+                        $q.all(defaultAttachedSkillPromises).then(function () {
+                            defaultAttachedSkillAllPromise.resolve();
+                            console.log('attached skills done');
+                        });
+                    });
+                    personage.resolve(response.data.personage.id);
                 });
-            });
-
-            var raceMeritsByRaceId = $q.defer();
-            $http.get('/raceMeritsByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceMeritsByRaceId.resolve(response.data.data);
-            });
-
-            $q.all([raceMeritsByRaceId.promise]).then(function (raceMerits) {
-                var raceMeritPromises = [];
-                for (var i = 0; i < raceMerits[0].length; i++) {
-                    raceMeritPromises.push($http.post('/personageMerits', {
-                        personage_id: response.data.personage.id,
-                        merit_id: raceMerits[0][i].MeritId,
-                        unremovable: true
-                    }));
-                }
-
-                $q.all(raceMeritPromises).then(function () {
-                    raceMeritAllPromise.resolve();
-                });
-            });
-
-            var raceFlawsByRaceId = $q.defer();
-            $http.get('/raceFlawsByRaceId/' + response.data.personage.RaceId).then(function (response) {
-                raceFlawsByRaceId.resolve(response.data.data);
-            });
-
-            $q.all([raceFlawsByRaceId.promise]).then(function (raceFlaws) {
-                var raceFlawPromises = [];
-                for (var i = 0; i < raceFlaws[0].length; i++) {
-                    raceFlawPromises.push($http.post('/personageFlaws', {
-                        personage_id: response.data.personage.id,
-                        flaw_id: raceFlaws[0][i].FlawId,
-                        personage_race_default: true
-                    }));
-                }
-
-                $q.all(raceFlawPromises).then(function () {
-                    raceFlawAllPromise.resolve();
-                });
-            });
-
-            var attachedSkills = $q.defer();
-
-            $http.get('/attachedSkills/').then(function (response) {
-                attachedSkills.resolve(response.data.data);
-            });
-
-            $q.all([attachedSkills.promise]).then(function (attachedSkills) {
-                var defaultAttachedSkillPromises = [];
-                angular.forEach(attachedSkills[0], function (attachedSkill) {
-                    if (attachedSkill.default_skill) {
-                        defaultAttachedSkillPromises.push($http.post('/personageAttachedSkills', {
-                            personage_id: response.data.personage.id,
-                            attachedSkill_id: attachedSkill.id,
-                            value: 0
-                        }));
-                    }
-                });
-
-                $q.all(defaultAttachedSkillPromises).then(function () {
-                    defaultAttachedSkillAllPromise.resolve();
-                    console.log('attached skills done');
-                });
-            });
-            personage.resolve(response.data.personage.id);
+            }
         });
     };
 

@@ -257,6 +257,30 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
 
             },
             {
+                data: "race_min",
+                orderable: false,
+                render: function (data, type, row) {
+                    if (data === null) {
+                        return 'По умолчанию'
+                    } else {
+                        return data;
+                    }
+                }
+
+            },
+            {
+                data: "race_max",
+                orderable: false,
+                render: function (data, type, row) {
+                    if (data === null) {
+                        return 'По умолчанию'
+                    } else {
+                        return data;
+                    }
+                }
+
+            },
+            {
                 data: "id",
                 orderable: false,
                 render: function (data, type, row) {
@@ -289,14 +313,34 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
         $scope.inherent_race_probability = '';
     };
 
+    $scope.inherentHasValue = false;
+    $scope.checkInherentValues = function (inherent_id) {
+        $scope.inherentHasValue = false;
+        angular.forEach($scope.inherents, function (inherent) {
+            if (inherent.id === inherent_id) {
+                if (inherent.min_limit !== null) {
+                    $scope.inherentHasValue = true;
+                }
+            }
+        });
+    };
+
     $scope.addRaceInherent = function () {
         if ($scope.inherent_race_probability === '') {
             $scope.inherent_race_probability = 1;
         }
+        if ($scope.race_min === '') {
+            $scope.race_min = null;
+        }
+        if ($scope.race_max === '') {
+            $scope.race_max = null;
+        }
         $http.post('/raceInherents', {
             race_id: raceId,
             inherent_id: $scope.inherent_id,
-            race_probability: $scope.inherent_race_probability
+            race_probability: $scope.inherent_race_probability,
+            race_min: $scope.race_min,
+            race_max: $scope.race_max
         }).then(function () {
             jQuery('#addRaceInherentModal').modal('hide');
             $('#addRaceInherentModal').on('hidden.bs.modal', function () {
