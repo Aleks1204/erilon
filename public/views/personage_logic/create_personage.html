@@ -179,7 +179,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
                         </ul>
-                        <button type="button" class="btn btn-success btn-sm margin-inline margin-top-10"
+                        <button ng-disabled="personage.experience < 0" type="button" class="btn btn-success btn-sm margin-inline margin-top-10"
                                 ng-click="savePersonage()">Сохранить
                         </button>
                     </div>
