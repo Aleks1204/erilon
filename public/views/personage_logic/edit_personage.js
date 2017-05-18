@@ -634,6 +634,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addedMeritsFilter = false;
 
     $scope.filteredMerit = function (meritMixed) {
+        if (meritMixed.merit.name === 'Симпатичность' ||
+            meritMixed.merit.name === 'Эльфийская ловкость' ||
+            meritMixed.merit.name === 'Эльфийская скорость' ||
+            meritMixed.merit.name === 'Эльфийская харизма' ||
+            meritMixed.merit.name === 'Эльфийское восприятие') {
+            return true;
+        }
+
         if (meritMixed.personageMerit === null && $scope.addedMeritsFilter) {
             return true;
         }
@@ -973,15 +981,36 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     }
 
+    function getAttributeModifier(attribute) {
+        var modifier = 0;
+        angular.forEach($scope.personageMerits, function (personageMerit) {
+            if (personageMerit.Merit.name === 'Эльфийская ловкость' && attribute.name === 'Ловкость') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийская скорость' && attribute.name === 'Скорость') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийское восприятие' && attribute.name === 'Восприятие') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийская харизма' && attribute.name === 'Харизма') {
+                modifier = 1;
+            }
+        });
+        return modifier;
+    }
+
     $scope.increaseAttribute = function (personageAttribute) {
         $scope.loader = true;
         var maxPrice = 8;
 
+        var modifier = getAttributeModifier(personageAttribute.Attribute);
+
         angular.forEach($scope.raceAttributes, function (raceAttribute) {
             if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 6) {
+                if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 6 + modifier) {
                     personageAttribute.value++;
-                    $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost;
+                    $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost + modifier;
                     updateAttributePrerequisites(personageAttribute.Attribute.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                 } else {
@@ -1002,7 +1031,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     recalculateBasicCharacteristics(true);
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost;
+                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost - getAttributeModifier(personageAttribute.Attribute);
                             updateAttributePrerequisites(personageAttribute.Attribute.id);
                             updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                         }

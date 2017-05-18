@@ -610,6 +610,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addedMeritsFilter = false;
 
     $scope.filteredMerit = function (meritMixed) {
+        if (meritMixed.merit.name === 'Симпатичность' ||
+            meritMixed.merit.name === 'Эльфийская ловкость' ||
+            meritMixed.merit.name === 'Эльфийская скорость' ||
+            meritMixed.merit.name === 'Эльфийская харизма' ||
+            meritMixed.merit.name === 'Эльфийское восприятие') {
+            return true;
+        }
+
         if (meritMixed.personageMerit === null && $scope.addedMeritsFilter) {
             return true;
         }
@@ -734,18 +742,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.merits, function (merit) {
             if ($localStorage.elfDexterity && merit.name === 'Эльфийская ловкость') {
                 $scope.addPersonageMerit(merit);
+                $localStorage.elfDexterity = false;
             }
             if ($localStorage.elfSpeed && merit.name === 'Эльфийская скорость') {
                 $scope.addPersonageMerit(merit);
+                $localStorage.elfSpeed = false;
             }
             if ($localStorage.elfPerception && merit.name === 'Эльфийская харизма') {
                 $scope.addPersonageMerit(merit);
+                $localStorage.elfPerception = false;
             }
             if ($localStorage.elfCharisma && merit.name === 'Эльфийское восприятие') {
                 $scope.addPersonageMerit(merit);
+                $localStorage.elfCharisma = false;
             }
             if ($localStorage.elfFace && merit.name === 'Симпатичность') {
                 $scope.addPersonageMerit(merit);
+                $localStorage.elfFace = false;
             }
         });
 
@@ -1103,18 +1116,20 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function getAttributeModifier(attribute) {
         var modifier = 0;
-        if ($localStorage.elfDexterity && attribute.name === 'Ловкость') {
-            modifier = 1;
-        }
-        if ($localStorage.elfSpeed && attribute.name === 'Скорость') {
-            modifier = 1;
-        }
-        if ($localStorage.elfPerception && attribute.name === 'Восприятие') {
-            modifier = 1;
-        }
-        if ($localStorage.elfCharisma && attribute.name === 'Харизма') {
-            modifier = 1;
-        }
+        angular.forEach($scope.personageMerits, function (personageMerit) {
+            if (personageMerit.Merit.name === 'Эльфийская ловкость' && attribute.name === 'Ловкость') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийская скорость' && attribute.name === 'Скорость') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийское восприятие' && attribute.name === 'Восприятие') {
+                modifier = 1;
+            }
+            if (personageMerit.Merit.name === 'Эльфийская харизма' && attribute.name === 'Харизма') {
+                modifier = 1;
+            }
+        });
         return modifier;
     }
 
