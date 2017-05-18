@@ -41,13 +41,18 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfPerception" type="checkbox">' +
-                '<label for="elfPerception">Эльфийская восприятие (10 ехр)</label>' +
+                '<label for="elfPerception">Эльфийское восприятие (10 ехр)</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfCharisma" type="checkbox">' +
                 '<label for="elfCharisma">Эльфийская харизма (10 ехр)</label>' +
+                '</div>' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="elfFace" type="checkbox">' +
+                '<label for="elfFace">Симпатичность (5 ЕХР) - +1 к границе внешности</label>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -62,11 +67,17 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                             $('#elfDexterity').prop("checked"),
                             $('#elfSpeed').prop("checked"),
                             $('#elfPerception').prop("checked"),
-                            $('#elfCharisma').prop("checked")
+                            $('#elfCharisma').prop("checked"),
+                            $('#elfFace').prop("checked")
                         ])
                     })
                 }
             }).then(function success(result) {
+                $localStorage.elfDexterity = result[0];
+                $localStorage.elfSpeed = result[1];
+                $localStorage.elfPerception = result[2];
+                $localStorage.elfCharisma = result[3];
+                $localStorage.elfFace = result[4];
                 returned.resolve(true);
             }, function cancel() {
                 returned.resolve(false);
