@@ -162,6 +162,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     "next": "След.",
                     "previous": "Пред."
                 },
+                "zeroRecords":    "Ничего с таким именем не найдено",
+                "emptyTable":     "Нет ни одной записи",
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
