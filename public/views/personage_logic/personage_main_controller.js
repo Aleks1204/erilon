@@ -904,34 +904,38 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function randomizeInherentValues() {
         angular.forEach($scope.personageInherents, function (personageInherent) {
             if (personageInherent.Inherent.name === 'Внешность') {
+                var modifier = 0;
+                if ($localStorage.elfFace) {
+                    modifier = 1;
+                }
                 var random = Math.floor((Math.random() * 9) + 1);
                 switch (random) {
                     case 1:
-                        personageInherent.value = personageInherent.Inherent.min_limit;
+                        personageInherent.value = personageInherent.Inherent.min_limit + modifier;
                         break;
                     case 2:
-                        personageInherent.value = personageInherent.Inherent.min_limit + 1;
+                        personageInherent.value = personageInherent.Inherent.min_limit + 1 + modifier;
                         break;
                     case 3:
-                        personageInherent.value = personageInherent.Inherent.min_limit + 2;
+                        personageInherent.value = personageInherent.Inherent.min_limit + 2 + modifier;
                         break;
                     case 4:
-                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3 + modifier;
                         break;
                     case 5:
-                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3 + modifier;
                         break;
                     case 6:
-                        personageInherent.value = personageInherent.Inherent.max_limit - 3;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 3 + modifier;
                         break;
                     case 7:
-                        personageInherent.value = personageInherent.Inherent.max_limit - 2;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 2 + modifier;
                         break;
                     case 8:
-                        personageInherent.value = personageInherent.Inherent.max_limit - 1;
+                        personageInherent.value = personageInherent.Inherent.max_limit - 1 + modifier;
                         break;
                     case 9:
-                        personageInherent.value = personageInherent.Inherent.max_limit;
+                        personageInherent.value = personageInherent.Inherent.max_limit + modifier;
                         break;
                 }
             }
