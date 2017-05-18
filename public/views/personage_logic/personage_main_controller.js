@@ -739,28 +739,37 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateMeritsToShow();
         calculateSpellsToShow();
         calculateAddedSchools();
+        var saveNeeded = false;
         angular.forEach($scope.merits, function (merit) {
             if ($localStorage.elfDexterity && merit.name === 'Эльфийская ловкость') {
                 $scope.addPersonageMerit(merit);
                 $localStorage.elfDexterity = false;
+                saveNeeded = true;
             }
             if ($localStorage.elfSpeed && merit.name === 'Эльфийская скорость') {
                 $scope.addPersonageMerit(merit);
                 $localStorage.elfSpeed = false;
+                saveNeeded = true;
             }
             if ($localStorage.elfPerception && merit.name === 'Эльфийская харизма') {
                 $scope.addPersonageMerit(merit);
                 $localStorage.elfPerception = false;
+                saveNeeded = true;
             }
             if ($localStorage.elfCharisma && merit.name === 'Эльфийское восприятие') {
                 $scope.addPersonageMerit(merit);
                 $localStorage.elfCharisma = false;
+                saveNeeded = true;
             }
             if ($localStorage.elfFace && merit.name === 'Симпатичность') {
                 $scope.addPersonageMerit(merit);
                 $localStorage.elfFace = false;
+                saveNeeded = true;
             }
         });
+        if (saveNeeded) {
+            $scope.savePersonage();
+        }
 
         $scope.loader = false;
     }
