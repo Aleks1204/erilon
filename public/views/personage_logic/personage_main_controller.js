@@ -910,20 +910,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
 
-        randomizeInherentValues();
-        setHasInherents();
-        updateInherentsPrerequisites();
+        randomizeInherentValues().then(function () {
+            setHasInherents();
+            updateInherentsPrerequisites();
 
-        angular.forEach($scope.personageInherents, function (personageInherent) {
-            $http.post('/personageInherents', {
-                inherent_id: personageInherent.InherentId,
-                personage_id: personageId,
-                value: personageInherent.value
+            angular.forEach($scope.personageInherents, function (personageInherent) {
+                $http.post('/personageInherents', {
+                    inherent_id: personageInherent.InherentId,
+                    personage_id: personageId,
+                    value: personageInherent.value
+                });
             });
         });
     }
 
     function randomizeInherentValues() {
+        var deferred = $q.defer();
         angular.forEach($scope.personageInherents, function (personageInherent) {
             if (personageInherent.Inherent.name === 'Внешность') {
                 var modifier = 0;
@@ -974,9 +976,58 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         }
                     }
                 });
-                personageInherent.value = Math.floor((Math.random() * max) + min);
+
+                checkMagicBonus(personageInherent.Inherent.name).then(function (magicBonus) {
+                    personageInherent.value = Math.floor((Math.random() * (max + 1 - min)) + min) + magicBonus;
+                    if (personageInherent.Inherent.name === 'Маг') {
+                        deferred.resolve();
+                    }
+                });
             }
         });
+        return deferred.promise;
+    }
+
+    function checkMagicBonus(name) {
+        var returned = $q.defer();
+
+        if (name === 'Маг' && $scope.personage.Race.name === 'Полуэльф') {
+            swal({
+                title: 'Особенные достоинства полуэльфов',
+                html: '<p>У вас выпала особенность "маг". Полуэльфы могут увеличить свою силу магии при создании персонажа, ' +
+                'купив дополнительную особенность за опыт.' +
+                '<strong style="font-size: 22px">Это ваш единственный шанс выбрать!</strong></p>' +
+                '<form>' +
+                '<div class="row form-group">' +
+                '<div class="col-md-12">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="magic" type="checkbox">' +
+                '<label for="magic">+1 к Силе Магии (10 ехр)</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</form>',
+                showCancelButton: false,
+                confirmButtonText: "Подтвердить",
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        resolve([
+                            $('#magic').prop("checked")
+                        ])
+                    })
+                }
+            }).then(function success(result) {
+                if (result[0]) {
+                    returned.resolve(1);
+                } else {
+                    returned.resolve(0);
+                }
+            });
+        } else {
+            returned.resolve(0);
+        }
+        return returned.promise;
     }
 
     function setHasInherents() {
