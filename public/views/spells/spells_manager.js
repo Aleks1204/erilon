@@ -95,7 +95,12 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                 "info": false,
                 "ajax": '/spellsBySchoolId/' + school.id,
                 columns: [
-                    {data: 'name'},
+                    {
+                        data: "name",
+                        render: function (data, type, full, meta, row) {
+                            return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                        }
+                    },
                     {
                         data: 'cost',
                         className: 'text-center'
@@ -174,6 +179,23 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                     }
                 ]
             });
+
+            currentMagicTableSelector.on('click', 'td:eq(0)', function () {
+                var tr = $(this).closest('tr');
+                var row = currentMagicTable.row( tr );
+
+                if (tr.find('td').length < 10) {
+                    if (row.child.isShown()) {
+                        $(this).find('.icmn-circle-down2').remove();
+                        $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
+                    }
+                    else {
+                        $(this).find('.icmn-circle-up2').remove();
+                        $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
+                    }
+                }
+            } );
+
             currentMagicTableSelector.on('click', '.description', function () {
                 var spellId = this.href.substring(this.href.indexOf(';') + 1);
                 $('#spellDescription' + spellId).toggle();

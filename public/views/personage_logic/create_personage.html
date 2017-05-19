@@ -180,7 +180,8 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="javascript: void(0)">Опыт: {{personage.experience}}</a>
                         </ul>
-                        <button ng-disabled="personage.experience < 0" type="button" class="btn btn-success btn-sm margin-inline margin-top-10"
+                        <button ng-disabled="personage.experience < 0" type="button"
+                                class="btn btn-success btn-sm margin-inline margin-top-10"
                                 ng-click="savePersonage()">Сохранить
                         </button>
                     </div>
@@ -233,14 +234,12 @@
                             <tr>
                                 <td ng-click="showHideDescription(personageInherent.Inherent)"
                                     style="cursor:pointer;">
-                                    <div class="text-left">
-                                        <a class="link-underlined link-blue" style="cursor: pointer;">
-                                            {{personageInherent.Inherent.name}}
-                                            <i class="fa fa-angle-double-down"
-                                               ng-hide="isShowItem(personageInherent.Inherent.id)"></i>
-                                            <i class="fa fa-angle-double-up"
-                                               ng-show="isShowItem(personageInherent.Inherent.id)"></i>
-                                        </a>
+                                    <div class="text-left disable-select">
+                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-down2 margin-inline"></i>
+                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-up2 margin-inline"></i>
+                                        {{personageInherent.Inherent.name}}
                                     </div>
                                 </td>
                                 <td>
@@ -415,14 +414,12 @@
                                         <td id="{{personageAttribute.Attribute.name}}"
                                             ng-click="showHideDescription(personageAttribute.Attribute)"
                                             style="cursor:pointer;">
-                                            <div class="text-left">
-                                                <a class="link-underlined link-blue" style="cursor: pointer;">
-                                                    {{personageAttribute.Attribute.name}}
-                                                    <i class="fa fa-angle-double-down"
-                                                       ng-hide="isShowItem(personageAttribute.Attribute.id)"></i>
-                                                    <i class="fa fa-angle-double-up"
-                                                       ng-show="isShowItem(personageAttribute.Attribute.id)"></i>
-                                                </a>
+                                            <div class="text-left disable-select">
+                                                <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                                   class="icmn-circle-down2 margin-inline"></i>
+                                                <i ng-show="isShowItem(item.attachedSkill.id)"
+                                                   class="icmn-circle-up2 margin-inline"></i>
+                                                {{personageAttribute.Attribute.name}}
                                             </div>
                                         </td>
                                         <td>
@@ -453,14 +450,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <!--<div class="hidden-xs-down hidden-sm-down">-->
-                                <!--<button class="btn btn-rounded btn-warning-outline" ng-click="makeDraggable()">-->
-                                <!--Двигать-->
-                                <!--</button>-->
-                                <!--<button class="btn btn-rounded btn-success-outline" ng-click="makeUnDraggable()">-->
-                                <!--Перестать двигать-->
-                                <!--</button>-->
-                                <!--</div>-->
                             </div>
                         </div>
                         <div class="o-wrapper-attributes hidden-md-up">
@@ -805,14 +794,12 @@
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td class="text-right mobile attached"
                                     ng-click="showHideDescription(item.attachedSkill)" style="cursor:pointer;">
-                                    <div class="text-left">
-                                        <a class="link-underlined link-blue" style="cursor: pointer;">
-                                            {{item.attachedSkill.name}}
-                                            <i class="fa fa-angle-double-down"
-                                               ng-hide="isShowItem(item.attachedSkill.id)"></i>
-                                            <i class="fa fa-angle-double-up"
-                                               ng-show="isShowItem(item.attachedSkill.id)"></i>
-                                        </a>
+                                    <div class="text-left disable-select">
+                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-down2 margin-inline"></i>
+                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-up2 margin-inline"></i>
+                                        {{item.attachedSkill.name}}
                                     </div>
                                 </td>
 
@@ -1006,14 +993,12 @@
                                 <td class="text-right mobile attached"
                                     ng-click="showHideDescription(triggerSkillMixed.triggerSkill)"
                                     style="cursor:pointer;">
-                                    <div class="text-left">
-                                        <a class="link-underlined link-blue" style="cursor: pointer;">
-                                            {{triggerSkillMixed.triggerSkill.name}}
-                                            <i class="fa fa-angle-double-down"
-                                               ng-hide="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
-                                            <i class="fa fa-angle-double-up"
-                                               ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"></i>
-                                        </a>
+                                    <div class="text-left disable-select">
+                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-down2 margin-inline"></i>
+                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-up2 margin-inline"></i>
+                                        {{triggerSkillMixed.triggerSkill.name}}
                                     </div>
                                 </td>
 
@@ -1307,14 +1292,12 @@
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
                                 <td class="text-right mobile merit" ng-click="showHideDescription(meritMixed.merit)"
                                     style="cursor:pointer;">
-                                    <div class="text-left">
-                                        <a class="link-underlined link-blue" style="cursor:pointer;">
-                                            {{meritMixed.merit.name}}
-                                            <i class="fa fa-angle-double-down"
-                                               ng-hide="isShowItem(meritMixed.merit.id)"></i>
-                                            <i class="fa fa-angle-double-up"
-                                               ng-show="isShowItem(meritMixed.merit.id)"></i>
-                                        </a>
+                                    <div class="text-left disable-select">
+                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-down2 margin-inline"></i>
+                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-up2 margin-inline"></i>
+                                        {{meritMixed.merit.name}}
                                     </div>
                                 </td>
                                 <td class="text-right mobile merit">
@@ -1553,14 +1536,12 @@
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
                                 <td class="text-right mobile flaw" ng-click="showHideDescription(flawMixed.flaw)"
                                     style="cursor:pointer;">
-                                    <div class="text-left">
-                                        <a class="link-underlined link-blue" style="cursor:pointer;">
-                                            {{flawMixed.flaw.name}}
-                                            <i class="fa fa-angle-double-down"
-                                               ng-hide="isShowItem(flawMixed.flaw.id)"></i>
-                                            <i class="fa fa-angle-double-up"
-                                               ng-show="isShowItem(flawMixed.flaw.id)"></i>
-                                        </a>
+                                    <div class="text-left disable-select">
+                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-down2 margin-inline"></i>
+                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                           class="icmn-circle-up2 margin-inline"></i>
+                                        {{flawMixed.flaw.name}}
                                     </div>
                                 </td>
 
@@ -1696,14 +1677,12 @@
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)"
                                         style="cursor:pointer;">
-                                        <div class="text-left">
-                                            <a class="link-underlined link-blue" style="cursor:pointer;">
-                                                {{spellItem.spell.name}}
-                                                <i class="fa fa-angle-double-down"
-                                                   ng-hide="isShowItem(spellItem.spell.id)"></i>
-                                                <i class="fa fa-angle-double-up"
-                                                   ng-show="isShowItem(spellItem.spell.id)"></i>
-                                            </a>
+                                        <div class="text-left disable-select">
+                                            <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                               class="icmn-circle-down2 margin-inline"></i>
+                                            <i ng-show="isShowItem(item.attachedSkill.id)"
+                                               class="icmn-circle-up2 margin-inline"></i>
+                                            {{spellItem.spell.name}}
                                         </div>
                                     </td>
 

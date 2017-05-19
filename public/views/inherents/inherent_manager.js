@@ -54,7 +54,12 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
             "info": false,
             "ajax": '/inherents',
             "columns": [
-                {"data": "name"},
+                {
+                    data: "name",
+                    render: function (data, type, full, meta, row) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                    }
+                },
                 {
                     data: 'probability',
                     orderable: false,
@@ -107,6 +112,22 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                 }
             ]
         });
+
+        inherentsTable.on('click', 'td:eq(0)', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if (tr.find('td').length < 7) {
+                if (row.child.isShown()) {
+                    $(this).find('.icmn-circle-down2').remove();
+                    $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
+                }
+                else {
+                    $(this).find('.icmn-circle-up2').remove();
+                    $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
+                }
+            }
+        } );
 
         inherentsTable.on('click', '.delete', function () {
             var id = this.value;

@@ -43,7 +43,12 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
             searching: false,
             "ajax": '/attributes',
             "columns": [
-                {"data": "name"},
+                {
+                    data: "name",
+                    render: function (data, type, full, meta, row) {
+                        return '<i class="icmn-circle-down2 margin-right-10"></i>' + data;
+                    }
+                },
                 {
                     data: 'action_level_bonus',
                     orderable: false
@@ -64,6 +69,22 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                 }
             ]
         });
+
+        attributesTable.on('click', 'td:eq(0)', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if (tr.find('td').length < 4) {
+                if (row.child.isShown()) {
+                    $(this).find('.icmn-circle-down2').remove();
+                    $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
+                }
+                else {
+                    $(this).find('.icmn-circle-up2').remove();
+                    $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
+                }
+            }
+        } );
 
         attributesTable.on('click', '.delete', function () {
             var id = this.value;
