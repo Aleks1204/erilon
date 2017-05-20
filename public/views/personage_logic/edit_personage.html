@@ -1008,10 +1008,11 @@
                                 <td class="text-right mobile trigger actions">
                                     <div class="text-center">
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
-                                            <a class="link-underlined link-blue" style="cursor:pointer;"
-                                               ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
+                                            <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                    style="cursor: pointer;"
+                                                    ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
                                                 Удалить
-                                            </a>
+                                            </button>
                                         </div>
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
                                             <button class="btn btn-rounded btn-warning btn-sm"
@@ -1276,10 +1277,11 @@
                                 <td class="text-right mobile merit actions">
                                     <div class="text-center">
                                         <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
-                                            <a class="link-underlined link-blue" style="cursor:pointer;"
-                                               ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
+                                            <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                    style="cursor: pointer;"
+                                                    ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
                                                 Удалить
-                                            </a>
+                                            </button>
                                         </div>
                                         <div ng-if="meritMixed.personageMerit == null">
                                             <button class="btn btn-rounded btn-warning btn-sm"
@@ -1511,10 +1513,11 @@
                                             </button>
                                         </div>
                                         <div ng-if="flawMixed.personageFlaw != null && !flawMixed.flaw.unremovable">
-                                            <a class="link-underlined link-blue" style="cursor:pointer;"
-                                               ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
+                                            <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                    style="cursor: pointer;"
+                                                    ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
                                                 Удалить
-                                            </a>
+                                            </button>
                                         </div>
                                         <div ng-if="flawMixed.personageFlaw.Flaw.unremovable">
                                             Нельзя удалить
@@ -1697,10 +1700,11 @@
                                                 </button>
                                             </div>
                                             <div ng-if="spellItem.personageSpell != null">
-                                                <a class="link-underlined link-blue" style="cursor:pointer;"
-                                                   ng-click="deletePersonageSpell(spellItem.personageSpell)">
+                                                <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                        style="cursor: pointer;"
+                                                        ng-click="deletePersonageSpell(spellItem.personageSpell)">
                                                     Удалить
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </td>
