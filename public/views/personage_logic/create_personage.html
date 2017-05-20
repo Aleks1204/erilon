@@ -255,7 +255,7 @@
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(personageInherent.Inherent.id)">
-                                <td colspan="2">
+                                <td colspan="3">
                                     <strong class="padding-left-10">Описание:</strong>
                                     {{personageInherent.Inherent.description}}
                                 </td>
@@ -780,10 +780,10 @@
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Навык</th>
-                                <th class="mobile">Сложность</th>
-                                <th class="mobile">Теоретический</th>
+                                <th class="mobile text-center">Сложный</th>
+                                <th class="mobile text-center">Теоретический</th>
                                 <th class="mobile"></th>
-                                <th class="mobile">Значение</th>
+                                <th class="mobile text-center">Значение</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
@@ -793,7 +793,7 @@
                                 ng-hide="filteredAttachedSkills(item)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td class="text-right mobile attached"
-                                    ng-click="showHideDescription(item.attachedSkill)" style="cursor:pointer;">
+                                    ng-click="showHideDescription(item.attachedSkill)" style="cursor:pointer;width: 15%">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(item.attachedSkill.id)"
                                            class="icmn-circle-down2 margin-inline"></i>
@@ -804,20 +804,20 @@
                                 </td>
 
                                 <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.attachedSkill.difficult">
-                                        Сложный
+                                    <div class="text-center" ng-if="item.attachedSkill.difficult">
+                                        <i class="icmn-plus"></i>
                                     </div>
-                                    <div class="text-left" ng-if="!item.attachedSkill.difficult">
-                                        Простой
+                                    <div class="text-center" ng-if="!item.attachedSkill.difficult">
+                                        <i class="icmn-minus"></i>
                                     </div>
                                 </td>
 
                                 <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.attachedSkill.theoretical">
-                                        Да
+                                    <div class="text-center" ng-if="item.attachedSkill.theoretical">
+                                        <i class="icmn-plus"></i>
                                     </div>
-                                    <div class="text-left" ng-if="!item.attachedSkill.theoretical">
-                                        Нет
+                                    <div class="text-center" ng-if="!item.attachedSkill.theoretical">
+                                        <i class="icmn-minus"></i>
                                     </div>
                                 </td>
 
@@ -843,10 +843,10 @@
                                 </td>
 
                                 <td class="text-right mobile attached">
-                                    <div class="text-left" ng-if="item.personageAttachedSkill != null">
+                                    <div class="text-center" ng-if="item.personageAttachedSkill != null">
                                         {{item.personageAttachedSkill.value}}
                                     </div>
-                                    <div class="text-left" ng-if="item.personageAttachedSkill == null">
+                                    <div class="text-center" ng-if="item.personageAttachedSkill == null">
                                         -
                                     </div>
                                 </td>
@@ -979,9 +979,9 @@
                             <tr class="mobile">
                                 <th class="mobile">Навык</th>
                                 <th class="mobile"></th>
-                                <th class="mobile">Уровень</th>
-                                <th class="mobile">Талант</th>
-                                <th class="mobile">Учитель</th>
+                                <th class="mobile text-center">Уровень</th>
+                                <th class="mobile text-center">Талант</th>
+                                <th class="mobile text-center">Учитель</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
@@ -1024,7 +1024,7 @@
                                 </td>
 
                                 <td class="text-right mobile trigger">
-                                    <div class="text-left">
+                                    <div class="text-center">
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
                                             -
                                         </div>
@@ -1036,23 +1036,23 @@
 
 
                                 <td class="text-right mobile trigger">
-                                    <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.talented">
-                                        <i class="icmn-checkmark4"></i>
+                                    <div class="text-center" ng-if="triggerSkillMixed.personageTriggerSkill.talented">
+                                        <i class="icmn-plus"></i>
                                     </div>
 
-                                    <div class="text-left"
+                                    <div class="text-center"
                                          ng-if="!triggerSkillMixed.personageTriggerSkill.talented">
-                                        <i class="icmn-cross3"></i>
+                                        <i class="icmn-minus"></i>
                                     </div>
                                 </td>
 
                                 <td class="text-right mobile trigger">
-                                    <div class="text-left" ng-if="triggerSkillMixed.personageTriggerSkill.tutored">
-                                        <i class="icmn-checkmark4"></i>
+                                    <div class="text-center" ng-if="triggerSkillMixed.personageTriggerSkill.tutored">
+                                        <i class="icmn-plus"></i>
                                     </div>
 
-                                    <div class="text-left" ng-if="!triggerSkillMixed.personageTriggerSkill.tutored">
-                                        <i class="icmn-cross3"></i>
+                                    <div class="text-center" ng-if="!triggerSkillMixed.personageTriggerSkill.tutored">
+                                        <i class="icmn-minus"></i>
                                     </div>
                                 </td>
 
