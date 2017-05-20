@@ -50,7 +50,7 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
             "info": false,
             "ajax": '/inherents',
             "columns": [
@@ -113,11 +113,11 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
             ]
         });
 
-        inherentsTable.on('click', 'td:eq(0)', function () {
+        inherentsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
 
-            if (tr.find('td').length < 7) {
+            if (tr.find('td').length < 7 && $(this).index() === 0) {
                 if (row.child.isShown()) {
                     $(this).find('.icmn-circle-down2').remove();
                     $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');

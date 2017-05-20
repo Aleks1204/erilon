@@ -91,7 +91,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                     },
                     "lengthMenu": "Показать _MENU_"
                 },
-                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
                 "info": false,
                 "ajax": '/spellsBySchoolId/' + school.id,
                 columns: [
@@ -180,11 +180,11 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                 ]
             });
 
-            currentMagicTableSelector.on('click', 'td:eq(0)', function () {
+            currentMagicTableSelector.on('click', 'td', function () {
                 var tr = $(this).closest('tr');
                 var row = currentMagicTable.row( tr );
 
-                if (tr.find('td').length < 10) {
+                if (tr.find('td').length < 10 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                     if (row.child.isShown()) {
                         $(this).find('.icmn-circle-down2').remove();
                         $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');

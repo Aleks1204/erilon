@@ -50,7 +50,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
             "info": false,
             "ajax": '/attachedSkills',
             "columns": [
@@ -126,11 +126,11 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
             ]
         });
 
-        skillsTable.on('click', 'td:eq(0)', function () {
+        skillsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
 
-            if (tr.find('td').length < 8) {
+            if (tr.find('td').length < 8 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
                     $(this).find('.icmn-circle-down2').remove();
                     $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');

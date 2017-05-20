@@ -235,9 +235,9 @@
                                 <td ng-click="showHideDescription(personageInherent.Inherent)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                        <i ng-hide="isShowItem(personageInherent.Inherent.id)"
                                            class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                        <i ng-show="isShowItem(personageInherent.Inherent.id)"
                                            class="icmn-circle-up2 margin-inline"></i>
                                         {{personageInherent.Inherent.name}}
                                     </div>
@@ -415,9 +415,9 @@
                                             ng-click="showHideDescription(personageAttribute.Attribute)"
                                             style="cursor:pointer;">
                                             <div class="text-left disable-select">
-                                                <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                                <i ng-hide="isShowItem(personageAttribute.Attribute.id)"
                                                    class="icmn-circle-down2 margin-inline"></i>
-                                                <i ng-show="isShowItem(item.attachedSkill.id)"
+                                                <i ng-show="isShowItem(personageAttribute.Attribute.id)"
                                                    class="icmn-circle-up2 margin-inline"></i>
                                                 {{personageAttribute.Attribute.name}}
                                             </div>
@@ -994,9 +994,9 @@
                                     ng-click="showHideDescription(triggerSkillMixed.triggerSkill)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                        <i ng-hide="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                            class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                        <i ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                            class="icmn-circle-up2 margin-inline"></i>
                                         {{triggerSkillMixed.triggerSkill.name}}
                                     </div>
@@ -1293,9 +1293,9 @@
                                 <td class="text-right mobile merit" ng-click="showHideDescription(meritMixed.merit)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                        <i ng-hide="isShowItem(meritMixed.merit.id)"
                                            class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                        <i ng-show="isShowItem(meritMixed.merit.id)"
                                            class="icmn-circle-up2 margin-inline"></i>
                                         {{meritMixed.merit.name}}
                                     </div>
@@ -1537,9 +1537,9 @@
                                 <td class="text-right mobile flaw" ng-click="showHideDescription(flawMixed.flaw)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                        <i ng-hide="isShowItem(flawMixed.flaw.id)"
                                            class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(item.attachedSkill.id)"
+                                        <i ng-show="isShowItem(flawMixed.flaw.id)"
                                            class="icmn-circle-up2 margin-inline"></i>
                                         {{flawMixed.flaw.name}}
                                     </div>
@@ -1678,9 +1678,9 @@
                                     <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)"
                                         style="cursor:pointer;">
                                         <div class="text-left disable-select">
-                                            <i ng-hide="isShowItem(item.attachedSkill.id)"
+                                            <i ng-hide="isShowItem(spellItem.spell.id)"
                                                class="icmn-circle-down2 margin-inline"></i>
-                                            <i ng-show="isShowItem(item.attachedSkill.id)"
+                                            <i ng-show="isShowItem(spellItem.spell.id)"
                                                class="icmn-circle-up2 margin-inline"></i>
                                             {{spellItem.spell.name}}
                                         </div>

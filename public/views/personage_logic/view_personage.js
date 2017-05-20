@@ -1,6 +1,16 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
 
+function isMobile() {
+    return navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i);
+}
+
 app.controller("personageController", function ($scope, $http, $q, $timeout) {
     $scope.loader = true;
 
@@ -9,29 +19,56 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
 
     table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
         {"data": "Flaw.name"}
-    ]);
+    ], 1);
 
     table('/noticesByPersonageId/' + personageId, '#notices', [
-        {"data": "name"},
+        {
+            data: "name",
+            render: function (data, type, full, meta, row) {
+                if(isMobile()) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                } else {
+                    return data;
+                }
+            }
+        },
         {"data": "description"}
-    ]);
+    ], 2);
 
     table('/personageMeritsByPersonageId/' + personageId, '#merits', [
         {"data": "Merit.name"}
-    ]);
+    ], 1);
 
     table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
         {"data": "AttachedSkill.name"},
         {"data": "value"}
-    ]);
+    ], 2);
 
     table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
-        {"data": "Inherent.name"},
+        {
+            data: "Inherent.name",
+            render: function (data, type, full, meta, row) {
+                if(isMobile()) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                } else {
+                    return data;
+                }
+            }
+        },
         {"data": "value"}
-    ]);
+    ], 2);
 
     table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
-        {"data": "TriggerSkill.name"},
+        {
+            data: "TriggerSkill.name",
+            render: function (data, type, full, meta, row) {
+                if(isMobile()) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                } else {
+                    return data;
+                }
+            }
+        },
         {
             "targets": 0,
             "data": function (row, type, val, meta) {
@@ -62,7 +99,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                 }
             }
         }
-    ]);
+    ], 3);
 
     function animateButtons(buttons, animatedStyle) {
         angular.forEach(buttons, function (button) {
@@ -151,8 +188,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $scope.loader = false;
     }
 
-    function table(dataUrl, tableId, columns) {
-        $(tableId).DataTable({
+    function table(dataUrl, tableId, columns, maxSize) {
+        var table = $(tableId).DataTable({
             responsive: true,
             "language": {
                 "search": "Поиск:",
@@ -167,7 +204,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
             "info": false,
             "ajax": dataUrl,
             "columns": columns,
@@ -175,6 +212,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         });
         $(tableId + '_filter').addClass("pull-right");
         $(tableId + '_paginate').addClass("pull-right");
+
+        $(tableId).on('click', 'td', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if (tr.find('td').length < maxSize && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
+                if (row.child.isShown()) {
+                    $(this).find('.icmn-circle-down2').remove();
+                    $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
+                }
+                else {
+                    $(this).find('.icmn-circle-up2').remove();
+                    $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
+                }
+            }
+        } );
     }
 
     var all = $q.all([personage.promise, raceAttributes.promise]);
@@ -231,7 +284,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             '</div>' +
             '</div>' +
             '</div>');
-        $('#' + id + 'Magic').DataTable({
+        var tableSelector = $('#' + id + 'Magic');
+        var table = tableSelector.DataTable({
             responsive: true,
             stateSave: true,
             "language": {
@@ -244,11 +298,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                 },
                 "lengthMenu": "Показать _MENU_"
             },
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
             "info": false,
             data: spells,
             columns: [
-                {data: 'spell.name'},
+                {
+                    data: "name",
+                    render: function (data, type, full, meta, row) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                    }
+                },
                 {data: 'spell.complexity'},
                 {data: 'spell.mana'},
                 {
@@ -310,6 +369,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             var spellId = this.href.substring(this.href.indexOf(';') + 1);
             $('#spellEffect' + spellId).toggle();
         });
+        tableSelector.on('click', 'td', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if (tr.find('td').length < 9 && $(this).index() === 0) {
+                if (row.child.isShown()) {
+                    $(this).find('.icmn-circle-down2').remove();
+                    $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
+                }
+                else {
+                    $(this).find('.icmn-circle-up2').remove();
+                    $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
+                }
+            }
+        } );
     }
 
     $scope.calculateMagicSchools = function () {

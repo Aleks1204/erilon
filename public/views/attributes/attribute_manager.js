@@ -70,11 +70,11 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
             ]
         });
 
-        attributesTable.on('click', 'td:eq(0)', function () {
+        attributesTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
 
-            if (tr.find('td').length < 4) {
+            if (tr.find('td').length < 4 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
                     $(this).find('.icmn-circle-down2').remove();
                     $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');

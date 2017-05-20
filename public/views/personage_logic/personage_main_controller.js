@@ -2658,7 +2658,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
                 $('.update').click(function () {
                     swal({
-                        title: 'Multiple inputs',
+                        title: 'Изменить заметку',
                         html: '<form>' +
                         '<div class="form-group">' +
                         '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +

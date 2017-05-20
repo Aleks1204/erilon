@@ -50,7 +50,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
             "info": false,
             "ajax": '/flaws',
             "columns": [
@@ -95,11 +95,11 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
             ]
         });
 
-        flawsTable.on('click', 'td:eq(0)', function () {
+        flawsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
 
-            if (tr.find('td').length < 7) {
+            if (tr.find('td').length < 7 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
                     $(this).find('.icmn-circle-down2').remove();
                     $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
@@ -120,7 +120,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Да!",
+                confirmButtonText: "Удалить!",
                 cancelButtonText: "Отменить"
             }).then(function success() {
                 $http.delete('/flaws/' + id).then(function () {
