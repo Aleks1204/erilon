@@ -926,6 +926,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function randomizeInherentValues() {
         var deferred = $q.defer();
+        var count = $scope.personageInherents.length;
         angular.forEach($scope.personageInherents, function (personageInherent) {
             if (personageInherent.Inherent.name === 'Внешность') {
                 var modifier = 0;
@@ -979,10 +980,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
                 checkMagicBonus(personageInherent.Inherent.name).then(function (magicBonus) {
                     personageInherent.value = Math.floor((Math.random() * (max + 1 - min)) + min) + magicBonus;
-                    if (personageInherent.Inherent.name === 'Маг') {
-                        deferred.resolve();
-                    }
                 });
+            }
+            count--;
+            if (count === 0) {
+                deferred.resolve();
             }
         });
         return deferred.promise;
