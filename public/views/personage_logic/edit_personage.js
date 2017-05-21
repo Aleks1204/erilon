@@ -518,7 +518,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function calculateMeritsToShow() {
         $http.get('/raceMeritsByRaceId/' + $scope.personage.RaceId).then(function (response) {
-            angular.forEach(response.data.raceMerits, function (raceMerit) {
+            angular.forEach(response.data.data, function (raceMerit) {
                 for (var i = 0; i < $scope.personageMerits.length; i++) {
                     if (!raceMerit.race_default && raceMerit.race_cost !== 0 && raceMerit.MeritId === $scope.personageMerits[i].Merit.id) {
                         $scope.personageMerits[i].Merit.cost = raceMerit.race_cost;
@@ -1244,11 +1244,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var nextLevel = personageTriggerSkill.currentLevel + 1;
         var isIncreased = false;
         $http.get('/skillLevelsByTriggerSkillId/' + personageTriggerSkill.TriggerSkillId).then(function (response) {
-            if (response.data.skillLevels.length === 0) {
+            if (response.data.data.length === 0) {
                 exceedTriggerSkillLevel(personageTriggerSkill.TriggerSkill.name);
                 increaseLevel.resolve();
             } else {
-                angular.forEach(response.data.skillLevels, function (skillLevel) {
+                angular.forEach(response.data.data, function (skillLevel) {
                     if (skillLevel.level === nextLevel) {
                         isIncreased = true;
                         var cost = skillLevel.cost;
@@ -1290,7 +1290,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         console.log('decrease: ' + currentLevel);
                         personageTriggerSkill.currentLevel--;
                     }
-                    angular.forEach(response.data.skillLevels, function (skillLevel) {
+                    angular.forEach(response.data.data, function (skillLevel) {
                         if (skillLevel.level === previousLevel) {
                             personageTriggerSkill.currentLevel--;
                             console.log('decrease: ' + currentLevel);
