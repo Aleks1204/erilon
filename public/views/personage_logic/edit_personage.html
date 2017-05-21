@@ -34,6 +34,7 @@
     <script src="../permissions/check_player_permissions.js"></script>
 </head>
 <body class="theme-default menu-left mode-material layout-boxed mode-box-shadow" ng-app="personageApp" ng-cloak>
+<div id="loader"></div>
 <div class="boxed-container" ng-controller="permissionsController">
     <div ng-controller="personageController">
         <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
@@ -156,7 +157,7 @@
             </div>
         </nav>
 
-        <section class="page-content">
+        <section class="page-content hide">
 
             <div class="panel">
                 <h3 class="panel-heading" style="padding-bottom: 0">

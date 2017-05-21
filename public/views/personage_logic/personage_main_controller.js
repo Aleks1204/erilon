@@ -39,7 +39,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.loader = true;
+
     $scope.meritAvailable = true;
     $scope.showGenerateInherentsButton = false;
 
@@ -516,7 +516,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             });
         });
-        $scope.loader = false;
+
     }
 
     $scope.isCategoryMeritsMenuClose = true;
@@ -769,9 +769,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
         if (saveNeeded) {
             $scope.savePersonage();
+        } else {
+            $('#loader').hide();
+            $('section').removeClass('hide');
         }
-
-        $scope.loader = false;
     }
 
     var all = $q.all([
@@ -885,40 +886,41 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     });
 
     $scope.randomizeInherentsAndValues = function () {
-        $scope.loader = true;
+
         randomizeInherents();
-        $scope.loader = true;
+
     };
 
     function randomizeInherents() {
-        angular.forEach($scope.inherents, function (inherent) {
-            var probability = inherent.probability;
+        setHasInherents().then(function () {
+            angular.forEach($scope.inherents, function (inherent) {
+                var probability = inherent.probability;
 
-            angular.forEach($scope.raceInherents, function (raceInherent) {
-                if (raceInherent.Inherent.id === inherent.id) {
-                    probability = raceInherent.race_probability;
+                angular.forEach($scope.raceInherents, function (raceInherent) {
+                    if (raceInherent.Inherent.id === inherent.id) {
+                        probability = raceInherent.race_probability;
+                    }
+                });
+
+                var random = Math.floor((Math.random() * probability) + 1);
+                if (random === probability) {
+                    $scope.personageInherents.push({
+                        Inherent: inherent,
+                        InherentId: inherent.id,
+                        PersonageId: personageId
+                    });
                 }
             });
 
-            var random = Math.floor((Math.random() * probability) + 1);
-            if (random === probability) {
-                $scope.personageInherents.push({
-                    Inherent: inherent,
-                    InherentId: inherent.id,
-                    PersonageId: personageId
-                });
-            }
-        });
+            randomizeInherentValues().then(function () {
+                updateInherentsPrerequisites();
 
-        randomizeInherentValues().then(function () {
-            setHasInherents();
-            updateInherentsPrerequisites();
-
-            angular.forEach($scope.personageInherents, function (personageInherent) {
-                $http.post('/personageInherents', {
-                    inherent_id: personageInherent.InherentId,
-                    personage_id: personageId,
-                    value: personageInherent.value
+                angular.forEach($scope.personageInherents, function (personageInherent) {
+                    $http.post('/personageInherents', {
+                        inherent_id: personageInherent.InherentId,
+                        personage_id: personageId,
+                        value: personageInherent.value
+                    });
                 });
             });
         });
@@ -1033,16 +1035,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     function setHasInherents() {
+        var deferred = $q.defer();
         $http.post('/history', {
             key: 'HAS_INHERENTS' + personageId,
             value: 'TRUE'
-        }).then($scope.hasInherents);
+        }).then($scope.hasInherents().then(deferred.resolve()));
+        return deferred.promise;
     }
 
     $scope.hasInherents = function () {
+        var deferred = $q.defer();
         $http.get('/byKey/' + 'HAS_INHERENTS' + personageId).then(function (response) {
             $scope.showGenerateInherentsButton = response.data.result === null;
+            deferred.resolve();
         });
+        return deferred.promise;
     };
 
     $scope.personageInherentValue = null;
@@ -1196,7 +1203,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.increaseAttribute = function (personageAttribute) {
-        $scope.loader = true;
+
         var maxPrice = 8;
         var isPrimaryAttributeSet = false;
         var isSecondaryAttributeSet = 0;
@@ -1252,7 +1259,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         recalculateBasicCharacteristics(true);
-        $scope.loader = false;
+
     };
 
     $scope.decreaseAttribute = function (personageAttribute) {
@@ -1423,12 +1430,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
-        $scope.loader = true;
+
 
         var increaseLevel = $q.defer();
 
         function success(data) {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -1458,12 +1465,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseSpellLevel = function (personageSpell) {
 
-        $scope.loader = true;
 
         var decreaseLevel = $q.defer();
 
         function success(data) {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([decreaseLevel.promise]);
@@ -1482,7 +1488,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseAttachedSkill = function (personageAttachedSkill) {
-        $scope.loader = true;
+
         var isPrimaryAttributeSet = false;
         var isSecondaryAttributeSet = 0;
         var wisdomDoubleValue = $scope.wisdom * 2;
@@ -1581,16 +1587,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             exceedLimit(personageAttachedSkill.AttachedSkill.name);
         }
-        $scope.loader = false;
+
     };
 
     $scope.increaseTriggerSkillLevel = function (personageTriggerSkill) {
-        $scope.loader = true;
+
 
         var increaseLevel = $q.defer();
 
         function success() {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -2467,7 +2473,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.addPersonageTriggerSkill = function (triggerSkill) {
-        $scope.loader = true;
+
         $scope.personageTriggerSkills.push({
             TriggerSkill: triggerSkill,
             TriggerSkillId: triggerSkill.id,
@@ -2487,7 +2493,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
         updateTriggerSkillPrerequisites(triggerSkill.id);
-        $scope.loader = false;
+
     };
 
     $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
@@ -2805,10 +2811,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.savePersonage = function () {
-        $('.main-backdrop').toggleClass('main-backdrop-showed');
+        $('#loader').show();
+        $('section').addClass('hide');
 
         function success() {
-            $('.main-backdrop').removeClass('main-backdrop-showed');
+            $('#loader').hide();
+            $('section').removeClass('hide');
         }
 
         var personage = $q.defer();

@@ -39,7 +39,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
-    $scope.loader = true;
+
     $scope.meritAvailable = true;
 
     $scope.personageMerits = null;
@@ -540,7 +540,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
             });
         });
-        $scope.loader = false;
+
     }
 
     $scope.isCategoryMeritsMenuClose = true;
@@ -762,7 +762,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateMeritsToShow();
         calculateSpellsToShow();
         calculateAddedSchools();
-        $scope.loader = false;
+        $('#loader').hide();
+        $('section').removeClass('hide');
     }
 
     var all = $q.all([
@@ -1001,7 +1002,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.increaseAttribute = function (personageAttribute) {
-        $scope.loader = true;
+
         var maxPrice = 8;
 
         var modifier = getAttributeModifier(personageAttribute.Attribute);
@@ -1020,7 +1021,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         recalculateBasicCharacteristics(true);
-        $scope.loader = false;
+
     };
 
     $scope.decreaseAttribute = function (personageAttribute) {
@@ -1140,12 +1141,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
-        $scope.loader = true;
+
 
         var increaseLevel = $q.defer();
 
         function success(data) {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -1175,12 +1176,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseSpellLevel = function (personageSpell) {
 
-        $scope.loader = true;
+
 
         var decreaseLevel = $q.defer();
 
         function success(data) {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([decreaseLevel.promise]);
@@ -1199,7 +1200,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseAttachedSkill = function (personageAttachedSkill) {
-        $scope.loader = true;
+
         var wisdomDoubleValue = $scope.wisdom * 2;
 
         if (personageAttachedSkill.AttachedSkill.theoretical) {
@@ -1225,16 +1226,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 $scope.personage.experience = $scope.personage.experience - 1;
             }
         }
-        $scope.loader = false;
+
     };
 
     $scope.increaseTriggerSkillLevel = function (personageTriggerSkill) {
-        $scope.loader = true;
+
 
         var increaseLevel = $q.defer();
 
         function success() {
-            $scope.loader = false;
+
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -2111,7 +2112,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.addPersonageTriggerSkill = function (triggerSkill) {
-        $scope.loader = true;
+
         $scope.personageTriggerSkills.push({
             TriggerSkill: triggerSkill,
             TriggerSkillId: triggerSkill.id,
@@ -2131,7 +2132,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
         updateTriggerSkillPrerequisites(triggerSkill.id);
-        $scope.loader = false;
+
     };
 
     $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
@@ -2449,10 +2450,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.savePersonage = function () {
-        $('.main-backdrop').toggleClass('main-backdrop-showed');
+        $('#loader').show();
+        $('section').addClass('hide');
 
         function success() {
-            $('.main-backdrop').removeClass('main-backdrop-showed');
+            $('#loader').hide();
+            $('section').removeClass('hide');
         }
 
         var personage = $q.defer();
