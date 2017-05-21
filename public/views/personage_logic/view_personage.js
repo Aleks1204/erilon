@@ -12,8 +12,6 @@ function isMobile() {
 }
 
 app.controller("personageController", function ($scope, $http, $q, $timeout) {
-    $scope.loader = true;
-
     var personage = $q.defer();
     var raceAttributes = $q.defer();
 
@@ -25,7 +23,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         {
             data: "name",
             render: function (data, type, full, meta, row) {
-                if(isMobile()) {
+                if (isMobile()) {
                     return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 } else {
                     return data;
@@ -48,7 +46,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         {
             data: "Inherent.name",
             render: function (data, type, full, meta, row) {
-                if(isMobile()) {
+                if (isMobile()) {
                     return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 } else {
                     return data;
@@ -62,7 +60,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         {
             data: "TriggerSkill.name",
             render: function (data, type, full, meta, row) {
-                if(isMobile()) {
+                if (isMobile()) {
                     return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 } else {
                     return data;
@@ -185,7 +183,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
 
     function success() {
         calculateBasicCharacteristics();
-        $scope.loader = false;
+        $('#loader').hide();
+        $('section').removeClass('hide');
     }
 
     function table(dataUrl, tableId, columns, maxSize) {
@@ -199,8 +198,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     "next": "След.",
                     "previous": "Пред."
                 },
-                "zeroRecords":    "Ничего с таким именем не найдено",
-                "emptyTable":     "Нет ни одной записи",
+                "zeroRecords": "Ничего с таким именем не найдено",
+                "emptyTable": "Нет ни одной записи",
                 "lengthMenu": "Показать _MENU_"
             },
             stateSave: true,
@@ -215,7 +214,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
 
         $(tableId).on('click', 'td', function () {
             var tr = $(this).closest('tr');
-            var row = table.row( tr );
+            var row = table.row(tr);
 
             if (tr.find('td').length < maxSize && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
@@ -227,7 +226,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
                 }
             }
-        } );
+        });
     }
 
     var all = $q.all([personage.promise, raceAttributes.promise]);
@@ -303,7 +302,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             data: spells,
             columns: [
                 {
-                    data: "name",
+                    data: "spell.name",
                     render: function (data, type, full, meta, row) {
                         return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                     }
@@ -371,7 +370,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         });
         tableSelector.on('click', 'td', function () {
             var tr = $(this).closest('tr');
-            var row = table.row( tr );
+            var row = table.row(tr);
 
             if (tr.find('td').length < 9 && $(this).index() === 0) {
                 if (row.child.isShown()) {
@@ -383,7 +382,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
                 }
             }
-        } );
+        });
     }
 
     $scope.calculateMagicSchools = function () {
@@ -525,7 +524,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
     $scope.getPersonageSpells = function () {
         if (!personageSpellsClicked) {
             personageSpellsClicked = true;
-            $scope.loader = true;
             $http.get('/personageSpellsByPersonageId/' + personageId).then(function (response) {
                 $scope.personageSpells = response.data.personageSpells;
                 $scope.calculateMagicSchools();
