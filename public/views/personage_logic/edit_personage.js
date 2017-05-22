@@ -526,6 +526,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
 
+            var talentsCounter = 0;
+            angular.forEach($scope.personageMerits, function (personageMerit) {
+                if (personageMerit.Merit.name.includes('Талант')) {
+                    talentsCounter++;
+                }
+            });
+
             angular.forEach($scope.merits, function (merit) {
                 var targetPersonageMerit = null;
                 angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -533,6 +540,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         targetPersonageMerit = personageMerit;
                     }
                 });
+                for (var i = 0; i < talentsCounter; i++) {
+                    merit.cost = merit.cost * 2;
+                }
                 $scope.meritsMixed.push({
                     merit: merit,
                     personageMerit: targetPersonageMerit,
@@ -2112,13 +2122,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.addPersonageTriggerSkill = function (triggerSkill) {
+        var talented = false;
+        angular.forEach($scope.personageMerits, function (personageMerit) {
+            if (personageMerit.Merit.name.includes(triggerSkill.name)) {
+                talented = true;
+            }
+        });
 
         $scope.personageTriggerSkills.push({
             TriggerSkill: triggerSkill,
             TriggerSkillId: triggerSkill.id,
             PersonageId: personageId,
             currentLevel: 0,
-            talented: false,
+            talented: talented,
             tutored: false
         });
 

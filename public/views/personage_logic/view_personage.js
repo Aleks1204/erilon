@@ -15,90 +15,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
     var personage = $q.defer();
     var raceAttributes = $q.defer();
 
-    table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
-        {"data": "Flaw.name"}
-    ], 1);
-
-    table('/noticesByPersonageId/' + personageId, '#notices', [
-        {
-            data: "name",
-            render: function (data, type, full, meta, row) {
-                if (isMobile()) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                } else {
-                    return data;
-                }
-            }
-        },
-        {"data": "description"}
-    ], 2);
-
-    table('/personageMeritsByPersonageId/' + personageId, '#merits', [
-        {"data": "Merit.name"}
-    ], 1);
-
-    table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
-        {"data": "AttachedSkill.name"},
-        {"data": "value"}
-    ], 2);
-
-    table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
-        {
-            data: "Inherent.name",
-            render: function (data, type, full, meta, row) {
-                if (isMobile()) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                } else {
-                    return data;
-                }
-            }
-        },
-        {"data": "value"}
-    ], 2);
-
-    table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
-        {
-            data: "TriggerSkill.name",
-            render: function (data, type, full, meta, row) {
-                if (isMobile()) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                } else {
-                    return data;
-                }
-            }
-        },
-        {
-            "targets": 0,
-            "data": function (row, type, val, meta) {
-                if (row.currentLevel === 0) {
-                    return "";
-                }
-                if (row.currentLevel === 1) {
-                    return "Эксперт";
-                }
-                if (row.currentLevel === 2) {
-                    return "Мастер";
-                }
-                if (row.currentLevel === 3) {
-                    return "Магистр";
-                }
-                if (row.currentLevel === 4) {
-                    return "Гроссмейтер";
-                }
-            }
-        },
-        {
-            "targets": 0,
-            "data": function (row, type, val, meta) {
-                if (row.talented) {
-                    return "Да";
-                } else {
-                    return "";
-                }
-            }
-        }
-    ], 3);
-
     function animateButtons(buttons, animatedStyle) {
         angular.forEach(buttons, function (button) {
             button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
@@ -185,6 +101,85 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         calculateBasicCharacteristics();
         $('#loader').hide();
         $('section').removeClass('hide');
+        table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
+            {"data": "Flaw.name"}
+        ], 1);
+
+        table('/noticesByPersonageId/' + personageId, '#notices', [
+            {
+                data: "name",
+                render: function (data, type, full, meta, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                }
+            },
+            {"data": "description"}
+        ], 2);
+
+        table('/personageMeritsByPersonageId/' + personageId, '#merits', [
+            {"data": "Merit.name"}
+        ], 1);
+
+        table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
+            {"data": "AttachedSkill.name"},
+            {"data": "value"}
+        ], 2);
+
+        table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
+            {
+                data: "Inherent.name",
+                render: function (data, type, full, meta, row) {
+                    if (isMobile()) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                    } else {
+                        return data;
+                    }
+                }
+            },
+            {"data": "value"}
+        ], 2);
+
+        table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
+            {
+                data: "TriggerSkill.name",
+                render: function (data, type, full, meta, row) {
+                    if (isMobile()) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                    } else {
+                        return data;
+                    }
+                }
+            },
+            {
+                "targets": 0,
+                "data": function (row, type, val, meta) {
+                    if (row.currentLevel === 0) {
+                        return "";
+                    }
+                    if (row.currentLevel === 1) {
+                        return "Эксперт";
+                    }
+                    if (row.currentLevel === 2) {
+                        return "Мастер";
+                    }
+                    if (row.currentLevel === 3) {
+                        return "Магистр";
+                    }
+                    if (row.currentLevel === 4) {
+                        return "Гроссмейтер";
+                    }
+                }
+            },
+            {
+                "targets": 0,
+                "data": function (row, type, val, meta) {
+                    if (row.talented) {
+                        return "Да";
+                    } else {
+                        return "";
+                    }
+                }
+            }
+        ], 3);
     }
 
     function table(dataUrl, tableId, columns, maxSize) {

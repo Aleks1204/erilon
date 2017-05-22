@@ -1036,6 +1036,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function setHasInherents() {
         var deferred = $q.defer();
+        $scope.showGenerateInherentsButton = false;
         $http.post('/history', {
             key: 'HAS_INHERENTS' + personageId,
             value: 'TRUE'
