@@ -2777,7 +2777,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             },
             onOpen: function () {
                 $('#noticeTitle').focus();
-                autosize($('#noticeDescription'));
             }
         }).then(function success(result) {
             var experienceValue = 0;

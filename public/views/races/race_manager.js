@@ -192,7 +192,7 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
                 },
                 onOpen: function () {
                     $('#name').focus();
-                    autosize($('#description'));
+
                 }
             }).then(function success(result) {
                 $http.post('/races', {

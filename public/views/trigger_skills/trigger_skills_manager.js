@@ -178,7 +178,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     },
                     onOpen: function () {
                         $('#name').focus();
-                        autosize($('#description'));
+
                         if (skill.category === null) {
                             $('#category').selectpicker();
                         } else {
@@ -268,7 +268,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                 },
                 onOpen: function () {
                     $('#name').focus();
-                    autosize($('#description'));
+
                     $('#category').selectpicker();
                     $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }

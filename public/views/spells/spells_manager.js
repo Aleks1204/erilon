@@ -326,7 +326,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                         },
                         onOpen: function () {
                             $('#name').focus();
-                            autosize($('#description'));
+
                             autosize($('#effect'));
                         }
                     }).then(function success(result) {
@@ -447,7 +447,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
                     },
                     onOpen: function () {
                         $('#name').focus();
-                        autosize($('#description'));
+
                         autosize($('#effect'));
                     }
                 }).then(function success(result) {

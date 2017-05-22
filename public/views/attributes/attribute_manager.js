@@ -147,7 +147,7 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                     },
                     onOpen: function () {
                         $('#name').focus();
-                        autosize($('#description'));
+
                     }
                 }).then(function success(result) {
                     $http.put('/attributes/' + attribute.id, {
@@ -214,7 +214,7 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                 },
                 onOpen: function () {
                     $('#name').focus();
-                    autosize($('#description'));
+
                 }
             }).then(function success(result) {
                 $http.post('/attributes', {

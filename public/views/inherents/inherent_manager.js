@@ -198,7 +198,7 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                     },
                     onOpen: function () {
                         $('#name').focus();
-                        autosize($('#description'));
+
                         autosize($('#action_level_bonus'));
                     }
                 }).then(function success(result) {
@@ -292,7 +292,7 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                 },
                 onOpen: function () {
                     $('#name').focus();
-                    autosize($('#description'));
+
                     autosize($('#action_level_bonus'));
                 }
             }).then(function success(result) {

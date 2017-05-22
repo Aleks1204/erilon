@@ -158,7 +158,7 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
                 },
                 onOpen: function () {
                     $('#description').focus();
-                    autosize($('#description'));
+
                 }
             }).then(function (result) {
                 $http.put('/skillLevels/' + level.id, {
@@ -224,7 +224,7 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
                 },
                 onOpen: function () {
                     $('#description').focus();
-                    autosize($('#description'));
+
                 }
             }).then(function (result) {
                 $http.post('/skillLevels', {

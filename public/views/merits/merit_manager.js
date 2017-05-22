@@ -275,7 +275,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     },
                     onOpen: function () {
                         $('#name').focus();
-                        autosize($('#description'));
+
                         autosize($('#action_level_bonus'));
                         if (merit.category === null) {
                             $('#category').selectpicker();
@@ -376,7 +376,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 },
                 onOpen: function () {
                     $('#name').focus();
-                    autosize($('#description'));
+
                     autosize($('#action_level_bonus'));
                     $('#category').selectpicker();
                     $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
