@@ -70,6 +70,10 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
             ]
         });
 
+        table.columns().iterator( 'column', function (ctx, idx) {
+            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        });
+
         attributesTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );

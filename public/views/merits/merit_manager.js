@@ -178,6 +178,10 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
             ]
         });
 
+        table.columns().iterator( 'column', function (ctx, idx) {
+            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        });
+
         meritsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );

@@ -113,6 +113,10 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
             ]
         });
 
+        table.columns().iterator( 'column', function (ctx, idx) {
+            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        });
+
         inherentsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );

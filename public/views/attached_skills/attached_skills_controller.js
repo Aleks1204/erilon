@@ -126,6 +126,10 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
             ]
         });
 
+        table.columns().iterator( 'column', function (ctx, idx) {
+            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        });
+
         skillsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );

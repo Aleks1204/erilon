@@ -90,6 +90,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
             ]
         });
 
+        table.columns().iterator( 'column', function (ctx, idx) {
+            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        });
+
         skillsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
