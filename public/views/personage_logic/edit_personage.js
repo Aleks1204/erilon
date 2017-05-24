@@ -389,7 +389,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         wrapper: '.o-wrapper-flaws',
         type: 'slide-bottom',
         mask: '.c-mask',
-        size: 300
+        size: 350
     });
 
     $scope.openHideFlawsCategoriesFilterMenu = function () {
@@ -526,13 +526,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             });
 
-            // var talentsCounter = 0;
-            // angular.forEach($scope.personageMerits, function (personageMerit) {
-            //     if (personageMerit.Merit.name.includes('Талант')) {
-            //         talentsCounter++;
-            //     }
-            // });
-
             angular.forEach($scope.merits, function (merit) {
                 var targetPersonageMerit = null;
                 angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -540,9 +533,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         targetPersonageMerit = personageMerit;
                     }
                 });
-                // for (var i = 0; i < talentsCounter; i++) {
-                //     merit.cost = merit.cost * 2;
-                // }
                 $scope.meritsMixed.push({
                     merit: merit,
                     personageMerit: targetPersonageMerit,
@@ -1807,9 +1797,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.personageMerits.push(personageMerit);
 
         if (merit.name.indexOf('Талант') > -1) {
-            // angular.forEach($scope.meritsMixed, function (meritMixed) {
-            //     meritMixed.merit.cost = meritMixed.merit.cost * 2;
-            // });
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
                     personageTriggerSkill.talented = true;
@@ -1873,9 +1860,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function deletePersonageMerit(personageMerit) {
         if (personageMerit.Merit.name.indexOf('Талант') > -1) {
-            // angular.forEach($scope.meritsMixed, function (meritMixed) {
-            //     meritMixed.merit.cost = meritMixed.merit.cost/2;
-            // });
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (personageMerit.Merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
                     personageTriggerSkill.talented = false;

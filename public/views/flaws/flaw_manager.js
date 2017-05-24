@@ -156,6 +156,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                             '<option value="ментальные">ментальные</option>' +
                             '<option value="кодекс чести">кодекс чести</option>' +
                             '<option value="внешность">внешность</option>' +
+                            '<option value="мистические">мистические</option>' +
                         '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
@@ -236,6 +237,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                         '<option value="ментальные">ментальные</option>' +
                         '<option value="кодекс чести">кодекс чести</option>' +
                         '<option value="внешность">внешность</option>' +
+                        '<option value="мистические">мистические</option>' +
                     '</select>' +
                 '</div>' +
                 '<div class="form-group">' +

@@ -1391,6 +1391,15 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
+                                    <input id="misticFlawsFilter" name="face" type="checkbox" ng-model="filter.mistic"
+                                           ng-change="filterFlawsByCategory('мистические', filter.mistic)">
+                                    <label for="misticFlawsFilter">
+                                        Мистические
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info">
                                     <input id="unremovableFlawsFilter" name="unremovable" type="checkbox"
                                            ng-model="search.unremovable"
                                            ng-change="filterFlawsByUnremovable(search.unremovable)">
@@ -1467,6 +1476,16 @@
                                         </td>
                                         <td class="text-left">
                                             Внешность
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="filterFlawsByCategory('мистические', filter.mistic)">
+                                        <td>
+                                            <i ng-show="filter.mistic" class="fa fa-check"></i>
+                                            <input name="mistic" type="checkbox" ng-model="filter.mistic"
+                                                   style="display: none;">
+                                        </td>
+                                        <td class="text-left">
+                                            Мистические
                                         </td>
                                     </tr>
                                     <tr ng-click="filterFlawsByUnremovable(search.unremovable)">

@@ -365,7 +365,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         wrapper: '.o-wrapper-flaws',
         type: 'slide-bottom',
         mask: '.c-mask',
-        size: 300
+        size: 350
     });
 
     $scope.openHideFlawsCategoriesFilterMenu = function () {
