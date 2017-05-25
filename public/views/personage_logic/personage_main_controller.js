@@ -30,6 +30,30 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.editExperince = function () {
+        swal({
+            title: "Опыт персонажа",
+            input: "text",
+            inputValue: $scope.personage.experience,
+            showCancelButton: true,
+            confirmButtonText: "Сохранить",
+            cancelButtonText: "Отменить"
+        }).then(function success(result) {
+            $http.put('/personages/' + personageId, {
+                race_id: $scope.personage.RaceId,
+                name: $scope.personage.name,
+                age: $scope.age,
+                max_age: $scope.max_age,
+                generated: false,
+                experience: parseInt(result),
+                notes: $scope.notes
+            }).then(function () {
+                $http.get('/personages/' + personageId).then(function (response) {
+                    $scope.personage.experience = response.data.personage.experience;
+                });
+            });
+        });
+    };
 
     $scope.meritAvailable = true;
     $scope.showGenerateInherentsButton = false;
@@ -867,9 +891,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.raceInherents = response.data.data;
             raceInherents.resolve();
         });
-        $scope.experienceValid = function () {
-            return $scope.personage.experience < 0;
-        };
 
         $scope.personageAttributes = response.data.personage.PersonageAttributes;
         $scope.playerId = response.data.personage.PlayerId;

@@ -240,9 +240,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             $scope.raceAttributes = response.data.raceAttributes;
             raceAttributes.resolve();
         });
-        $scope.experienceValid = function () {
-            return $scope.personage.experience < 0;
-        };
         $scope.personageAttributes = response.data.personage.PersonageAttributes;
         personage.resolve();
     });
