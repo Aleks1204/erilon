@@ -1,12 +1,3 @@
-/**
- * Created by artemk on 3/24/16.
- */
-
-// function isMobile() {
-// try{ document.createEvent("TouchEvent"); return true; }
-// catch(e){ return false; }
-// }
-
 function isMobile() {
     return navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
