@@ -20,6 +20,7 @@ module.exports = function(sequelize, DataTypes) {
                 AttachedSkill.hasMany(models.MeritAttachedSkill);
                 AttachedSkill.hasMany(models.MeritAttributeAttachedSkill);
                 AttachedSkill.hasMany(models.Spell);
+                AttachedSkill.hasMany(models.AttachedSkillAttribute);
             }
         }
     });

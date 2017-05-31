@@ -24,7 +24,14 @@ router.post('/attachedSkills', function (req, res) {
 router.get('/attachedSkills', function (req, res) {
     models.AttachedSkill.findAll({
         include: [
-            models.Spell
+            models.Spell,
+            {
+                model: models.AttachedSkillAttribute,
+                include: [
+                    models.AttachedSkill,
+                    models.Attribute
+                ]
+            }
         ]
     }).then(function (attachedSkills) {
         return res.send({data: attachedSkills});
@@ -34,7 +41,14 @@ router.get('/attachedSkills', function (req, res) {
 router.get('/attachedSkills/:id', function (req, res) {
     models.AttachedSkill.findById(req.params.id, {
         include: [
-            models.Spell
+            models.Spell,
+            {
+                model: models.AttachedSkillAttribute,
+                include: [
+                    models.AttachedSkill,
+                    models.Attribute
+                ]
+            }
         ]
     }).then(function (attachedSkill) {
         if (!attachedSkill) {

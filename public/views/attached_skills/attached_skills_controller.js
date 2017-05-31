@@ -117,7 +117,9 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     data: "id",
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
+                        return '<a href="attached_skill.html?id=' + data + '" class="btn btn-icon btn-info btn-rounded fa fa-graduation-cap margin-inline" ' +
+                            'type="button" ' + disableEditButton() + '></a>' +
+                            '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
                             + data + '"  type="button" ' + disableEditButton() + '></button>' +
                             '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
                             + data + '" type="button" ' + disableDeleteButton() + '></button>';
@@ -126,13 +128,13 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
             ]
         });
 
-        table.columns().iterator( 'column', function (ctx, idx) {
-            $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+        table.columns().iterator('column', function (ctx, idx) {
+            $(table.column(idx).header()).append('<span class="sort-icon"/>');
         });
 
         skillsTable.on('click', 'td', function () {
             var tr = $(this).closest('tr');
-            var row = table.row( tr );
+            var row = table.row(tr);
 
             if (tr.find('td').length < 8 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
@@ -144,7 +146,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
                 }
             }
-        } );
+        });
 
         skillsTable.on('click', '.delete', function () {
             var id = this.value;
@@ -184,43 +186,43 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     title: 'Изменить навык',
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
-                        '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
+                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                            '<option value="магические">магические</option>' +
-                            '<option value="социальные">социальные</option>' +
-                            '<option value="языки">языки</option>' +
-                            '<option value="знания">знания</option>' +
-                            '<option value="ремесла">ремесла</option>' +
-                            '<option value="профессиональные">профессиональные</option>' +
-                        '</select>' +
+                    '<label for="category" class="form-control-label">Категории:</label>' +
+                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                    '<option value="магические">магические</option>' +
+                    '<option value="социальные">социальные</option>' +
+                    '<option value="языки">языки</option>' +
+                    '<option value="знания">знания</option>' +
+                    '<option value="ремесла">ремесла</option>' +
+                    '<option value="профессиональные">профессиональные</option>' +
+                    '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
-                        '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
+                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
                     '</div>' +
                     '<div class="row form-group">' +
-                        '<div class="col-md-4">' +
-                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                                '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
-                                '<label for="difficultSkill">Сложный</label>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="col-md-4">' +
-                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                                '<input id="defaultSkill" name="defaultSkill" type="checkbox" ' + isDefault + '>' +
-                                '<label for="defaultSkill">По умолчанию</label>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="col-md-4">' +
-                            '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                                '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox" ' + isTheoretical + '>' +
-                                '<label for="theoreticalSkill">Теоретическсий</label>' +
-                            '</div>' +
-                        '</div>' +
+                    '<div class="col-md-4">' +
+                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                    '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
+                    '<label for="difficultSkill">Сложный</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                    '<input id="defaultSkill" name="defaultSkill" type="checkbox" ' + isDefault + '>' +
+                    '<label for="defaultSkill">По умолчанию</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                    '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                    '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox" ' + isTheoretical + '>' +
+                    '<label for="theoreticalSkill">Теоретическсий</label>' +
+                    '</div>' +
+                    '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
@@ -271,43 +273,43 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 title: 'Добавить навык',
                 html: '<form>' +
                 '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
-                    '<input type="text" class="form-control" id="name">' +
+                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                            '<option value="магические">магические</option>' +
-                            '<option value="социальные">социальные</option>' +
-                            '<option value="языки">языки</option>' +
-                            '<option value="знания">знания</option>' +
-                            '<option value="ремесла">ремесла</option>' +
-                            '<option value="профессиональные">профессиональные</option>' +
-                        '</select>' +
+                '<label for="category" class="form-control-label">Категории:</label>' +
+                '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
+                '<option value="магические">магические</option>' +
+                '<option value="социальные">социальные</option>' +
+                '<option value="языки">языки</option>' +
+                '<option value="знания">знания</option>' +
+                '<option value="ремесла">ремесла</option>' +
+                '<option value="профессиональные">профессиональные</option>' +
+                '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
-                    '<textarea id="description" class="form-control"></textarea>' +
+                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="row form-group">' +
-                    '<div class="col-md-4">' +
-                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                            '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
-                            '<label for="difficultSkill">Сложный</label>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="col-md-4">' +
-                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                            '<input id="defaultSkill" name="defaultSkill" type="checkbox">' +
-                            '<label for="defaultSkill">По умолчанию</label>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="col-md-4">' +
-                        '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
-                            '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox">' +
-                            '<label for="theoreticalSkill">Теоретическсий</label>' +
-                        '</div>' +
-                    '</div>' +
+                '<div class="col-md-4">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
+                '<label for="difficultSkill">Сложный</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-4">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="defaultSkill" name="defaultSkill" type="checkbox">' +
+                '<label for="defaultSkill">По умолчанию</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-4">' +
+                '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
+                '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox">' +
+                '<label for="theoreticalSkill">Теоретическсий</label>' +
+                '</div>' +
+                '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,

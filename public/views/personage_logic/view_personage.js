@@ -1,16 +1,6 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage']);
 
-function isMobile() {
-    return navigator.userAgent.match(/Android/i)
-        || navigator.userAgent.match(/webOS/i)
-        || navigator.userAgent.match(/iPhone/i)
-        || navigator.userAgent.match(/iPad/i)
-        || navigator.userAgent.match(/iPod/i)
-        || navigator.userAgent.match(/BlackBerry/i)
-        || navigator.userAgent.match(/Windows Phone/i);
-}
-
 app.controller("personageController", function ($scope, $http, $q, $timeout) {
     var personage = $q.defer();
     var raceAttributes = $q.defer();
@@ -102,51 +92,74 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $('#loader').hide();
         $('section').removeClass('hide');
         table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
-            {"data": "Flaw.name"}
-        ], 1);
+            {
+                data: "Flaw.name",
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                }
+            },
+            {"data": "Flaw.description"}
+        ], 2, "недостатки");
 
         table('/noticesByPersonageId/' + personageId, '#notices', [
             {
                 data: "name",
-                render: function (data, type, full, meta, row) {
+                render: function (data, type, row) {
                     return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 }
             },
             {"data": "description"}
-        ], 2);
+        ], 3, "заметки");
 
         table('/personageMeritsByPersonageId/' + personageId, '#merits', [
-            {"data": "Merit.name"}
-        ], 1);
+            {
+                data: "Merit.name",
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                }
+            },
+            {"data": "Merit.description"}
+        ], 2, "достоинства");
 
         table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
-            {"data": "AttachedSkill.name"},
-            {"data": "value"}
-        ], 2);
+            {
+                data: "AttachedSkill.name",
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                }
+            },
+            {"data": "value"},
+            {
+                data: "AttachedSkill",
+                orderable: false,
+                render: function (data, type, row) {
+                    var returned = '';
+                    angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
+                        var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
+                        returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + '=' + value + ':</small></h4>' + attachedSkillAttribute.description;
+                    });
+                    return returned;
+                }
+            },
+            {"data": "AttachedSkill.description"}
+        ], 4, "прикрепленные навыки");
 
         table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
             {
                 data: "Inherent.name",
-                render: function (data, type, full, meta, row) {
-                    if (isMobile()) {
-                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                    } else {
-                        return data;
-                    }
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 }
             },
-            {"data": "value"}
-        ], 2);
+            {"data": "value"},
+            {"data": "Inherent.description"}
+        ], 3, "врожденные особенности");
 
         table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
             {
                 data: "TriggerSkill.name",
-                render: function (data, type, full, meta, row) {
-                    if (isMobile()) {
-                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                    } else {
-                        return data;
-                    }
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                 }
             },
             {
@@ -178,11 +191,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                         return "";
                     }
                 }
-            }
-        ], 3);
+            },
+            {"data": "TriggerSkill.description"}
+        ], 4, "тригерные навыки");
     }
 
-    function table(dataUrl, tableId, columns, maxSize) {
+    function table(dataUrl, tableId, columns, maxSize, itemName) {
         var table = $(tableId).DataTable({
             responsive: true,
             "language": {
@@ -193,6 +207,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     "next": "След.",
                     "previous": "Пред."
                 },
+                "loadingRecords": "Подождите, " + itemName + " загружаются...",
                 "zeroRecords": "Ничего с таким именем не найдено",
                 "emptyTable": "Нет ни одной записи",
                 "lengthMenu": "Показать _MENU_"
@@ -221,6 +236,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                     $(this).prepend('<i class="icmn-circle-down2 margin-right-10"></i>');
                 }
             }
+        });
+        table.columns().iterator('column', function (ctx, idx) {
+            $(table.column(idx).header()).append('<span class="sort-icon"/>');
         });
     }
 
@@ -510,6 +528,50 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $scope.mentalActionPoints = $scope.intelligence;
         $scope.initiative = $scope.reaction;
         $scope.endurancePoints = $scope.endurance * 20;
+    }
+
+    function getPersonageAttributeValue(attribute) {
+        var returned = 0;
+        angular.forEach($scope.personageAttributes, function (personageAttribute) {
+            if (attribute.id === personageAttribute.Attribute.id) {
+                switch (personageAttribute.Attribute.name) {
+                    case "Сила":
+                        returned = $scope.power;
+                        break;
+                    case "Ловкость":
+                        returned = $scope.dexterity;
+                        break;
+                    case "Скорость":
+                        returned = $scope.speed;
+                        break;
+                    case "Реакция":
+                        returned = $scope.reaction;
+                        break;
+                    case "Восприятие":
+                        returned = $scope.perception;
+                        break;
+                    case "Выносливость":
+                        returned = $scope.endurance;
+                        break;
+                    case "Живучесть":
+                        returned = $scope.vitality;
+                        break;
+                    case "Мудрость":
+                        returned = $scope.wisdom;
+                        break;
+                    case "Интеллект":
+                        returned = $scope.intelligence;
+                        break;
+                    case "Воля":
+                        returned = $scope.will;
+                        break;
+                    case "Харизма":
+                        returned = $scope.charisma;
+                        break;
+                }
+            }
+        });
+        return returned;
     }
 
     var personageSpellsClicked = false;

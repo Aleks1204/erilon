@@ -15,7 +15,16 @@ router.get('/personageAttachedSkills', function (req, res) {
         include: [
             {
                 model: models.AttachedSkill,
-                include: [models.Spell]
+                include: [
+                    models.Spell,
+                    {
+                        model: models.AttachedSkillAttribute,
+                        include: [
+                            models.Attribute,
+                            models.AttachedSkill
+                        ]
+                    }
+                ]
             }
         ]
     }).then(function (personageAttachedSkills) {
@@ -31,7 +40,16 @@ router.get('/personageAttachedSkillsByPersonageId/:id', function (req, res) {
         include: [
             {
                 model: models.AttachedSkill,
-                include: [models.Spell]
+                include: [
+                    models.Spell,
+                    {
+                        model: models.AttachedSkillAttribute,
+                        include: [
+                            models.Attribute,
+                            models.AttachedSkill
+                        ]
+                    }
+                ]
             }
         ]
     }).then(function (personageAttachedSkills) {

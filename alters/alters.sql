@@ -21,3 +21,13 @@ ALTER TABLE "Races" ADD COLUMN description TEXT;
 ALTER TABLE "TriggerSkills" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "RaceInherents" ADD COLUMN race_min INTEGER;
 ALTER TABLE "RaceInherents" ADD COLUMN race_max INTEGER;
+CREATE TABLE "AttachedSkillAttribute"
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  description TEXT,
+  "AttachedSkillId" INT NOT NULL,
+  "AttributeId" INT NOT NULL,
+  CONSTRAINT AttachedSkillAttribute_Attribute__fk FOREIGN KEY ("AttributeId") REFERENCES "Attributes" (id),
+  CONSTRAINT AttachedSkillAttribute_AttachedSkill__fk FOREIGN KEY ("AttachedSkillId") REFERENCES "AttachedSkills" (id)
+);
+CREATE UNIQUE INDEX "AttachedSkillAttribute_id_uindex" ON "AttachedSkillAttribute" (id);

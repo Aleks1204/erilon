@@ -62,7 +62,8 @@ if (!global.hasOwnProperty('db')) {
         Permission:      sequelize.import(__dirname + '/Permission'),
         Role:      sequelize.import(__dirname + '/role'),
         RolePermission:      sequelize.import(__dirname + '/RolePermission'),
-        Notice:      sequelize.import(__dirname + '/notice')
+        Notice:      sequelize.import(__dirname + '/notice'),
+        AttachedSkillAttribute:      sequelize.import(__dirname + '/AttachedSkillAttribute')
         // add your other models here
     };
 

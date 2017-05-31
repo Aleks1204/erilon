@@ -40,6 +40,7 @@ var roleApi = require('./routes/role-api');
 var rolePermissionApi = require('./routes/role-permission-api');
 var permissionApi = require('./routes/permission-api');
 var noticeApi = require('./routes/notice-api');
+var attributeAttachedSkillApi = require('./routes/attribute-attached-skill-api');
 
 var app = express();
 
@@ -91,6 +92,7 @@ app.use('', roleApi);
 app.use('', rolePermissionApi);
 app.use('', permissionApi);
 app.use('', noticeApi);
+app.use('', attributeAttachedSkillApi);
 
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(__dirname + '../public'));
