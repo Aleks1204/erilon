@@ -863,6 +863,17 @@
                                     {{item.attachedSkill.description}}
                                 </td>
                             </tr>
+                            <tr ng-show="isShowItem(item.attachedSkill.id)"
+                                ng-class="addNotAddedClass(item.personageAttachedSkill)">
+                                <td colspan="6">
+                                    <strong class="padding-left-10">Броски:</strong>
+                                    <div ng-repeat="attachedSkillAttribute in item.attachedSkill.AttachedSkillAttributes">
+                                        {{attachedSkillAttribute.description}}:
+                                        {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span ng-show="getPersonageAttributeValue(item.personageAttachedSkill, attachedSkillAttribute.Attribute)">={{attributeValue+item.personageAttachedSkill.value}}
+                                    </span>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
