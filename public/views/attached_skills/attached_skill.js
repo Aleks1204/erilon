@@ -83,7 +83,7 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout) {
                 showCancelButton: true,
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Сохранить",
-                input: 'text',
+                input: 'textarea',
                 inputValue: rollItem.description,
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {

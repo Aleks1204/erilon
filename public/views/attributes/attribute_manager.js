@@ -62,9 +62,7 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                     orderable: false,
                     render: function (data, type, row) {
                         return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline edit" value="'
-                            + data + '"  type="button" ' + disableEditButton() + '></button>' +
-                            '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline delete" value="'
-                            + data + '" type="button" ' + disableDeleteButton() + '></button>';
+                            + data + '"  type="button" ' + disableEditButton() + '></button>';
                     }
                 }
             ]
@@ -116,10 +114,6 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                     title: 'Изменить атрибут',
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
-                    '<input type="text" class="form-control" id="name" value="' + attribute.name + '">' +
-                    '</div>' +
-                    '<div class="form-group">' +
                     '<label for="description" class="form-control-label">Описание:</label>' +
                     '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
                     '</div>' +
@@ -135,28 +129,16 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                         return new Promise(function (resolve) {
                             resolve([
                                 value,
-                                $('#name').val(),
                                 $('#description').val()
                             ])
                         })
                     },
-                    inputValidator: function (value) {
-                        return new Promise(function (resolve, reject) {
-                            if ($('#name').val() !== '') {
-                                resolve()
-                            } else {
-                                reject('Имя навыка не может быть пустым!')
-                            }
-                        })
-                    },
                     onOpen: function () {
-                        $('#name').focus();
-
+                        $('#description').focus();
                     }
                 }).then(function success(result) {
                     $http.put('/attributes/' + attribute.id, {
-                        name: result[1],
-                        description: result[2],
+                        description: result[1],
                         action_level_bonus: result[0]
                     }).then(function () {
                         table.ajax.reload(null, false)
