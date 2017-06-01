@@ -347,7 +347,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             return true;
         }
 
-        if (!$scope.filteredAttachedSkillsDefaultShow) {
+        if (!$scope.filteredAttachedSkillsDefaultShow && !isMobile()) {
             if (skillItem.attachedSkill.default_skill) {
                 return true;
             }

@@ -237,10 +237,9 @@
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(personageInherent.Inherent.id)"
-                                           class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(personageInherent.Inherent.id)"
-                                           class="icmn-circle-up2 margin-inline"></i>
-                                        {{personageInherent.Inherent.name}}
+                                           class="icmn-circle-down2 margin-inline"></i><i
+                                            ng-show="isShowItem(personageInherent.Inherent.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{personageInherent.Inherent.name}}
                                     </div>
                                 </td>
                                 <td>
@@ -417,10 +416,9 @@
                                             style="cursor:pointer;">
                                             <div class="text-left disable-select">
                                                 <i ng-hide="isShowItem(personageAttribute.Attribute.id)"
-                                                   class="icmn-circle-down2 margin-inline"></i>
-                                                <i ng-show="isShowItem(personageAttribute.Attribute.id)"
-                                                   class="icmn-circle-up2 margin-inline"></i>
-                                                {{personageAttribute.Attribute.name}}
+                                                   class="icmn-circle-down2 margin-inline"></i><i
+                                                    ng-show="isShowItem(personageAttribute.Attribute.id)"
+                                                    class="icmn-circle-up2 margin-inline"></i>{{personageAttribute.Attribute.name}}
                                             </div>
                                         </td>
                                         <td>
@@ -798,10 +796,9 @@
                                     style="cursor:pointer;width: 15%">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(item.attachedSkill.id)"
-                                           class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(item.attachedSkill.id)"
-                                           class="icmn-circle-up2 margin-inline"></i>
-                                        {{item.attachedSkill.name}}
+                                           class="icmn-circle-down2 margin-inline"></i><i
+                                            ng-show="isShowItem(item.attachedSkill.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{item.attachedSkill.name}}
                                     </div>
                                 </td>
 
@@ -889,7 +886,8 @@
                                     <strong class="padding-left-10">Броски:</strong>
                                     <div ng-repeat="attachedSkillAttribute in item.attachedSkill.AttachedSkillAttributes">
                                         {{attachedSkillAttribute.description}}:
-                                        {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span ng-show="getPersonageAttributeValue(item.personageAttachedSkill, attachedSkillAttribute.Attribute)">={{attributeValue+item.personageAttachedSkill.value}}
+                                        {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span
+                                            ng-show="getPersonageAttributeValue(item.personageAttachedSkill, attachedSkillAttribute.Attribute)">={{attributeValue+item.personageAttachedSkill.value}}
                                     </span>
                                     </div>
                                 </td>
@@ -1008,10 +1006,9 @@
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(triggerSkillMixed.triggerSkill.id)"
-                                           class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
-                                           class="icmn-circle-up2 margin-inline"></i>
-                                        {{triggerSkillMixed.triggerSkill.name}}
+                                           class="icmn-circle-down2 margin-inline"></i><i
+                                            ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{triggerSkillMixed.triggerSkill.name}}
                                     </div>
                                 </td>
 
@@ -1308,10 +1305,9 @@
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(meritMixed.merit.id)"
-                                           class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(meritMixed.merit.id)"
-                                           class="icmn-circle-up2 margin-inline"></i>
-                                        {{meritMixed.merit.name}}
+                                           class="icmn-circle-down2 margin-inline"></i><i
+                                            ng-show="isShowItem(meritMixed.merit.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{meritMixed.merit.name}}
                                     </div>
                                 </td>
                                 <td class="text-right mobile merit">
@@ -1572,10 +1568,9 @@
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
                                         <i ng-hide="isShowItem(flawMixed.flaw.id)"
-                                           class="icmn-circle-down2 margin-inline"></i>
-                                        <i ng-show="isShowItem(flawMixed.flaw.id)"
-                                           class="icmn-circle-up2 margin-inline"></i>
-                                        {{flawMixed.flaw.name}}
+                                           class="icmn-circle-down2 margin-inline"></i><i
+                                            ng-show="isShowItem(flawMixed.flaw.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{flawMixed.flaw.name}}
                                     </div>
                                 </td>
 
@@ -1713,10 +1708,9 @@
                                         style="cursor:pointer;">
                                         <div class="text-left disable-select">
                                             <i ng-hide="isShowItem(spellItem.spell.id)"
-                                               class="icmn-circle-down2 margin-inline"></i>
-                                            <i ng-show="isShowItem(spellItem.spell.id)"
-                                               class="icmn-circle-up2 margin-inline"></i>
-                                            {{spellItem.spell.name}}
+                                               class="icmn-circle-down2 margin-inline"></i><i
+                                                ng-show="isShowItem(spellItem.spell.id)"
+                                                class="icmn-circle-up2 margin-inline"></i>{{spellItem.spell.name}}
                                         </div>
                                     </td>
 
