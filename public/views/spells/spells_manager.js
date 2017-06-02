@@ -181,7 +181,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage) {
             });
 
             currentMagicTable.columns().iterator( 'column', function (ctx, idx) {
-                $( table.column(idx).header() ).append('<span class="sort-icon"/>');
+                $( currentMagicTable.column(idx).header() ).append('<span class="sort-icon"/>');
             });
 
             currentMagicTableSelector.on('click', 'td', function () {
