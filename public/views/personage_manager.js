@@ -257,37 +257,4 @@ app.controller("personageListController", function ($scope, $http, $localStorage
         }, function cancel() {
         });
     };
-
-    $scope.addMagic = function () {
-        $http.get('/personages').then(function (response) {
-            angular.forEach(response.data.personages, function (personage) {
-                console.log('personage name: ' + personage.name);
-                $http.get('/personageInherentsByPersonageId/' + personage.id).then(function (response) {
-                    var value = 0;
-                    angular.forEach(response.data.data, function (personageInherent) {
-                        if (personageInherent.Inherent.name === 'Маг') {
-                            value = personageInherent.value;
-                        }
-                    });
-                    $http.post('/personageAttributes', {
-                        personage_id: personage.id,
-                        attribute_id: 12,
-                        value: value,
-                        position: null
-                    })
-                });
-            });
-        });
-        $http.get('/races').then(function (response) {
-            angular.forEach(response.data.data, function (race) {
-                console.log('personage name: ' + race.name);
-                $http.post('/raceAttributes', {
-                    race_id: race.id,
-                    attribute_id: 12,
-                    base_cost: 0,
-                    max_value: 12
-                });
-            });
-        });
-    };
 });
