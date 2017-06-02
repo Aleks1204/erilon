@@ -271,7 +271,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                     });
                     $http.post('/personageAttributes', {
                         personage_id: personage.id,
-                        attribute_id: 14,
+                        attribute_id: 12,
                         value: value,
                         position: null
                     })
@@ -283,7 +283,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 console.log('personage name: ' + race.name);
                 $http.post('/raceAttributes', {
                     race_id: race.id,
-                    attribute_id: 14,
+                    attribute_id: 12,
                     base_cost: 0,
                     max_value: 12
                 });
