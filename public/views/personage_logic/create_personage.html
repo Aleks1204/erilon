@@ -409,7 +409,7 @@
                             </div>
                             <div class="col-md-8">
                                 <table id="attrTable" class="table table-hover">
-                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" ng-hide="personageAttribute.Attribute.name == 'Магия'">
+                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" ng-hide="ifMagic(personageAttribute)">
                                     <tr>
                                         <td id="{{personageAttribute.Attribute.name}}"
                                             ng-click="showHideDescription(personageAttribute.Attribute)"

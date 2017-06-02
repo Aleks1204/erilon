@@ -1214,6 +1214,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return attributeValue;
     };
 
+    $scope.ifMagic = function (personageAttribute) {
+        return personageAttribute.Attribute.name === 'Магия' && personageAttribute.value === 0;
+    };
+
     function getAttributeModifier(attribute) {
         var modifier = 0;
         angular.forEach($scope.personageMerits, function (personageMerit) {
