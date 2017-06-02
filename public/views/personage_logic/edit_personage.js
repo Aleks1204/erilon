@@ -959,11 +959,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         var modifier = getAttributeModifier(personageAttribute.Attribute);
 
+        var costCoefficient = 1.5;
+        if(personageAttribute.value >= 3) {
+            costCoefficient = 2;
+        }
+        if(personageAttribute.value >= 6) {
+            costCoefficient = 3;
+        }
+        if(personageAttribute.value >= 9) {
+            costCoefficient = 4;
+        }
+
         angular.forEach($scope.raceAttributes, function (raceAttribute) {
             if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
                 if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 6 + modifier) {
                     personageAttribute.value++;
-                    $scope.personage.experience = $scope.personage.experience - raceAttribute.base_cost + modifier;
+                    $scope.personage.experience = $scope.personage.experience - Math.floor(raceAttribute.base_cost*costCoefficient) + modifier;
                     updateAttributePrerequisites(personageAttribute.Attribute.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                 } else {
@@ -978,13 +989,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseAttribute = function (personageAttribute) {
         if (personageAttribute.value > 1) {
+            var costCoefficient = 1.5;
+            if(personageAttribute.value > 3) {
+                costCoefficient = 2;
+            }
+            if(personageAttribute.value > 6) {
+                costCoefficient = 3;
+            }
+            if(personageAttribute.value > 9) {
+                costCoefficient = 4;
+            }
             checkAttributeRelatedPrerequisites(personageAttribute).then(function (changesConfirmed) {
                 if (changesConfirmed) {
                     personageAttribute.value--;
                     recalculateBasicCharacteristics(true);
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                            $scope.personage.experience = $scope.personage.experience + raceAttribute.base_cost - getAttributeModifier(personageAttribute.Attribute);
+                            $scope.personage.experience = $scope.personage.experience + Math.floor(raceAttribute.base_cost*costCoefficient) - getAttributeModifier(personageAttribute.Attribute);
                             updateAttributePrerequisites(personageAttribute.Attribute.id);
                             updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                         }
