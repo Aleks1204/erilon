@@ -580,6 +580,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             return true;
         }
 
+        if (meritMixed.merit.creation_only) {
+            return true;
+        }
+
         if (meritMixed.personageMerit === null && $scope.addedMeritsFilter) {
             return true;
         }
