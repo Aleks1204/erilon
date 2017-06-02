@@ -530,48 +530,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $scope.endurancePoints = $scope.endurance * 20;
     }
 
+    $scope.ifMagic = function (personageAttribute) {
+        return personageAttribute.Attribute.name === 'Магия' && personageAttribute.value === 0;
+    };
+
     function getPersonageAttributeValue(attribute) {
-        var returned = 0;
+        var attributeValue = 0;
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             if (attribute.id === personageAttribute.Attribute.id) {
-                switch (personageAttribute.Attribute.name) {
-                    case "Сила":
-                        returned = $scope.power;
-                        break;
-                    case "Ловкость":
-                        returned = $scope.dexterity;
-                        break;
-                    case "Скорость":
-                        returned = $scope.speed;
-                        break;
-                    case "Реакция":
-                        returned = $scope.reaction;
-                        break;
-                    case "Восприятие":
-                        returned = $scope.perception;
-                        break;
-                    case "Выносливость":
-                        returned = $scope.endurance;
-                        break;
-                    case "Живучесть":
-                        returned = $scope.vitality;
-                        break;
-                    case "Мудрость":
-                        returned = $scope.wisdom;
-                        break;
-                    case "Интеллект":
-                        returned = $scope.intelligence;
-                        break;
-                    case "Воля":
-                        returned = $scope.will;
-                        break;
-                    case "Харизма":
-                        returned = $scope.charisma;
-                        break;
-                }
+                attributeValue = personageAttribute.value;
             }
         });
-        return returned;
+        return attributeValue;
     }
 
     var personageSpellsClicked = false;

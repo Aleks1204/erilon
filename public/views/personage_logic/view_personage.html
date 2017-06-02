@@ -274,7 +274,7 @@
                     </div>
                     <div class="col-md-8">
                         <table id="attrTable" class="table table-hover">
-                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" ng-hide="ifMagic(personageAttribute)">
                                 <td id="{{personageAttribute.Attribute.name}}">{{
                                     personageAttribute.Attribute.name}}
                                 </td>
