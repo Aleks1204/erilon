@@ -887,8 +887,8 @@
                                     <div ng-repeat="attachedSkillAttribute in item.attachedSkill.AttachedSkillAttributes">
                                         {{attachedSkillAttribute.description}}:
                                         {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span
-                                            ng-show="getPersonageAttributeValue(item.personageAttachedSkill, attachedSkillAttribute.Attribute)">={{attributeValue+item.personageAttachedSkill.value}}
-                                    </span>
+                                            ng-if="item.personageAttachedSkill !=null">={{getPersonageAttributeValue(attachedSkillAttribute.Attribute)+item.personageAttachedSkill.value}}
+                                            </span>
                                     </div>
                                 </td>
                             </tr>

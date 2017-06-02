@@ -1204,17 +1204,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     }
 
-    $scope.getPersonageAttributeValue = function (item, attribute) {
-        if (item !== null) {
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                if (attribute.id === personageAttribute.Attribute.id) {
-                    $scope.attributeValue = personageAttribute.value;
-                }
-            });
-            return true;
-        } else {
-            return false;
-        }
+    $scope.getPersonageAttributeValue = function (attribute) {
+        var attributeValue = 0;
+        angular.forEach($scope.personageAttributes, function (personageAttribute) {
+            if (attribute.id === personageAttribute.Attribute.id) {
+                attributeValue = personageAttribute.value;
+            }
+        });
+        return attributeValue;
     };
 
     function getAttributeModifier(attribute) {
