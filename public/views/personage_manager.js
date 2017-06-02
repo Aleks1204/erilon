@@ -19,8 +19,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
         if ($('#race_id').find('option:selected').text() === 'Полуэльф') {
             swal({
                 title: 'Особенные достоинства полуэльфов',
-                html:
-                '<p>Полуэльфы обладают возможностью приобретать нижеперечисленные атрибуты по цене на 1 ехр ниже при создании. ' +
+                html: '<p>Полуэльфы обладают возможностью приобретать нижеперечисленные атрибуты по цене на 1 ехр ниже при создании. ' +
                 'Вы можете выбрать один или несколько атрибутов, или не выбирать ни одного. ' +
                 'Каждый выбранный атрибут обойдется вам в 10 ехр сейчас, но, возможно, позволит сэкономить на дальнейшей прокачке. ' +
                 '<strong style="font-size: 22px">Это ваш единственный шанс выбрать!</strong></p>' +
@@ -126,12 +125,18 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                     $q.all([raceAttributesByRaceId.promise]).then(function (raceAttributes) {
                         var raceAttributePromises = [];
                         for (var i = 0; i < raceAttributes[0].length; i++) {
-                            raceAttributePromises.push($http.post('/personageAttributes', {
-                                personage_id: response.data.personage.id,
-                                attribute_id: raceAttributes[0][i].AttributeId,
-                                value: 1,
-                                position: i + 1
-                            }));
+                            var value = 1;
+                            if (raceAttributes[0][i].Attribute.name === 'Магия') {
+                                value = 0;
+                            }
+                            raceAttributePromises.push(
+                                $http.post('/personageAttributes', {
+                                    personage_id: response.data.personage.id,
+                                    attribute_id: raceAttributes[0][i].AttributeId,
+                                    value: value,
+                                    position: i + 1
+                                })
+                            );
                         }
 
                         $q.all(raceAttributePromises).then(function () {
@@ -250,6 +255,39 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 $scope.personages.splice(index, 1);
             });
         }, function cancel() {
+        });
+    };
+
+    $scope.addMagic = function () {
+        $http.get('/personages').then(function (response) {
+            angular.forEach(response.data.personages, function (personage) {
+                console.log('personage name: ' + personage.name);
+                $http.get('/personageInherentsByPersonageId/' + personage.id).then(function (response) {
+                    var value = 0;
+                    angular.forEach(response.data.data, function (personageInherent) {
+                        if (personageInherent.Inherent.name === 'Маг') {
+                            value = personageInherent.value;
+                        }
+                    });
+                    $http.post('/personageAttributes', {
+                        personage_id: personage.id,
+                        attribute_id: 13,
+                        value: value,
+                        position: null
+                    })
+                });
+            });
+        });
+        $http.get('/races').then(function (response) {
+            angular.forEach(response.data.data, function (race) {
+                console.log('personage name: ' + race.name);
+                $http.post('/raceAttributes', {
+                    race_id: race.id,
+                    attribute_id: 13,
+                    base_cost: 0,
+                    max_value: 12
+                });
+            });
         });
     };
 });

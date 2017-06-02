@@ -392,7 +392,8 @@
                             </div>
                             <div class="col-md-8">
                                 <table id="attrTable" class="table table-hover">
-                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'">
+                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'"
+                                           ng-hide="personageAttribute.Attribute.name == 'Магия'">
                                     <tr>
                                         <td id="{{personageAttribute.Attribute.name}}"
                                             ng-click="showHideDescription(personageAttribute.Attribute)"
@@ -870,8 +871,8 @@
                                     <div ng-repeat="attachedSkillAttribute in item.attachedSkill.AttachedSkillAttributes">
                                         {{attachedSkillAttribute.description}}:
                                         {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span
-                                            ng-show="getPersonageAttributeValue(item.personageAttachedSkill, attachedSkillAttribute.Attribute)">={{attributeValue+item.personageAttachedSkill.value}}
-                                    </span>
+                                            ng-if="item.personageAttachedSkill !=null">={{getPersonageAttributeValue(attachedSkillAttribute.Attribute)+item.personageAttachedSkill.value}}
+                                            </span>
                                     </div>
                                 </td>
                             </tr>

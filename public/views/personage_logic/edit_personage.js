@@ -994,51 +994,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     }
 
-    $scope.getPersonageAttributeValue = function (item, attribute) {
-        if (item !== null) {
-            angular.forEach($scope.personageAttributes, function (personageAttribute) {
-                if (attribute.id === personageAttribute.Attribute.id) {
-                    switch (personageAttribute.Attribute.name) {
-                        case "Сила":
-                            $scope.attributeValue = $scope.power;
-                            break;
-                        case "Ловкость":
-                            $scope.attributeValue = $scope.dexterity;
-                            break;
-                        case "Скорость":
-                            $scope.attributeValue = $scope.speed;
-                            break;
-                        case "Реакция":
-                            $scope.attributeValue = $scope.reaction;
-                            break;
-                        case "Восприятие":
-                            $scope.attributeValue = $scope.perception;
-                            break;
-                        case "Выносливость":
-                            $scope.attributeValue = $scope.endurance;
-                            break;
-                        case "Живучесть":
-                            $scope.attributeValue = $scope.vitality;
-                            break;
-                        case "Мудрость":
-                            $scope.attributeValue = $scope.wisdom;
-                            break;
-                        case "Интеллект":
-                            $scope.attributeValue = $scope.intelligence;
-                            break;
-                        case "Воля":
-                            $scope.attributeValue = $scope.will;
-                            break;
-                        case "Харизма":
-                            $scope.attributeValue = $scope.charisma;
-                            break;
-                    }
-                }
-            });
-            return true;
-        } else {
-            return false;
-        }
+    $scope.getPersonageAttributeValue = function (attribute) {
+        var attributeValue = 0;
+        angular.forEach($scope.personageAttributes, function (personageAttribute) {
+            if (attribute.id === personageAttribute.Attribute.id) {
+                attributeValue = personageAttribute.value;
+            }
+        });
+        return attributeValue;
     };
 
     function getAttributeModifier(attribute) {
