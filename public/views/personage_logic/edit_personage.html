@@ -1353,179 +1353,6 @@
                         </table>
                     </div>
                     <div id="flaws" class="tab-pane" role="tabpanel" style="display: none">
-                        <div class="row hidden-xs-down hidden-sm-down">
-                            <div class="col-md-2">
-                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
-                                </h2>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="checkbox checkbox-info">
-                                    <input id="physicalFlawsFilter" name="phycical" type="checkbox"
-                                           ng-model="filter.phycical"
-                                           ng-change="filterFlawsByCategory('физические', filter.phycical)">
-                                    <label for="physicalFlawsFilter">
-                                        Физические
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-info">
-                                    <input id="mentalFlawsFilter" name="mental" type="checkbox" ng-model="filter.mental"
-                                           ng-change="filterFlawsByCategory('ментальные', filter.mental)">
-                                    <label for="mentalFlawsFilter">
-                                        Ментальные
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="checkbox checkbox-info">
-                                    <input id="socialFlawsFilter" name="social" type="checkbox" ng-model="filter.social"
-                                           ng-change="filterFlawsByCategory('социальные', filter.social)">
-                                    <label for="socialFlawsFilter">
-                                        Социальные
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-info">
-                                    <input id="kodeksFlawsFilter" name="kodeks" type="checkbox" ng-model="filter.kodeks"
-                                           ng-change="filterFlawsByCategory('кодекс чести', filter.kodeks)">
-                                    <label for="kodeksFlawsFilter">
-                                        Кодекс чести
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="checkbox checkbox-info">
-                                    <input id="faceFlawsFilter" name="face" type="checkbox" ng-model="filter.face"
-                                           ng-change="filterFlawsByCategory('внешность', filter.face)">
-                                    <label for="faceFlawsFilter">
-                                        Внешность
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="checkbox checkbox-info">
-                                    <input id="misticFlawsFilter" name="face" type="checkbox" ng-model="filter.mistic"
-                                           ng-change="filterFlawsByCategory('мистические', filter.mistic)">
-                                    <label for="misticFlawsFilter">
-                                        Мистические
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="checkbox checkbox-info">
-                                    <input id="unremovableFlawsFilter" name="unremovable" type="checkbox"
-                                           ng-model="search.unremovable"
-                                           ng-change="filterFlawsByUnremovable(search.unremovable)">
-                                    <label for="unremovableFlawsFilter">
-                                        Не отключаемые
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-info">
-                                    <input id="addedFlawsFilter" name="added" type="checkbox"
-                                           ng-model="addedFlawsFilter">
-                                    <label for="addedFlawsFilter">
-                                        Имеющиеся
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="o-wrapper-flaws hidden-md-up">
-
-                            <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideFlawsCategoriesFilterMenu()">
-                                    Категория
-                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryFlawsMenuClose"></i>
-                                    <i class="fa fa-angle-double-up" ng-show="isCategoryFlawsMenuClose"></i>
-                                </div>
-                                <hr/>
-                                <table class="table table-hover category-table"
-                                       style="margin-bottom: 0">
-                                    <tr ng-click="filterFlawsByCategory('физические', filter.phycical)">
-                                        <td style="width: 15%;">
-                                            <i ng-show="filter.phycical" class="fa fa-check"></i>
-                                            <input name="phycical" type="checkbox" ng-model="filter.phycical"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Физические
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByCategory('ментальные', filter.mental)">
-                                        <td>
-                                            <i ng-show="filter.mental" class="fa fa-check"></i>
-                                            <input name="mental" type="checkbox" ng-model="filter.mental"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Ментальные
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByCategory('социальные', filter.social)">
-                                        <td>
-                                            <i ng-show="filter.social" class="fa fa-check"></i>
-                                            <input name="social" type="checkbox" ng-model="filter.social"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Социальные
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByCategory('кодекс чести', filter.kodeks)">
-                                        <td>
-                                            <i ng-show="filter.kodeks" class="fa fa-check"></i>
-                                            <input name="kodeks" type="checkbox" ng-model="filter.kodeks"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Кодекс чести
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByCategory('Внешность', filter.face)">
-                                        <td>
-                                            <i ng-show="filter.face" class="fa fa-check"></i>
-                                            <input name="face" type="checkbox" ng-model="filter.face"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Внешность
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByCategory('мистические', filter.mistic)">
-                                        <td>
-                                            <i ng-show="filter.mistic" class="fa fa-check"></i>
-                                            <input name="mistic" type="checkbox" ng-model="filter.mistic"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Мистические
-                                        </td>
-                                    </tr>
-                                    <tr ng-click="filterFlawsByUnremovable(search.unremovable)">
-                                        <td>
-                                            <i ng-show="search.unremovable" class="fa fa-check"></i>
-                                            <input name="unremovable" type="checkbox" ng-model="search.unremovable"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Не отключаемые
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i ng-show="addedFlawsFilter" class="fa fa-check"></i>
-                                            <input name="addedFlawsFilter" type="checkbox" ng-model="addedFlawsFilter"
-                                                   style="display: none;">
-                                        </td>
-                                        <td class="text-left">
-                                            Имеющиеся
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </nav>
-
-                            <div class="c-mask" ng-click="openHideFlawsCategoriesFilterMenu()"></div>
-                        </div>
-
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="form-input-icon">
@@ -1544,25 +1371,23 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch">
-                            <tr class="mobile flaw"
-                                ng-hide="filteredFlaws(flawMixed)"
-                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
-                                <td class="text-right mobile flaw" ng-click="showHideDescription(flawMixed.flaw)"
+                            <tbody class="mobile" ng-repeat="personageFlaw in personageFlaws | filter: flawSearch">
+                            <tr class="mobile flaw">
+                                <td class="text-right mobile flaw" ng-click="showHideDescription(personageFlaw.Flaw)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(flawMixed.flaw.id)"
+                                        <i ng-hide="isShowItem(personageFlaw.Flaw.id)"
                                            class="icmn-circle-down2 margin-inline"></i><i
-                                            ng-show="isShowItem(flawMixed.flaw.id)"
-                                            class="icmn-circle-up2 margin-inline"></i>{{flawMixed.flaw.name}}
+                                            ng-show="isShowItem(personageFlaw.Flaw.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{personageFlaw.Flaw.name}}
                                     </div>
                                 </td>
 
                                 <td class="text-right mobile flaw">
-                                    <div class="text-left" ng-if="!flawMixed.personageFlaw.personage_race_default">
-                                        {{flawMixed.flaw.cost}}
+                                    <div class="text-left" ng-if="!personageFlaw.personage_race_default">
+                                        {{personageFlaw.Flaw.cost}}
                                     </div>
-                                    <div class="text-left" ng-if="flawMixed.personageFlaw.personage_race_default">
+                                    <div class="text-left" ng-if="personageFlaw.personage_race_default">
                                         По умолчанию
                                     </div>
                                 </td>
@@ -1570,30 +1395,21 @@
 
                                 <td class="text-right mobile flaw actions">
                                     <div class="text-center">
-                                        <div ng-if="flawMixed.personageFlaw == null">
-                                            <button class="btn btn-rounded btn-warning btn-sm"
-                                                    href="javascript: void(0)"
-                                                    ng-click="addPersonageFlaw(flawMixed.flaw)">
-                                                Добавить
-                                            </button>
-                                        </div>
-                                        <div ng-if="flawMixed.personageFlaw != null">
-                                            <button class="btn btn-default-outline btn-rounded btn-sm"
-                                                    style="cursor: pointer;"
-                                                    ng-click="deletePersonageFlaw(flawMixed.personageFlaw)">
-                                                Удалить
-                                            </button>
-                                        </div>
-                                        <div ng-if="flawMixed.personageFlaw.personage_race_default && flawMixed.personageFlaw.Flaw.unremovable">
+                                        <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                style="cursor: pointer;"
+                                                ng-click="deletePersonageFlaw(personageFlaw)">
+                                            Удалить
+                                        </button>
+                                        <div ng-if="flawMixed.personageFlaw.Flaw.unremovable">
                                             Нельзя удалить
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr ng-show="isShowItem(flawMixed.flaw.id)"
-                                ng-class="addNotAddedClass(flawMixed.personageFlaw)">
+                            <tr ng-show="isShowItem(personageFlaw.Flaw.id)"
+                                ng-class="addNotAddedClass(personageFlaw)">
                                 <td colspan="3">
-                                    <strong class="padding-left-10">Описание:</strong> {{flawMixed.flaw.description}}
+                                    <strong class="padding-left-10">Описание:</strong> {{personageFlaw.Flaw.description}}
                                 </td>
                             </tr>
                             </tbody>

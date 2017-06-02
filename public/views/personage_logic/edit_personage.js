@@ -379,83 +379,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result;
     };
 
-    $scope.flawsMixed = [];
-
-    function calculateFlawsToShow() {
-        angular.forEach($scope.flaws, function (flaw) {
-            var targetPersonageFlaw = null;
-            angular.forEach($scope.personageFlaws, function (personageFlaw) {
-                if (flaw.id === personageFlaw.Flaw.id) {
-                    targetPersonageFlaw = personageFlaw;
-                }
-            });
-            $scope.flawsMixed.push({
-                flaw: flaw,
-                personageFlaw: targetPersonageFlaw
-            });
-        });
-    }
-
-    $scope.filteredFlawsCategories = [];
-
-    $scope.isCategoryFlawsMenuClose = true;
-
-    var flawsCategoriesFilerMenu = new Menu({
-        wrapper: '.o-wrapper-flaws',
-        type: 'slide-bottom',
-        mask: '.c-mask',
-        size: 350
-    });
-
-    $scope.openHideFlawsCategoriesFilterMenu = function () {
-        if ($scope.isCategoryFlawsMenuClose) {
-            flawsCategoriesFilerMenu.open();
-            $scope.isCategoryFlawsMenuClose = false;
-        } else {
-            flawsCategoriesFilerMenu.close();
-            $scope.isCategoryFlawsMenuClose = true;
-        }
-    };
-
-    $scope.filterFlawsByCategory = function (category, selected) {
-        if (selected) {
-            $scope.filteredFlawsCategories.push(category);
-        } else {
-            $scope.filteredFlawsCategories.splice($scope.filteredFlawsCategories.indexOf(category), 1);
-        }
-    };
-
-    $scope.filterFlawsByUnremovable = function (selected) {
-        $scope.filteredFlawsUnremovable = selected;
-    };
-
-    $scope.addedFlawsFilter = false;
-
-    $scope.filteredFlaws = function (flawItem) {
-        if (flawItem.personageFlaw === null && $scope.addedFlawsFilter) {
-            return true;
-        }
-
-        if ($scope.filteredFlawsUnremovable) {
-            if (!flawItem.flaw.unremovable) {
-                return true;
-            }
-        }
-
-        if ($scope.filteredFlawsCategories.length === 0) {
-            return false;
-        }
-
-        var categories = flawItem.flaw.category.split(",");
-        var result = true;
-        categories.forEach(function (item) {
-            if ($scope.filteredFlawsCategories.indexOf(item) !== -1) {
-                result = false;
-            }
-        });
-        return result;
-    };
-
     $scope.triggerSkillsMixed = [];
 
     function calculateTriggerSkillsToShow() {
@@ -773,7 +696,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         recalculateBasicCharacteristics(false);
         calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
-        calculateFlawsToShow();
         calculateMeritsToShow();
         calculateSpellsToShow();
         calculateAddedSchools();
@@ -1946,39 +1868,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return defer.promise;
     }
 
-    $scope.addPersonageFlaw = function (flaw) {
-        var personageFlaw = {
-            Flaw: flaw,
-            FlawId: flaw.id,
-            PersonageId: personageId
-        };
-        checkFlawRelatedPrerequisites(personageFlaw, 'add').then(function (confirmedChanges) {
-            if (confirmedChanges) {
-                $scope.personageFlaws.push(personageFlaw);
-
-                angular.forEach($scope.flawsMixed, function (flawMixed) {
-                    if (personageFlaw.Flaw.id === flawMixed.flaw.id && flawMixed.personageFlaw === null) {
-                        flawMixed.personageFlaw = personageFlaw;
-                    }
-                });
-
-                updateFlawPrerequisites(flaw.id);
-                $scope.personage.experience = $scope.personage.experience + flaw.cost;
-            }
-        });
-    };
-
     $scope.deletePersonageFlaw = function (personageFlaw) {
         checkFlawRelatedPrerequisites(personageFlaw, 'delete').then(function (confirmedChanges) {
             if (confirmedChanges) {
                 var index = $scope.personageFlaws.indexOf(personageFlaw);
                 $scope.personageFlaws.splice(index, 1);
-
-                angular.forEach($scope.flawsMixed, function (flawMixed) {
-                    if (flawMixed.flaw.id === personageFlaw.Flaw.id && flawMixed.personageFlaw !== null) {
-                        flawMixed.personageFlaw = null;
-                    }
-                });
 
                 updateFlawPrerequisites(personageFlaw.Flaw.id);
                 $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
