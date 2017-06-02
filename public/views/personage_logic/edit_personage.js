@@ -1965,9 +1965,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
 
                 if (attachedSkill.difficult) {
-                    $scope.personage.experience = $scope.personage.experience - 2;
+                    $scope.personage.experience = $scope.personage.experience - 10;
                 } else {
-                    $scope.personage.experience = $scope.personage.experience - 1;
+                    $scope.personage.experience = $scope.personage.experience - 5;
                 }
                 updateAttachedSkillPrerequisites(attachedSkill.id);
                 updateAttributeAttachedSkillPrerequisites(attachedSkill.id);
@@ -2079,9 +2079,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         });
 
                         if (personageAttachedSkill.AttachedSkill.difficult) {
-                            $scope.personage.experience = $scope.personage.experience + 2 * personageAttachedSkill.value;
+                            $scope.personage.experience = $scope.personage.experience + 10 + calculateExperienceSumForAttachedSKill(personageAttachedSkill.value)*2;
                         } else {
-                            $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value;
+                            $scope.personage.experience = $scope.personage.experience + 5 + calculateExperienceSumForAttachedSKill(personageAttachedSkill.value);
                         }
                         updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                         updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
@@ -2091,6 +2091,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }
         });
     };
+
+    function calculateExperienceSumForAttachedSKill(initialValue) {
+        if (initialValue > 1) {
+            var result = initialValue;
+            if (initialValue > 2) {
+                initialValue--;
+                result = result + calculateExperienceSumForAttachedSKill(initialValue);
+            }
+            return result;
+        } else {
+            return 0;
+        }
+    }
 
     function checkSpellsAddedToSchool(personageAttachedSkill) {
         var personageSpellsToDelete = [];
