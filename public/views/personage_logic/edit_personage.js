@@ -250,7 +250,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     var changes = {
         added: [],
-        deleted: [],
         valueIncreased: []
     };
 
@@ -269,8 +268,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return changes.added.indexOf(name) !== -1;
     }
 
-    function wasDeleted(name) {
+    $scope.flawsToShow = [];
 
+    function calculateFlawsToShow() {
+        $scope.flawsToShow = [];
+        angular.forEach($scope.personageFlaws, function (personageFlaw) {
+            $scope.flawsToShow.push({
+                personageFlaw: personageFlaw,
+                deleted: false
+            });
+        });
     }
 
     $scope.personageInherentValue = null;
@@ -726,6 +733,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateAttachedSkillsToShow();
         calculateTriggerSkillsToShow();
         calculateMeritsToShow();
+        calculateFlawsToShow();
         calculateSpellsToShow();
         calculateAddedSchools();
         $('#loader').hide();
@@ -2038,8 +2046,39 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 var index = $scope.personageFlaws.indexOf(personageFlaw);
                 $scope.personageFlaws.splice(index, 1);
 
+
+                var result = $.grep($scope.flawsToShow, function (flawToShow) {
+                    return flawToShow.personageFlaw.id === personageFlaw.id;
+                });
+                if (result.length !== 0) {
+                    result[0].deleted = true;
+                }
+
                 updateFlawPrerequisites(personageFlaw.Flaw.id);
                 $scope.personage.experience = $scope.personage.experience - personageFlaw.Flaw.cost;
+            }
+        });
+    };
+
+    $scope.addPersonageFlaw = function (flaw) {
+        var personageFlaw = {
+            Flaw: flaw,
+            FlawId: flaw.id,
+            PersonageId: personageId
+        };
+        checkFlawRelatedPrerequisites(personageFlaw, 'add').then(function (confirmedChanges) {
+            if (confirmedChanges) {
+                $scope.personageFlaws.push(personageFlaw);
+
+                var result = $.grep($scope.flawsToShow, function (flawToShow) {
+                    return flawToShow.personageFlaw.FlawId === personageFlaw.FlawId;
+                });
+                if (result.length !== 0) {
+                    result[0].deleted = false;
+                }
+
+                updateFlawPrerequisites(flaw.id);
+                $scope.personage.experience = $scope.personage.experience + flaw.cost;
             }
         });
     };
@@ -2584,6 +2623,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $('section').addClass('hide');
 
         function success() {
+            changes.added = [];
+            changes.valueIncreased = [];
+            calculateFlawsToShow();
             $('#loader').hide();
             $('section').removeClass('hide');
         }

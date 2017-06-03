@@ -410,7 +410,8 @@
                                                 <div class="btn-group">
                                                     <button class="btn btn-rounded btn-sm btn-secondary"
                                                             ng-click="decreaseAttribute(personageAttribute)"
-                                                            type="button" ng-disabled="!isAttributeDecreasingPossible(personageAttribute)">
+                                                            type="button"
+                                                            ng-disabled="!isAttributeDecreasingPossible(personageAttribute)">
                                                         <i class="icmn-minus"></i>
                                                     </button>
                                                 </div>
@@ -1357,7 +1358,7 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control"
+                                    <input type="text" ng-model="flawSearch.personageFlaw.Flaw.name" class="form-control"
                                            placeholder="Имя недостатка" id="flawSearch">
                                 </div>
                             </div>
@@ -1371,45 +1372,49 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="personageFlaw in personageFlaws | filter: flawSearch">
+                            <tbody class="mobile" ng-repeat="item in flawsToShow | filter: flawSearch">
                             <tr class="mobile flaw">
-                                <td class="text-right mobile flaw" ng-click="showHideDescription(personageFlaw.Flaw)"
+                                <td class="text-right mobile flaw"
+                                    ng-click="showHideDescription(item.personageFlaw.Flaw)"
                                     style="cursor:pointer;">
                                     <div class="text-left disable-select">
-                                        <i ng-hide="isShowItem(personageFlaw.Flaw.id)"
+                                        <i ng-hide="isShowItem(item.personageFlaw.Flaw.id)"
                                            class="icmn-circle-down2 margin-inline"></i><i
-                                            ng-show="isShowItem(personageFlaw.Flaw.id)"
-                                            class="icmn-circle-up2 margin-inline"></i>{{personageFlaw.Flaw.name}}
+                                            ng-show="isShowItem(item.personageFlaw.Flaw.id)"
+                                            class="icmn-circle-up2 margin-inline"></i>{{item.personageFlaw.Flaw.name}}
                                     </div>
                                 </td>
 
                                 <td class="text-right mobile flaw">
-                                    <div class="text-left" ng-if="!personageFlaw.personage_race_default">
-                                        {{personageFlaw.Flaw.cost}}
-                                    </div>
-                                    <div class="text-left" ng-if="personageFlaw.personage_race_default">
-                                        По умолчанию
+                                    <div class="text-left" ng-if="!item.personageFlaw.personage_race_default">
+                                        {{item.personageFlaw.Flaw.cost}}
                                     </div>
                                 </td>
 
 
                                 <td class="text-right mobile flaw actions">
                                     <div class="text-center">
-                                        <button class="btn btn-default-outline btn-rounded btn-sm"
+                                        <button class="btn btn-rounded btn-warning btn-sm" ng-if="item.deleted"
+                                                href="javascript: void(0)"
+                                                ng-click="addPersonageFlaw(item.personageFlaw.Flaw)">
+                                            Добавить
+                                        </button>
+                                        <button class="btn btn-default-outline btn-rounded btn-sm" ng-if="!item.deleted"
                                                 style="cursor: pointer;"
-                                                ng-click="deletePersonageFlaw(personageFlaw)">
+                                                ng-click="deletePersonageFlaw(item.personageFlaw)">
                                             Удалить
                                         </button>
-                                        <div ng-if="flawMixed.personageFlaw.Flaw.unremovable">
+                                        <div ng-if="item.personageFlaw.Flaw.unremovable">
                                             Нельзя удалить
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr ng-show="isShowItem(personageFlaw.Flaw.id)"
-                                ng-class="addNotAddedClass(personageFlaw)">
+                            <tr ng-show="isShowItem(item.personageFlaw.Flaw.id)"
+                                ng-class="addNotAddedClass(item.personageFlaw)">
                                 <td colspan="3">
-                                    <strong class="padding-left-10">Описание:</strong> {{personageFlaw.Flaw.description}}
+                                    <strong class="padding-left-10">Описание:</strong>
+                                    {{item.personageFlaw.Flaw.description}}
                                 </td>
                             </tr>
                             </tbody>
