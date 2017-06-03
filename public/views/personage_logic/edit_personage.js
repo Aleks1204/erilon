@@ -248,6 +248,31 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $(".inherentsButton").removeClass('active');
     });
 
+    var changes = {
+        added: [],
+        deleted: [],
+        valueIncreased: []
+    };
+
+    function returnInitialValueIfWasIncreased(name) {
+        var result = $.grep(changes.valueIncreased, function (increased) {
+            return increased.name === name;
+        });
+        if (result.length === 0) {
+            return null;
+        } else {
+            return result[0].initialValue;
+        }
+    }
+
+    function wasAdded(item) {
+
+    }
+
+    function wasDeleted() {
+
+    }
+
     $scope.personageInherentValue = null;
     $scope.addPersonageInherent = function () {
         var value = null;
@@ -960,21 +985,27 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var modifier = getAttributeModifier(personageAttribute.Attribute);
 
         var costCoefficient = 1.5;
-        if(personageAttribute.value >= 3) {
+        if (personageAttribute.value >= 3) {
             costCoefficient = 2;
         }
-        if(personageAttribute.value >= 6) {
+        if (personageAttribute.value >= 6) {
             costCoefficient = 3;
         }
-        if(personageAttribute.value >= 9) {
+        if (personageAttribute.value >= 9) {
             costCoefficient = 4;
         }
 
         angular.forEach($scope.raceAttributes, function (raceAttribute) {
             if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
                 if (personageAttribute.value < maxPrice - raceAttribute.base_cost + 6 + modifier) {
+                    if (returnInitialValueIfWasIncreased("Attribute_" + personageAttribute.Attribute.name) === null) {
+                        changes.valueIncreased.push({
+                            name: "Attribute_" + personageAttribute.Attribute.name,
+                            initialValue: personageAttribute.value
+                        });
+                    }
                     personageAttribute.value++;
-                    $scope.personage.experience = $scope.personage.experience - Math.floor(raceAttribute.base_cost*costCoefficient) + modifier;
+                    $scope.personage.experience = $scope.personage.experience - Math.floor(raceAttribute.base_cost * costCoefficient) + modifier;
                     updateAttributePrerequisites(personageAttribute.Attribute.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                 } else {
@@ -987,25 +1018,39 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     };
 
+    $scope.isAttributeDecreasingPossible = function (personageAttribute) {
+        var isDecreasingPossible = true;
+        var initialValue = returnInitialValueIfWasIncreased("Attribute_" + personageAttribute.Attribute.name);
+        if (initialValue !== null) {
+            if (personageAttribute.value <= initialValue) {
+                isDecreasingPossible = false;
+            }
+        } else {
+            isDecreasingPossible = false;
+        }
+        return isDecreasingPossible;
+    };
+
     $scope.decreaseAttribute = function (personageAttribute) {
         if (personageAttribute.value > 1) {
             var costCoefficient = 1.5;
-            if(personageAttribute.value > 3) {
+            if (personageAttribute.value > 3) {
                 costCoefficient = 2;
             }
-            if(personageAttribute.value > 6) {
+            if (personageAttribute.value > 6) {
                 costCoefficient = 3;
             }
-            if(personageAttribute.value > 9) {
+            if (personageAttribute.value > 9) {
                 costCoefficient = 4;
             }
+
             checkAttributeRelatedPrerequisites(personageAttribute).then(function (changesConfirmed) {
                 if (changesConfirmed) {
                     personageAttribute.value--;
                     recalculateBasicCharacteristics(true);
                     angular.forEach($scope.raceAttributes, function (raceAttribute) {
                         if (raceAttribute.Attribute.id === personageAttribute.Attribute.id) {
-                            $scope.personage.experience = $scope.personage.experience + Math.floor(raceAttribute.base_cost*costCoefficient) - getAttributeModifier(personageAttribute.Attribute);
+                            $scope.personage.experience = $scope.personage.experience + Math.floor(raceAttribute.base_cost * costCoefficient) - getAttributeModifier(personageAttribute.Attribute);
                             updateAttributePrerequisites(personageAttribute.Attribute.id);
                             updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
                         }
@@ -1114,12 +1159,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
-
-
         var increaseLevel = $q.defer();
 
         function success(data) {
-
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -1132,6 +1174,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 personageSpell.tutored = false;
             } else {
                 cost = personageSpell.Spell.cost * 2;
+            }
+
+            if (returnInitialValueIfWasIncreased("Spell_" + personageSpell.Spell.name) === null) {
+                changes.valueIncreased.push({
+                    name: "Spell_" + personageSpell.Spell.name,
+                    initialValue: personageSpell.level
+                });
             }
 
             personageSpell.level++;
@@ -1147,13 +1196,27 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
+    $scope.isSpellDecreasingPossible = function (personageSpell) {
+        var isDecreasingPossible = true;
+        if (personageSpell !== null) {
+            var initialValue = returnInitialValueIfWasIncreased("Spell_" + personageSpell.Spell.name);
+            if (initialValue !== null) {
+                if (personageSpell.level <= initialValue) {
+                    isDecreasingPossible = false;
+                }
+            } else {
+                isDecreasingPossible = false;
+            }
+        } else {
+            isDecreasingPossible = false;
+        }
+        return isDecreasingPossible;
+    };
+
     $scope.decreaseSpellLevel = function (personageSpell) {
-
-
         var decreaseLevel = $q.defer();
 
         function success(data) {
-
         }
 
         var all = $q.all([decreaseLevel.promise]);
@@ -1161,7 +1224,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         if (personageSpell.level > 0) {
             $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).then(function (response) {
-                $scope.personage.experience = $scope.personage.experience + parseInt(response.data.result.value);
+                var value = personageSpell.Spell.cost * 2;
+                if (response.data.result !== null) {
+                    value = response.data.result.value;
+                }
+                $scope.personage.experience = $scope.personage.experience + parseInt(value);
                 personageSpell.level--;
             }).then(function () {
                 decreaseLevel.resolve();
@@ -1177,11 +1244,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         if (personageAttachedSkill.AttachedSkill.theoretical) {
             if (personageAttachedSkill.value < wisdomDoubleValue) {
+                if (returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name) === null) {
+                    changes.valueIncreased.push({
+                        name: "AttachedSkill_" + personageAttachedSkill.AttachedSkill.name,
+                        initialValue: personageAttachedSkill.value
+                    });
+                }
                 personageAttachedSkill.value++;
                 updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 if (personageAttachedSkill.AttachedSkill.difficult) {
-                    $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value*2;
+                    $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
                 } else {
                     $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
                 }
@@ -1189,11 +1262,17 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 exceedWisdom(personageAttachedSkill.AttachedSkill.name);
             }
         } else {
+            if (returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name) === null) {
+                changes.valueIncreased.push({
+                    name: "AttachedSkill_" + personageAttachedSkill.AttachedSkill.name,
+                    initialValue: personageAttachedSkill.value
+                });
+            }
             personageAttachedSkill.value++;
             updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
             updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
             if (personageAttachedSkill.AttachedSkill.difficult) {
-                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value*2;
+                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
             } else {
                 $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
             }
@@ -1207,7 +1286,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var increaseLevel = $q.defer();
 
         function success() {
-
         }
 
         var all = $q.all([increaseLevel.promise]);
@@ -1224,6 +1302,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (skillLevel.level === nextLevel) {
                         isIncreased = true;
                         var cost = skillLevel.cost;
+                        if (returnInitialValueIfWasIncreased("TriggerSkill_" + personageTriggerSkill.TriggerSkill.name) === null) {
+                            changes.valueIncreased.push({
+                                name: "TriggerSkill_" + personageTriggerSkill.TriggerSkill.name,
+                                initialValue: personageTriggerSkill.currentLevel
+                            });
+                        }
                         personageTriggerSkill.currentLevel++;
                         if (personageTriggerSkill.talented) {
                             cost = Math.ceil(cost / 1.5);
@@ -1249,6 +1333,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 }
             }
         });
+    };
+
+    $scope.isTriggerSkillDecreasingPossible = function (personageTriggerSkill) {
+        var isDecreasingPossible = true;
+        if (personageTriggerSkill !== null) {
+            var initialValue = returnInitialValueIfWasIncreased("TriggerSkill_" + personageTriggerSkill.TriggerSkill.name);
+            if (initialValue !== null) {
+                if (personageTriggerSkill.currentLevel <= initialValue) {
+                    isDecreasingPossible = false;
+                }
+            } else {
+                isDecreasingPossible = false;
+            }
+        } else {
+            isDecreasingPossible = false;
+        }
+        return isDecreasingPossible;
     };
 
     $scope.decreaseTriggerSkillLevel = function (personageTriggerSkill, deletion) {
@@ -1282,6 +1383,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     };
 
+    $scope.isAttachedSkillDecreasingPossible = function (personageAttachedSkill) {
+        var isDecreasingPossible = true;
+        if (personageAttachedSkill !== null) {
+            var initialValue = returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name);
+            if (initialValue !== null) {
+                if (personageAttachedSkill.value <= initialValue) {
+                    isDecreasingPossible = false;
+                }
+            } else {
+                isDecreasingPossible = false;
+            }
+        } else {
+            isDecreasingPossible = false;
+        }
+        return isDecreasingPossible;
+    };
+
     $scope.decreaseAttachedSkill = function (personageAttachedSkill) {
         if (personageAttachedSkill.value > 1) {
             checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
@@ -1290,7 +1408,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1)*2;
+                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1) * 2;
                     } else {
                         $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value + 1;
                     }
@@ -1303,7 +1421,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1)*2;
+                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1) * 2;
                     } else {
                         $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value + 1;
                     }
@@ -2100,7 +2218,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         });
 
                         if (personageAttachedSkill.AttachedSkill.difficult) {
-                            $scope.personage.experience = $scope.personage.experience + 10 + calculateExperienceSumForAttachedSKill(personageAttachedSkill.value)*2;
+                            $scope.personage.experience = $scope.personage.experience + 10 + calculateExperienceSumForAttachedSKill(personageAttachedSkill.value) * 2;
                         } else {
                             $scope.personage.experience = $scope.personage.experience + 5 + calculateExperienceSumForAttachedSKill(personageAttachedSkill.value);
                         }

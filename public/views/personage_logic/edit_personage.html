@@ -410,7 +410,7 @@
                                                 <div class="btn-group">
                                                     <button class="btn btn-rounded btn-sm btn-secondary"
                                                             ng-click="decreaseAttribute(personageAttribute)"
-                                                            type="button">
+                                                            type="button" ng-disabled="!isAttributeDecreasingPossible(personageAttribute)">
                                                         <i class="icmn-minus"></i>
                                                     </button>
                                                 </div>
@@ -808,7 +808,7 @@
                                     <div class="btn-group btn-group-justified plus-minus-block">
                                         <div class="btn-group">
                                             <button class="btn btn-rounded btn-sm btn-secondary"
-                                                    ng-disabled="item.personageAttachedSkill == null"
+                                                    ng-disabled="!isAttachedSkillDecreasingPossible(item.personageAttachedSkill)"
                                                     ng-click="decreaseAttachedSkill(item.personageAttachedSkill)"
                                                     type="button">
                                                 <i class="icmn-minus"></i>
@@ -1002,7 +1002,7 @@
                                             <button class="btn btn-rounded btn-sm btn-secondary"
                                                     ng-click="decreaseTriggerSkillLevel(triggerSkillMixed.personageTriggerSkill, false)"
                                                     type="button"
-                                                    ng-disabled="triggerSkillMixed.personageTriggerSkill == null">
+                                                    ng-disabled="!isTriggerSkillDecreasingPossible(triggerSkillMixed.personageTriggerSkill)">
                                                 <i class="icmn-minus"></i>
                                             </button>
                                         </div>
@@ -1541,7 +1541,7 @@
                                                 <button class="btn btn-rounded btn-sm btn-secondary"
                                                         ng-click="decreaseSpellLevel(spellItem.personageSpell)"
                                                         type="button"
-                                                        ng-disabled="spellItem.personageSpell == null">
+                                                        ng-disabled="!isSpellDecreasingPossible(spellItem.personageSpell)">
                                                     <i class="icmn-minus"></i>
                                                 </button>
                                             </div>
