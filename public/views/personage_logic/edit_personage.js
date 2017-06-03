@@ -265,11 +265,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     }
 
-    function wasAdded(item) {
-
+    function wasAdded(name) {
+        return changes.added.indexOf(name) !== -1;
     }
 
-    function wasDeleted() {
+    function wasDeleted(name) {
 
     }
 
@@ -1132,7 +1132,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
+        if (!wasAdded("Spell_" + spell.name)) {
+            changes.added.push("Spell_" + spell.name);
+        }
+
         $scope.personage.experience = $scope.personage.experience - spell.cost;
+    };
+
+    $scope.isDeletingSpellPossible = function (personageSpell) {
+        var isDeletingPossible = false;
+        if (personageSpell !== null) {
+            if (wasAdded("Spell_" + personageSpell.Spell.name)) {
+                isDeletingPossible = true;
+            }
+        }
+        return isDeletingPossible;
     };
 
     $scope.deletePersonageSpell = function (personageSpell) {
@@ -1878,6 +1892,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
+    $scope.isDeletingMeritPossible = function (personageMerit) {
+        var isDeletingPossible = false;
+        if (personageMerit !== null) {
+            if (wasAdded("Merit_" + personageMerit.Merit.name)) {
+                isDeletingPossible = true;
+            }
+        }
+        return isDeletingPossible;
+    };
+
     $scope.addPersonageMerit = function (merit) {
         var personageMerit = {
             Merit: merit,
@@ -1887,14 +1911,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         $scope.personageMerits.push(personageMerit);
 
-        if (merit.name.indexOf('Талант') > -1) {
-            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
-                if (merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
-                    personageTriggerSkill.talented = true;
-                }
-            });
-        }
-
         angular.forEach($scope.personageMerits, function (personageMerit) {
             angular.forEach($scope.meritsMixed, function (meritMixed) {
                 if (personageMerit.Merit.id === meritMixed.merit.id && meritMixed.personageMerit === null) {
@@ -1903,6 +1919,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
         updateMeritPrerequisites(merit.id);
+
+        if (!wasAdded("Merit_" + merit.name)) {
+            changes.added.push("Merit_" + merit.name);
+        }
+
         $scope.personage.experience = $scope.personage.experience - merit.cost;
     };
 
@@ -2103,6 +2124,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     });
                 });
 
+                if (!wasAdded("AttachedSkill_" + attachedSkill.name)) {
+                    changes.added.push("AttachedSkill_" + attachedSkill.name);
+                }
+
                 if (attachedSkill.difficult) {
                     $scope.personage.experience = $scope.personage.experience - 10;
                 } else {
@@ -2198,9 +2223,23 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
         });
 
+        if (!wasAdded("TriggerSkill_" + triggerSkill.name)) {
+            changes.added.push("TriggerSkill_" + triggerSkill.name);
+        }
+
         $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
         updateTriggerSkillPrerequisites(triggerSkill.id);
 
+    };
+
+    $scope.isDeletingAttachedSkillPossible = function (personageAttachedSkill) {
+        var isDeletingPossible = false;
+        if (personageAttachedSkill !== null) {
+            if (wasAdded("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name)) {
+                isDeletingPossible = true;
+            }
+        }
+        return isDeletingPossible;
     };
 
     $scope.deletePersonageAttachedSkill = function (personageAttachedSkill) {
@@ -2269,7 +2308,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: "Согласен!",
-                cancelButtonText: "Отменить",
+                cancelButtonText: "Отменить"
             }).then(function success() {
                 angular.forEach(personageSpellsToDelete, function (personageSpell) {
                     $scope.deletePersonageSpell(personageSpell);
@@ -2284,6 +2323,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         return result.promise;
     }
+
+    $scope.isDeletingTriggerSkillPossible = function (personageTriggerSkill) {
+        var isDeletingPossible = false;
+        if (personageTriggerSkill !== null) {
+            if (wasAdded("TriggerSkill_" + personageTriggerSkill.TriggerSkill.name)) {
+                isDeletingPossible = true;
+            }
+        }
+        return isDeletingPossible;
+    };
 
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill, true).then(function (result) {

@@ -836,7 +836,7 @@
 
                                 <td class="text-right mobile attached actions">
                                     <div class="text-center">
-                                        <div ng-if="item.personageAttachedSkill != null && !item.personageAttachedSkill.AttachedSkill.default_skill">
+                                        <div ng-if="isDeletingAttachedSkillPossible(item.personageAttachedSkill)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
                                                     ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
@@ -1052,7 +1052,7 @@
 
                                 <td class="text-right mobile trigger actions">
                                     <div class="text-center">
-                                        <div ng-if="triggerSkillMixed.personageTriggerSkill != null">
+                                        <div ng-if="isDeletingTriggerSkillPossible(triggerSkillMixed.personageTriggerSkill)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
                                                     ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
@@ -1322,7 +1322,7 @@
                                 </td>
                                 <td class="text-right mobile merit actions">
                                     <div class="text-center">
-                                        <div ng-if="meritMixed.personageMerit != null && !meritMixed.personageMerit.unremovable">
+                                        <div ng-if="isDeletingMeritPossible(meritMixed.personageMerit)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
                                                     ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
@@ -1505,7 +1505,7 @@
                                     ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
                                     <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)"
-                                        style="cursor:pointer;">
+                                        style="cursor:pointer;width: 20%;">
                                         <div class="text-left disable-select">
                                             <i ng-hide="isShowItem(spellItem.spell.id)"
                                                class="icmn-circle-down2 margin-inline"></i><i
@@ -1581,7 +1581,7 @@
                                                     Добавить
                                                 </button>
                                             </div>
-                                            <div ng-if="spellItem.personageSpell != null">
+                                            <div ng-if="isDeletingSpellPossible(spellItem.personageSpell)">
                                                 <button class="btn btn-default-outline btn-rounded btn-sm"
                                                         style="cursor: pointer;"
                                                         ng-click="deletePersonageSpell(spellItem.personageSpell)">
