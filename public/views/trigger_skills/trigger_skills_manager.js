@@ -14,6 +14,16 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
         $scope.player = response.data.player;
     });
 
+    $http.get('/triggerSkills').then(function (response) {
+        $scope.triggerSkillsOptions = '{';
+        angular.forEach(response.data.data, function (triggerSkill) {
+            $scope.triggerSkillsOptions = $scope.triggerSkillsOptions + "\"" + triggerSkill.id + "\"" + ":" + "\"" + triggerSkill.name + "\",";
+        });
+        $scope.triggerSkillsOptions = $scope.triggerSkillsOptions + "\"\":\"Нет базового навыка\",";
+        $scope.triggerSkillsOptions = $scope.triggerSkillsOptions.substring(0, $scope.triggerSkillsOptions.length - 1) + "}";
+        $scope.triggerSkillsOptions = JSON.parse($scope.triggerSkillsOptions);
+    });
+
     $q.all([players.promise])
         .then(success);
 
@@ -133,6 +143,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
             $http.get('/triggerSkills/' + this.value).then(function (response) {
                 var skill = response.data.triggerSkill;
                 var isDifficult = '';
+                var triggerSkillId = "";
+                if (skill.TriggerSkillId != null) {
+                    triggerSkillId = skill.TriggerSkillId;
+                }
                 if (skill.difficult) {
                     isDifficult = 'checked';
                 }
@@ -164,19 +178,25 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                             '<label for="difficultSkill">Сложный</label>' +
                         '</div>' +
                     '</div>' +
+                    '<p>Базовый навык:</p>' +
                     '</form>',
+                    input: 'select',
+                    inputOptions: $scope.triggerSkillsOptions,
+                    inputValue: triggerSkillId,
+                    inputClass: 'form-control',
                     showCancelButton: true,
                     cancelButtonText: "Отменить",
                     confirmButtonText: "Сохранить",
                     showLoaderOnConfirm: true,
-                    preConfirm: function () {
+                    preConfirm: function (value) {
                         return new Promise(function (resolve) {
                             resolve([
                                 $('#name').val(),
                                 $('#category').val().toString(),
                                 $('#cost').val(),
                                 $('#description').val(),
-                                $('#difficultSkill').prop("checked")
+                                $('#difficultSkill').prop("checked"),
+                                value
                             ])
                         })
                     },
@@ -191,12 +211,17 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                     }
                 }).then(function success(result) {
+                    var triggerSkillId = null;
+                    if (result[5] !== '') {
+                        triggerSkillId = result[5]
+                    }
                     $http.put('/triggerSkills/' + skill.id, {
                         name: result[0],
                         category: result[1],
                         cost: result[2],
                         description: result[3],
-                        difficult: result[4]
+                        difficult: result[4],
+                        trigger_skill_id: triggerSkillId
                     }).then(function () {
                         table.ajax.reload(null, false)
                     });
@@ -233,14 +258,17 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
                         '<label for="difficultSkill">Сложный</label>' +
                     '</div>' +
-                    '</div>' +
+                '</div>' +
+                '<p>Базовый навык (не обязательно):</p>' +
                 '</form>',
                 showCancelButton: true,
                 cancelButtonText: "Отменить",
                 confirmButtonText: "Добавить",
                 showLoaderOnConfirm: true,
-                input: 'text',
-                inputClass: 'hide',
+                input: 'select',
+                inputOptions: $scope.triggerSkillsOptions,
+                inputPlaceholder: 'Выберите навык...',
+                inputClass: 'form-control',
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {
                         var name = $('#name').val();
@@ -259,14 +287,15 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                         });
                     })
                 },
-                preConfirm: function () {
+                preConfirm: function (value) {
                     return new Promise(function (resolve) {
                         resolve([
                             $('#name').val(),
                             $('#cost').val(),
                             $('#category').val().toString(),
                             $('#description').val(),
-                            $('#difficultSkill').prop("checked")
+                            $('#difficultSkill').prop("checked"),
+                            value
                         ])
                     })
                 },
@@ -277,12 +306,17 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }
             }).then(function success(result) {
+                var triggerSkillId = null;
+                if (result[5] !== '') {
+                    triggerSkillId = result[5]
+                }
                 $http.post('/triggerSkills', {
                     name: result[0],
                     cost: result[1],
                     category: result[2],
                     description: result[3],
-                    difficult: result[4]
+                    difficult: result[4],
+                    trigger_skill_id: triggerSkillId
                 }).then(function () {
                     table.ajax.reload(null, false)
                 });

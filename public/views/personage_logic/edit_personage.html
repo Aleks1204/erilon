@@ -985,7 +985,7 @@
                                    ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch">
                             <tr class="mobile trigger"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed)"
-                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
                                 <td class="text-right mobile attached"
                                     ng-click="showHideDescription(triggerSkillMixed.triggerSkill)"
                                     style="cursor:pointer;">

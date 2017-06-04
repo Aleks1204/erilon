@@ -17,6 +17,8 @@ module.exports = function(sequelize, DataTypes) {
                 TriggerSkill.hasMany(models.PersonageTriggerSkill);
                 TriggerSkill.hasMany(models.SkillLevel);
                 TriggerSkill.hasMany(models.MeritTriggerSkill);
+                TriggerSkill.hasMany(models.TriggerSkill);
+                TriggerSkill.belongsTo(models.TriggerSkill, {as: 'BaseTriggerSkill', foreignKey: 'TriggerSkillId', constraints: false});
             }
         }
     });

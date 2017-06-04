@@ -423,9 +423,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
             $scope.triggerSkillsMixed.push({
                 triggerSkill: triggerSkill,
-                personageTriggerSkill: targetPersonageTriggerSkill
+                personageTriggerSkill: targetPersonageTriggerSkill,
+                available: isBaseTriggerSKillAdded(triggerSkill)
             });
         });
+    }
+
+    function isBaseTriggerSKillAdded(triggerSkill) {
+        var returned = false;
+        if (triggerSkill.BaseTriggerSkill === null) {
+            returned = true;
+        } else {
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (personageTriggerSkill.TriggerSkill.id === triggerSkill.TriggerSkillId) {
+                    returned = true;
+                }
+            });
+        }
+        return returned;
     }
 
     $('.category-table').find('tr').click(function (event) {
@@ -677,6 +692,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     meritMixed.available = getPrerequisites(meritMixed.merit);
                 }
             })
+        });
+    }
+
+    function updateTriggerSkillBaseSkills(triggerSkill_id) {
+        angular.forEach($scope.triggerSkillsMixed, function (triggerSkillMixed) {
+            if (triggerSkillMixed.triggerSkill.TriggerSkillId === triggerSkill_id) {
+                triggerSkillMixed.available = isBaseTriggerSKillAdded(triggerSkillMixed.triggerSkill);
+            }
         });
     }
 
@@ -1533,7 +1556,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Согласен!",
+                    confirmButtonText: "Удалить!",
                     cancelButtonText: "Отменить"
                 }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
@@ -2268,7 +2291,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
         updateTriggerSkillPrerequisites(triggerSkill.id);
-
+        updateTriggerSkillBaseSkills(triggerSkill.id);
     };
 
     $scope.isDeletingAttachedSkillPossible = function (personageAttachedSkill) {
@@ -2346,7 +2369,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Согласен!",
+                confirmButtonText: "Удалить!",
                 cancelButtonText: "Отменить"
             }).then(function success() {
                 angular.forEach(personageSpellsToDelete, function (personageSpell) {
@@ -2376,19 +2399,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.deletePersonageTriggerSkill = function (personageTriggerSkill) {
         checkTriggerSkillRelatedPrerequisites(personageTriggerSkill, true).then(function (result) {
             if (result) {
-                $scope.decreaseTriggerSkillLevel(personageTriggerSkill, true);
+                checkRelatedBaseTriggerSkill(personageTriggerSkill.TriggerSkill).then(function (resolved) {
+                    if (resolved) {
+                        $scope.decreaseTriggerSkillLevel(personageTriggerSkill, true);
 
-                var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
-                $scope.personageTriggerSkills.splice(index, 1);
+                        var index = $scope.personageTriggerSkills.indexOf(personageTriggerSkill);
+                        $scope.personageTriggerSkills.splice(index, 1);
 
-                angular.forEach($scope.triggerSkillsMixed, function (triggerSkillMixed) {
-                    if (triggerSkillMixed.triggerSkill.id === personageTriggerSkill.TriggerSkill.id && triggerSkillMixed.personageTriggerSkill !== null) {
-                        triggerSkillMixed.personageTriggerSkill = null;
+                        angular.forEach($scope.triggerSkillsMixed, function (triggerSkillMixed) {
+                            if (triggerSkillMixed.triggerSkill.id === personageTriggerSkill.TriggerSkill.id && triggerSkillMixed.personageTriggerSkill !== null) {
+                                triggerSkillMixed.personageTriggerSkill = null;
+                            }
+                        });
+
+                        updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkill.id);
+                        updateTriggerSkillBaseSkills(personageTriggerSkill.TriggerSkill.id);
+                        $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
                     }
                 });
-
-                updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkill.id);
-                $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
             }
         });
     };
@@ -2421,6 +2449,48 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
 
         return showAffectedMeritsModal();
+    }
+
+    function checkRelatedBaseTriggerSkill(triggerSkill) {
+        var skillsToDelete = [];
+        angular.forEach(triggerSkill.TriggerSkills, function (relatedTriggerSKill) {
+            angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
+                if (relatedTriggerSKill.id === personageTriggerSkill.TriggerSkill.id) {
+                    skillsToDelete.push(personageTriggerSkill);
+                }
+            });
+        });
+
+        var result = $q.defer();
+        if (skillsToDelete.length > 0) {
+            var stringValue = '';
+            angular.forEach(skillsToDelete, function (skill) {
+                stringValue = stringValue + ", <strong>" + skill.TriggerSkill.name + "</strong>";
+            });
+
+            stringValue = stringValue.substring(2);
+
+            swal({
+                title: "Вы уверены?",
+                html: "Данное изменение приведет к удалению навыков: " + stringValue,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Удалить!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                angular.forEach(skillsToDelete, function (skill) {
+                    $scope.deletePersonageTriggerSkill(skill);
+                });
+                result.resolve(true);
+            }, function cancel() {
+                result.resolve(false);
+            });
+        } else {
+            result.resolve(true);
+        }
+        return result.promise;
     }
 
     $scope.makeDraggable = function () {

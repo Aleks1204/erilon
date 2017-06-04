@@ -31,3 +31,7 @@ CREATE TABLE "AttachedSkillAttribute"
   CONSTRAINT AttachedSkillAttribute_AttachedSkill__fk FOREIGN KEY ("AttachedSkillId") REFERENCES "AttachedSkills" (id)
 );
 CREATE UNIQUE INDEX "AttachedSkillAttribute_id_uindex" ON "AttachedSkillAttribute" (id);
+ALTER TABLE "TriggerSkills" ADD "TriggerSkillId" INT NULL;
+ALTER TABLE "TriggerSkills"
+  ADD CONSTRAINT TriggerSkills_TriggerSkills_id_fk
+FOREIGN KEY ("TriggerSkillId") REFERENCES "TriggerSkills" (id);
