@@ -787,7 +787,7 @@
                             </tr>
                             </thead>
                             <tbody class="mobile"
-                                   ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch">
+                                   ng-repeat="item in attachedSkillsMixed | filter: attachedSkillsSearch | orderBy:'attachedSkill.name'">
                             <tr class="mobile attached"
                                 ng-hide="filteredAttachedSkills(item)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
@@ -997,7 +997,7 @@
                             </tr>
                             </thead>
                             <tbody class="mobile"
-                                   ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch">
+                                   ng-repeat="triggerSkillMixed in triggerSkillsMixed | filter: triggerSkillsSearch | orderBy:'triggerSkill.name'">
                             <tr class="mobile trigger"
                                 ng-hide="filteredTriggerSkills(triggerSkillMixed)"
                                 ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
@@ -1297,7 +1297,7 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch">
+                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch | orderBy:'merit.name'">
                             <tr class="mobile merit"
                                 ng-hide="filteredMerit(meritMixed)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
@@ -1560,7 +1560,7 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch">
+                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch | orderBy:'flaw.name'">
                             <tr class="mobile flaw"
                                 ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
@@ -1685,7 +1685,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-repeat="item in spellsBySchool" ng-hide="!item.added && !filter.schools">
+                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'" ng-hide="!item.added && !filter.schools">
                             <h3>{{item.school.name}}</h3>
                             <table class="table mobile">
                                 <thead class="mobile">
@@ -1700,7 +1700,7 @@
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch">
+                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
                                 <tr class="mobile spells"
                                     ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
