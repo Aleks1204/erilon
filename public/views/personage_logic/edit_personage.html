@@ -974,6 +974,7 @@
                             <thead class="mobile">
                             <tr class="mobile">
                                 <th class="mobile">Навык</th>
+                                <th class="mobile text-center">Базовык навык</th>
                                 <th class="mobile"></th>
                                 <th class="mobile text-center">Уровень</th>
                                 <th class="mobile text-center">Талант</th>
@@ -994,6 +995,17 @@
                                            class="icmn-circle-down2 margin-inline"></i><i
                                             ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                             class="icmn-circle-up2 margin-inline"></i>{{triggerSkillMixed.triggerSkill.name}}
+                                    </div>
+                                </td>
+
+                                <td class="text-right mobile trigger">
+                                    <div class="text-center">
+                                        <div ng-if="triggerSkillMixed.triggerSkill.BaseTriggerSkill == null">
+                                            -
+                                        </div>
+                                        <div ng-if="triggerSkillMixed.triggerSkill.BaseTriggerSkill != null">
+                                            {{triggerSkillMixed.triggerSkill.BaseTriggerSkill.name}}
+                                        </div>
                                     </div>
                                 </td>
 
@@ -1072,14 +1084,14 @@
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
-                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
                                 <td colspan="6">
                                     <strong class="padding-left-10">Описание:</strong>
                                     {{triggerSkillMixed.triggerSkill.description}}
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
-                                ng-class="addNotAddedClass(triggerSkillMixed.personageTriggerSkill)">
+                                ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
                                 <td colspan="6">
                                     <strong class="padding-left-10">Уровни владения:</strong>
                                     <p ng-repeat="level in triggerSkillMixed.triggerSkill.SkillLevels | orderBy: 'level'">
