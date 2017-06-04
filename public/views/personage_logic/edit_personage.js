@@ -2289,7 +2289,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             changes.added.push("TriggerSkill_" + triggerSkill.name);
         }
 
-        $scope.personage.experience = $scope.personage.experience - triggerSkill.cost;
+        $scope.personage.experience = $scope.personage.experience - triggerSkill.cost*2;
         updateTriggerSkillPrerequisites(triggerSkill.id);
         updateTriggerSkillBaseSkills(triggerSkill.id);
     };
@@ -2414,7 +2414,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
                         updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkill.id);
                         updateTriggerSkillBaseSkills(personageTriggerSkill.TriggerSkill.id);
-                        $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost;
+                        $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost*2;
                     }
                 });
             }
