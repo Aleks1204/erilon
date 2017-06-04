@@ -207,7 +207,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Да!",
+                confirmButtonText: "Удалить!",
                 cancelButtonText: "Отменить"
             }).then(function success() {
                 $http.delete('/merits/' + id).then(function () {

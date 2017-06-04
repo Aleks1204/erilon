@@ -157,7 +157,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Да!",
+                confirmButtonText: "Удалить!",
                 cancelButtonText: "Отменить"
             }).then(function success() {
                 $http.delete('/attachedSkills/' + id).then(function () {

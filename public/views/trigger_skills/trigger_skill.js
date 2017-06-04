@@ -106,7 +106,7 @@ app.controller("skillLevelListController", function ($scope, $http, $q) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Да!",
+            confirmButtonText: "Удалить!",
             cancelButtonText: "Отменить"
         }).then(function success() {
             $http.delete('/skillLevels/' + id).then(function () {

@@ -113,7 +113,7 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Да!",
+            confirmButtonText: "Удалить!",
             cancelButtonText: "Отменить"
         }).then(function success() {
             $http.delete('/attachedSkillAttributes/' + id).then(function () {

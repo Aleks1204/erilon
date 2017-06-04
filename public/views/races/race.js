@@ -145,7 +145,7 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Да!",
+            confirmButtonText: "Удалить!",
             cancelButtonText: "Отменить"
         }).then(function success() {
             $http.delete('/raceMerits/' + id).then(function () {
@@ -209,7 +209,7 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Да!",
+            confirmButtonText: "Удалить!",
             cancelButtonText: "Отменить"
         }).then(function success() {
             $http.delete('/raceFlaws/' + id).then(function () {
@@ -299,7 +299,7 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Да!",
+            confirmButtonText: "Удалить!",
             cancelButtonText: "Отменить"
         }).then(function success() {
             $http.delete('/raceInherents/' + id).then(function () {
