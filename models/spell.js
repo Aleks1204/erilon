@@ -22,6 +22,8 @@ module.exports = function(sequelize, DataTypes) {
             associate: function(models) {
                 Spell.belongsTo(models.AttachedSkill, {foreignKeyConstraint: true});
                 Spell.hasMany(models.PersonageSpell);
+                Spell.hasMany(models.Spell);
+                Spell.belongsTo(models.Spell, {as: 'BaseSpell', foreignKey: 'SpellId', constraints: false});
             }
         }
     });

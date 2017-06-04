@@ -35,3 +35,7 @@ ALTER TABLE "TriggerSkills" ADD "TriggerSkillId" INT NULL;
 ALTER TABLE "TriggerSkills"
   ADD CONSTRAINT TriggerSkills_TriggerSkills_id_fk
 FOREIGN KEY ("TriggerSkillId") REFERENCES "TriggerSkills" (id);
+ALTER TABLE "Spells" ADD "SpellId" INT NULL;
+ALTER TABLE "Spells"
+  ADD CONSTRAINT Spells_Spells_id_fk
+FOREIGN KEY ("SpellId") REFERENCES "Spells" (id);
