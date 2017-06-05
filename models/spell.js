@@ -16,7 +16,8 @@ module.exports = function(sequelize, DataTypes) {
         mana_sup_time: DataTypes.STRING,
         cost: DataTypes.INTEGER,
         effect: DataTypes.TEXT,
-        description: DataTypes.TEXT
+        description: DataTypes.TEXT,
+        modification_needed: DataTypes.BOOLEAN
     }, {
         classMethods: {
             associate: function(models) {

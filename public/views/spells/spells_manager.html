@@ -8,16 +8,18 @@
     <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
 
     <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
     <!-- Vendors Scripts -->
     <!-- v1.0.0 -->
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/vendors/jquery/jquery.min.js"></script>
     <script src="/node_modules/tether/dist/js/tether.min.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
     <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/node_modules/autosize/dist/autosize.min.js"></script>
+    <script src="/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
     <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
@@ -28,8 +30,6 @@
     <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
     <script src="/assets/common/js/common.min.js"></script>
 
-
-    <!-- Clean UI Scripts -->
     <script src="/views/permissions/permissions.js"></script>
     <script src="spells_manager.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
@@ -128,7 +128,8 @@
                             <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
                                     class="dropdown-icon icmn-exit"></i> Сменить профиль</a>
                             <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
-                            <a class="dropdown-item" href="/views/permissions/managePermissions.html" ng-click="deleteUserCookie()"
+                            <a class="dropdown-item" href="/views/permissions/managePermissions.html"
+                               ng-click="deleteUserCookie()"
                                ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
                                 доступом</a>
                         </ul>
@@ -151,8 +152,141 @@
         </nav>
 
         <section class="page-content" id="spells">
-            <h2 class="text-center">Заклинания</h2>
+            <h2 class="text-center">Заклинания <a href="javascript:void(0);"
+                                                  class="link-underlined link-blue"
+                                                  ng-click="showSpellForm()">Добавить</a></h2>
 
+            <div class="panel" style="display: none" id="addFormPanel">
+                <h4 class="panel-heading">
+                    Добавить заклинание
+                </h4>
+                <div class="panel-body">
+                    <form id="addForm" name="addForm" novalidate>
+                        <div class="form-group">
+                            <label for="name" class="form-control-label">Имя:</label>
+                            <input type="text" ng-model="name" class="form-control" name="name" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="school_id" class="form-control-label">Магическая школа:</label>
+                            <select class="form-control"
+                                    name="school_id"
+                                    ng-model="school_id" id="school_id"
+                                    ng-options="school.id as school.name for school in magicSchools" required>
+                                <option style="display:none" value="">Выберите школу...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost" class="form-control-label">Стоимость:</label>
+                            <input type="number" ng-model="cost" class="form-control" id="cost" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="complexity" class="form-control-label">Сложность:</label>
+                            <input type="text" ng-model="complexity" class="form-control" id="complexity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="creating_complexity" class="form-control-label">Сложность создания:</label>
+                            <input type="text" class="form-control" ng-model="creating_complexity"
+                                   id="creating_complexity" required>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">
+                                    <input id="instant" name="instant" ng-model="instant" type="checkbox">
+                                    <label for="instant">Мгновенное</label>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">
+                                    <input id="modification_needed" name="modification_needed"
+                                           ng-model="modification_needed" type="checkbox">
+                                    <label for="modification_needed">Требует модификации</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mana" class="form-control-label">Мана:</label>
+                            <input type="text" ng-model="mana" class="form-control" id="mana" required>
+                        </div>
+                        <div ng-show="!instant">
+                            <label for="mana_support" class="form-control-label">Поддержание:</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" ng-model="mana_support" class="form-control"
+                                               id="mana_support" ng-required="!instant">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="form-control" id="mana_sup_time" ng-model="mana_sup_time">
+                                            <option style="display:none" value=""></option>
+                                            <option value="в раунд">в раунд</option>
+                                            <option value="в минуту">в минуту</option>
+                                            <option value="в час">в час</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="spell_id" class="form-control-label">Базовое заклинание (не
+                                обязательно):</label>
+                            <select class="form-control"
+                                    name="spell_id"
+                                    ng-model="spell_id" id="spell_id"
+                                    ng-options="spell.id as spell.name for spell in spells">
+                                <option value="">Нет базового заклинания</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="effect" class="form-control-label">Эффект:</label>
+                            <textarea id="effect" class="form-control" ng-model="effect"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-control-label">Описание:</label>
+                            <textarea id="description" ng-model="description" class="form-control"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group pull-right" ng-hide="showEditForm">
+                                    <button type="submit" class="btn btn-info margin-inline" ng-click="addSpell()" ng-disabled="addForm.$invalid">Добавить</button>
+                                    <button class="btn margin-inline" ng-click="cancel()">Отмена</button>
+                                </div>
+                                <div class="form-group pull-right" ng-show="showEditForm">
+                                    <button type="submit" class="btn btn-info margin-inline" ng-click="updateSpell()" ng-disabled="addForm.$invalid">Сохранить</button>
+                                    <button class="btn margin-inline" ng-click="cancel()">Отмена</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div ng-repeat="school in magicSchools">
+                <div id="{{school.id}}MagicPanel" class="panel">
+                    <h3 class="panel-heading" style="padding-bottom: 0"> {{school.name}} </h3>
+                    <div class="panel-body table-responsive">
+                        <table id="{{school.id}}Magic" class="table table-hover nowrap" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Заклинание</th>
+                                <th>Стоимость</th>
+                                <th>Сложность</th>
+                                <th>Сложность создания</th>
+                                <th>Мана</th>
+                                <th>Поддержание</th>
+                                <th>Мгновенное</th>
+                                <th>Базовое заклинание</th>
+                                <th>Требуется модификация</th>
+                                <th>Эффект</th>
+                                <th>Описание</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </div>

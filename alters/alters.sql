@@ -39,3 +39,4 @@ ALTER TABLE "Spells" ADD "SpellId" INT NULL;
 ALTER TABLE "Spells"
   ADD CONSTRAINT Spells_Spells_id_fk
 FOREIGN KEY ("SpellId") REFERENCES "Spells" (id);
+ALTER TABLE "Spells" ADD modification_needed BOOLEAN DEFAULT FALSE  NOT NULL;
