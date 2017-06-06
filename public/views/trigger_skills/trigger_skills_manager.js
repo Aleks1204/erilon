@@ -70,6 +70,17 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     }
                 },
                 {"data": "category"},
+                {
+                    data: 'BaseTriggerSkill',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if (data === null) {
+                            return '-';
+                        } else {
+                            return data.name;
+                        }
+                    }
+                },
                 {"data": "cost"},
                 {
                     data: 'difficult',
@@ -144,7 +155,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                 var skill = response.data.triggerSkill;
                 var isDifficult = '';
                 var triggerSkillId = "";
-                if (skill.TriggerSkillId != null) {
+                if (skill.TriggerSkillId !== null) {
                     triggerSkillId = skill.TriggerSkillId;
                 }
                 if (skill.difficult) {
@@ -182,7 +193,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     '</form>',
                     input: 'select',
                     inputOptions: $scope.triggerSkillsOptions,
-                    inputValue: triggerSkillId,
+                    inputValue: triggerSkillId.toString(),
                     inputClass: 'form-control',
                     showCancelButton: true,
                     cancelButtonText: "Отменить",
