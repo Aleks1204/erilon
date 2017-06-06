@@ -1100,14 +1100,14 @@
                             </tr>
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                 ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <strong class="padding-left-10">Описание:</strong>
                                     {{triggerSkillMixed.triggerSkill.description}}
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                 ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <strong class="padding-left-10">Уровни владения:</strong>
                                     <p ng-repeat="level in triggerSkillMixed.triggerSkill.SkillLevels | orderBy: 'level'">
                                         <strong class="padding-left-20">{{getLevelName(level.level)}}: </strong>
@@ -1707,6 +1707,7 @@
                                     <th>Сложность</th>
                                     <th>Мана</th>
                                     <th>Поддержание</th>
+                                    <th>Базовое заклинание</th>
                                     <th></th>
                                     <th>Уровень</th>
                                     <th>Стоимость</th>
@@ -1716,7 +1717,7 @@
                                 <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
                                 <tr class="mobile spells"
                                     ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
-                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
+                                    ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
                                     <td class="text-right mobile spell" ng-click="showHideDescription(spellItem.spell)"
                                         style="cursor:pointer;">
                                         <div class="text-left disable-select">
@@ -1744,6 +1745,15 @@
                                             {{spellItem.spell.mana_support}} {{spellItem.spell.mana_sup_time}}
                                         </div>
                                         <div class="text-left" ng-if="spellItem.spell.mana_support == null">
+                                            -
+                                        </div>
+                                    </td>
+
+                                    <td class="text-right mobile spell">
+                                        <div class="text-left" ng-if="spellItem.spell.BaseSpell != null">
+                                            {{spellItem.spell.BaseSpell.name}}
+                                        </div>
+                                        <div class="text-left" ng-if="spellItem.spell.BaseSpell == null">
                                             -
                                         </div>
                                     </td>
@@ -1790,7 +1800,7 @@
                                                 <button class="btn btn-rounded btn-warning btn-sm"
                                                         href="javascript: void(0)"
                                                         ng-click="addPersonageSpell(spellItem.spell)"
-                                                        ng-disabled="!item.added">
+                                                        ng-disabled="!(item.added && isBaseSpellAdded(spellItem.spell))">
                                                     Добавить
                                                 </button>
                                             </div>
@@ -1805,14 +1815,14 @@
                                     </td>
                                 </tr>
                                 <tr ng-show="isShowItem(spellItem.spell.id)" style="border-bottom: none"
-                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
-                                    <td colspan="8">
+                                    ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
+                                    <td colspan="9">
                                         <strong class="padding-left-10">Эффект:</strong> {{spellItem.spell.effect}}
                                     </td>
                                 </tr>
                                 <tr ng-show="isShowItem(spellItem.spell.id)"
-                                    ng-class="addDisableOrNotAddedClass(item.added, spellItem.personageSpell)">
-                                    <td colspan="8">
+                                    ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
+                                    <td colspan="9">
                                         <strong class="padding-left-10">Описание:</strong>
                                         {{spellItem.spell.description}}
                                     </td>

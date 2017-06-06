@@ -464,6 +464,20 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return returned;
     }
 
+    $scope.isBaseSpellAdded = function (spell) {
+        var returned = false;
+        if (spell.BaseSpell === null) {
+            returned = true;
+        } else {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (personageSpell.Spell.id === spell.SpellId) {
+                    returned = true;
+                }
+            });
+        }
+        return returned;
+    };
+
     $('.category-table').find('tr').click(function (event) {
         if (event.target.type !== 'checkbox') {
             $(':checkbox', this).trigger('click');
@@ -1467,23 +1481,26 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.deletePersonageSpell = function (personageSpell) {
         var index = $scope.personageSpells.indexOf(personageSpell);
         if (index !== -1) {
-            var level = personageSpell.level;
-            for (var i = 0; i < level; i++) {
-                $scope.decreaseSpellLevel(personageSpell);
-                personageSpell.level--;
-            }
-
-            $scope.personageSpells.splice(index, 1);
-
-            angular.forEach($scope.spellsBySchool, function (school) {
-                angular.forEach(school.spells, function (spellInSchool) {
-                    if (spellInSchool.spell.id === personageSpell.Spell.id && spellInSchool.personageSpell !== null) {
-                        spellInSchool.personageSpell = null;
+            checkRelatedBaseSpell(personageSpell.Spell).then(function (confirmed) {
+                if (confirmed) {
+                    var level = personageSpell.level;
+                    for (var i = 0; i < level; i++) {
+                        $scope.decreaseSpellLevel(personageSpell);
+                        personageSpell.level--;
                     }
-                });
-            });
 
-            $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
+                    $scope.personageSpells.splice(index, 1);
+
+                    angular.forEach($scope.spellsBySchool, function (school) {
+                        angular.forEach(school.spells, function (spellInSchool) {
+                            if (spellInSchool.spell.id === personageSpell.Spell.id && spellInSchool.personageSpell !== null) {
+                                spellInSchool.personageSpell = null;
+                            }
+                        });
+                    });
+                    $scope.personage.experience = $scope.personage.experience + personageSpell.Spell.cost;
+                }
+            });
         }
     };
 
@@ -2710,6 +2727,48 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }).then(function success() {
                 angular.forEach(skillsToDelete, function (skill) {
                     $scope.deletePersonageTriggerSkill(skill);
+                });
+                result.resolve(true);
+            }, function cancel() {
+                result.resolve(false);
+            });
+        } else {
+            result.resolve(true);
+        }
+        return result.promise;
+    }
+
+    function checkRelatedBaseSpell(spell) {
+        var spellsToDelete = [];
+        angular.forEach(spell.Spells, function (relatedSpell) {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (relatedSpell.id === personageSpell.Spell.id) {
+                    spellsToDelete.push(personageSpell);
+                }
+            });
+        });
+
+        var result = $q.defer();
+        if (spellsToDelete.length > 0) {
+            var stringValue = '';
+            angular.forEach(spellsToDelete, function (spell) {
+                stringValue = stringValue + ", <strong>" + spell.Spell.name + "</strong>";
+            });
+
+            stringValue = stringValue.substring(2);
+
+            swal({
+                title: "Вы уверены?",
+                html: "Данное изменение приведет к удалению заклинаний: " + stringValue,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Удалить!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                angular.forEach(spellsToDelete, function (spell) {
+                    $scope.deletePersonageSpell(spell);
                 });
                 result.resolve(true);
             }, function cancel() {
