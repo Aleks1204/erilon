@@ -1160,28 +1160,32 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     }
 
     $scope.addPersonageSpell = function (spell) {
-        var personageSpell = {
-            Spell: spell,
-            SpellId: spell.id,
-            PersonageId: personageId,
-            level: 0,
-            tutored: false
-        };
-        $scope.personageSpells.push(personageSpell);
+        checkIfModificationNeeded(spell).then(function (confirmed) {
+            if (confirmed) {
+                var personageSpell = {
+                    Spell: spell,
+                    SpellId: spell.id,
+                    PersonageId: personageId,
+                    level: 0,
+                    tutored: false
+                };
+                $scope.personageSpells.push(personageSpell);
 
-        angular.forEach($scope.spellsBySchool, function (school) {
-            angular.forEach(school.spells, function (spellInSchool) {
-                if (spellInSchool.spell.id === spell.id) {
-                    spellInSchool.personageSpell = personageSpell;
+                angular.forEach($scope.spellsBySchool, function (school) {
+                    angular.forEach(school.spells, function (spellInSchool) {
+                        if (spellInSchool.spell.id === spell.id) {
+                            spellInSchool.personageSpell = personageSpell;
+                        }
+                    });
+                });
+
+                if (!wasAdded("Spell_" + spell.name)) {
+                    changes.added.push("Spell_" + spell.name);
                 }
-            });
+
+                $scope.personage.experience = $scope.personage.experience - spell.cost;
+            }
         });
-
-        if (!wasAdded("Spell_" + spell.name)) {
-            changes.added.push("Spell_" + spell.name);
-        }
-
-        $scope.personage.experience = $scope.personage.experience - spell.cost;
     };
 
     $scope.isDeletingSpellPossible = function (personageSpell) {
@@ -2543,6 +2547,35 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 angular.forEach(spellsToDelete, function (spell) {
                     $scope.deletePersonageSpell(spell);
                 });
+                result.resolve(true);
+            }, function cancel() {
+                result.resolve(false);
+            });
+        } else {
+            result.resolve(true);
+        }
+        return result.promise;
+    }
+
+    function checkIfModificationNeeded(spell) {
+        var grepResult = $.grep($scope.personageMerits, function (personageMerit) {
+            return personageMerit.Merit.name === 'Модификация заклинаний';
+        });
+
+        var result = $q.defer();
+
+        if (spell.modification_needed && grepResult.length === 0) {
+            swal({
+                title: "Вы уверены?",
+                text: 'Для того, чтобы использовать это заклинание, необходимо достоинство "Модификация заклинаний". ' +
+                'Поскольку у вас его нет, вы не сможете пользоваться данным заклинанием. Вы уверены что хотите добавить его?',
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Да!",
+                cancelButtonText: "Нет"
+            }).then(function success() {
                 result.resolve(true);
             }, function cancel() {
                 result.resolve(false);
