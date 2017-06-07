@@ -1457,6 +1457,18 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return showAffectedMeritsModal();
     }
 
+    $scope.isSchoolVisible = function (schoolItem, filterAllSchools) {
+        var isVisible = false;
+        if (schoolItem.spells.length !== 0) {
+            if (schoolItem.added) {
+                isVisible = true;
+            } else if (filterAllSchools) {
+                isVisible = true;
+            }
+        }
+        return isVisible;
+    };
+
     $scope.addPersonageSpell = function (spell) {
         checkIfModificationNeeded(spell).then(function (confirmed) {
             if (confirmed) {

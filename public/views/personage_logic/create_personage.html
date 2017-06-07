@@ -1698,7 +1698,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'" ng-hide="!item.added && !filter.schools">
+                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'" ng-show="isSchoolVisible(item, filter.schools)">
                             <h3>{{item.school.name}}</h3>
                             <table class="table mobile">
                                 <thead class="mobile">
