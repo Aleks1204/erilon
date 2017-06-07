@@ -280,37 +280,44 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
         }
 
         $scope.updateSpell = function () {
-            $http.put('/spells/' + $scope.current_spell_id, {
-                attached_skill_id: $scope.school_id,
-                name: $scope.name,
-                cost: $scope.cost,
-                complexity: $scope.complexity,
-                creating_complexity: $scope.creating_complexity,
-                instant: $scope.instant,
-                mana: $scope.mana,
-                mana_support: $scope.mana_support,
-                mana_sup_time: $scope.mana_sup_time,
-                effect: $scope.effect,
-                description: $scope.description,
-                spell_id: $scope.spell_id,
-                modification_needed: $scope.modification_needed
-            }).then(function () {
-                refreshTables($scope.school_id);
-                $('#addFormPanel').toggle();
-                $window.scrollTo(0, 0);
-                $scope.name = '';
-                $scope.cost = '';
-                $scope.complexity = '';
-                $scope.creating_complexity = '';
-                $scope.instant = false;
-                $scope.mana = '';
-                $scope.mana_support = '';
-                $scope.effect = '';
-                $scope.description = '';
-                $("#spell_id").selectpicker('destroy');
-                $scope.modification_needed = false;
-                $scope.showEditForm = false;
-            });
+            if ($scope.current_spell_id === $scope.spell_id) {
+                swal({
+                    text: "Заклинание не может быть базовым для самого себя!",
+                    type: "warning"
+                });
+            } else {
+                $http.put('/spells/' + $scope.current_spell_id, {
+                    attached_skill_id: $scope.school_id,
+                    name: $scope.name,
+                    cost: $scope.cost,
+                    complexity: $scope.complexity,
+                    creating_complexity: $scope.creating_complexity,
+                    instant: $scope.instant,
+                    mana: $scope.mana,
+                    mana_support: $scope.mana_support,
+                    mana_sup_time: $scope.mana_sup_time,
+                    effect: $scope.effect,
+                    description: $scope.description,
+                    spell_id: $scope.spell_id,
+                    modification_needed: $scope.modification_needed
+                }).then(function () {
+                    refreshTables($scope.school_id);
+                    $('#addFormPanel').toggle();
+                    $window.scrollTo(0, 0);
+                    $scope.name = '';
+                    $scope.cost = '';
+                    $scope.complexity = '';
+                    $scope.creating_complexity = '';
+                    $scope.instant = false;
+                    $scope.mana = '';
+                    $scope.mana_support = '';
+                    $scope.effect = '';
+                    $scope.description = '';
+                    $("#spell_id").selectpicker('destroy');
+                    $scope.modification_needed = false;
+                    $scope.showEditForm = false;
+                });
+            }
         };
 
         var magicSchools = data[1];
