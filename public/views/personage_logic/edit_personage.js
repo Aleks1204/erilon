@@ -1238,42 +1238,46 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseSpellLevel = function (personageSpell) {
-        var increaseLevel = $q.defer();
-
-        function success(data) {
-        }
-
-        var all = $q.all([increaseLevel.promise]);
-        all.then(success);
-
         var cost;
         if (personageSpell.level < 5) {
-            if (personageSpell.tutored) {
-                cost = personageSpell.Spell.cost;
-                personageSpell.tutored = false;
-            } else {
-                cost = personageSpell.Spell.cost * 2;
-            }
+            if (checkIfSpellLevelLessThanBaseSpellLevel(personageSpell)) {
+                if (personageSpell.tutored) {
+                    cost = personageSpell.Spell.cost;
+                    personageSpell.tutored = false;
+                } else {
+                    cost = personageSpell.Spell.cost * 2;
+                }
 
-            if (returnInitialValueIfWasIncreased("Spell_" + personageSpell.Spell.name) === null) {
-                changes.valueIncreased.push({
-                    name: "Spell_" + personageSpell.Spell.name,
-                    initialValue: personageSpell.level
+                if (returnInitialValueIfWasIncreased("Spell_" + personageSpell.Spell.name) === null) {
+                    changes.valueIncreased.push({
+                        name: "Spell_" + personageSpell.Spell.name,
+                        initialValue: personageSpell.level
+                    });
+                }
+
+                personageSpell.level++;
+                $scope.personage.experience = $scope.personage.experience - cost;
+                $http.post('/history', {
+                    key: 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId,
+                    value: cost.toString()
                 });
+            } else {
+                exceedBaseSpellLevel(personageSpell.Spell.name, personageSpell.Spell.BaseSpell.name);
             }
-
-            personageSpell.level++;
-            $scope.personage.experience = $scope.personage.experience - cost;
-            $http.post('/history', {
-                key: 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId,
-                value: cost.toString()
-            }).then(function () {
-                increaseLevel.resolve();
-            });
-        } else {
-            increaseLevel.resolve();
         }
     };
+
+    function checkIfSpellLevelLessThanBaseSpellLevel(personageSpell) {
+        if (personageSpell.Spell.BaseSpell === null) {
+            return true;
+        } else {
+            var grepResult = $.grep($scope.personageSpells, function (personageSpellInList) {
+                return personageSpellInList.Spell.id === personageSpell.Spell.BaseSpell.id;
+            });
+            var baseSpellLevel = grepResult[0].level;
+            return personageSpell.level < baseSpellLevel;
+        }
+    }
 
     $scope.isSpellDecreasingPossible = function (personageSpell) {
         var isDecreasingPossible = true;
@@ -1293,27 +1297,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.decreaseSpellLevel = function (personageSpell) {
-        var decreaseLevel = $q.defer();
-
-        function success(data) {
-        }
-
-        var all = $q.all([decreaseLevel.promise]);
-        all.then(success);
-
         if (personageSpell.level > 0) {
-            $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).then(function (response) {
-                var value = personageSpell.Spell.cost * 2;
-                if (response.data.result !== null) {
-                    value = response.data.result.value;
+            checkRelatedBaseSpellLevel(personageSpell).then(function (decrease) {
+                if (decrease) {
+                    $http.get('/byKey/' + 'SPELL_LEVEL_' + personageSpell.level.toString() + '_UP_' + personageId + '_' + personageSpell.SpellId).then(function (response) {
+                        var value = personageSpell.Spell.cost * 2;
+                        if (response.data.result !== null) {
+                            value = response.data.result.value;
+                        }
+                        $scope.personage.experience = $scope.personage.experience + parseInt(value);
+                        personageSpell.level--;
+                    });
                 }
-                $scope.personage.experience = $scope.personage.experience + parseInt(value);
-                personageSpell.level--;
-            }).then(function () {
-                decreaseLevel.resolve();
             });
-        } else {
-            decreaseLevel.resolve();
         }
     };
 
@@ -1957,6 +1953,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
+    function exceedBaseSpellLevel(targetSpellName, baseSpellName) {
+        $.notify({
+            icon: 'fa fa-exclamation',
+            message: 'Уровень заклинания <strong>"' + targetSpellName + '"</strong> не может превышать уровень заклинания <strong>"' + baseSpellName + '"</strong>'
+        }, {
+            placement: {
+                align: "center"
+            },
+            type: 'danger',
+            animate: {
+                enter: 'animated lightSpeedIn',
+                exit: 'animated lightSpeedOut'
+            }
+        });
+    }
+
     $scope.isDeletingMeritPossible = function (personageMerit) {
         var isDeletingPossible = false;
         if (personageMerit !== null) {
@@ -2323,7 +2335,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             changes.added.push("TriggerSkill_" + triggerSkill.name);
         }
 
-        $scope.personage.experience = $scope.personage.experience - triggerSkill.cost*2;
+        $scope.personage.experience = $scope.personage.experience - triggerSkill.cost * 2;
         updateTriggerSkillPrerequisites(triggerSkill.id);
         updateTriggerSkillBaseSkills(triggerSkill.id);
     };
@@ -2448,7 +2460,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
                         updateTriggerSkillPrerequisites(personageTriggerSkill.TriggerSkill.id);
                         updateTriggerSkillBaseSkills(personageTriggerSkill.TriggerSkill.id);
-                        $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost*2;
+                        $scope.personage.experience = $scope.personage.experience + personageTriggerSkill.TriggerSkill.cost * 2;
                     }
                 });
             }
@@ -2558,6 +2570,50 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             }).then(function success() {
                 angular.forEach(spellsToDelete, function (spell) {
                     $scope.deletePersonageSpell(spell);
+                });
+                result.resolve(true);
+            }, function cancel() {
+                result.resolve(false);
+            });
+        } else {
+            result.resolve(true);
+        }
+        return result.promise;
+    }
+
+    function checkRelatedBaseSpellLevel(currentPersonageSpell) {
+        var spellsToDecreaseLevel = [];
+        angular.forEach(currentPersonageSpell.Spell.Spells, function (relatedSpell) {
+            angular.forEach($scope.personageSpells, function (personageSpell) {
+                if (relatedSpell.id === personageSpell.Spell.id) {
+                    if (currentPersonageSpell.level === personageSpell.level) {
+                        spellsToDecreaseLevel.push(personageSpell);
+                    }
+                }
+            });
+        });
+
+        var result = $q.defer();
+        if (spellsToDecreaseLevel.length > 0) {
+            var stringValue = '';
+            angular.forEach(spellsToDecreaseLevel, function (personageSpell) {
+                stringValue = stringValue + ", <strong>" + personageSpell.Spell.name + "</strong>";
+            });
+
+            stringValue = stringValue.substring(2);
+
+            swal({
+                title: "Вы уверены?",
+                html: "При понижении уровня этого заклинания соответственно понизится уровень заклинаний: " + stringValue,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Понизить!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                angular.forEach(spellsToDecreaseLevel, function (personageSpell) {
+                    $scope.decreaseSpellLevel(personageSpell);
                 });
                 result.resolve(true);
             }, function cancel() {
