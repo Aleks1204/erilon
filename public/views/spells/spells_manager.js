@@ -208,7 +208,10 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                 $('#spellEffect' + spellId).toggle();
             });
 
-            tables.push(currentMagicTable);
+            tables.push({
+                tableObject: currentMagicTable,
+                school_id: school.id
+            });
 
             currentMagicTableSelector.on('click', '.delete', function () {
                 var id = this.value;
@@ -290,7 +293,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                 spell_id: $scope.spell_id,
                 modification_needed: $scope.modification_needed
             }).then(function () {
-                refreshTables();
+                refreshTables($scope.school_id);
                 $('#addFormPanel').toggle();
                 $window.scrollTo(0, 0);
                 $scope.name = '';
@@ -318,9 +321,11 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
             });
         }, 100);
 
-        function refreshTables() {
+        function refreshTables(school_id) {
             angular.forEach(tables, function (table) {
-                table.ajax.reload(null, false);
+                if (table.school_id === school_id) {
+                    table.tableObject.ajax.reload(null, false);
+                }
             });
         }
 
@@ -384,7 +389,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                     spell_id: spell_id,
                     modification_needed: $scope.modification_needed
                 }).then(function () {
-                    refreshTables();
+                    refreshTables($scope.school_id);
                     $('#addFormPanel').toggle();
                     $window.scrollTo(0, 0);
                     $scope.name = '';
