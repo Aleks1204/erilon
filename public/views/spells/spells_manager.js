@@ -340,6 +340,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
 
         $scope.cancel = function () {
             $('#addFormPanel').hide();
+            $window.scrollTo(0, 0);
             $scope.showEditForm = false;
             $scope.name = '';
             $scope.cost = '';
