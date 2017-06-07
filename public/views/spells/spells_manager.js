@@ -228,13 +228,9 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                     $http.delete('/spells/' + id).then(function () {
                         currentMagicTable.ajax.reload(null, false);
 
-                        var result = $.grep($scope.spells, function (spell) {
-                            return spell.id === id;
+                        $http.get('/spells').then(function (response) {
+                            $scope.spells = response.data.spells;
                         });
-                        if (result.length !== 0) {
-                            var index = $scope.spells.indexOf(result[0]);
-                            $scope.spells.splice(index, 1);
-                        }
                     });
                 }, function cancel() {
                 });
