@@ -16,6 +16,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.hideEditDescriptionBlock = true;
 
     $scope.savePersonageName = function () {
+        var newName = $('input.name-material-form');
+        if (newName.val() !== '') {
+            $scope.personage.name = newName.val();
+            $scope.oldName = newName.val();
+            newName.val("");
+        }
         $http.put('/personages/' + personageId, {
             race_id: $scope.personage.RaceId,
             name: $scope.personage.name,
@@ -914,6 +920,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $http.get('/personages/' + personageId).then(function (response) {
         $scope.personage = response.data.personage;
+        $scope.oldName = response.data.personage.name;
         $scope.age = response.data.personage.age;
         if (response.data.personage.max_age !== 0) {
             $scope.max_age = response.data.personage.max_age;

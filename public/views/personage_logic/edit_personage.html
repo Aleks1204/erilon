@@ -167,13 +167,17 @@
                             {{personage.name}}<span style="font-size: 12px"> (прокачка)</span>
                             <span class="ink animate"></span>
                         </a>
-                        <div class="input-group" ng-hide="hideEditBlock">
-                            <input class="form-control" type="text" ng-model="personage.name" style="font-size: 20px">
-                            <span style="cursor: pointer" ng-click="savePersonageName()" class="input-group-addon"><i
-                                    class="icmn-lock4"></i> </span>
-                        </div>
+                        <form ng-hide="hideEditBlock" novalidate>
+                            <div class="group">
+                                <i class="icmn-checkmark3 personage-name" style="cursor: pointer" ng-click="savePersonageName()"></i>
+                                <input class="name-material-form" type="text" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="name-material-form">{{oldName}}</label>
+                            </div>
+                        </form>
                         <a ng-click="hideEditBlock = false" ng-show="hideEditBlock"
-                           class="btn btn-icon icmn-unlocked btn-link"
+                           class="btn btn-icon icmn-pencil btn-link"
                            href="javascript: void(0);" style="box-shadow: 0 0"></a>
                         <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
                             <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
