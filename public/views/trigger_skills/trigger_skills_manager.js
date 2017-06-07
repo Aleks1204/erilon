@@ -293,7 +293,11 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                             if (equal) {
                                 reject('Навык с таким именем уже существует!')
                             } else {
-                                resolve()
+                                if ($('#cost').val() === '') {
+                                    reject('Укажите базовую стоимость навыка!')
+                                } else {
+                                    resolve();
+                                }
                             }
                         });
                     })
