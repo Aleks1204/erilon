@@ -227,10 +227,16 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                 }).then(function success() {
                     $http.delete('/spells/' + id).then(function () {
                         currentMagicTable.ajax.reload(null, false);
+                        $('#addFormPanel').hide();
+                        $("#spell_id").selectpicker('destroy');
 
-                        $http.get('/spells').then(function (response) {
-                            $scope.spells = response.data.spells;
+                        var result = $.grep($scope.spells, function (spell) {
+                            return spell.id.toString() === id;
                         });
+                        if (result.length !== 0) {
+                            var index = $scope.spells.indexOf(result[0]);
+                            $scope.spells.splice(index, 1);
+                        }
                     });
                 }, function cancel() {
                 });
@@ -263,9 +269,9 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                     $scope.effect = spell.effect;
                     $scope.description = spell.description;
                     if (spell.SpellId !== null) {
-                        $('#spell_id').selectpicker('val', 'number:' + spell.SpellId);
+                        $('#spell_id').selectpicker({liveSearch: true, 'val': 'number:' + spell.SpellId});
                     } else {
-                        $('#spell_id').selectpicker('val', '');
+                        $('#spell_id').selectpicker({liveSearch: true});
                     }
                     $scope.spell_id = spell.SpellId;
                     $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
@@ -292,23 +298,18 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                 refreshTables($scope.school_id);
                 $('#addFormPanel').toggle();
                 $window.scrollTo(0, 0);
-                $http.get('/spells').then(function (response) {
-                    $scope.spells = response.data.spells;
-                    $scope.name = '';
-                    $scope.cost = '';
-                    $scope.complexity = '';
-                    $scope.creating_complexity = '';
-                    $scope.instant = false;
-                    $scope.mana = '';
-                    $scope.mana_support = '';
-                    $scope.effect = '';
-                    $scope.description = '';
-                    var spellSelect = $("#spell_id");
-                    spellSelect.val('');
-                    spellSelect.selectpicker("refresh");
-                    $scope.modification_needed = false;
-                    $scope.showEditForm = false;
-                });
+                $scope.name = '';
+                $scope.cost = '';
+                $scope.complexity = '';
+                $scope.creating_complexity = '';
+                $scope.instant = false;
+                $scope.mana = '';
+                $scope.mana_support = '';
+                $scope.effect = '';
+                $scope.description = '';
+                $("#spell_id").selectpicker('destroy');
+                $scope.modification_needed = false;
+                $scope.showEditForm = false;
             });
         };
 
@@ -387,26 +388,22 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                     description: $scope.description,
                     spell_id: spell_id,
                     modification_needed: $scope.modification_needed
-                }).then(function () {
+                }).then(function (response) {
+                    $scope.spells.push(response.data.spell);
                     refreshTables($scope.school_id);
                     $('#addFormPanel').toggle();
                     $window.scrollTo(0, 0);
-                    $http.get('/spells').then(function (response) {
-                        $scope.spells = response.data.spells;
-                        $scope.name = '';
-                        $scope.cost = '';
-                        $scope.complexity = '';
-                        $scope.creating_complexity = '';
-                        $scope.instant = false;
-                        $scope.mana = '';
-                        $scope.mana_support = '';
-                        $scope.effect = '';
-                        $scope.description = '';
-                        var spellSelect = $("#spell_id");
-                        spellSelect.val('');
-                        spellSelect.selectpicker("refresh");
-                        $scope.modification_needed = false;
-                    });
+                    $scope.name = '';
+                    $scope.cost = '';
+                    $scope.complexity = '';
+                    $scope.creating_complexity = '';
+                    $scope.instant = false;
+                    $scope.mana = '';
+                    $scope.mana_support = '';
+                    $scope.effect = '';
+                    $scope.description = '';
+                    $("#spell_id").selectpicker('destroy');
+                    $scope.modification_needed = false;
                 });
             }
         };
