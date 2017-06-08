@@ -27,13 +27,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             name: $scope.personage.name,
             age: $scope.age,
             max_age: $scope.max_age,
-            generated: false,
+            generated: $scope.personage.generated,
             experience: $scope.personage.experience,
             notes: $scope.notes
         }).then(function () {
             $scope.hideEditBlock = true;
             $scope.hideEditDescriptionBlock = true;
         });
+    };
+
+    $scope.saveIfEnterPress = function (pressEvent) {
+        if (pressEvent.which === 13) {
+            $scope.savePersonageName();
+        }
     };
 
     $scope.editExperince = function () {
@@ -50,7 +56,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 name: $scope.personage.name,
                 age: $scope.age,
                 max_age: $scope.max_age,
-                generated: false,
+                generated: $scope.personage.generated,
                 experience: parseInt(result),
                 notes: $scope.notes
             }).then(function () {
@@ -2762,7 +2768,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 name: $scope.personage.name,
                                 age: $scope.age,
                                 max_age: $scope.max_age,
-                                generated: false,
+                                generated: $scope.personage.generated,
                                 experience: $scope.personage.experience,
                                 notes: $scope.notes
                             });
@@ -2834,7 +2840,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     name: $scope.personage.name,
                     age: $scope.age,
                     max_age: $scope.max_age,
-                    generated: false,
+                    generated: $scope.personage.generated,
                     experience: $scope.personage.experience,
                     notes: $scope.notes
                 });
