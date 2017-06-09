@@ -1334,6 +1334,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var wisdomDoubleValue = $scope.wisdom * 2;
         var maximum = 10;
 
+        var cost = personageAttachedSkill.value + 1;
+        if ($scope.wisdom > 5) {
+            cost--;
+        }
+
+        if ($scope.wisdom > 8) {
+            cost--;
+        }
+
+        if (cost < 1) {
+            cost = 1;
+        }
+
         if (personageAttachedSkill.value < maximum) {
             if (personageAttachedSkill.AttachedSkill.theoretical) {
                 if (personageAttachedSkill.value < wisdomDoubleValue) {
@@ -1347,9 +1360,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
+                        $scope.personage.experience = $scope.personage.experience - cost * 2;
                     } else {
-                        $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
+                        $scope.personage.experience = $scope.personage.experience - cost;
                     }
                 } else {
                     exceedWisdom(personageAttachedSkill.AttachedSkill.name);
@@ -1365,9 +1378,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 if (personageAttachedSkill.AttachedSkill.difficult) {
-                    $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
+                    $scope.personage.experience = $scope.personage.experience - cost * 2;
                 } else {
-                    $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
+                    $scope.personage.experience = $scope.personage.experience - cost;
                 }
             }
         } else {
@@ -1497,6 +1510,19 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.decreaseAttachedSkill = function (personageAttachedSkill) {
+        var cost = personageAttachedSkill.value;
+        if ($scope.wisdom > 5) {
+            cost--;
+        }
+
+        if ($scope.wisdom > 8) {
+            cost--;
+        }
+
+        if (cost < 1) {
+            cost = 1;
+        }
+
         if (personageAttachedSkill.value > 1) {
             checkAttachedSkillRelatedPrerequisites(personageAttachedSkill, 'decrease').then(function (confirmedChanges) {
                 if (confirmedChanges) {
@@ -1504,9 +1530,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1) * 2;
+                        $scope.personage.experience = $scope.personage.experience + cost * 2;
                     } else {
-                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value + 1;
+                        $scope.personage.experience = $scope.personage.experience + cost;
                     }
                 }
             });
@@ -1517,9 +1543,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + (personageAttachedSkill.value + 1) * 2;
+                        $scope.personage.experience = $scope.personage.experience + cost * 2;
                     } else {
-                        $scope.personage.experience = $scope.personage.experience + personageAttachedSkill.value + 1;
+                        $scope.personage.experience = $scope.personage.experience + cost;
                     }
                 }
             });
