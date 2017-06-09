@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
 
     <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
     <!-- Vendors Scripts -->
     <!-- v1.0.0 -->
@@ -23,6 +24,7 @@
     <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
 
     <!-- Clean UI Scripts -->
     <script src="/node_modules/angular/angular.min.js"></script>
@@ -159,7 +161,8 @@
                         {{personage.name}}
                         <span class="ink animate"></span>
                     </a>
-                    <a class="btn btn-rounded btn-danger-outline margin-10" href="edit_personage.html?id={{personage.id}}">Прокачать!</a>
+                    <a class="btn btn-rounded btn-danger-outline margin-10"
+                       href="edit_personage.html?id={{personage.id}}">Прокачать!</a>
                     <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
                         <a class="dropdown-item" href="javascript: void(0)">Раса: {{personage.Race.name}}</a>
                         <a class="dropdown-item" href="javascript: void(0)">Возраст: {{personage.age}} лет</a>
@@ -274,7 +277,8 @@
                     </div>
                     <div class="col-md-8">
                         <table id="attrTable" class="table table-hover">
-                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'" ng-hide="ifMagic(personageAttribute)">
+                            <tr ng-repeat="personageAttribute in personageAttributes | orderBy: 'position'"
+                                ng-hide="ifMagic(personageAttribute)">
                                 <td id="{{personageAttribute.Attribute.name}}">{{
                                     personageAttribute.Attribute.name}}
                                 </td>
@@ -408,6 +412,10 @@
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells"
                                role="tab" ng-click="getPersonageSpells()">Заклинания</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#notices"
+                               role="tab" ng-click="showNotices()">Заметки</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="main_skills" role="tabpanel">
@@ -497,27 +505,33 @@
                                         </table>
                                     </div>
                                 </div>
-
-                                <div class="panel" style="box-shadow: 0 2px 10px -2px rgba(55, 58, 60, 0.3);">
-                                    <h3 class="panel-heading" style="margin-bottom: 0">
-                                        Заметки
-                                    </h3>
-                                    <div class="panel-body">
-                                        <table class="table table-hover nowrap" id="notices" width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th>Заметка</th>
-                                                <th>Текст</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
                         <div class="tab-pane" id="spells" role="tabpanel">
 
+                        </div>
+
+
+                        <div class="tab-pane" id="notices" role="tabpanel">
+                            <div class="panel">
+                                <h3 class="panel-heading" style="margin-bottom: 0">
+                                    Заметки<button type="button" class="btn btn-sm btn-success btn-rounded" ng-click="addNotice()"
+                                                   style="margin-left: 10px">Добавить заметку
+                                </button>
+                                </h3>
+                                <div class="panel-body">
+                                    <table class="table table-hover nowrap" id="noticesTable" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 90%">Заметка</th>
+                                            <th></th>
+                                            <th>Текст</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

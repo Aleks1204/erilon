@@ -101,16 +101,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             {"data": "Flaw.description"}
         ], 2, "недостатки");
 
-        table('/noticesByPersonageId/' + personageId, '#notices', [
-            {
-                data: "name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {"data": "description"}
-        ], 3, "заметки");
-
         table('/personageMeritsByPersonageId/' + personageId, '#merits', [
             {
                 data: "Merit.name",
@@ -240,6 +230,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         table.columns().iterator('column', function (ctx, idx) {
             $(table.column(idx).header()).append('<span class="sort-icon"/>');
         });
+        return table;
     }
 
     var all = $q.all([personage.promise, raceAttributes.promise]);
@@ -554,5 +545,142 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
                 $scope.loader = false;
             });
         }
+    };
+
+    $scope.showNotices = function () {
+        $scope.noticeTable = table('/noticesByPersonageId/' + personageId, '#noticesTable', [
+            {
+                data: "name",
+                render: function (data, type, row) {
+                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                }
+            },
+            {
+                data: "id",
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline margin-bottom-0 edit" value="'
+                        + data + '"  type="button"></button>' +
+                        '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline margin-bottom-0 delete" value="'
+                        + data + '" type="button"></button>';
+                }
+            },
+            {
+                "data": "description",
+                "bSearchable": false
+            }
+        ], 3, "заметки");
+
+        $scope.noticeTable.on('click', '.edit', function () {
+            $http.get('/notices/' + this.value).then(function (response) {
+                var notice = response.data.notice;
+                swal({
+                    title: 'Изменить заметку',
+                    html: '<form>' +
+                    '<div class="form-group">' +
+                    '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+                    '<input type="text" class="form-control" id="noticeTitle" value="' + notice.name + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+                    '<textarea id="noticeDescription" class="form-control">' + notice.description + '</textarea>' +
+                    '</div>' +
+                    '</form>',
+                    showCancelButton: true,
+                    cancelButtonText: "Отменить",
+                    confirmButtonText: "Сохранить",
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve) {
+                            resolve([
+                                $('#noticeTitle').val(),
+                                $('#noticeDescription').val()
+                            ])
+                        })
+                    },
+                    onOpen: function () {
+                        $('#noticeTitle').focus();
+                        autosize($('#noticeDescription'));
+                    }
+                }).then(function success(result) {
+                    $http.put('/notices/' + notice.id, {
+                        name: result[0],
+                        experience: notice.experience,
+                        description: result[1]
+                    }).then(function () {
+                        $scope.noticeTable.ajax.reload(null, false)
+                    });
+                });
+            });
+        });
+
+        $scope.noticeTable.on('click', '.delete', function () {
+            var id = this.value;
+            swal({
+                title: "Вы уверены?",
+                text: "Вы уверены что хотите удалить заметку?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: "Удалить!",
+                cancelButtonText: "Отменить"
+            }).then(function success() {
+                $http.delete('/notices/' + id).then(function () {
+                    $scope.noticeTable.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
+    };
+
+    $scope.addNotice = function () {
+        swal({
+            title: 'Добавить заметку',
+            html: '<form>' +
+            '<div class="form-group">' +
+            '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+            '<input type="text" class="form-control" id="noticeTitle">' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+            '<textarea id="noticeDescription" class="form-control"></textarea>' +
+            '</div>',
+            showCancelButton: true,
+            cancelButtonText: "Отменить",
+            confirmButtonText: "Добавить",
+            showLoaderOnConfirm: true,
+            input: 'text',
+            inputClass: 'hide',
+            inputValidator: function (value) {
+                return new Promise(function (resolve, reject) {
+                    if ($('#noticeTitle').val() !== '') {
+                        resolve()
+                    } else {
+                        reject('Заголовок не может быть пустым!')
+                    }
+                })
+            },
+            preConfirm: function (value) {
+                return new Promise(function (resolve) {
+                    resolve([
+                        $('#noticeTitle').val(),
+                        $('#noticeDescription').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#noticeTitle').focus();
+            }
+        }).then(function success(result) {
+            $http.post('/notices', {
+                personage_id: personageId,
+                name: result[0],
+                experience: 0,
+                description: result[1]
+            }).then(function () {
+                $scope.noticeTable.ajax.reload(null, false)
+            });
+        });
     };
 });
