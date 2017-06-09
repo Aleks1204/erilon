@@ -1332,9 +1332,29 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.increaseAttachedSkill = function (personageAttachedSkill) {
 
         var wisdomDoubleValue = $scope.wisdom * 2;
+        var maximum = 10;
 
-        if (personageAttachedSkill.AttachedSkill.theoretical) {
-            if (personageAttachedSkill.value < wisdomDoubleValue) {
+        if (personageAttachedSkill.value < maximum) {
+            if (personageAttachedSkill.AttachedSkill.theoretical) {
+                if (personageAttachedSkill.value < wisdomDoubleValue) {
+                    if (returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name) === null) {
+                        changes.valueIncreased.push({
+                            name: "AttachedSkill_" + personageAttachedSkill.AttachedSkill.name,
+                            initialValue: personageAttachedSkill.value
+                        });
+                    }
+                    personageAttachedSkill.value++;
+                    updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                    updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
+                    if (personageAttachedSkill.AttachedSkill.difficult) {
+                        $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
+                    } else {
+                        $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
+                    }
+                } else {
+                    exceedWisdom(personageAttachedSkill.AttachedSkill.name);
+                }
+            } else {
                 if (returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name) === null) {
                     changes.valueIncreased.push({
                         name: "AttachedSkill_" + personageAttachedSkill.AttachedSkill.name,
@@ -1349,24 +1369,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 } else {
                     $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
                 }
-            } else {
-                exceedWisdom(personageAttachedSkill.AttachedSkill.name);
             }
         } else {
-            if (returnInitialValueIfWasIncreased("AttachedSkill_" + personageAttachedSkill.AttachedSkill.name) === null) {
-                changes.valueIncreased.push({
-                    name: "AttachedSkill_" + personageAttachedSkill.AttachedSkill.name,
-                    initialValue: personageAttachedSkill.value
-                });
-            }
-            personageAttachedSkill.value++;
-            updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-            updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-            if (personageAttachedSkill.AttachedSkill.difficult) {
-                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value * 2;
-            } else {
-                $scope.personage.experience = $scope.personage.experience - personageAttachedSkill.value;
-            }
+            exceedAttachedSkillMaximum(personageAttachedSkill.AttachedSkill.name);
         }
 
     };
@@ -1941,6 +1946,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $.notify({
             icon: 'fa fa-exclamation',
             message: 'Значение <strong>"' + name + '"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
+        }, {
+            placement: {
+                align: "center"
+            },
+            type: 'danger',
+            animate: {
+                enter: 'animated lightSpeedIn',
+                exit: 'animated lightSpeedOut'
+            }
+        });
+    }
+
+    function exceedAttachedSkillMaximum(name) {
+        $.notify({
+            icon: 'fa fa-exclamation',
+            message: 'Значение <strong>"' + name + '"</strong> достигло максимума'
         }, {
             placement: {
                 align: "center"
