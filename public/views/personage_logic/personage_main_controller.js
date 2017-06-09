@@ -804,6 +804,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateSpellsToShow();
         calculateAddedSchools();
         var saveNeeded = false;
+        var bootstrapSelect = $('.bootstrap-select .btn-default');
+        bootstrapSelect.css('border-radius', '.25rem');
+        bootstrapSelect.css('box-shadow', '0 0 0 0');
         angular.forEach($scope.merits, function (merit) {
             if ($localStorage.elfDexterity && merit.name === 'Эльфийская ловкость') {
                 $scope.addPersonageMerit(merit);

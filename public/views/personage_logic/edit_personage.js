@@ -785,6 +785,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         calculateFlawsToShow();
         calculateSpellsToShow();
         calculateAddedSchools();
+        var bootstrapSelect = $('.bootstrap-select .btn-default');
+        bootstrapSelect.css('border-radius', '.25rem');
+        bootstrapSelect.css('box-shadow', '0 0 0 0');
         $('#loader').hide();
         $('section').removeClass('hide');
     }
