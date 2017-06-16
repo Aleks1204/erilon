@@ -10,6 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         max_age: DataTypes.INTEGER,
         generated: DataTypes.BOOLEAN,
         experience: DataTypes.INTEGER,
+        avatar: DataTypes.STRING,
         deleted: {
             type: DataTypes.BOOLEAN,
             defaultValue: false

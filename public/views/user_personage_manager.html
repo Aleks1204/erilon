@@ -13,6 +13,7 @@
     <!-- v1.0.0 -->
     <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/dropify/dist/css/dropify.min.css">
 
     <!-- Clean UI Styles -->
     <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
@@ -213,20 +214,8 @@
                             <div class="messaging-list-item"
                                  ng-repeat="personage in personages | orderBy : 'id'">
                                 <div class="s1">
-                                    <img ng-if="personage.Race.name == 'Гном'" class="avatar"
-                                         src="../assets/common/img/dwarf_40x40.png"
-                                         alt="Alternative text to the image">
-                                    <img ng-if="personage.Race.name == 'Орк'" class="avatar"
-                                         src="../assets/common/img/ork_40x40.png"
-                                         alt="Alternative text to the image">
-                                    <img ng-if="personage.Race.name == 'Эльф'" class="avatar"
-                                         src="../assets/common/img/elf_40x40.png"
-                                         alt="Alternative text to the image">
-                                    <img ng-if="personage.Race.name == 'Хоббит'" class="avatar"
-                                         src="../assets/common/img/hobbit_40x40.png"
-                                         alt="Alternative text to the image">
-                                    <img ng-if="personage.Race.name == 'Человек'" class="avatar"
-                                         src="../assets/common/img/human_40x40.png"
+                                    <img class="avatar" ng-click="uploadPersonageAvatar(personage.id)"
+                                         ng-src="../uploadedImages/{{avatar(personage.id)}}"
                                          alt="Alternative text to the image">
                                 </div>
                                 <div class="s2">
@@ -282,6 +271,7 @@
 <script src="/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 <script src="/node_modules/chart.js/dist/Chart.bundle.min.js"></script>
 <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+<script src="/node_modules/dropify/dist/js/dropify.min.js"></script>
 
 <script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
 <script type="text/javascript" src="/node_modules/ngstorage/ngStorage.min.js"></script>

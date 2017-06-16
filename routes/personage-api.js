@@ -15,7 +15,6 @@ router.post('/personages', function (req, res) {
         max_age: req.body.max_age,
         generated: req.body.generated,
         experience: req.body.experience
-
     }).then(function (personage) {
         res.send({status: 'CREATED', personage: personage})
     });
@@ -81,7 +80,8 @@ router.put('/personages/:id', function (req, res) {
             age: req.body.age,
             max_age: req.body.max_age,
             generated: req.body.generated,
-            experience: req.body.experience
+            experience: req.body.experience,
+            avatar: req.body.avatar
         }).then(function (personage) {
             res.send({status: 'UPDATED', personage: personage})
         });

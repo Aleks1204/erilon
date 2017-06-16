@@ -41,6 +41,7 @@ var rolePermissionApi = require('./routes/role-permission-api');
 var permissionApi = require('./routes/permission-api');
 var noticeApi = require('./routes/notice-api');
 var attributeAttachedSkillApi = require('./routes/attribute-attached-skill-api');
+var imageApi = require('./routes/image-api');
 
 var app = express();
 
@@ -51,8 +52,8 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 app.use(cookieParser());
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -93,6 +94,7 @@ app.use('', rolePermissionApi);
 app.use('', permissionApi);
 app.use('', noticeApi);
 app.use('', attributeAttachedSkillApi);
+app.use('', imageApi);
 
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(__dirname + '../public'));
@@ -101,9 +103,9 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true, limit: '5mb'
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 
 
 

@@ -219,6 +219,61 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 });
 
 app.controller("personageListController", function ($scope, $http, $localStorage) {
+    $scope.avatar = function (personage_id) {
+        var avatar = 'avatar.png';
+        angular.forEach($scope.personages, function (personage) {
+            if (personage.id === personage_id && personage.avatar !== null && personage.avatar !== '') {
+                avatar = personage.avatar;
+            }
+        });
+        return avatar;
+    };
+
+    $scope.uploadPersonageAvatar = function (personage_id) {
+        var file = '';
+        var date = new Date();
+        var name = 'personage_avatar_' + personage_id + '_' + date.getTime() + '.png';
+        swal({
+            title: 'Загрузить аватар персонажа',
+            input: 'file',
+            inputAttributes: {
+                accept: 'image/*'
+            },
+            inputClass: 'dropify',
+            onOpen: function () {
+                var input = $('.swal2-file.dropify');
+                input.attr('data-max-file-size', '100K');
+                input.dropify({
+                    messages: {
+                        'default': 'Перетащите картинку в облать или кликните для загрузки',
+                        'replace': 'Перетащите картинку в облать или кликните для загрузки',
+                        'remove': 'Удалить',
+                        'error': 'Уппссс... что то пошло не так'
+                    }
+                });
+                file = $('.dropify-render img').attr('src');
+            },
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    file = $('.dropify-render img').attr('src');
+                    resolve();
+                })
+            }
+        }).then(function () {
+            if (file !== undefined) {
+                $http.put('/personages/' + personage_id, {
+                    avatar: name
+                }).then(function () {
+                    $http.post('/uploadAvatar/' + personage_id, {
+                        file: file,
+                        name: name
+                    }).then(function () {
+                        $scope.showMyPersonages();
+                    });
+                });
+            }
+        })
+    };
 
     $scope.showMyPersonages = function () {
         $scope.loader = true;
