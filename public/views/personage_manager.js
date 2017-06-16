@@ -245,8 +245,8 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 input.attr('data-max-file-size', '100K');
                 input.dropify({
                     messages: {
-                        'default': 'Перетащите картинку в облать или кликните для загрузки',
-                        'replace': 'Перетащите картинку в облать или кликните для загрузки',
+                        'default': 'Перетащите картинку в область или кликните для загрузки',
+                        'replace': 'Перетащите картинку в область или кликните для загрузки',
                         'remove': 'Удалить',
                         'error': 'Уппссс... что то пошло не так'
                     },
