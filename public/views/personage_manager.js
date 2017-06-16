@@ -249,6 +249,14 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                         'replace': 'Перетащите картинку в облать или кликните для загрузки',
                         'remove': 'Удалить',
                         'error': 'Уппссс... что то пошло не так'
+                    },
+                    error: {
+                        'fileSize': 'Нельзя загружать аватар больше {{ value }}.',
+                        'minWidth': 'The image width is too small ({{ value }}}px min).',
+                        'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                        'minHeight': 'The image height is too small ({{ value }}}px min).',
+                        'maxHeight': 'The image height is too big ({{ value }}px max).',
+                        'imageFormat': 'The image format is not allowed ({{ value }} only).'
                     }
                 });
                 file = $('.dropify-render img').attr('src');
