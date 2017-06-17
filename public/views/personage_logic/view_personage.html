@@ -296,10 +296,9 @@
         <div class="o-wrapper-attributes hidden-md-up">
 
             <nav class="c-menu c-menu--slide-bottom">
-                <div class="slide-down-button" ng-click="openHideAttributesCategoriesFilterMenu()" hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipe="openHideAttributesCategoriesFilterMenu()">
-                    <button class="btn slide-button" id="characteristics">Производные</button>
-                    <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
-                    <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>
+                <div class="slide-down-button">
+                    <button class="btn slide-button" id="characteristics"  ng-click="openHideAttributesCategoriesFilterMenu()" hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipedown="openHideAttributesCategoriesFilterMenu()">Производные <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
+                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i></button>
                 </div>
                 <hr/>
                 <div class="row" style="margin-top: 20px">
