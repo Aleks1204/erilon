@@ -1335,6 +1335,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var maximum = 10;
 
         var cost = personageAttachedSkill.value + 1;
+        if (personageAttachedSkill.AttachedSkill.difficult) {
+            cost = cost * 2;
+        }
         if ($scope.wisdom > 5) {
             cost--;
         }
@@ -1359,11 +1362,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     personageAttachedSkill.value++;
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience - cost * 2;
-                    } else {
-                        $scope.personage.experience = $scope.personage.experience - cost;
-                    }
+                    $scope.personage.experience = $scope.personage.experience - cost;
                 } else {
                     exceedWisdom(personageAttachedSkill.AttachedSkill.name);
                 }
@@ -1377,11 +1376,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 personageAttachedSkill.value++;
                 updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                 updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                if (personageAttachedSkill.AttachedSkill.difficult) {
-                    $scope.personage.experience = $scope.personage.experience - cost * 2;
-                } else {
-                    $scope.personage.experience = $scope.personage.experience - cost;
-                }
+                $scope.personage.experience = $scope.personage.experience - cost;
             }
         } else {
             exceedAttachedSkillMaximum(personageAttachedSkill.AttachedSkill.name);
@@ -1511,6 +1506,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.decreaseAttachedSkill = function (personageAttachedSkill) {
         var cost = personageAttachedSkill.value;
+        if (personageAttachedSkill.AttachedSkill.difficult) {
+            cost = cost * 2;
+        }
         if ($scope.wisdom > 5) {
             cost--;
         }
@@ -1529,11 +1527,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     personageAttachedSkill.value--;
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + cost * 2;
-                    } else {
-                        $scope.personage.experience = $scope.personage.experience + cost;
-                    }
+                    $scope.personage.experience = $scope.personage.experience + cost;
                 }
             });
         } else if (personageAttachedSkill.AttachedSkill.default_skill && personageAttachedSkill.value > 0) {
@@ -1542,11 +1536,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     personageAttachedSkill.value--;
                     updateAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttachedSkill.AttachedSkill.id);
-                    if (personageAttachedSkill.AttachedSkill.difficult) {
-                        $scope.personage.experience = $scope.personage.experience + cost * 2;
-                    } else {
-                        $scope.personage.experience = $scope.personage.experience + cost;
-                    }
+                    $scope.personage.experience = $scope.personage.experience + cost;
                 }
             });
         }
