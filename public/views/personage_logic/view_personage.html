@@ -25,10 +25,12 @@
     <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
     <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="/node_modules/hammerjs/hammer.min.js"></script>
 
     <!-- Clean UI Scripts -->
     <script src="/node_modules/angular/angular.min.js"></script>
     <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+    <script src="/node_modules/angular-hammer/angular.hammer.min.js"></script>
     <script src="/views/permissions/permissions.js"></script>
     <script src="/assets/common/js/common.min.js"></script>
     <script src="/assets/common/js/menu.js"></script>
@@ -294,7 +296,7 @@
         <div class="o-wrapper-attributes hidden-md-up">
 
             <nav class="c-menu c-menu--slide-bottom">
-                <div class="slide-down-button" ng-click="openHideAttributesCategoriesFilterMenu()">
+                <div class="slide-down-button" ng-click="openHideAttributesCategoriesFilterMenu()" hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipedown="openHideAttributesCategoriesFilterMenu()">
                     <button style="margin-top: -10px" id="characteristics">Производные</button>
                     <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
                     <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>

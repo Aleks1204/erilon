@@ -1,5 +1,5 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage']);
+var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents']);
 
 app.controller("personageController", function ($scope, $http, $q, $timeout) {
     var personage = $q.defer();
@@ -18,6 +18,10 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
             $('#Ловкость'),
             $('#Скорость')
         ], 'shake');
+    };
+
+    $scope.testGestures = function () {
+        console.log('test pan');
     };
 
     $scope.hitChopPunchAnimateRelatedAttributes = function () {
