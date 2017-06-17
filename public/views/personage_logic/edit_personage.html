@@ -20,10 +20,12 @@
     <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
     <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
     <script src="/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="/node_modules/hammerjs/hammer.min.js"></script>
 
     <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
     <!-- Clean UI Scripts -->
     <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/angular-hammer/angular.hammer.min.js"></script>
     <script src="/node_modules/jquery.scrollto/jquery.scrollTo.min.js"></script>
     <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
     <script src="/node_modules/jquery-sortable/source/js/jquery-sortable-min.js"></script>
@@ -445,10 +447,11 @@
                         <div class="o-wrapper-attributes hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideAttributesCategoriesFilterMenu()">
-                                    <button style="margin-top: -10px" id="characteristics">Производные</button>
-                                    <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
-                                    <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>
+                                <div class="slide-down-button">
+                                    <button class="btn slide-button" id="characteristics" ng-click="openHideAttributesCategoriesFilterMenu()"
+                                            hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipedown="openHideAttributesCategoriesFilterMenu()">Производные
+                                        <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
+                                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i></button>
                                 </div>
                                 <hr/>
                                 <div class="row" style="margin-top: 20px">
@@ -652,7 +655,7 @@
                         <div class="o-wrapper-attached-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()">
+                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipeup="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipedown="openHideAttachedSkillsCategoriesFilerMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryAttachedSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryAttachedSkillsMenuClose"></i>
@@ -924,7 +927,7 @@
                         <div class="o-wrapper-trigger-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()">
+                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipeup="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipedown="openHideTriggerSkillsCategoriesFilerMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryTriggerSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryTriggerSkillsMenuClose"></i>
@@ -1187,7 +1190,7 @@
                         <div class="o-wrapper-merits hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()">
+                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()" hm-swipeup="openHideMeritsCategoriesFilterMenu()" hm-swipedown="openHideMeritsCategoriesFilterMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryMeritsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryMeritsMenuClose"></i>
@@ -1466,7 +1469,7 @@
                         <div class="o-wrapper-spells hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()">
+                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()" hm-swipeup="openHideSpellsCategoriesFilterMenu()" hm-swipedown="openHideSpellsCategoriesFilterMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategorySpellsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategorySpellsMenuClose"></i>

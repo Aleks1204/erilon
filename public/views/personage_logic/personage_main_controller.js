@@ -9,7 +9,7 @@ function isMobile() {
 }
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage']);
+var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents']);
 
 app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $localStorage) {
     $scope.hideEditBlock = true;
