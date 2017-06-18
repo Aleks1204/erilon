@@ -1512,11 +1512,9 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if ($scope.wisdom > 5) {
             cost--;
         }
-
         if ($scope.wisdom > 8) {
             cost--;
         }
-
         if (cost < 1) {
             cost = 1;
         }
