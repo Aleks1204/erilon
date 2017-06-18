@@ -261,26 +261,31 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 });
                 file = $('.dropify-render img').attr('src');
             },
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     file = $('.dropify-render img').attr('src');
-                    resolve();
+                    if (file !== undefined) {
+                        $http.put('/personages/' + personage_id, {
+                            avatar: name
+                        }).then(function () {
+                            $http.post('/uploadAvatar/' + personage_id, {
+                                file: file,
+                                name: name
+                            }).then(function () {
+                                $http.get('/personagesByPlayerId/' + $localStorage.playerId).then(function (response) {
+                                    $scope.personages = response.data.personages;
+                                    resolve();
+                                });
+                            });
+                        });
+                    } else {
+                        resolve();
+                    }
                 })
             }
-        }).then(function () {
-            if (file !== undefined) {
-                $http.put('/personages/' + personage_id, {
-                    avatar: name
-                }).then(function () {
-                    $http.post('/uploadAvatar/' + personage_id, {
-                        file: file,
-                        name: name
-                    }).then(function () {
-                        $scope.showMyPersonages();
-                    });
-                });
-            }
-        })
+        });
     };
 
     $scope.showMyPersonages = function () {
