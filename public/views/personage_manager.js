@@ -107,7 +107,6 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                     defaultAttachedSkillAllPromise.promise])
                     .then(success);
 
-
                 $http.post('/personages', {
                     name: $scope.name,
                     race_id: $scope.race_id,
