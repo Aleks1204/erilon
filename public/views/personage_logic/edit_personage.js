@@ -1066,6 +1066,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         });
                     }
                     personageAttribute.value++;
+                    if (personageAttribute.Attribute.name === 'Мудрость' && personageAttribute.value === 6) {
+                        swal({
+                            text: "Значение мудрости 6 позволит вам приобретать прикрепленные навыки на 1 дешевле, но изменение вступит в силу только после сохранения изменений"
+                        });
+                    }
+                    if (personageAttribute.Attribute.name === 'Мудрость' && personageAttribute.value === 9) {
+                        swal({
+                            text: "Значение мудрости 9 позволит вам приобретать прикрепленные навыки на 2 дешевле, но изменение вступит в силу только после сохранения изменений"
+                        });
+                    }
                     $scope.personage.experience = $scope.personage.experience - Math.floor(raceAttribute.base_cost * costCoefficient) + modifier;
                     updateAttributePrerequisites(personageAttribute.Attribute.id);
                     updateAttributeAttachedSkillPrerequisites(personageAttribute.Attribute.id);
@@ -1338,12 +1348,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (personageAttachedSkill.AttachedSkill.difficult) {
             cost = cost * 2;
         }
-        if ($scope.wisdom > 5) {
-            cost--;
-        }
 
-        if ($scope.wisdom > 8) {
-            cost--;
+        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_Мудрость");
+        if (wisdomInitialValue === null) {
+            if ($scope.wisdom > 5) {
+                cost--;
+            }
+            if ($scope.wisdom > 8) {
+                cost--;
+            }
+        } else {
+            if (wisdomInitialValue > 5) {
+                cost--;
+            }
+            if (wisdomInitialValue > 9) {
+                cost--;
+            }
         }
 
         if (cost < 1) {
@@ -1385,8 +1405,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.increaseTriggerSkillLevel = function (personageTriggerSkill) {
-
-
         var increaseLevel = $q.defer();
 
         function success() {
@@ -1509,12 +1527,24 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         if (personageAttachedSkill.AttachedSkill.difficult) {
             cost = cost * 2;
         }
-        if ($scope.wisdom > 5) {
-            cost--;
+
+        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_Мудрость");
+        if (wisdomInitialValue === null) {
+            if ($scope.wisdom > 5) {
+                cost--;
+            }
+            if ($scope.wisdom > 8) {
+                cost--;
+            }
+        } else {
+            if (wisdomInitialValue > 5) {
+                cost--;
+            }
+            if (wisdomInitialValue > 9) {
+                cost--;
+            }
         }
-        if ($scope.wisdom > 8) {
-            cost--;
-        }
+
         if (cost < 1) {
             cost = 1;
         }
