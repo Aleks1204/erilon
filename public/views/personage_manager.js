@@ -241,7 +241,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
             inputClass: 'dropify',
             onOpen: function () {
                 var input = $('.swal2-file.dropify');
-                input.attr('data-max-file-size', '100K');
+                input.attr('data-max-file-size', '3M');
                 input.dropify({
                     messages: {
                         'default': 'Перетащите картинку в область или кликните для загрузки',
