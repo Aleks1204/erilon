@@ -17,7 +17,7 @@ router.post('/uploadAvatar/:personage_id', function (req, res) {
     fs.writeFile(newPath, buf);
     var public_id = req.body.name.replace(".png", "");
     console.log('id: '+ public_id);
-    cloudinary.uploader.upload(newPath.replace('[.]png', ''), {width: 100, height: 100, crop: "scale"}, function(result) {
+    cloudinary.uploader.upload(newPath.replace('[.]png', ''), function(result) {
         return res.send({status:'DONE'});
     }, { public_id:  public_id});
 });
