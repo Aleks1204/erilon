@@ -23,31 +23,31 @@ app.controller("profileController", function ($scope, $http, $q, $localStorage) 
         });
     });
 
-    $scope.setInitialPositionsForAttributes = function () {
-        var attributesDefer = $q.defer();
-        var playersDefer = $q.defer();
-
-        $http.get('/attributes/').then(function (response) {
-            $scope.attributes = response.data.data;
-            attributesDefer.resolve();
-        });
-
-        $http.get('/players/').then(function (response) {
-            $scope.players = response.data.players;
-            playersDefer.resolve();
-        });
-
-        $q.all([attributesDefer.promise, playersDefer.promise]).then(function () {
-            angular.forEach($scope.players, function (player) {
-                angular.forEach($scope.attributes, function (attribute) {
-                    console.log('Create position for ' + attribute.name + ' and player ' + player.name);
-                    $http.post('/playerAttributes', {
-                        player_id: player.id,
-                        attribute_id: attribute.id,
-                        position: 0
-                    });
-                });
-            });
-        });
-    }
+    // $scope.setInitialPositionsForAttributes = function () {
+    //     var attributesDefer = $q.defer();
+    //     var playersDefer = $q.defer();
+    //
+    //     $http.get('/attributes/').then(function (response) {
+    //         $scope.attributes = response.data.data;
+    //         attributesDefer.resolve();
+    //     });
+    //
+    //     $http.get('/players/').then(function (response) {
+    //         $scope.players = response.data.players;
+    //         playersDefer.resolve();
+    //     });
+    //
+    //     $q.all([attributesDefer.promise, playersDefer.promise]).then(function () {
+    //         angular.forEach($scope.players, function (player) {
+    //             angular.forEach($scope.attributes, function (attribute) {
+    //                 console.log('Create position for ' + attribute.name + ' and player ' + player.name);
+    //                 $http.post('/playerAttributes', {
+    //                     player_id: player.id,
+    //                     attribute_id: attribute.id,
+    //                     position: 0
+    //                 });
+    //             });
+    //         });
+    //     });
+    // }
 });
