@@ -6,8 +6,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var PersonageAttribute = sequelize.define("PersonageAttribute", {
-        value: DataTypes.INTEGER,
-        position: DataTypes.INTEGER
+        value: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models) {

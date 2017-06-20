@@ -793,6 +793,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     var personageInherents = $q.defer();
     var personageSpells = $q.defer();
     var personageNotices = $q.defer();
+    var playerAttributes = $q.defer();
 
     function success() {
         $scope.hasInherents();
@@ -857,7 +858,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         personageMerits.promise,
         personageInherents.promise,
         personageSpells.promise,
-        personageNotices.promise
+        personageNotices.promise,
+        playerAttributes.promise
     ]);
 
     all.then(success);
@@ -925,6 +927,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $http.get('/noticesByPersonageId/' + personageId).then(function (response) {
         $scope.notices = response.data.data;
         personageNotices.resolve();
+    });
+
+    $http.get('/playerAttributesByPlayerId/' + $localStorage.playerId).then(function (response) {
+        $scope.playerAttributes = response.data.playerAttributes;
+        playerAttributes.resolve();
     });
 
     $http.get('/personages/' + personageId).then(function (response) {
@@ -1256,6 +1263,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             animateButtons(buttonsToAnimate, 'tada');
         }
     }
+
+    $scope.getAttributePosition = function (personageAttribute) {
+        var position = 0;
+        angular.forEach($scope.playerAttributes, function (playerAttribute) {
+            if (personageAttribute.AttributeId === playerAttribute.AttributeId) {
+                position = playerAttribute.position;
+            }
+        });
+        return position;
+    };
 
     $scope.getPersonageAttributeValue = function (attribute) {
         var attributeValue = 0;
@@ -2891,36 +2908,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         return result.promise;
     }
 
-    $scope.makeDraggable = function () {
-        var attrTable = $('#attrTable');
-        attrTable.addClass('sorted_table');
-        attrTable.find('tr').addClass('draggable');
-        $('.sorted_table').sortable({
-            containerSelector: 'table',
-            itemPath: '> tbody',
-            itemSelector: 'tr',
-            group: 'serialization',
-            placeholder: '<tr class="placeholder"/>',
-            onDrop: function ($item, container, _super) {
-                var ser = $('.sorted_table').sortable("serialize").get()[0];
-                var count = 1;
-                angular.forEach(ser, function (item) {
-                    item.$scope.personageAttribute.position = count;
-                    $http.put('/personageAttributes/' + item.$scope.personageAttribute.id, item.$scope.personageAttribute);
-                    count++;
-                });
-                _super($item, container);
-            }
-        });
-    };
-
-    $scope.makeUnDraggable = function () {
-        $('.sorted_table').sortable('disable');
-        var attrTable = $('#attrTable');
-        attrTable.removeClass('sorted_table');
-        attrTable.find('tr').removeClass('draggable');
-    };
-
     $scope.showNotice = function (notice) {
         swal({
             title: notice.name,
@@ -3125,7 +3112,6 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             personageAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
                 value: personageAttribute.value,
-                position: personageAttribute.position
             }));
         });
 

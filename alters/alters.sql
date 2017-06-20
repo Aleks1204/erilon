@@ -9,7 +9,6 @@ ALTER TABLE "TriggerSkills" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Merits" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Flaws" ADD COLUMN category VARCHAR(255);
 ALTER TABLE "Notices" ADD COLUMN experience INTEGER;
-ALTER TABLE "PersonageAttributes" ADD COLUMN position INTEGER;
 ALTER TABLE "Personages" ADD COLUMN deleted BOOLEAN;
 ALTER TABLE "AttachedSkills" ALTER COLUMN description TYPE TEXT;
 ALTER TABLE "SkillLevels" ALTER COLUMN description TYPE TEXT;
@@ -27,8 +26,10 @@ CREATE TABLE "AttachedSkillAttribute"
   description TEXT,
   "AttachedSkillId" INT NOT NULL,
   "AttributeId" INT NOT NULL,
-  CONSTRAINT AttachedSkillAttribute_Attribute__fk FOREIGN KEY ("AttributeId") REFERENCES "Attributes" (id),
-  CONSTRAINT AttachedSkillAttribute_AttachedSkill__fk FOREIGN KEY ("AttachedSkillId") REFERENCES "AttachedSkills" (id)
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  CONSTRAINT AttachedSkillAttribute_Attribute_fk FOREIGN KEY ("AttributeId") REFERENCES "Attributes" (id),
+  CONSTRAINT AttachedSkillAttribute_AttachedSkill_fk FOREIGN KEY ("AttachedSkillId") REFERENCES "AttachedSkills" (id)
 );
 CREATE UNIQUE INDEX "AttachedSkillAttribute_id_uindex" ON "AttachedSkillAttribute" (id);
 ALTER TABLE "TriggerSkills" ADD "TriggerSkillId" INT NULL;
@@ -41,3 +42,15 @@ ALTER TABLE "Spells"
 FOREIGN KEY ("SpellId") REFERENCES "Spells" (id);
 ALTER TABLE "Spells" ADD modification_needed BOOLEAN DEFAULT FALSE  NOT NULL;
 ALTER TABLE "Personages" ADD avatar VARCHAR(255) NULL;
+CREATE TABLE "PlayerAttributes"
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  position INT NOT NULL,
+  "AttributeId" INT NOT NULL,
+  "PlayerId" INT NOT NULL,
+  "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+  CONSTRAINT "PlayerAttributes_Attributes_id_fk" FOREIGN KEY ("AttributeId") REFERENCES "Attributes" (id),
+  CONSTRAINT "PlayerAttributes_Players_id_fk" FOREIGN KEY ("PlayerId") REFERENCES "Players" (id)
+);
+CREATE UNIQUE INDEX "PlayerAttributes_id_uindex" ON "PlayerAttributes" (id);

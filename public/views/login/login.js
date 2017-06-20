@@ -3,6 +3,9 @@
 var app = angular.module("loginApp", ['ngStorage']);
 
 app.controller("loginController", function ($scope, $http, $window, $localStorage) {
+    $http.get('/attributes').then(function (response) {
+        $scope.attribues = response.data.data;
+    });
     $scope.login = function () {
         $http.get('/isPlayerExist/' + $scope.nickName.toLowerCase()).then(function onSuccess(response) {
             if (response.data.status === 'OK') {
@@ -13,6 +16,13 @@ app.controller("loginController", function ($scope, $http, $window, $localStorag
                     role_id: 2,
                     name: $scope.nickName.toLowerCase()
                 }).then(function (response) {
+                    angular.forEach($scope.attribues, function (attribute) {
+                        $http.post('/playerAttributes', {
+                            player_id: response.data.player.id,
+                            attribute_id: attribute.id,
+                            position: 0
+                        });
+                    });
                     $localStorage.playerId = response.data.player.id;
                     $window.location.href = '/views/user_personage_manager.html?id=' + response.data.player.id;
                 });

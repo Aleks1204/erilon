@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Список рас</title>
+    <title>Профиль</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="/assets/common/css/main.min.css">
     <link rel="stylesheet" type="text/css" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
@@ -18,8 +17,8 @@
     <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
     <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/node_modules/autosize/dist/autosize.min.js"></script>
+    <script src="/node_modules/jquery-sortable/source/js/jquery-sortable-min.js"></script>
     <script src="/assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
     <script src="/assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
 
     <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
@@ -31,13 +30,13 @@
 
     <!-- Clean UI Scripts -->
     <script src="/views/permissions/permissions.js"></script>
-    <script src="race_manager.js"></script>
+    <script src="profile.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
 
-<body class="theme-default menu-left layout-boxed mode-box-shadow" ng-app="raceManagerApp">
+<body class="theme-default menu-left layout-boxed mode-box-shadow" ng-app="profileApp">
 <div ng-controller="permissionsController">
-    <div class="boxed-container" ng-controller="raceListController">
+    <div class="boxed-container" ng-controller="profileController">
         <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
             <div class="logo-container">
                 <a href="#" class="logo">
@@ -52,7 +51,7 @@
                             Персонажи
                         </a>
                     </li>
-                    <li class="left-menu-list-active">
+                    <li>
                         <a class="left-menu-link" href="/views/races/race_manager.html">
                             <i class="left-menu-link-icon fa fa-users"><!-- --></i>
                             Расы
@@ -76,7 +75,7 @@
                             Врожденные особенности
                         </a>
                     </li>
-                    <li>
+                    <li class="left-menu-list-active">
                         <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
                             <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
                             Недостатки
@@ -151,27 +150,43 @@
         </nav>
 
         <section class="page-content">
+            <div class="row">
 
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Расы <a ng-show="hasCreatePermission('Race')" href="#"
-                                                                     class="link-underlined link-blue"
-                                                                     ng-click="showAddDialog()">Добавить</a></h3>
+                <div class="col-md-4">
+                    <div class="panel">
+                        <h3 class="panel-heading text-center">{{player.name}}</h3>
+                        <div class="panel-body">
+                            <img class="user-avatar" ng-src="http://res.cloudinary.com/hjzqny4m9/image/upload/v1497780414/avatar.png"
+                                 alt="Здесь должен быть аватар">
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
 
-                    <table id="racesTable" class="table table-hover nowrap" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Имя</th>
-                            <th>Максимальный возраст</th>
-                            <th>Описание</th>
-                            <th>Стомость атрибутов</th>
-                            <th>Расовые особенности</th>
-                            <th>Действия</th>
-                        </tr>
-                        </thead>
-                    </table>
+                <div class="col-md-8">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3>Личные настройки</h3>
+                        </div>
+                        <div class="panel-body">
+                            Тут будут какие то личные настройки
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <h3 class="panel-heading">
+                            Последовательность отображения атрибутов
+                        </h3>
+                        <div class="panel-body">
+                            <table id="attrTable" class="table table-hover sorted_table hidden-xs-down hidden-sm-down">
+                                <tr ng-repeat="playerAttribute in playerAttributes | orderBy: 'position'" class="draggable">
+                                    <td>{{playerAttribute.Attribute.name}}
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="hidden-md-up">Эта фича не доступна в мобильной версии, попробуйте в десктопе</div>
+                            <button class="btn" ng-click="setInitialPositionsForAttributes()">Установить начальные позиции</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -54,11 +54,9 @@ router.put('/personageAttributes/:id', function (req, res) {
         }
 
         personageAttribute.value = req.body.value;
-        personageAttribute.position = req.body.position;
 
         return personageAttribute.update({
-            value: req.body.value,
-            position: req.body.position
+            value: req.body.value
         }).then(function (personageAttribute) {
             res.send({status: 'UPDATED', personageAttribute: personageAttribute})
         });

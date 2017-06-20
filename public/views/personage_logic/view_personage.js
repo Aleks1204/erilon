@@ -1,7 +1,7 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout) {
+app.controller("personageController", function ($scope, $http, $q, $localStorage) {
     var personage = $q.defer();
     var raceAttributes = $q.defer();
 
@@ -237,7 +237,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         return table;
     }
 
-    var all = $q.all([personage.promise, raceAttributes.promise]);
+    var playerAttributes = $q.defer();
+    var all = $q.all([personage.promise, raceAttributes.promise, playerAttributes.promise]);
 
     all.then(success);
 
@@ -255,6 +256,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         });
         $scope.personageAttributes = response.data.personage.PersonageAttributes;
         personage.resolve();
+    });
+
+    $http.get('/playerAttributesByPlayerId/' + $localStorage.playerId).then(function (response) {
+        $scope.playerAttributes = response.data.playerAttributes;
+        playerAttributes.resolve();
     });
 
     function magicTable(id, name, attachedSkill) {
@@ -524,6 +530,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout) {
         $scope.initiative = $scope.reaction;
         $scope.endurancePoints = $scope.endurance * 20;
     }
+
+    $scope.getAttributePosition = function (personageAttribute) {
+        var position = 0;
+        angular.forEach($scope.playerAttributes, function (playerAttribute) {
+            if (personageAttribute.AttributeId === playerAttribute.AttributeId) {
+                position = playerAttribute.position;
+            }
+        });
+        return position;
+    };
 
     $scope.ifMagic = function (personageAttribute) {
         return personageAttribute.Attribute.name === 'Магия' && personageAttribute.value === 0;
