@@ -259,7 +259,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                         difficult: result[3],
                         theoretical: result[5],
                         default_skill: result[4],
-                        spells_connected: false
+                        spells_connected: skill.spells_connected
                     }).then(function () {
                         table.ajax.reload(null, false)
                     });
