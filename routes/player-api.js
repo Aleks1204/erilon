@@ -9,8 +9,8 @@ var log = require('../log')(module);
 router.post('/players', function (req, res) {
     models.Player.create({
         RoleId: req.body.role_id,
-        name: req.body.name
-
+        name: req.body.name,
+        avatar: req.body.avatar
     }).then(function (player) {
         res.send({status: 'CREATED', player: player})
     });
@@ -73,8 +73,10 @@ router.put('/players/:id', function (req, res) {
         }
 
         player.name = req.body.name;
+        player.avatar = req.body.avatar;
         return player.update({
-            name: req.body.name
+            name: req.body.name,
+            avatar: req.body.avatar
         }).then(function (player) {
             res.send({status: 'UPDATED', player: player})
         });

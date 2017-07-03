@@ -39,5 +39,13 @@ app.controller("permissionsController", function ($scope, $http, $localStorage, 
         $scope.hasManagePermissionsAccess = function () {
             return hasActionPermission('managePermissions', data[0].player.Role)
         };
+
+        $scope.userAvatar = function (player_id) {
+            var avatar = 'avatar.png';
+            if ($scope.player.id === player_id && $scope.player.avatar !== null && $scope.player.avatar !== '') {
+                avatar = $scope.player.avatar;
+            }
+            return avatar;
+        };
     }
 });
