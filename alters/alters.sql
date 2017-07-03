@@ -54,3 +54,4 @@ CREATE TABLE "PlayerAttributes"
   CONSTRAINT "PlayerAttributes_Players_id_fk" FOREIGN KEY ("PlayerId") REFERENCES "Players" (id)
 );
 CREATE UNIQUE INDEX "PlayerAttributes_id_uindex" ON "PlayerAttributes" (id);
+ALTER TABLE "Players" ADD avatar VARCHAR(255) NULL;

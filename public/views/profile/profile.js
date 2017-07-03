@@ -68,9 +68,7 @@ app.controller("profileController", function ($scope, $http, $q, $localStorage) 
                                 file: file,
                                 name: name
                             }).then(function () {
-                                $http.get('/players/' + $localStorage.playerId).then(function (response) {
-                                    $scope.player = response.data.player;
-                                });
+                                location.reload();
                             });
                         });
                     } else {
