@@ -36,7 +36,7 @@
     <script src="personage_main_controller.js"></script>
     <script src="../permissions/check_player_permissions.js"></script>
 </head>
-<body class="theme-default menu-left mode-material layout-boxed mode-box-shadow" ng-app="personageApp" ng-cloak>
+<body class="theme-default menu-left layout-boxed mode-box-shadow" ng-app="personageApp" ng-cloak>
 <div id="loader"></div>
 <div class="boxed-container" ng-controller="permissionsController">
     <div ng-controller="personageController">
@@ -120,11 +120,13 @@
                            aria-expanded="false">
                             <span class="user-name"><strong>{{player.name}}</strong></span>
                             <span class="avatar" href="#">
-                        <img ng-src="http://res.cloudinary.com/hjzqny4m9/image/upload/v1497780414/{{userAvatar(player.id)}}" alt="Avatar">
+                        <img ng-src="http://res.cloudinary.com/hjzqny4m9/image/upload/v1497780414/{{userAvatar(player.id)}}"
+                             alt="Avatar">
                     </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
-                            <a class="dropdown-item" href="/views/profile/profile.html"><i class="dropdown-icon icmn-user"></i> Профиль</a>
+                            <a class="dropdown-item" href="/views/profile/profile.html"><i
+                                    class="dropdown-icon icmn-user"></i> Профиль</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
                                     class="dropdown-icon icmn-circle-right"></i> Мои персонажи</a>
@@ -162,39 +164,45 @@
 
         <section class="page-content hide">
             <div class="panel">
-                <h3 class="panel-heading" style="padding-bottom: 0">
+                <div class="panel-heading">
+                    <h3 class="text-center">Создание персонажа</h3>
                     <div class="dropdown">
-                        <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown" aria-expanded="false"
-                           ng-show="hideEditBlock">
-                            {{personage.name}}<span style="font-size: 12px"> (создание)</span>
-                            <span class="ink animate"></span>
-                        </a>
+                        <h3>
+                            <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown"
+                               aria-expanded="false"
+                               ng-show="hideEditBlock">
+                                {{personage.name}}
+                                <span class="ink animate"></span>
+                            </a>
 
-                        <form ng-hide="hideEditBlock" novalidate>
-                            <div class="group">
-                                <i class="icmn-checkmark3 personage-name" style="cursor: pointer" ng-click="savePersonageName()"></i>
-                                <input class="name-material-form" ng-blur="savePersonageName()" ng-keypress="saveIfEnterPress($event)" type="text" required>
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label class="name-material-form">{{oldName}}</label>
-                            </div>
-                        </form>
+                            <form ng-hide="hideEditBlock" novalidate>
+                                <div class="group" style="margin-top: -20px;">
+                                    <i class="icmn-checkmark3 personage-name" style="cursor: pointer"
+                                       ng-click="savePersonageName()"></i>
+                                    <input class="name-material-form" ng-blur="savePersonageName()"
+                                           ng-keypress="saveIfEnterPress($event)" type="text" required>
+                                    <span class="highlight"></span>
+                                    <span class="bar"></span>
+                                    <label class="name-material-form">{{oldName}}</label>
+                                </div>
+                            </form>
 
-                        <a ng-click="hideEditBlock = false" ng-show="hideEditBlock"
-                           class="btn btn-icon icmn-pencil btn-link"
-                           href="javascript: void(0);" style="box-shadow: 0 0; padding: 0"></a>
-                        <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
-                            <a class="dropdown-item text">Раса: {{personage.Race.name}}</a>
-                            <a class="dropdown-item text">Возраст: {{personage.age}} лет</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text">Опыт: {{personage.experience}}</a>
-                        </ul>
-                        <button ng-show="hideEditBlock" ng-disabled="personage.experience < 0" type="button"
-                                class="btn btn-success btn-sm margin-inline margin-top-10" style="margin-left: 5em"
-                                ng-click="savePersonage()">Сохранить
-                        </button>
+                            <a ng-click="hideEditBlock = false" ng-show="hideEditBlock"
+                               class="btn btn-icon icmn-pencil btn-link"
+                               href="javascript: void(0);" style="box-shadow: 0 0; padding: 0"></a>
+                            <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
+                                <a class="dropdown-item text">Раса: {{personage.Race.name}}</a>
+                                <a class="dropdown-item text">Возраст: {{personage.age}} лет</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text">Опыт: {{personage.experience}}</a>
+                            </ul>
+                        </h3>
                     </div>
-                </h3>
+                    <button ng-show="hideEditBlock" ng-disabled="personage.experience < 0" type="button"
+                            class="btn btn-info btn-rounded pull-right"
+                            ng-click="savePersonage()"><strong>СОХРАНИТЬ</strong>
+                    </button>
+                </div>
                 <div class="panel-body">
                     <div class="table-responsive hidden-md-up" id="steps">
                         <table id="buttons" class="table">
@@ -226,15 +234,31 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="hidden-xs-down hidden-sm-down">
-                        <button class="btn margin-inline inherentsButton active">Особенности</button>
-                        <button class="btn margin-inline attributesButton">Атрибуты</button>
-                        <button class="btn margin-inline attachedButton">Прикрепленные навыки</button>
-                        <button class="btn margin-inline triggerButton">Тригерные навыки</button>
-                        <button class="btn margin-inline meritsButton">Достоинства</button>
-                        <button class="btn margin-inline flawsButton">Недостатки</button>
-                        <button class="btn margin-inline spellsButton">Заклинания</button>
-                        <button class="btn margin-inline notesButton">Заметки</button>
+                    <div class="hidden-xs-down hidden-sm-down createEditDiv">
+                        <button class="btn createEditTabs inherentsButton active">ОСОБЕННОСТИ
+                            <div class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs attributesButton">АТРИБУТЫ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs attachedButton">ПРИКРЕПЛЕННЫЕ НАВЫКИ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs triggerButton">ТРИГЕРНЫЕ НАВЫКИ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs meritsButton">ДОСТОИНСТВА
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs flawsButton">НЕДОСТАТКИ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs spellsButton">ЗАКЛИНАНИЯ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
+                        <button class="btn createEditTabs notesButton">ЗАМЕТКИ
+                            <div style="display: none" class="arrow-down"></div>
+                        </button>
                     </div>
 
                     <div id="inherents" class="tab-pane active table-responsive" role="tabpanel">
@@ -290,7 +314,8 @@
 
                         <form name="addPersonageInherentForm" style="width: 98%">
                             <div class="form-group row">
-                                <label class="control-label col-md-2" for="inherent_id" style="padding-left: 8% !important;padding-top: 0.5%;">Особенность: </label>
+                                <label class="control-label col-md-2" for="inherent_id"
+                                       style="padding-left: 8% !important;padding-top: 0.5%;">Особенность: </label>
 
                                 <div class="col-md-5">
                                     <select class="form-control"
@@ -417,7 +442,8 @@
                             </div>
                             <div class="col-md-8">
                                 <table id="attrTable" class="table table-hover">
-                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy:getAttributePosition" ng-hide="ifMagic(personageAttribute)">
+                                    <tbody ng-repeat="personageAttribute in personageAttributes | orderBy:getAttributePosition"
+                                           ng-hide="ifMagic(personageAttribute)">
                                     <tr>
                                         <td id="{{personageAttribute.Attribute.name}}"
                                             ng-click="showHideDescription(personageAttribute.Attribute)"
@@ -463,10 +489,13 @@
 
                             <nav class="c-menu c-menu--slide-bottom">
                                 <div class="slide-down-button">
-                                    <button class="btn slide-button" id="characteristics" ng-click="openHideAttributesCategoriesFilterMenu()"
-                                            hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipedown="openHideAttributesCategoriesFilterMenu()">Производные
+                                    <button class="btn slide-button" id="characteristics"
+                                            ng-click="openHideAttributesCategoriesFilterMenu()"
+                                            hm-swipeup="openHideAttributesCategoriesFilterMenu()"
+                                            hm-swipedown="openHideAttributesCategoriesFilterMenu()">Производные
                                         <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
-                                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i></button>
+                                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>
+                                    </button>
                                 </div>
                                 <hr/>
                                 <div class="row" style="margin-top: 20px">
@@ -670,7 +699,9 @@
                         <div class="o-wrapper-attached-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipeup="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipedown="openHideAttachedSkillsCategoriesFilerMenu()">
+                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()"
+                                     hm-swipeup="openHideAttachedSkillsCategoriesFilerMenu()"
+                                     hm-swipedown="openHideAttachedSkillsCategoriesFilerMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryAttachedSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryAttachedSkillsMenuClose"></i>
@@ -942,7 +973,9 @@
                         <div class="o-wrapper-trigger-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipeup="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipedown="openHideTriggerSkillsCategoriesFilerMenu()">
+                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()"
+                                     hm-swipeup="openHideTriggerSkillsCategoriesFilerMenu()"
+                                     hm-swipedown="openHideTriggerSkillsCategoriesFilerMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryTriggerSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryTriggerSkillsMenuClose"></i>
@@ -1205,7 +1238,9 @@
                         <div class="o-wrapper-merits hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()" hm-swipeup="openHideMeritsCategoriesFilterMenu()" hm-swipedown="openHideMeritsCategoriesFilterMenu()">
+                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()"
+                                     hm-swipeup="openHideMeritsCategoriesFilterMenu()"
+                                     hm-swipedown="openHideMeritsCategoriesFilterMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryMeritsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryMeritsMenuClose"></i>
@@ -1319,7 +1354,8 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch | orderBy:'merit.name'">
+                            <tbody class="mobile"
+                                   ng-repeat="meritMixed in meritsMixed | filter: meritSearch | orderBy:'merit.name'">
                             <tr class="mobile merit"
                                 ng-hide="filteredMerit(meritMixed)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
@@ -1469,7 +1505,9 @@
                         <div class="o-wrapper-flaws hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideFlawsCategoriesFilterMenu()" hm-swipeup="openHideFlawsCategoriesFilterMenu()" hm-swipedown="openHideFlawsCategoriesFilterMenu()">
+                                <div class="slide-down-button" ng-click="openHideFlawsCategoriesFilterMenu()"
+                                     hm-swipeup="openHideFlawsCategoriesFilterMenu()"
+                                     hm-swipedown="openHideFlawsCategoriesFilterMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryFlawsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryFlawsMenuClose"></i>
@@ -1582,7 +1620,8 @@
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="flawMixed in flawsMixed | filter: flawSearch | orderBy:'flaw.name'">
+                            <tbody class="mobile"
+                                   ng-repeat="flawMixed in flawsMixed | filter: flawSearch | orderBy:'flaw.name'">
                             <tr class="mobile flaw"
                                 ng-hide="filteredFlaws(flawMixed)"
                                 ng-class="addNotAddedClass(flawMixed.personageFlaw)">
@@ -1664,7 +1703,9 @@
                         <div class="o-wrapper-spells hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()" hm-swipeup="openHideSpellsCategoriesFilterMenu()" hm-swipedown="openHideSpellsCategoriesFilterMenu()">
+                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()"
+                                     hm-swipeup="openHideSpellsCategoriesFilterMenu()"
+                                     hm-swipedown="openHideSpellsCategoriesFilterMenu()">
                                     Категория
                                     <i class="fa fa-angle-double-down" ng-hide="isCategorySpellsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategorySpellsMenuClose"></i>
@@ -1707,7 +1748,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'" ng-show="isSchoolVisible(item, filter.schools)">
+                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'"
+                             ng-show="isSchoolVisible(item, filter.schools)">
                             <h3>{{item.school.name}}</h3>
                             <table class="table mobile">
                                 <thead class="mobile">
@@ -1723,7 +1765,8 @@
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
+                                <tbody class="mobile"
+                                       ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
                                 <tr class="mobile spells"
                                     ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">

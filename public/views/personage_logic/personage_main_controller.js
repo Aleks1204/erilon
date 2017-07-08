@@ -96,6 +96,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.inherentsButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".inherentsButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
@@ -116,6 +118,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.attributesButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".attributesButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
@@ -136,6 +140,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.attachedButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".attachedButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
@@ -159,6 +165,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.triggerButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".triggerButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
@@ -182,6 +190,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.meritsButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".meritsButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
@@ -205,6 +215,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#spells").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.flawsButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".flawsButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
@@ -228,6 +240,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#attached").hide();
         $("#notes").hide();
         $("#steps").scrollTo('.spellsButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".spellsButton").addClass('active');
         $(".flawsButton").removeClass('active');
         $(".meritsButton").removeClass('active');
@@ -251,6 +265,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $("#inherents").hide();
         $("#attached").hide();
         $("#steps").scrollTo('.notesButton');
+        $('.arrow-down').hide();
+        $(this).find('.arrow-down').show();
         $(".notesButton").addClass('active');
         $(".spellsButton").removeClass('active');
         $(".flawsButton").removeClass('active');
