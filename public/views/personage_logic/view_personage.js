@@ -13,82 +13,107 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         });
     }
 
-    $scope.hitPiercePunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Ловкость'),
-            $('#Скорость')
-        ], 'shake');
+    $scope.setActive = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Ловкость') {
+            $('#hitPiercePunch').addClass('derivedActive');
+            $('#hitChopPunch').addClass('derivedActive');
+            $('#rangedHit').addClass('derivedActive');
+            $('#dodge').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Скорость') {
+            $('#hitPiercePunch').addClass('derivedActive');
+            $('#parryPiercePunch').addClass('derivedActive');
+            $('#generalActionPoints').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Сила') {
+            $('#hitChopPunch').addClass('derivedActive');
+            $('#parryChopPunch').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Восприятие') {
+            $('#rangedHit').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Реакция') {
+            $('#parryPiercePunch').addClass('derivedActive');
+            $('#parryChopPunch').addClass('derivedActive');
+            $('#dodge').addClass('derivedActive');
+            $('#initiative').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Выносливость') {
+            $('#endurancePoints').addClass('derivedActive');
+        }
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Интеллект') {
+            $('#mentalActionPoints').addClass('derivedActive');
+            $('#generalActionPoints').addClass('derivedActive');
+        }
     };
 
-    $scope.testGestures = function () {
-        console.log('test pan');
+    $scope.hitPiercePunchAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Ловкость').parent('tr').addClass('derivedActive');
+        $('#Скорость').parent('tr').addClass('derivedActive');
     };
 
-    $scope.hitChopPunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Ловкость'),
-            $('#Силa')
-        ], 'shake');
+    $scope.hitChopPunchAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Ловкость').parent('tr').addClass('derivedActive');
+        $('#Сила').parent('tr').addClass('derivedActive');
     };
 
-    $scope.hitChopPunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Ловкость'),
-            $('#Сила')
-        ], 'shake');
+    $scope.rangedHitAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Ловкость').parent('tr').addClass('derivedActive');
+        $('#Восприятие').parent('tr').addClass('derivedActive');
     };
 
-    $scope.rangedHitAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Ловкость'),
-            $('#Восприятие')
-        ], 'shake');
+    $scope.parryPiercePunchAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Скорость').parent('tr').addClass('derivedActive');
+        $('#Реакция').parent('tr').addClass('derivedActive');
     };
 
-    $scope.parryPiercePunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Скорость'),
-            $('#Реакция')
-        ], 'shake');
+    $scope.parryChopPunchAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Реакция').parent('tr').addClass('derivedActive');
+        $('#Сила').parent('tr').addClass('derivedActive');
     };
 
-    $scope.parryChopPunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Реакция'),
-            $('#Сила')
-        ], 'shake');
+    $scope.dodgeAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Ловкость').parent('tr').addClass('derivedActive');
+        $('#Реакция').parent('tr').addClass('derivedActive');
     };
 
-    $scope.dodgeAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Реакция'),
-            $('#Ловкость')
-        ], 'shake');
+    $scope.generalActionPointsAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Интеллект').parent('tr').addClass('derivedActive');
+        $('#Скорость').parent('tr').addClass('derivedActive');
     };
 
-    $scope.generalActionPointsAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Интеллект'),
-            $('#Скорость')
-        ], 'shake');
+    $scope.mentalActionPointsAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Интеллект').parent('tr').addClass('derivedActive');
     };
 
-    $scope.mentalActionPointsAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Интеллект')
-        ], 'shake');
+    $scope.endurancePointsAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Выносливость').parent('tr').addClass('derivedActive');
     };
 
-    $scope.endurancePointsAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Выносливость')
-        ], 'shake');
-    };
-
-    $scope.initiativeAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Реакция')
-        ], 'shake');
+    $scope.initiativeAnimateRelatedAttributes = function ($event) {
+        $('.derivedActive').removeClass('derivedActive');
+        $($event.currentTarget).addClass('derivedActive');
+        $('#Реакция').parent('tr').addClass('derivedActive');
     };
 
     function success() {
