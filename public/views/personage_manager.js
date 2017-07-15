@@ -13,6 +13,8 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
         $('select').selectpicker('refresh');
     };
 
+    $('button.dropdown-toggle').css('line-height', '1.4');
+
     function checkHalElfMerits() {
         var returned = $q.defer();
 
