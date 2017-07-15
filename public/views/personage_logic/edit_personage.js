@@ -1327,7 +1327,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function checkIfSpellLevelLessThanBaseSpellLevel(personageSpell) {
-        if (personageSpell.Spell.BaseSpell === null) {
+        if (personageSpell.Spell.BaseSpell === null || personageSpell.Spell.BaseSpell === undefined) {
             return true;
         } else {
             var grepResult = $.grep($scope.personageSpells, function (personageSpellInList) {
