@@ -326,6 +326,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             $scope.filteredAttachedSkillsCategories.splice($scope.filteredAttachedSkillsCategories.indexOf(category), 1);
         }
+        $scope.openDetails = [];
     };
 
     $scope.filteredAttachedSkillsDefault = false;
@@ -336,13 +337,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             $scope.filteredAttachedSkillsDefault = false;
         }
         $scope.filteredAttachedSkillsDefaultShow = selected;
+        $scope.openDetails = [];
     };
 
     $scope.filterAttachedSkillsByDefault = function (selected) {
+        $scope.openDetails = [];
         $scope.filteredAttachedSkillsDefault = selected;
     };
 
     $scope.filterAttachedSkillsByTheoretical = function (selected) {
+        $scope.openDetails = [];
         $scope.filteredAttachedSkillsTheoretical = selected;
     };
 
@@ -427,10 +431,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             $scope.filteredFlawsCategories.splice($scope.filteredFlawsCategories.indexOf(category), 1);
         }
+        $scope.openDetails = [];
     };
 
     $scope.filterFlawsByUnremovable = function (selected) {
         $scope.filteredFlawsUnremovable = selected;
+        $scope.openDetails = [];
     };
 
     $scope.addedFlawsFilter = false;
@@ -539,6 +545,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             $scope.filteredTriggerSkillsCategories.splice($scope.filteredTriggerSkillsCategories.indexOf(category), 1);
         }
+        $scope.openDetails = [];
     };
 
     $scope.addedTriggerSkillsFilter = false;
@@ -669,6 +676,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.filterMeritByAvailability = function (selected) {
         $scope.filteredMeritAvailable = selected;
+        $scope.openDetails = [];
     };
 
     $scope.filterMeritByCategory = function (category, selected) {
@@ -677,6 +685,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         } else {
             $scope.filteredMeritCategories.splice($scope.filteredMeritCategories.indexOf(category), 1);
         }
+        $scope.openDetails = [];
     };
 
     $scope.addedMeritsFilter = false;
