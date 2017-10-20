@@ -3,5 +3,5 @@
   "login_button": "Log in",
   "nick_name": "Player name...",
   "enter_nick_name": "Enter player name to log in:",
-  "login_label": "Login to the system"
+  "login_label": "Login to the system<i class=\"fa fa-key pull-right\"></i>"
 }
