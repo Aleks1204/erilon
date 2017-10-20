@@ -22,30 +22,30 @@
             <div class="row">
                 <div class="col-lg-12">
                 <span class="text-center logo">
-                    <h1><h1>ЭРИЛОН</h1></h1>
+                    <h1><h1 ng-i18next>brand_name</h1></h1>
                 </span>
                 </div>
             </div>
             <div class="single-page-block-inner effect-3d-element">
                 <div class="blur-placeholder"><!-- --></div>
                 <div class="single-page-block-form">
-                    <h3 class="text-center">
-                        Войти в систему
-                        <i class="fa fa-key pull-right"></i>
+                    <h3 class="text-center" ng-i18next="[html]login_label">
                     </h3>
-                    <small>Введите имя игрока для входа:</small>
+                    <small ng-i18next>enter_nick_name</small>
                     <br/>
                     <form id="form-validation" name="form-validation" method="POST">
                         <div class="form-group">
                             <input id="validation-name" ng-model="nickName"
                                    class="form-control"
-                                   placeholder="Имя ..."
+                                   ng-i18next="[placeholder]nick_name"
                                    name="validation[name]"
                                    type="text"
                                    data-validation="[NAME]">
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="login()">Войти</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="login()" ng-i18next>
+                            login_button
+                        </button>
                     </form>
                 </div>
             </div>
@@ -62,6 +62,7 @@
 <!-- v1.0.0 -->
 <script src="/node_modules/jquery/dist/jquery.min.js"></script>
 <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+<script src="/node_modules/popper.js/dist/umd/popper.js"></script>
 <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/node_modules/jquery-mousewheel/jquery.mousewheel.js"></script>
 <script src="/node_modules/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
@@ -73,7 +74,13 @@
 
 <script type="text/javascript" src="/node_modules/ngstorage/ngStorage.min.js"></script>
 
+<script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="/node_modules/i18next/i18next.min.js"></script>
+<script src="/node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+<script src="/node_modules/ng-i18next/dist/ng-i18next.min.js"></script>
+
 <!-- UI Scripts -->
 <script type="text/javascript" src="assets/common/js/common.min.js"></script>
+<script src="views/i18-initialization.js"></script>
 <script type="text/javascript" src="views/login/login.js"></script>
 </html>

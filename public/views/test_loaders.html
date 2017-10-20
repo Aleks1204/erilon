@@ -16,6 +16,7 @@
     <!-- v1.0.0 -->
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="/node_modules/popper.js/dist/umd/popper.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/node_modules/jscrollpane/script/jquery.jscrollpane.min.js"></script>
     <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
@@ -28,11 +29,18 @@
     <!-- Clean UI Scripts -->
     <script src="/node_modules/angular/angular.min.js"></script>
     <script src="/node_modules/ngstorage/ngStorage.min.js"></script>
+
+    <script src="/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/node_modules/i18next/i18next.min.js"></script>
+    <script src="/node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+    <script src="/node_modules/ng-i18next/dist/ng-i18next.min.js"></script>
+
     <script src="/assets/common/js/common.min.js"></script>
 
 
     <!-- Clean UI Scripts -->
     <script src="/views/permissions/permissions.js"></script>
+    <script src="i18-initialization.js"></script>
     <script src="test.js"></script>
     <script src="/views/permissions/check_player_permissions.js"></script>
 </head>
@@ -156,109 +164,9 @@
                     <h3 class="text-center">Лоадеры</h3>
                 </div>
                 <div class="panel-body">
-                    <div id="load">
-                        <div>G</div>
-                        <div>N</div>
-                        <div>I</div>
-                        <div>D</div>
-                        <div>A</div>
-                        <div>O</div>
-                        <div>L</div>
-                    </div>
-                    <div class="spinner-wrapper">
-                        <div class="spinner"></div>
-                    </div>
-                    <div class="loader"></div>
-                    <div class="loader-flower">
-                        <div>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <div>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="ajax-loaders-wrapper">
-                        <div id="ajaxloader1"></div>
+                    Test languages
 
-                        <div id="ajaxloader2">
-                            <div class="outer"></div>
-                            <div class="inner"></div>
-                        </div>
-
-                        <div id="ajaxloader3">
-                            <div class="outer"></div>
-                            <div class="inner"></div>
-                        </div>
-
-                        <div id="ajaxbar1">
-                            <div id="block1" class="barlittle"></div>
-                            <div id="block2" class="barlittle"></div>
-                            <div id="block3" class="barlittle"></div>
-                            <div id="block4" class="barlittle"></div>
-                            <div id="block5" class="barlittle"></div>
-                        </div>
-
-                        <div id="ajaxwave1">
-                            <div id="pointcircle1" class="pointcircle"></div>
-                            <div id="pointcircle2" class="pointcircle"></div>
-                            <div id="pointcircle3" class="pointcircle"></div>
-                            <div id="pointcircle4" class="pointcircle"></div>
-                            <div id="pointcircle5" class="pointcircle"></div>
-                        </div>
-
-                        <div id="facebook">
-                            <div class="bar"></div>
-                            <div class="bar"></div>
-                            <div class="bar"></div>
-                        </div>
-
-                        <div id="loadpulse">
-                            <div class="segment">
-                                <div id="layer1" class="ball"></div>
-                                <div id="layer7" class="pulse"></div>
-                            </div>
-                            <div class="segment">
-                                <div id="layer2" class="ball"></div>
-                                <div id="layer8" class="pulse"></div>
-                            </div>
-                            <div class="segment">
-                                <div id="layer3" class="ball"></div>
-                                <div id="layer9" class="pulse"></div>
-                            </div>
-                            <div class="segment">
-                                <div id="layer4" class="ball"></div>
-                                <div id="layer10" class="pulse"></div>
-                            </div>
-                            <div class="segment">
-                                <div id="layer5" class="ball"></div>
-                                <div id="layer11" class="pulse"></div>
-                            </div>
-                        </div>
-
-                        <div id="shadowloader">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-                        <h1 class="loadingtext">
-                            <span>L</span>
-                            <span>o</span>
-                            <span>a</span>
-                            <span>d</span>
-                            <span>i</span>
-                            <span>n</span>
-                            <span>g</span>
-                        </h1>
-                    </div>
+                    <p ng-i18next>test_key</p>
                 </div>
             </div>
         </section>

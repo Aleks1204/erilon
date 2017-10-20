@@ -1,6 +1,6 @@
 "use strict";
 
-var app = angular.module("loginApp", ['ngStorage']);
+var app = angular.module("loginApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("loginController", function ($scope, $http, $window, $localStorage) {
     $http.get('/attributes').then(function (response) {
