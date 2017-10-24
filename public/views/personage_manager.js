@@ -10,8 +10,8 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 
     $timeout(
         function () {
-            $('select').selectpicker('render');
-        }, 100);
+            $('select').selectpicker();
+        }, 1000);
 
     $scope.selectRefresh = function () {
         $('select').selectpicker('refresh');
