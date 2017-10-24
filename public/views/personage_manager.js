@@ -1,4 +1,4 @@
-var app = angular.module("personageManagerApp", ['ngStorage']);
+var app = angular.module("personageManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 $('.icons-block div').each(function () {
     $(this).tooltip({
@@ -6,8 +6,12 @@ $('.icons-block div').each(function () {
     });
 });
 
-app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage) {
-    $scope.loader = false;
+app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage, $timeout) {
+
+    $timeout(
+        function () {
+            $('select').selectpicker('render');
+        }, 100);
 
     $scope.selectRefresh = function () {
         $('select').selectpicker('refresh');
