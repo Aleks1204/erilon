@@ -2,7 +2,7 @@
  * Created by artemk on 4/16/16.
  */
 
-var app = angular.module("attributeManagerApp", ['ngStorage']);
+var app = angular.module("attributeManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("attributeListController", function ($scope, $http, $q, $localStorage) {
     var attributesTable = $('#attributesTable');

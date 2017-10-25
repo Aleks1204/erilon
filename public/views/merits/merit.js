@@ -1,5 +1,5 @@
 var meritId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("meritApp", ['ngStorage']);
+var app = angular.module("meritApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("prerequisitesListController", function ($scope, $http, $timeout) {
     $scope.lessMoreEqual = 0;

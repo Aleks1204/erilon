@@ -11,7 +11,7 @@ window.i18next.init({
     lng: language,
     debug: true,
     backend: {
-        loadPath: '../locales/{{lng}}/{{ns}}.json'
+        loadPath: '/locales/{{lng}}/{{ns}}.json'
     },
     useCookie: false,
     useLocalStorage: false

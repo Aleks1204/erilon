@@ -1,4 +1,4 @@
-var app = angular.module("profileApp", ['ngStorage']);
+var app = angular.module("profileApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("profileController", function ($scope, $http, $q, $localStorage) {
     $http.get('/playerAttributesByPlayerId/' + $localStorage.playerId).then(function (response) {

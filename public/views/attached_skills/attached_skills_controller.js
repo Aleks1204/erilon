@@ -2,7 +2,7 @@
  * Created by artemk on 4/16/16.
  */
 
-var app = angular.module("attachedSkillManagerApp", ['ngStorage']);
+var app = angular.module("attachedSkillManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("attachedSkillListController", function ($scope, $http, $q, $localStorage) {
 

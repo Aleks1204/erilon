@@ -1,4 +1,4 @@
-var app = angular.module("spells", ['ngStorage']);
+var app = angular.module("spells", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("spellsController", function ($scope, $http, $q, $localStorage, $timeout, $window) {
 

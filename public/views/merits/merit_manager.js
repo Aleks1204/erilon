@@ -2,7 +2,7 @@
  * Created by artemk on 4/16/16.
  */
 
-var app = angular.module("meritManagerApp", ['ngStorage']);
+var app = angular.module("meritManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("meritListController", function ($scope, $http, $q, $localStorage) {
 

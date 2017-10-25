@@ -2,7 +2,7 @@
  * Created by artemk on 4/16/16.
  */
 
-var app = angular.module("triggerSkillManagerApp", ['ngStorage']);
+var app = angular.module("triggerSkillManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("triggerSkillListController", function ($scope, $http, $q, $localStorage) {
     var skillsTable = $('#skills');

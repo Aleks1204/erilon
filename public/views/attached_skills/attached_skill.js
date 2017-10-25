@@ -1,5 +1,5 @@
 var attachedSkillId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("attachedSkillApp", ['ngStorage']);
+var app = angular.module("attachedSkillApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("attachedSkillController", function ($scope, $http, $timeout) {
     $http.get('/attachedSKills/' + attachedSkillId).then(function (response) {

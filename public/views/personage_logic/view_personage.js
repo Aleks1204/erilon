@@ -1,5 +1,5 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents']);
+var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next']);
 
 app.controller("personageController", function ($scope, $http, $q, $localStorage) {
     var personage = $q.defer();

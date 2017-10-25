@@ -1,5 +1,5 @@
 var raceId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("raceManagerApp", ['ngStorage']);
+var app = angular.module("raceManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("raceListController", function ($scope, $http, $timeout) {
     $http.get('/races/' + raceId).then(function (response) {

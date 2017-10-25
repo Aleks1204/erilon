@@ -2,7 +2,7 @@
  * Created by artemk on 4/16/16.
  */
 
-var app = angular.module("flawManagerApp", ['ngStorage']);
+var app = angular.module("flawManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("flawListController", function ($scope, $http, $q, $localStorage) {
 

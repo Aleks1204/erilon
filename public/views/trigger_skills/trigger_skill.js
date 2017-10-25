@@ -1,5 +1,5 @@
 var triggerSkillId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("triggerApp", ['ngStorage']);
+var app = angular.module("triggerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
 app.controller("skillLevelListController", function ($scope, $http, $q) {
     var levels = [
