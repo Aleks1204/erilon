@@ -4,7 +4,7 @@
 
 var app = angular.module("attributeManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("attributeListController", function ($scope, $http, $q, $localStorage) {
+app.controller("attributeListController", function ($scope, $http, $q, $localStorage, $i18next) {
     var attributesTable = $('#attributesTable');
 
     var players = $q.defer();
@@ -26,15 +26,6 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                 return 'disabled'
             }
         }
-
-        function disableDeleteButton() {
-            if (hasPermission('Attribute', 'delete', data[0].player.Role)) {
-                return '';
-            } else {
-                return 'disabled'
-            }
-        }
-
 
         var table = attributesTable.DataTable({
             responsive: true,
@@ -88,40 +79,21 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
             }
         } );
 
-        attributesTable.on('click', '.delete', function () {
-            var id = this.value;
-            swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данный атрибут?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
-            }).then(function success() {
-                $http.delete('/attributes/' + id).then(function () {
-                    table.ajax.reload(null, false)
-                });
-            }, function cancel() {
-            });
-        });
-
         attributesTable.on('click', '.edit', function () {
             $http.get('/attributes/' + this.value).then(function (response) {
                 var attribute = response.data.attribute;
                 swal({
-                    title: 'Изменить атрибут',
+                    title: $i18next.t('edit_attribute_title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('edit_attribute_description') + '</label>' +
                     '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
                     '</div>' +
-                    '<p>Бонус:</p>' +
+                    '<p>' + $i18next.t('edit_attribute_bonus') + '</p>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('cancel_button'),
+                    confirmButtonText: $i18next.t('save_button'),
                     showLoaderOnConfirm: true,
                     input: 'textarea',
                     inputValue: attribute.action_level_bonus,
@@ -150,21 +122,21 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить атрибут',
+                title: $i18next.t('add_attribute_title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('add_attribute_name') + '</label>' +
                 '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('edit_attribute_description') + '</label>' +
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
-                '<p>Бонус:</p>' +
+                '<p>' + $i18next.t('edit_attribute_description') + '</p>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('cancel_button'),
+                confirmButtonText: $i18next.t('add_button'),
                 showLoaderOnConfirm: true,
                 input: 'textarea',
                 preConfirm: function (value) {
@@ -188,13 +160,13 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                                     }
                                 });
                                 if (equal) {
-                                    reject('Атрибут с таким именем уже существует!')
+                                    reject($i18next.t('attribute_exists_error_message'))
                                 } else {
                                     resolve()
                                 }
                             });
                         } else {
-                            reject('Имя навыка не может быть пустым!')
+                            reject($i18next.t('attribute_name_empty_error_message'))
                         }
                     })
                 },

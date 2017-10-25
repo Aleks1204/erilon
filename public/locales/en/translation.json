@@ -1,9 +1,14 @@
 {
+  "cancel_button": "Cancel",
+  "save_button": "Save",
+  "add_button": "Add",
+
   "brand_name": "ERILON",
   "login_button": "Log in",
   "nick_name": "Player name...",
   "enter_nick_name": "Enter player name to log in:",
   "login_label": "Login to the system",
+
   "left_menu_characters": "Characters",
   "left_menu_races": "Races",
   "left_menu_attributes": "Attributes",
@@ -34,5 +39,17 @@
   "character_view_button": "View",
   "character_creation_button": "Continue creation",
   "character_boost_button": "Advancement",
-  "delete_character_button": "Delete"
+  "delete_character_button": "Delete",
+  "attributes_header": "Attributes",
+  "attributes_table_header_name": "Name",
+  "attributes_table_header_action_bonus": "Action bonus",
+  "attributes_table_header_description": "Description",
+  "attributes_table_header_actions": "Actions",
+  "edit_attribute_title": "Edit attribute",
+  "edit_attribute_description": "Description:",
+  "edit_attribute_bonus": "Bonus:",
+  "add_attribute_name": "Name:",
+  "add_attribute_title": "Add attribute",
+  "attribute_exists_error_message": "The attribute with this name already exists!",
+  "attribute_name_empty_error_message": "Attribute name cannot be empty!"
 }
