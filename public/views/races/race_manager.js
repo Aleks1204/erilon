@@ -4,7 +4,7 @@
 
 var app = angular.module("raceManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("raceListController", function ($scope, $http, $q, $localStorage) {
+app.controller("raceListController", function ($scope, $http, $q, $localStorage, $i18next) {
     var racesTable = $('#racesTable');
 
     var players = $q.defer();
@@ -83,13 +83,13 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
                         });
 
                         angular.forEach(row.RaceFlaws, function (raceFlaw) {
-                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + raceFlaw.Flaw.name + ': По умолчанию</span>';
+                            returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + raceFlaw.Flaw.name + ': ' + $i18next.t('by_default') + '</span>';
                         });
 
                         angular.forEach(row.RaceInherents, function (raceInherent) {
                             var raceProbability = '1/' + raceInherent.race_probability;
                             if (raceInherent.race_probability === 1) {
-                                raceProbability = 'По умолчанию'
+                                raceProbability = $i18next.t('by_default')
                             }
                             returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + raceInherent.Inherent.name + ': ' + raceProbability + '</span>';
                         });
@@ -132,14 +132,14 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
         racesTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данную расу?",
+                title: $i18next.t('confirm_title'),
+                text: $i18next.t('delete_race_title'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('delete_button'),
+                cancelButtonText: $i18next.t('cancel_button')
             }).then(function success() {
                 $http.delete('/races/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -150,22 +150,22 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить расу',
+                title: $i18next.t('add_race_title'),
                 html:
                 '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('add_race_name') + '</label>' +
                         '<input type="text" class="form-control" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('add_race_description') + '</label>' +
                         '<textarea class="form-control" id="description"></textarea>' +
                     '</div>' +
-                    '<p>Максимальный возраст:</p>' +
+                '<p>' + $i18next.t('add_race_max_age') + '</p>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('cancel_button'),
+                confirmButtonText: $i18next.t('add_button'),
                 showLoaderOnConfirm: true,
                 input: 'number',
                 preConfirm: function (value) {
@@ -184,13 +184,13 @@ app.controller("raceListController", function ($scope, $http, $q, $localStorage)
                                 if (parseInt(value) >= 10) {
                                     resolve()
                                 } else {
-                                    reject('Максимальный возраст не может быть меньше 10 лет!')
+                                    reject($i18next.t('max_age_less10_error_message'))
                                 }
                             } else {
-                                reject('Укажите максимальный возраст для расы!')
+                                reject($i18next.t('max_age_empty_error_message'))
                             }
                         } else {
-                            reject('Имя расы не может быть пустым!')
+                            reject($i18next.t('race_name_empty_error_message'))
                         }
                     })
                 },

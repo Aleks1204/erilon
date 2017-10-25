@@ -165,21 +165,22 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Расы <a ng-show="hasCreatePermission('Race')" href="#"
-                                                                     class="link-underlined link-blue"
-                                                                     ng-click="showAddDialog()">Добавить</a></h3>
+                    <h3 class="display-inline margin-inline"><span ng-i18next>left_menu_races</span>
+                        <a ng-show="hasCreatePermission('Race')" href="#"
+                           class="link-underlined link-blue"
+                           ng-click="showAddDialog()" ng-i18next>add_button</a></h3>
                 </div>
                 <div class="panel-body">
 
                     <table id="racesTable" class="table table-hover nowrap" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Имя</th>
-                            <th>Максимальный возраст</th>
-                            <th>Описание</th>
-                            <th>Стомость атрибутов</th>
-                            <th>Расовые особенности</th>
-                            <th>Действия</th>
+                            <th ng-i18next>table_header_name</th>
+                            <th ng-i18next>table_header_max_age</th>
+                            <th ng-i18next>table_header_description</th>
+                            <th ng-i18next>table_header_attributes_cost</th>
+                            <th ng-i18next>table_header_races_qualities</th>
+                            <th ng-i18next>table_header_actions</th>
                         </tr>
                         </thead>
                     </table>
