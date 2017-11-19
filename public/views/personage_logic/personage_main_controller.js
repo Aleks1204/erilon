@@ -791,15 +791,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
-    function updateInherentsPrerequisites() {
-        angular.forEach($scope.personageInherents, function (personageInherent) {
-            angular.forEach($scope.meritsMixed, function (meritMixed) {
-                angular.forEach(meritMixed.merit.MeritInherents, function (meritInherent) {
-                    if (meritInherent.InherentId === personageInherent.InherentId) {
-                        meritMixed.available = getPrerequisites(meritMixed.merit);
-                    }
-                })
-            });
+    function updateInherentsPrerequisites(inherent_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritInherents, function (meritInherent) {
+                if (meritInherent.InherentId === inherent_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
         });
     }
 
@@ -1008,9 +1006,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
 
             randomizeInherentValues().then(function () {
-                updateInherentsPrerequisites();
-
                 angular.forEach($scope.personageInherents, function (personageInherent) {
+                    updateInherentsPrerequisites(personageInherent.InherentId);
                     $http.post('/personageInherents', {
                         inherent_id: personageInherent.InherentId,
                         personage_id: personageId,
@@ -1171,14 +1168,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }).then(function () {
             $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
                 $scope.personageInherents = response.data.data;
+                updateInherentsPrerequisites($scope.inherent_id);
             });
         });
     };
 
-    $scope.deletePersonageInherent = function (personageInherentId) {
-        $http.delete('/personageInherents/' + personageInherentId).then(function () {
+    $scope.deletePersonageInherent = function (personageInherent) {
+        $http.delete('/personageInherents/' + personageInherent.id).then(function () {
             $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
                 $scope.personageInherents = response.data.data;
+                updateInherentsPrerequisites(personageInherent.InherentId);
             });
         });
     };
@@ -2032,8 +2031,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 var isPresent = false;
                 angular.forEach($scope.personageInherents, function (personageInherent) {
                     if (personageInherent.InherentId === meritInherent.InherentId) {
+                        isPresent = true;
                         if (personageInherent.value !== null) {
-                            isPresent = true;
                             switch (meritInherent.lessMoreEqual) {
                                 case 1:
                                     if (personageInherent.value < meritInherent.value) {

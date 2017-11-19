@@ -321,14 +321,16 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }).then(function () {
             $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
                 $scope.personageInherents = response.data.data;
+                updateInherentsPrerequisites($scope.inherent_id);
             });
         });
     };
 
-    $scope.deletePersonageInherent = function (personageInherentId) {
-        $http.delete('/personageInherents/' + personageInherentId).then(function () {
+    $scope.deletePersonageInherent = function (personageInherent) {
+        $http.delete('/personageInherents/' + personageInherent.id).then(function () {
             $http.get('/personageInherentsByPersonageId/' + personageId).then(function (response) {
                 $scope.personageInherents = response.data.data;
+                updateInherentsPrerequisites(personageInherent.InherentId);
             });
         });
     };
@@ -772,15 +774,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         });
     }
 
-    function updateInherentsPrerequisites() {
-        angular.forEach($scope.personageInherents, function (personageInherent) {
-            angular.forEach($scope.meritsMixed, function (meritMixed) {
-                angular.forEach(meritMixed.merit.MeritInherents, function (meritInherent) {
-                    if (meritInherent.InherentId === personageInherent.InherentId) {
-                        meritMixed.available = getPrerequisites(meritMixed.merit);
-                    }
-                })
-            });
+    function updateInherentsPrerequisites(inherent_id) {
+        angular.forEach($scope.meritsMixed, function (meritMixed) {
+            angular.forEach(meritMixed.merit.MeritInherents, function (meritInherent) {
+                if (meritInherent.InherentId === inherent_id) {
+                    meritMixed.available = getPrerequisites(meritMixed.merit);
+                }
+            })
         });
     }
 
