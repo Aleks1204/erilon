@@ -30,6 +30,10 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout,
         return levelName;
     }
 
+    $timeout(function () {
+        $('#type').selectpicker();
+    }, 1000);
+
     recalculateTables();
 
     function recalculateTables() {
