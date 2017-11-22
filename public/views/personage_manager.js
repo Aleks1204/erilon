@@ -6,7 +6,7 @@ $('.icons-block div').each(function () {
     });
 });
 
-app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage, $timeout) {
+app.controller("addPersonageController", function ($scope, $http, $window, $q, $localStorage, $timeout, $i18next) {
 
     $timeout(
         function () {
@@ -24,47 +24,45 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 
         if ($('#race_id').find('option:selected').text() === 'Полуэльф') {
             swal({
-                title: 'Особенные достоинства полуэльфов',
-                html: '<p>Полуэльфы обладают возможностью приобретать нижеперечисленные атрибуты по цене на 1 ехр ниже при создании. ' +
-                'Вы можете выбрать один или несколько атрибутов, или не выбирать ни одного. ' +
-                'Каждый выбранный атрибут обойдется вам в 10 ехр сейчас, но, возможно, позволит сэкономить на дальнейшей прокачке. ' +
-                '<strong style="font-size: 22px">Это ваш единственный шанс выбрать!</strong></p>' +
+                title: $i18next.t('page.character.half_elf_mage_title'),
+                html: '<p>' + $i18next.t('page.character.half_elf_attributes_text') +
+                '<strong style="font-size: 22px">' + $i18next.t('page.character.half_elf_warning') + '</strong></p>' +
                 '<form>' +
                 '<div class="row form-group">' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfDexterity" type="checkbox">' +
-                '<label for="elfDexterity">Эльфийская ловкость (10 ехр)</label>' +
+                '<label for="elfDexterity">' + $i18next.t('page.character.elven_dexterity') + ' (10 ехр)</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfSpeed" type="checkbox">' +
-                '<label for="elfSpeed">Эльфийская скорость (10 ехр)</label>' +
+                '<label for="elfSpeed">' + $i18next.t('page.character.elven_speed') + ' (10 ехр)</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfPerception" type="checkbox">' +
-                '<label for="elfPerception">Эльфийское восприятие (10 ехр)</label>' +
+                '<label for="elfPerception">' + $i18next.t('page.character.elven_perception') + ' (10 ехр)</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfCharisma" type="checkbox">' +
-                '<label for="elfCharisma">Эльфийская харизма (10 ехр)</label>' +
+                '<label for="elfCharisma">' + $i18next.t('page.character.elven_charisma') + ' (10 ехр)</label>' +
                 '</div>' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="elfFace" type="checkbox">' +
-                '<label for="elfFace">Симпатичность (5 ЕХР) - +1 к границе внешности</label>' +
+                '<label for="elfFace">' + $i18next.t('page.character.elven_pretty') + ' (5 ЕХР) - +1 ' + $i18next.t('page.character.elven_pretty_text') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Создать",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.create_button'),
                 showLoaderOnConfirm: true,
                 preConfirm: function () {
                     return new Promise(function (resolve) {
@@ -223,7 +221,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
     });
 });
 
-app.controller("personageListController", function ($scope, $http, $localStorage) {
+app.controller("personageListController", function ($scope, $http, $localStorage, $i18next) {
     $scope.avatar = function (personage_id) {
         var avatar = 'avatar.png';
         angular.forEach($scope.personages, function (personage) {
@@ -239,7 +237,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
         var date = new Date();
         var name = 'personage_avatar_' + personage_id + '_' + date.getTime() + '.png';
         swal({
-            title: 'Загрузить аватар персонажа',
+            title: $i18next.t('page.character.avatar.title'),
             input: 'file',
             inputAttributes: {
                 accept: 'image/*'
@@ -250,13 +248,13 @@ app.controller("personageListController", function ($scope, $http, $localStorage
                 input.attr('data-max-file-size', '3M');
                 input.dropify({
                     messages: {
-                        'default': 'Перетащите картинку в область или кликните для загрузки',
-                        'replace': 'Перетащите картинку в область или кликните для загрузки',
-                        'remove': 'Удалить',
-                        'error': 'Уппссс... что то пошло не так'
+                        'default': $i18next.t('page.character.avatar.default_message'),
+                        'replace': $i18next.t('page.character.avatar.replace_message'),
+                        'remove': $i18next.t('page.character.avatar.delete'),
+                        'error': $i18next.t('page.character.avatar.unexpected_error')
                     },
                     error: {
-                        'fileSize': 'Нельзя загружать аватар больше {{ value }}.',
+                        'fileSize': $i18next.t('page.character.avatar.file_size_limit') + ' {{ value }}.',
                         'minWidth': 'The image width is too small ({{ value }}}px min).',
                         'maxWidth': 'The image width is too big ({{ value }}}px max).',
                         'minHeight': 'The image height is too small ({{ value }}}px min).',
@@ -313,14 +311,14 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.deletePersonage = function (personage) {
         swal({
-            title: "Вы уверены?",
-            text: "Вы уверены что хотите удалить персонажа, его невозможно восстановить!",
+            title: $i18next.t('popup.confirm_title'),
+            text: $i18next.t('page.character.delete_character'),
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: "Удалить!",
-            cancelButtonText: "Отменить",
+            confirmButtonText: $i18next.t('popup.delete_button'),
+            cancelButtonText: $i18next.t('popup.cancel_button'),
             closeOnConfirm: true
         }).then(function success() {
             $http.delete('/personages/' + personage.id).then(function () {

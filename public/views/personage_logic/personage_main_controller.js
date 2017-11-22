@@ -1101,7 +1101,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             swal({
                 title: $i18next.t('page.character.half_elf_mage_title'),
                 html: '<p>' + $i18next.t('page.character.half_elf_mage_text') +
-                '<strong style="font-size: 22px">' + $i18next.t('page.character.half_elf_mage_warning') + '</strong></p>' +
+                '<strong style="font-size: 22px">' + $i18next.t('page.character.half_elf_warning') + '</strong></p>' +
                 '<form>' +
                 '<div class="row form-group">' +
                 '<div class="col-md-12">' +
