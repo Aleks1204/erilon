@@ -1,8 +1,8 @@
-var language = 'en';
+// var language = 'en';
 // console.log(window.location.hostname);
-// if (window.location.hostname.match('en') !== null) {
-//     language = 'en';
-// }
+if (window.location.hostname.match('en') !== null) {
+    language = 'en';
+}
 window.i18next
     .use(window.i18nextXHRBackend);
 
