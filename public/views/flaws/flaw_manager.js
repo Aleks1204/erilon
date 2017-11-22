@@ -4,7 +4,7 @@
 
 var app = angular.module("flawManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("flawListController", function ($scope, $http, $q, $localStorage) {
+app.controller("flawListController", function ($scope, $http, $q, $localStorage, $i18next) {
 
     var flawsTable = $('#flaws');
 
@@ -40,17 +40,19 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
         var table = flawsTable.DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
+                "search": $i18next.t('table.label.search'),
                 "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
+                    "first": $i18next.t('table.pagination.first_page'),
+                    "last": $i18next.t('table.pagination.last_page'),
+                    "next": $i18next.t('table.pagination.next_page'),
+                    "previous": $i18next.t('table.pagination.previous_page')
                 },
-                "lengthMenu": "Показать _MENU_"
+                "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                "emptyTable": $i18next.t('table.pagination.empty_table'),
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": '/flaws',
             "columns": [
@@ -118,14 +120,14 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
         flawsTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данный недостаток?",
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.flaws.delete.text'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $http.delete('/flaws/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -142,45 +144,45 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                     unremovable = 'checked';
                 }
                 swal({
-                    title: 'Изменить недостаток',
+                    title: $i18next.t('page.flaws.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.flaws.edit.name') + '</label>' +
                         '<input type="text" class="form-control" value="' + flaw.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                    '<label for="cost" class="form-control-label">' + $i18next.t('page.flaws.edit.cost') + '</label>' +
                         '<input type="number" class="form-control" id="cost" value="' + flaw.cost + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                            '<option value="физические">физические</option>' +
-                            '<option value="социальные">социальные</option>' +
-                            '<option value="ментальные">ментальные</option>' +
-                            '<option value="кодекс чести">кодекс чести</option>' +
-                            '<option value="внешность">внешность</option>' +
-                            '<option value="мистические">мистические</option>' +
+                    '<label for="category" class="form-control-label">' + $i18next.t('page.flaws.edit.categories') + '</label>' +
+                    '<select class="form-control" title="' + $i18next.t('page.flaws.options.choose_category') + '" id="category" multiple>' +
+                    '<option value="' + $i18next.t('page.flaws.options.physical') + '">' + $i18next.t('page.flaws.options.physical') + '</option>' +
+                    '<option value="' + $i18next.t('page.flaws.options.social') + '">' + $i18next.t('page.flaws.options.social') + '</option>' +
+                    '<option value="' + $i18next.t('page.flaws.options.mental') + '">' + $i18next.t('page.flaws.options.mental') + '</option>' +
+                    '<option value="' + $i18next.t('page.flaws.options.codex_of_honor') + '">' + $i18next.t('page.flaws.options.codex_of_honor') + '</option>' +
+                    '<option value="' + $i18next.t('page.flaws.options.appearance') + '">' + $i18next.t('page.flaws.options.appearance') + '</option>' +
+                    '<option value="' + $i18next.t('page.flaws.options.mystical') + '">' + $i18next.t('page.flaws.options.mystical') + '</option>' +
                         '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.flaws.edit.description') + '</label>' +
                         '<textarea id="description" class="form-control">' + flaw.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                    '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.flaws.edit.bonus') + '</label>' +
                         '<textarea id="action_level_bonus" class="form-control">' + flaw.action_level_bonus + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                             '<input id="unremovable" name="unremovable" type="checkbox" ' + unremovable + '>' +
-                            '<label for="unremovable">Неудаляемый</label>' +
+                    '<label for="unremovable">' + $i18next.t('page.flaws.edit.unremovable') + '</label>' +
                         '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     preConfirm: function () {
                         return new Promise(function (resolve) {
@@ -226,42 +228,42 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                 title: 'Добавить недостаток',
                 html: '<form>' +
                 '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.flaws.add.name') + '</label>' +
                     '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                '<label for="cost" class="form-control-label">' + $i18next.t('page.flaws.add.cost') + '</label>' +
                     '<input type="number" class="form-control" id="cost">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                        '<option value="физические">физические</option>' +
-                        '<option value="социальные">социальные</option>' +
-                        '<option value="ментальные">ментальные</option>' +
-                        '<option value="кодекс чести">кодекс чести</option>' +
-                        '<option value="внешность">внешность</option>' +
-                        '<option value="мистические">мистические</option>' +
+                '<label for="category" class="form-control-label">' + $i18next.t('page.flaws.add.categories') + '</label>' +
+                '<select class="form-control" title="' + $i18next.t('page.flaws.options.choose_category') + '" id="category" multiple>' +
+                '<option value="' + $i18next.t('page.flaws.options.physical') + '">' + $i18next.t('page.flaws.options.physical') + '</option>' +
+                '<option value="' + $i18next.t('page.flaws.options.social') + '">' + $i18next.t('page.flaws.options.social') + '</option>' +
+                '<option value="' + $i18next.t('page.flaws.options.mental') + '">' + $i18next.t('page.flaws.options.mental') + '</option>' +
+                '<option value="' + $i18next.t('page.flaws.options.codex_of_honor') + '">' + $i18next.t('page.flaws.options.codex_of_honor') + '</option>' +
+                '<option value="' + $i18next.t('page.flaws.options.appearance') + '">' + $i18next.t('page.flaws.options.appearance') + '</option>' +
+                '<option value="' + $i18next.t('page.flaws.options.mystical') + '">' + $i18next.t('page.flaws.options.mystical') + '</option>' +
                     '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.flaws.add.description') + '</label>' +
                     '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.flaws.add.bonus') + '</label>' +
                     '<textarea id="action_level_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                         '<input id="unremovable" name="unremovable" type="checkbox">' +
-                        '<label for="unremovable">Неудаляемый</label>' +
+                '<label for="unremovable">' + $i18next.t('page.flaws.add.unremovable') + '</label>' +
                     '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'text',
                 inputClass: 'hide',
@@ -276,7 +278,7 @@ app.controller("flawListController", function ($scope, $http, $q, $localStorage)
                                 }
                             });
                             if (equal) {
-                                reject('Недостаток с таким именем уже существует!')
+                                reject($i18next.t('page.flaws.error_message.already_exists'))
                             } else {
                                 resolve()
                             }

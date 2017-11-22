@@ -1,7 +1,7 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next']);
 
-app.controller("personageController", function ($scope, $http, $q, $localStorage) {
+app.controller("personageController", function ($scope, $http, $q, $localStorage, $i18next) {
     var personage = $q.defer();
     var raceAttributes = $q.defer();
 
@@ -128,7 +128,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 }
             },
             {"data": "Flaw.description"}
-        ], 2, "недостатки");
+        ], 2);
 
         table('/personageMeritsByPersonageId/' + personageId, '#merits', [
             {
@@ -138,7 +138,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 }
             },
             {"data": "Merit.description"}
-        ], 2, "достоинства");
+        ], 2);
 
         table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
             {
@@ -161,7 +161,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 }
             },
             {"data": "AttachedSkill.description"}
-        ], 4, "прикрепленные навыки");
+        ], 4);
 
         table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
             {
@@ -172,7 +172,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             },
             {"data": "value"},
             {"data": "Inherent.description"}
-        ], 3, "врожденные особенности");
+        ], 3);
 
         table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
             {
@@ -212,27 +212,21 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 }
             },
             {"data": "TriggerSkill.description"}
-        ], 4, "тригерные навыки");
+        ], 4);
     }
 
-    function table(dataUrl, tableId, columns, maxSize, itemName) {
+    function table(dataUrl, tableId, columns, maxSize) {
         var table = $(tableId).DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
-                },
-                "loadingRecords": "Подождите, " + itemName + " загружаются...",
-                "zeroRecords": "Ничего с таким именем не найдено",
-                "emptyTable": "Нет ни одной записи",
-                "lengthMenu": "Показать _MENU_"
+                "search": $i18next.t('table.label.search'),
+                "loadingRecords": $i18next.t('table.pagination.empty_search_results'),
+                "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                "emptyTable": $i18next.t('table.pagination.empty_table'),
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": dataUrl,
             "columns": columns,
@@ -304,15 +298,15 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             '<table id="' + id + 'Magic" class="table table-hover nowrap" width="100%">' +
             '<thead>' +
             '<tr>' +
-            '<th>Заклинание</th>' +
-            '<th>Сложность</th>' +
-            '<th>Мана</th>' +
-            '<th>Поддержание</th>' +
-            '<th>Сложность создания</th>' +
-            '<th>Мгновенное</th>' +
-            '<th>Уровень</th>' +
-            '<th>Эффект</th>' +
-            '<th>Описание</th>' +
+            '<th>' + $i18next.t('table.header.spell') + '</th>' +
+            '<th>' + $i18next.t('table.header.difficulty') + '</th>' +
+            '<th>' + $i18next.t('table.header.mana') + '</th>' +
+            '<th>' + $i18next.t('table.header.mana_support') + '</th>' +
+            '<th>' + $i18next.t('table.header.creation_difficulty') + '</th>' +
+            '<th>' + $i18next.t('table.header.instant') + '</th>' +
+            '<th>' + $i18next.t('table.header.level') + '</th>' +
+            '<th>' + $i18next.t('table.header.effect') + '</th>' +
+            '<th>' + $i18next.t('table.header.description') + '</th>' +
             '</tr>' +
             '</thead>' +
             '</table>' +
@@ -324,16 +318,12 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             responsive: true,
             stateSave: true,
             "language": {
-                "search": "Поиск:",
-                "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
-                },
-                "lengthMenu": "Показать _MENU_"
+                "search": $i18next.t('table.label.search'),
+                "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                "emptyTable": $i18next.t('table.pagination.empty_table'),
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             data: spells,
             columns: [
@@ -370,7 +360,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     data: 'spell.effect',
                     render: function (data, type, row) {
                         return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up effect">' +
-                            'Эффект' +
+                            $i18next.t('table.header.effect') +
                             '</a>' +
                             '<div id="spellEffect' + row.spell.id + '" style="display: none">' +
                             '<br>' +
@@ -382,7 +372,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     data: 'spell.description',
                     render: function (data, type, row) {
                         return '<a href="javascript:void(0);' + row.spell.id + '" class="link-underlined link-blue hidden-md-up description">' +
-                            'Описание' +
+                            $i18next.t('table.header.description') +
                             '</a>' +
                             '<div id="spellDescription' + row.spell.id + '" style="display: none">' +
                             '<br>' +
@@ -592,108 +582,113 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         }
     };
 
-    $scope.showNotices = function () {
-        $scope.noticeTable = table('/noticesByPersonageId/' + personageId, '#noticesTable', [
-            {
-                data: "name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {
-                data: "id",
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline margin-bottom-0 edit" value="'
-                        + data + '"  type="button"></button>' +
-                        '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline margin-bottom-0 delete" value="'
-                        + data + '" type="button"></button>';
-                }
-            },
-            {
-                "data": "description",
-                "bSearchable": false
-            }
-        ], 3, "заметки");
+    $scope.noticesClicked = false;
 
-        $scope.noticeTable.on('click', '.edit', function () {
-            $http.get('/notices/' + this.value).then(function (response) {
-                var notice = response.data.notice;
-                swal({
-                    title: 'Изменить заметку',
-                    html: '<form>' +
-                    '<div class="form-group">' +
-                    '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
-                    '<input type="text" class="form-control" id="noticeTitle" value="' + notice.name + '">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label for="noticeBody" class="form-control-label">Текст:</label>' +
-                    '<textarea id="noticeDescription" class="form-control">' + notice.description + '</textarea>' +
-                    '</div>' +
-                    '</form>',
-                    showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
-                    showLoaderOnConfirm: true,
-                    preConfirm: function () {
-                        return new Promise(function (resolve) {
-                            resolve([
-                                $('#noticeTitle').val(),
-                                $('#noticeDescription').val()
-                            ])
-                        })
-                    },
-                    onOpen: function () {
-                        $('#noticeTitle').focus();
-                        autosize($('#noticeDescription'));
+    $scope.showNotices = function () {
+        if (!$scope.noticesClicked) {
+            $scope.noticesClicked = true;
+            $scope.noticeTable = table('/noticesByPersonageId/' + personageId, '#noticesTable', [
+                {
+                    data: "name",
+                    render: function (data, type, row) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
                     }
-                }).then(function success(result) {
-                    $http.put('/notices/' + notice.id, {
-                        name: result[0],
-                        experience: notice.experience,
-                        description: result[1]
-                    }).then(function () {
-                        $scope.noticeTable.ajax.reload(null, false)
+                },
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-success btn-rounded icmn-pencil3 margin-inline margin-bottom-0 edit" value="'
+                            + data + '"  type="button"></button>' +
+                            '<button class="btn btn-icon btn-danger btn-rounded fa fa-close margin-inline margin-bottom-0 delete" value="'
+                            + data + '" type="button"></button>';
+                    }
+                },
+                {
+                    "data": "description",
+                    "bSearchable": false
+                }
+            ], 3);
+
+            $scope.noticeTable.on('click', '.edit', function () {
+                $http.get('/notices/' + this.value).then(function (response) {
+                    var notice = response.data.notice;
+                    swal({
+                        title: $i18next.t('page.character.notice.edit_title'),
+                        html: '<form>' +
+                        '<div class="form-group">' +
+                        '<label for="noticeTitle" class="form-control-label">' + $i18next.t('page.character.notice.title') + '</label>' +
+                        '<input type="text" class="form-control" id="noticeTitle" value="' + notice.name + '">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label for="noticeBody" class="form-control-label">' + $i18next.t('page.character.notice.text') + '</label>' +
+                        '<textarea id="noticeDescription" class="form-control">' + notice.description + '</textarea>' +
+                        '</div>' +
+                        '</form>',
+                        showCancelButton: true,
+                        cancelButtonText: $i18next.t('popup.cancel_button'),
+                        confirmButtonText: $i18next.t('popup.save_button'),
+                        showLoaderOnConfirm: true,
+                        preConfirm: function () {
+                            return new Promise(function (resolve) {
+                                resolve([
+                                    $('#noticeTitle').val(),
+                                    $('#noticeDescription').val()
+                                ])
+                            })
+                        },
+                        onOpen: function () {
+                            $('#noticeTitle').focus();
+                            autosize($('#noticeDescription'));
+                        }
+                    }).then(function success(result) {
+                        $http.put('/notices/' + notice.id, {
+                            name: result[0],
+                            experience: notice.experience,
+                            description: result[1]
+                        }).then(function () {
+                            $scope.noticeTable.ajax.reload(null, false)
+                        });
                     });
                 });
             });
-        });
 
-        $scope.noticeTable.on('click', '.delete', function () {
-            var id = this.value;
-            swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить заметку?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
-            }).then(function success() {
-                $http.delete('/notices/' + id).then(function () {
-                    $scope.noticeTable.ajax.reload(null, false)
+            $scope.noticeTable.on('click', '.delete', function () {
+                var id = this.value;
+                swal({
+                    title: $i18next.t('popup.confirm_title'),
+                    text: $i18next.t('page.character.notice.delete_text'),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: $i18next.t('popup.delete_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button')
+                }).then(function success() {
+                    $http.delete('/notices/' + id).then(function () {
+                        $scope.noticeTable.ajax.reload(null, false)
+                    });
+                }, function cancel() {
                 });
-            }, function cancel() {
             });
-        });
+        }
     };
 
     $scope.addNotice = function () {
         swal({
-            title: 'Добавить заметку',
+            title: $i18next.t('page.character.notice.add_title'),
             html: '<form>' +
             '<div class="form-group">' +
-            '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+            '<label for="noticeTitle" class="form-control-label">' + $i18next.t('page.character.notice.title') + '</label>' +
             '<input type="text" class="form-control" id="noticeTitle">' +
             '</div>' +
             '<div class="form-group">' +
-            '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+            '<label for="noticeBody" class="form-control-label">' + $i18next.t('page.character.notice.text') + '</label>' +
             '<textarea id="noticeDescription" class="form-control"></textarea>' +
             '</div>',
             showCancelButton: true,
-            cancelButtonText: "Отменить",
-            confirmButtonText: "Добавить",
+            cancelButtonText: $i18next.t('popup.cancel_button'),
+            confirmButtonText: $i18next.t('popup.add_button'),
             showLoaderOnConfirm: true,
             input: 'text',
             inputClass: 'hide',
@@ -702,7 +697,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     if ($('#noticeTitle').val() !== '') {
                         resolve()
                     } else {
-                        reject('Заголовок не может быть пустым!')
+                        reject($i18next.t('page.character.notice.error_empty_title'))
                     }
                 })
             },

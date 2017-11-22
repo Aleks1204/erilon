@@ -11,7 +11,7 @@ function isMobile() {
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $localStorage) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $localStorage, $i18next) {
     $scope.hideEditBlock = true;
     $scope.hideEditDescriptionBlock = true;
 
@@ -44,12 +44,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.editExperince = function () {
         swal({
-            title: "Опыт персонажа",
+            title: $i18next.t('page.character.edit_experience_title'),
             input: "text",
             inputValue: $scope.personage.experience,
             showCancelButton: true,
-            confirmButtonText: "Сохранить",
-            cancelButtonText: "Отменить"
+            confirmButtonText: $i18next.t('popup.save_button'),
+            cancelButtonText: $i18next.t('popup.cancel_button')
         }).then(function success(result) {
             $http.put('/personages/' + personageId, {
                 race_id: $scope.personage.RaceId,
@@ -1099,22 +1099,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         if (name === 'Маг' && $scope.personage.Race.name === 'Полуэльф') {
             swal({
-                title: 'Особенные достоинства полуэльфов',
-                html: '<p>У вас выпала особенность "маг". Полуэльфы могут увеличить свою силу магии при создании персонажа, ' +
-                'купив дополнительную особенность за опыт.' +
-                '<strong style="font-size: 22px">Это ваш единственный шанс выбрать!</strong></p>' +
+                title: $i18next.t('page.character.half_elf_mage_title'),
+                html: '<p>' + $i18next.t('page.character.half_elf_mage_text') +
+                '<strong style="font-size: 22px">' + $i18next.t('page.character.half_elf_mage_warning') + '</strong></p>' +
                 '<form>' +
                 '<div class="row form-group">' +
                 '<div class="col-md-12">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="magic" type="checkbox">' +
-                '<label for="magic">+1 к Силе Магии (10 ехр)</label>' +
+                '<label for="magic">' + $i18next.t('page.character.half_elf_mage_label') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: false,
-                confirmButtonText: "Подтвердить",
+                confirmButtonText: $i18next.t('popup.confirm_button'),
                 showLoaderOnConfirm: true,
                 preConfirm: function () {
                     return new Promise(function (resolve) {
@@ -1433,15 +1432,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 stringValue = stringValue.substring(2);
 
                 swal({
-                    title: "Вы уверены?",
-                    html: "У вас есть следующие теоретические навыки, превышающие " +
-                    "удвоенное значение Мудрости: " + stringValue + ". Их значение будет понижено",
+                    title: $i18next.t('popup.confirm_title'),
+                    html: $i18next.t('page.character.decrease_theoretical_skills_1') + ": " + stringValue + ". " + $i18next.t('page.character.decrease_theoretical_skills_2'),
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Понизить!",
-                    cancelButtonText: "Отменить"
+                    confirmButtonText: $i18next.t('popup.decrease_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button')
                 }).then(function success() {
                     angular.forEach(affectedSkills, function (affectedSkill) {
                         $scope.decreaseAttachedSkill(affectedSkill);
@@ -1687,6 +1685,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                                 } else {
                                     $scope.personage.experience = $scope.personage.experience - 1;
                                 }
+                            } else {
+                                exceedWisdom(personageAttachedSkill.AttachedSkill.name);
                             }
                         }
                     } else {
@@ -1906,22 +1906,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             });
             var stringValue = '';
             angular.forEach($scope.itemsToDelete, function (item) {
-                stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong>" +
-                    " имеет пререквизит <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
+                stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong> " +
+                    $i18next.t('page.character.have_prerequisites') + " <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
             });
 
             stringValue = stringValue.substring(2);
 
             $q.all(checkMeritPromises).then(function () {
                 swal({
-                    title: "Вы уверены?",
-                    html: "Данное изменение приведет к удалению достоинств: " + stringValue,
+                    title: $i18next.t('popup.confim_title'),
+                    html: $i18next.t('page.character.delete_merits') + ": " + stringValue,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Удалить!",
-                    cancelButtonText: "Отменить"
+                    confirmButtonText: $i18next.t('popup.delete_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button')
                 }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);
@@ -2083,7 +2083,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (!isPresent) {
                         invalidPrerequisites.push({
                             name: meritFlaw.Flaw.name,
-                            expectedValue: 'присутствует'
+                            expectedValue: $i18next.t('general.present')
                         });
                     }
                 }
@@ -2091,7 +2091,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (isPresent) {
                         invalidPrerequisites.push({
                             name: meritFlaw.Flaw.name,
-                            expectedValue: 'отсутствует'
+                            expectedValue: $i18next.t('general.absent')
                         });
                     }
                 }
@@ -2110,7 +2110,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (!isPresent) {
                         invalidPrerequisites.push({
                             name: meritMerit.MeritPrerequisite.name,
-                            expectedValue: 'присутствует'
+                            expectedValue: $i18next.t('general.present')
                         });
                     }
                 }
@@ -2118,7 +2118,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                     if (isPresent) {
                         invalidPrerequisites.push({
                             name: meritMerit.MeritPrerequisite.name,
-                            expectedValue: 'отсутствует'
+                            expectedValue: $i18next.t('general.absent')
                         });
                     }
                 }
@@ -2136,22 +2136,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var levelName = '';
         switch (levelNumber) {
             case 0:
-                levelName = 'База';
+                levelName = $i18next.t('level.base');
                 break;
             case 1:
-                levelName = 'Эксперт';
+                levelName = $i18next.t('level.expert');
                 break;
             case 2:
-                levelName = 'Мастер';
+                levelName = $i18next.t('level.master');
                 break;
             case 3:
-                levelName = 'Магистр';
+                levelName = $i18next.t('level.magister');
                 break;
             case 4:
-                levelName = 'Гроссмейстер';
+                levelName = $i18next.t('level.grandmaster');
                 break;
             default:
-                levelName = 'Уровень не указан';
+                levelName = $i18next.t('level.none');
                 break;
         }
         return levelName;
@@ -2242,7 +2242,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedLimit(name) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Значение <strong>"' + name + '"</strong> достигло максимума, доступного при создании персонажа.'
+            message: $i18next.t('page.character.exceed_limit_1') + ' <strong>"' + name + '"</strong> ' + $i18next.t('page.character.exceed_limit_2')
         }, {
             placement: {
                 align: "center"
@@ -2258,7 +2258,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedWisdom(name) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Значение <strong>"' + name + '"</strong> не может быть выше, чем удвоенная Мудрость персонажа'
+            message: $i18next.t('page.character.exceed_wisdom_1') + ' <strong>"' + name + '"</strong> ' + $i18next.t('page.character.exceed_wisdom_2')
         }, {
             placement: {
                 align: "center"
@@ -2274,7 +2274,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedTriggerSkillLevel(name) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Уровень <strong>"' + name + '"</strong> на данный момент максимален'
+            message: $i18next.t('page.character.exceed_trigger_skill_level_1') + ' <strong>"' + name + '"</strong> ' + $i18next.t('page.character.exceed_trigger_skill_level_2')
         }, {
             placement: {
                 align: "center"
@@ -2290,7 +2290,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     function exceedBaseSpellLevel(targetSpellName, baseSpellName) {
         $.notify({
             icon: 'fa fa-exclamation',
-            message: 'Уровень заклинания <strong>"' + targetSpellName + '"</strong> не может превышать уровень заклинания <strong>"' + baseSpellName + '"</strong>'
+            message: $i18next.t('page.character.exceed_base_spell_level_1') + ' <strong>"' + targetSpellName + '"</strong> ' + $i18next.t('page.character.exceed_base_spell_level_2') + ' <strong>"' + baseSpellName + '"</strong>'
         }, {
             placement: {
                 align: "center"
@@ -2339,21 +2339,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
                 var stringValue = '';
                 angular.forEach($scope.itemsToDelete, function (item) {
-                    stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong>" +
-                        " имеет пререквизит <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
+                    stringValue = stringValue + ", <strong>" + item.targetMerit.Merit.name + "</strong> " +
+                        $i18next.t('page.character.have_prerequisites') + " <strong>" + item.prerequisiteName + ": " + item.prerequisiteValue + "</strong>"
                 });
 
                 stringValue = stringValue.substring(2);
 
                 swal({
-                    title: "Вы уверены?",
-                    html: "Данное изменение приведет к удалению достоинств: " + stringValue,
+                    title: $i18next.t('popup.confirm_title'),
+                    html: $i18next.t('page.character.delete_merits') + ": " + stringValue,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Удалить!",
-                    cancelButtonText: "Отменить"
+                    confirmButtonText: $i18next.t('popup.delete_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button')
                 }).then(function success() {
                     angular.forEach($scope.itemsToDelete, function (item) {
                         deletePersonageMerit(item.targetMerit);
@@ -2410,7 +2410,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $scope.itemsToDelete.push({
                             targetMerit: personageMeritToDelete,
                             prerequisiteName: meritMerit.MeritPrerequisite.name,
-                            prerequisiteValue: 'присутствует'
+                            prerequisiteValue: $i18next.t('general.present')
                         });
                         checkMeritRelatedPrerequisites(personageMeritToDelete, 'delete');
                         resolved = true;
@@ -2420,7 +2420,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $scope.itemsToDelete.push({
                             targetMerit: personageMeritToDelete,
                             prerequisiteName: meritMerit.MeritPrerequisite.name,
-                            prerequisiteValue: 'отсутствует'
+                            prerequisiteValue: $i18next.t('general.absent')
                         });
                         checkMeritRelatedPrerequisites(personageMeritToDelete, 'delete');
                         resolved = true;
@@ -2486,14 +2486,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $scope.itemsToDelete.push({
                             targetMerit: personageMerit,
                             prerequisiteName: meritFlaw.Flaw.name,
-                            prerequisiteValue: 'присутствует'
+                            prerequisiteValue: $i18next.t('general.present')
                         });
                     }
                     if (!meritFlaw.presentAbsent && action === 'add') {
                         $scope.itemsToDelete.push({
                             targetMerit: personageMerit,
                             prerequisiteName: meritFlaw.Flaw.name,
-                            prerequisiteValue: 'отсутствует'
+                            prerequisiteValue: $i18next.t('general.absent')
                         });
                     }
                 }
@@ -2517,18 +2517,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 wizardDefer.resolve(true);
             } else {
                 swal({
-                    title: "Вы уверены?",
-                    text: "У вас нет врожденной особенности \"Маг\". " +
-                    "Вы будете ограничены в использовании магических навыков: " +
-                    "заклинания вы сможете использовать только в виде свитков, для " +
-                    "написания которых вам понадобятся также навыки Древний Язык и Каллиграфия. " +
-                    "Вы уверены, что хотите взять этот навык?",
+                    title: $i18next.t('popup.confirm_title'),
+                    text: $i18next.t('page.character.not_mag_add_magic_skills'),
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Да!",
-                    cancelButtonText: "Нет"
+                    confirmButtonText: $i18next.t('popup.yes'),
+                    cancelButtonText: $i18next.t('popup.no')
                 }).then(function success() {
                     wizardDefer.resolve(true);
                 }, function cancel() {
@@ -2588,28 +2584,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.getLevelName = function (levelNumber) {
-        var levelName = '';
-        switch (levelNumber) {
-            case 0:
-                levelName = 'База';
-                break;
-            case 1:
-                levelName = 'Эксперт';
-                break;
-            case 2:
-                levelName = 'Мастер';
-                break;
-            case 3:
-                levelName = 'Магистр';
-                break;
-            case 4:
-                levelName = 'Гроссмейстер';
-                break;
-            default:
-                levelName = 'Уровень не указан';
-                break;
-        }
-        return levelName;
+        return getLevelName(levelNumber);
     };
 
     $scope.isShowItem = function (id) {
@@ -2696,15 +2671,15 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         if (personageSpellsToDelete.length > 0) {
             swal({
-                title: "Вы уверены?",
-                html: "Данное изменение приведет к удалению заклинаний из данной школы: <strong>" + spellNamesToDelete
+                title: $i18next.t('popup.confirm_title'),
+                html: $i18next.t('page.character.delete_spells') + ": <strong>" + spellNamesToDelete
                 + "</strong>",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 angular.forEach(personageSpellsToDelete, function (personageSpell) {
                     $scope.deletePersonageSpell(personageSpell);
@@ -2795,14 +2770,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             stringValue = stringValue.substring(2);
 
             swal({
-                title: "Вы уверены?",
-                html: "Данное изменение приведет к удалению навыков: " + stringValue,
+                title: $i18next.t('popup.confirm_title'),
+                html: $i18next.t('page.character.delete_skills') + ": " + stringValue,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 angular.forEach(skillsToDelete, function (skill) {
                     $scope.deletePersonageTriggerSkill(skill);
@@ -2837,14 +2812,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             stringValue = stringValue.substring(2);
 
             swal({
-                title: "Вы уверены?",
-                html: "Данное изменение приведет к удалению заклинаний: " + stringValue,
+                title: $i18next.t('popup.confirm_title'),
+                html: $i18next.t('page.character.delete_spells') + ": " + stringValue,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 angular.forEach(spellsToDelete, function (spell) {
                     $scope.deletePersonageSpell(spell);
@@ -2881,14 +2856,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             stringValue = stringValue.substring(2);
 
             swal({
-                title: "Вы уверены?",
-                html: "При понижении уровня этого заклинания соответственно понизится уровень заклинаний: " + stringValue,
+                title: $i18next.t('popup.confirm_title'),
+                html: $i18next.t('page.character.decrease_spell_level') + ": " + stringValue,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Понизить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.decrease_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 angular.forEach(spellsToDecreaseLevel, function (personageSpell) {
                     $scope.decreaseSpellLevel(personageSpell);
@@ -2912,15 +2887,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
         if (spell.modification_needed && grepResult.length === 0) {
             swal({
-                title: "Вы уверены?",
-                text: 'Для того, чтобы использовать это заклинание, необходимо достоинство "Модификация заклинаний". ' +
-                'Поскольку у вас его нет, вы не сможете пользоваться данным заклинанием. Вы уверены что хотите добавить его?',
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.character.modification_needed'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Да!",
-                cancelButtonText: "Нет"
+                confirmButtonText: $i18next.t('popup.yes'),
+                cancelButtonText: $i18next.t('popup.no')
             }).then(function success() {
                 result.resolve(true);
             }, function cancel() {
@@ -2937,14 +2911,14 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             title: notice.name,
             html: '<pre>' + notice.description + '</pre>' +
             '<div class="modal-footer hidden-xs-down hidden-sm-down">' +
-            '<button type="button" class="btn btn-info ok">Ок</button>' +
-            '<button type="button" class="btn btn-success update">Изменить</button>' +
-            '<button type="button" class="btn btn-danger delete">Удалить</button>' +
+            '<button type="button" class="btn btn-info ok">' + $i18next.t('page.character.notices.button.ok') + '</button>' +
+            '<button type="button" class="btn btn-success update">' + $i18next.t('page.character.notices.button.edit') + '</button>' +
+            '<button type="button" class="btn btn-danger delete">' + $i18next.t('page.character.notices.button.delete') + '</button>' +
             '</div>' +
             '<div class="modal-footer hidden-md-up">' +
-            '<button type="button" class="btn btn-sm btn-info ok">Ок</button>' +
-            '<button type="button" class="btn btn-sm btn-success update">Изменить</button>' +
-            '<button type="button" class="btn btn-sm btn-danger delete">Удалить</button>' +
+            '<button type="button" class="btn btn-sm btn-info ok">' + $i18next.t('page.character.notices.button.ok') + '</button>' +
+            '<button type="button" class="btn btn-sm btn-success update">' + $i18next.t('page.character.notices.button.edit') + '</button>' +
+            '<button type="button" class="btn btn-sm btn-danger delete">' + $i18next.t('page.character.notices.button.delete') + '</button>' +
             '</div>',
             showConfirmButton: false,
             onOpen: function () {
@@ -2953,20 +2927,20 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 });
                 $('.update').click(function () {
                     swal({
-                        title: 'Изменить заметку',
+                        title: $i18next.t('page.character.notices.edit_title'),
                         html: '<form>' +
                         '<div class="form-group">' +
-                        '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+                        '<label for="noticeTitle" class="form-control-label">' + $i18next.t('page.character.notices.title_label') + '</label>' +
                         '<input type="text" class="form-control" id="noticeTitle" value="' + notice.name + '">' +
                         '</div>' +
                         '<div class="form-group">' +
-                        '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+                        '<label for="noticeBody" class="form-control-label">' + $i18next.t('page.character.notices.text_label') + '</label>' +
                         '<textarea id="noticeDescription" class="form-control">' + notice.description + '</textarea>' +
                         '</div>' +
                         '</form>',
                         showCancelButton: true,
-                        cancelButtonText: "Отменить",
-                        confirmButtonText: "Сохранить",
+                        cancelButtonText: $i18next.t('popup.cancel_button'),
+                        confirmButtonText: $i18next.t('popup.save_button'),
                         showLoaderOnConfirm: true,
                         preConfirm: function () {
                             return new Promise(function (resolve) {
@@ -3018,21 +2992,21 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addNotice = function () {
 
         swal({
-            title: 'Добавить заметку',
+            title: $i18next.t('page.character.notices.add_title'),
             html: '<form>' +
             '<div class="form-group">' +
-            '<label for="noticeTitle" class="form-control-label">Заголовок:</label>' +
+            '<label for="noticeTitle" class="form-control-label">' + $i18next.t('page.character.notices.title_label') + '</label>' +
             '<input type="text" class="form-control" id="noticeTitle">' +
             '</div>' +
             '<div class="form-group">' +
-            '<label for="noticeBody" class="form-control-label">Текст:</label>' +
+            '<label for="noticeBody" class="form-control-label">' + $i18next.t('page.character.notices.text_label') + '</label>' +
             '<textarea id="noticeDescription" class="form-control"></textarea>' +
             '</div>' +
-            '<p>Опыт:</p>' +
+            '<p>' + $i18next.t('page.character.notices.exp_label') + '</p>' +
             '</form>',
             showCancelButton: true,
-            cancelButtonText: "Отменить",
-            confirmButtonText: "Добавить",
+            cancelButtonText: $i18next.t('popup.cancel_button'),
+            confirmButtonText: $i18next.t('popup.add_button'),
             showLoaderOnConfirm: true,
             input: 'number',
             inputValidator: function (value) {
@@ -3042,13 +3016,13 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                             if (parseInt(value) > 0) {
                                 resolve()
                             } else {
-                                reject('Количество опыта должно быть положительным!')
+                                reject($i18next.t('page.character.notices.error.negative_exp'))
                             }
                         } else {
                             resolve();
                         }
                     } else {
-                        reject('Заголовок не может быть пустым!')
+                        reject($i18next.t('page.character.notices.error.empty_title'))
                     }
                 })
             },
@@ -3135,7 +3109,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var personageAttributePromises = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             personageAttributePromises.push($http.put('/personageAttributes/' + personageAttribute.id, {
-                value: personageAttribute.value,
+                value: personageAttribute.value
             }));
         });
 

@@ -4,7 +4,7 @@
 
 var app = angular.module("attachedSkillManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("attachedSkillListController", function ($scope, $http, $q, $localStorage) {
+app.controller("attachedSkillListController", function ($scope, $http, $q, $localStorage, $i18next) {
 
     var skillsTable = $('#skills');
 
@@ -40,17 +40,19 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
         var table = skillsTable.DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
+                "search": $i18next.t('table.label.search'),
                 "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
+                    "first": $i18next.t('table.pagination.first_page'),
+                    "last": $i18next.t('table.pagination.last_page'),
+                    "next": $i18next.t('table.pagination.next_page'),
+                    "previous": $i18next.t('table.pagination.previous_page')
                 },
-                "lengthMenu": "Показать _MENU_"
+                "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                "emptyTable": $i18next.t('table.pagination.empty_table'),
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": '/attachedSkills',
             "columns": [
@@ -151,14 +153,14 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
         skillsTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данный навык?",
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.attached_skills.delete.text'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $http.delete('/attachedSkills/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -183,51 +185,51 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                     isTheoretical = 'checked';
                 }
                 swal({
-                    title: 'Изменить навык',
+                    title: $i18next.t('page.attached_skills.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.attached_skills.edit.name') + '</label>' +
                     '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                    '<option value="магические">магические</option>' +
-                    '<option value="социальные">социальные</option>' +
-                    '<option value="языки">языки</option>' +
-                    '<option value="знания">знания</option>' +
-                    '<option value="ремесла">ремесла</option>' +
-                    '<option value="профессиональные">профессиональные</option>' +
+                    '<label for="category" class="form-control-label">' + $i18next.t('page.attached_skills.edit.categories') + '</label>' +
+                    '<select class="form-control" title="' + $i18next.t('page.attached_skills.options.choose_category') + '" id="category" multiple>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.magic') + '">' + $i18next.t('page.attached_skills.options.magic') + '</option>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.social') + '">' + $i18next.t('page.attached_skills.options.social') + '</option>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.languages') + '">' + $i18next.t('page.attached_skills.options.languages') + '</option>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.lores') + '">' + $i18next.t('page.attached_skills.options.lores') + '</option>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.crafts') + '">' + $i18next.t('page.attached_skills.options.crafts') + '</option>' +
+                    '<option value="' + $i18next.t('page.attached_skills.options.professional') + '">' + $i18next.t('page.attached_skills.options.professional') + '</option>' +
                     '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.attached_skills.edit.description') + '</label>' +
                     '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
                     '</div>' +
                     '<div class="row form-group">' +
                     '<div class="col-md-4">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                     '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
-                    '<label for="difficultSkill">Сложный</label>' +
+                    '<label for="difficultSkill">' + $i18next.t('page.attached_skills.edit.difficult') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-4">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                     '<input id="defaultSkill" name="defaultSkill" type="checkbox" ' + isDefault + '>' +
-                    '<label for="defaultSkill">По умолчанию</label>' +
+                    '<label for="defaultSkill">' + $i18next.t('page.attached_skills.edit.default') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-4">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                     '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox" ' + isTheoretical + '>' +
-                    '<label for="theoreticalSkill">Теоретическсий</label>' +
+                    '<label for="theoreticalSkill">' + $i18next.t('page.attached_skills.edit.theoretical') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     preConfirm: function () {
                         return new Promise(function (resolve) {
@@ -270,51 +272,51 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить навык',
+                title: $i18next.t('page.attached_skills.add.title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.attached_skills.add.name') + '</label>' +
                 '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="category" class="form-control-label">Категории:</label>' +
-                '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                '<option value="магические">магические</option>' +
-                '<option value="социальные">социальные</option>' +
-                '<option value="языки">языки</option>' +
-                '<option value="знания">знания</option>' +
-                '<option value="ремесла">ремесла</option>' +
-                '<option value="профессиональные">профессиональные</option>' +
+                '<label for="category" class="form-control-label">' + $i18next.t('page.attached_skills.add.categories') + '</label>' +
+                '<select class="form-control" title="' + $i18next.t('page.attached_skills.options.choose_category') + '" id="category" multiple>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.magic') + '">' + $i18next.t('page.attached_skills.options.magic') + '</option>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.social') + '">' + $i18next.t('page.attached_skills.options.social') + '</option>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.languages') + '">' + $i18next.t('page.attached_skills.options.languages') + '</option>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.lores') + '">' + $i18next.t('page.attached_skills.options.lores') + '</option>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.crafts') + '">' + $i18next.t('page.attached_skills.options.crafts') + '</option>' +
+                '<option value="' + $i18next.t('page.attached_skills.options.professional') + '">' + $i18next.t('page.attached_skills.options.professional') + '</option>' +
                 '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.attached_skills.add.description') + '</label>' +
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="row form-group">' +
                 '<div class="col-md-4">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
-                '<label for="difficultSkill">Сложный</label>' +
+                '<label for="difficultSkill">' + $i18next.t('page.attached_skills.add.difficult') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-4">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="defaultSkill" name="defaultSkill" type="checkbox">' +
-                '<label for="defaultSkill">По умолчанию</label>' +
+                '<label for="defaultSkill">' + $i18next.t('page.attached_skills.add.default') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '<div class="col-md-4">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="theoreticalSkill" name="theoreticalSkill" type="checkbox">' +
-                '<label for="theoreticalSkill">Теоретическсий</label>' +
+                '<label for="theoreticalSkill">' + $i18next.t('page.attached_skills.add.theoretical') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'text',
                 inputClass: 'hide',
@@ -329,7 +331,7 @@ app.controller("attachedSkillListController", function ($scope, $http, $q, $loca
                                 }
                             });
                             if (equal) {
-                                reject('Навык с таким именем уже существует!')
+                                reject($i18next.t('page.attached_skills.error_message.already_exists'))
                             } else {
                                 resolve()
                             }

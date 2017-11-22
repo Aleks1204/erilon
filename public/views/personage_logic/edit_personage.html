@@ -51,7 +51,7 @@
         <nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}">
             <div class="logo-container">
                 <a href="#" class="logo">
-                    <h1 ng-i18next>brand_name</h1>
+                    <h1 ng-i18next>general.brand_name</h1>
                 </a>
             </div>
             <div class="left-menu-inner scroll-pane">
@@ -59,55 +59,55 @@
                     <li>
                         <a class="left-menu-link" href="/views/user_personage_manager.html?id={{player.id}}">
                             <i class="left-menu-link-icon fa fa-users"><!-- --></i>
-                            <span ng-i18next>left_menu_characters</span>
+                            <span ng-i18next>left_menu.characters</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/races/race_manager.html">
                             <i class="left-menu-link-icon fa fa-users"><!-- --></i>
-                            <span ng-i18next>left_menu_races</span>
+                            <span ng-i18next>left_menu.races</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/attributes/attribute_manager.html">
                             <i class="left-menu-link-icon fa  fa-diamond"><!-- --></i>
-                            <span ng-i18next>left_menu_attributes</span>
+                            <span ng-i18next>left_menu.attributes</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/inherents/inherent_manager.html">
                             <i class="left-menu-link-icon fa fa-american-sign-language-interpreting"><!-- --></i>
-                            <span ng-i18next>left_menu_inherents</span>
+                            <span ng-i18next>left_menu.inherents</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/attached_skills/attached_skills_manager.html">
                             <i class="left-menu-link-icon fa fa-asterisk"><!-- --></i>
-                            <span ng-i18next>left_menu_attached_skills</span>
+                            <span ng-i18next>left_menu.attached_skills</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/trigger_skills/trigger_skills_manager.html">
                             <i class="left-menu-link-icon icmn-stack3"><!-- --></i>
-                            <span ng-i18next>left_menu_trigger_skills</span>
+                            <span ng-i18next>left_menu.trigger_skills</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/merits/merit_manager.html">
                             <i class="left-menu-link-icon fa fa-smile-o"><!-- --></i>
-                            <span ng-i18next>left_menu_merits</span>
+                            <span ng-i18next>left_menu.merits</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/flaws/flaw_manager.html">
                             <i class="left-menu-link-icon fa fa-meh-o"><!-- --></i>
-                            <span ng-i18next>left_menu_flaws</span>
+                            <span ng-i18next>left_menu.flaws</span>
                         </a>
                     </li>
                     <li>
                         <a class="left-menu-link" href="/views/spells/spells_manager.html">
                             <i class="left-menu-link-icon fa fa-fire"><!-- --></i>
-                            <span ng-i18next>left_menu_spells</span>
+                            <span ng-i18next>left_menu.spells</span>
                         </a>
                     </li>
                 </ul>
@@ -125,7 +125,7 @@
                         <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown"
                            aria-expanded="false">
                             <span class="user-name"><span
-                                    ng-i18next>top_menu_player</span><strong> {{player.name}}</strong></span>
+                                    ng-i18next>top_menu.player</span><strong> {{player.name}}</strong></span>
                             <span class="avatar" href="#">
                         <img ng-src="http://res.cloudinary.com/hjzqny4m9/image/upload/v1497780414/{{userAvatar(player.id)}}"
                              alt="Здесь должен быть аватар">
@@ -134,17 +134,17 @@
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
                             <a class="dropdown-item" href="/views/profile/profile.html"><i
                                     class="dropdown-icon icmn-user"></i><span
-                                    ng-i18next>top_menu_dropdown_profile</span></a>
+                                    ng-i18next>top_menu.dropdown.profile</span></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/views/user_personage_manager.html?id={{player.id}}"><i
-                                    class="dropdown-icon icmn-circle-right"></i><span ng-i18next>top_menu_dropdown_characters</span></a>
+                                    class="dropdown-icon icmn-circle-right"></i><span ng-i18next>top_menu.dropdown.characters</span></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
-                                    class="dropdown-icon icmn-exit"></i><span ng-i18next>top_menu_dropdown_logout</span></a>
+                                    class="dropdown-icon icmn-exit"></i><span ng-i18next>top_menu.dropdown.logout</span></a>
                             <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
                             <a class="dropdown-item" href="/views/permissions/managePermissions.html"
                                ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i><span
-                                    ng-i18next>top_menu_dropdown_admin</span></a>
+                                    ng-i18next>top_menu.dropdown.admin</span></a>
                         </ul>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                         <div class="menu-info-block">
                             <div class="example-buy-btn hidden-xs-down">
                                 <div class="btn expir btn-success-outline btn-rounded">
-                                    <span ng-i18next>top_menu_role</span> {{player.Role.name}}
+                                    <span ng-i18next>top_menu.role</span> {{player.Role.name}}
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="text-center">Прокачка персонажа</h3>
+                    <h3 class="text-center" ng-i18next>page.character.edit_header</h3>
                     <div class="dropdown">
                         <h3>
                             <a class="dropdown-toggle color-primary" href="" data-toggle="dropdown"
@@ -200,16 +200,21 @@
                                class="btn btn-icon icmn-pencil btn-link editButton"
                                href="javascript: void(0);"></a>
                             <ul class="dropdown-menu dropdown-animate" aria-labelledby="" role="menu">
-                                <a class="dropdown-item text">Раса: {{personage.Race.name}}</a>
-                                <a class="dropdown-item text">Возраст: {{personage.age}} лет</a>
+                                <a class="dropdown-item text">
+                                    <span ng-i18next>character_dropdown.race</span>
+                                    {{personage.Race.name}}</a>
+                                <a class="dropdown-item text"><span ng-i18next>character_dropdown.age</span>
+                                    {{personage.age}}
+                                    <span ng-i18next>character_dropdown.years</span></a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text">Опыт: {{personage.experience}}</a>
+                                <a class="dropdown-item text"><span ng-i18next>character_dropdown.experience</span>
+                                    {{personage.experience}}</a>
                             </ul>
                         </h3>
                     </div>
                     <button ng-show="hideEditBlock" ng-disabled="personage.experience < 0" type="button"
                             class="btn btn-info btn-rounded pull-right save-personage"
-                            ng-click="savePersonage()"><strong>СОХРАНИТЬ</strong>
+                            ng-click="savePersonage()"><strong ng-i18next>page.character.upper.save</strong>
                     </button>
                 </div>
                 <div class="panel-body">
@@ -217,55 +222,67 @@
                         <table id="buttons" class="table">
                             <tr>
                                 <td>
-                                    <button class="btn inherentsButton active">Особенности</button>
+                                    <button class="btn inherentsButton active" ng-i18next>
+                                        page.character.mobile.inherents
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn attributesButton">Атрибуты</button>
+                                    <button class="btn attributesButton" ng-i18next>page.character.mobile.attributes
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn attachedButton">Прикрепленные</button>
+                                    <button class="btn attachedButton" ng-i18next>page.character.mobile.attached
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn triggerButton">Тригерные</button>
+                                    <button class="btn triggerButton" ng-i18next>page.character.mobile.trigger</button>
                                 </td>
                                 <td>
-                                    <button class="btn meritsButton">Достоинства</button>
+                                    <button class="btn meritsButton" ng-i18next>page.character.mobile.merits</button>
                                 </td>
                                 <td>
-                                    <button class="btn flawsButton">Недостатки</button>
+                                    <button class="btn flawsButton" ng-i18next>page.character.mobile.flaws</button>
                                 </td>
                                 <td>
-                                    <button class="btn spellsButton">Заклинания</button>
+                                    <button class="btn spellsButton" ng-i18next>page.character.mobile.spells</button>
                                 </td>
                                 <td>
-                                    <button class="btn notesButton">Заметки</button>
+                                    <button class="btn notesButton" ng-i18next>page.character.mobile.notices</button>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="hidden-xs-down hidden-sm-down createEditDiv">
-                        <button class="btn createEditTabs inherentsButton active">ОСОБЕННОСТИ
+                        <button class="btn createEditTabs inherentsButton active">
+                            <span ng-i18next>page.character.upper.inherents</span>
                             <div class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs attributesButton">АТРИБУТЫ
+                        <button class="btn createEditTabs attributesButton">
+                            <span ng-i18next>page.character.upper.attributes</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs attachedButton">ПРИКРЕПЛЕННЫЕ НАВЫКИ
+                        <button class="btn createEditTabs attachedButton">
+                            <span ng-i18next>page.character.upper.attached</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs triggerButton">ТРИГЕРНЫЕ НАВЫКИ
+                        <button class="btn createEditTabs triggerButton">
+                            <span ng-i18next>page.character.upper.trigger</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs meritsButton">ДОСТОИНСТВА
+                        <button class="btn createEditTabs meritsButton">
+                            <span ng-i18next>page.character.upper.merits</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs flawsButton">НЕДОСТАТКИ
+                        <button class="btn createEditTabs flawsButton">
+                            <span ng-i18next>page.character.upper.flaws</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs spellsButton">ЗАКЛИНАНИЯ
+                        <button class="btn createEditTabs spellsButton">
+                            <span ng-i18next>page.character.upper.spells</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs notesButton">ЗАМЕТКИ
+                        <button class="btn createEditTabs notesButton">
+                            <span ng-i18next>page.character.upper.notices</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
                     </div>
@@ -290,14 +307,14 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-default-outline btn-rounded btn-sm"
-                                            ng-click="deletePersonageInherent(personageInherent)">
-                                        Удалить
+                                            ng-click="deletePersonageInherent(personageInherent)" ng-i18next>
+                                        popup.delete_button
                                     </button>
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(personageInherent.Inherent.id)">
                                 <td colspan="3">
-                                    <strong class="padding-left-10">Описание:</strong>
+                                    <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                     {{personageInherent.Inherent.description}}
                                 </td>
                             </tr>
@@ -306,13 +323,15 @@
 
                         <form name="addPersonageInherentForm" style="width: 98%">
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="inherent_id" style="padding-left: 8% !important;padding-top: 0.5%;">Особенность: </label>
-
-                                <div class="col-sm-5">
+                                <label class="control-label col-md-2" for="inherent_id"
+                                       style="padding-left: 8% !important;padding-top: 0.5%;" ng-i18next>page.character.quality_label</label>
+                                <div class="col-md-5">
                                     <select class="form-control"
                                             ng-model="inherent_id" id="inherent_id"
                                             ng-options="inherent.id as inherent.name for inherent in inherents">
-                                        <option style="display:none" value="">Выберите особенность...</option>
+                                        <option style="display:none" value="" ng-i18next>
+                                            page.character.quality_placeholder
+                                        </option>
                                     </select>
                                 </div>
 
@@ -321,7 +340,8 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <button class="btn" ng-click="addPersonageInherent()">Добавить</button>
+                                    <button class="btn" ng-click="addPersonageInherent()" ng-i18next>popup.add_button
+                                    </button>
                                 </div>
 
                             </div>
@@ -332,10 +352,12 @@
                             <div class="col-md-2 hidden-xs-down hidden-sm-down">
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived"
-                                            id="hitPiercePunch" ng-click="hitPiercePunchAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                            id="hitPiercePunch"
+                                            ng-click="hitPiercePunchAnimateRelatedAttributes($event)"
+                                            ng-i18next="[title]page.character.derivative.hit_pierce_punch"
                                             rel="tooltip">
-                                        <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg" class="derived tooltips">
+                                        <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg"
+                                             class="derived tooltips">
                                         <div class="arrow-right"></div>
                                     </button>
                                     <span class="derived">{{hitPiercePunch}}</span>
@@ -344,7 +366,7 @@
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived"
                                             id="hitChopPunch" ng-click="hitChopPunchAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                            ng-i18next="[title]page.character.derivative.hit_chop_punch"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
                                              class="derived tooltips">
@@ -356,7 +378,7 @@
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived" id="rangedHit"
                                             ng-click="rangedHitAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                            ng-i18next="[title]page.character.derivative.ranged_hit"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/rangedHit.svg"
                                              class="derived tooltips">
@@ -367,8 +389,9 @@
 
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived"
-                                            id="parryPiercePunch" ng-click="parryPiercePunchAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                            id="parryPiercePunch"
+                                            ng-click="parryPiercePunchAnimateRelatedAttributes($event)"
+                                            ng-i18next="[title]page.character.derivative.parry_pierce_punch"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
                                              class="derived tooltips">
@@ -379,8 +402,9 @@
 
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived"
-                                            id="parryChopPunch" ng-click="parryChopPunchAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                            id="parryChopPunch"
+                                            ng-click="parryChopPunchAnimateRelatedAttributes($event)"
+                                            ng-i18next="[title]page.character.derivative.parry_chop_punch"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
                                              class="derived tooltips">
@@ -395,7 +419,7 @@
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived" id="dodge"
                                             ng-click="dodgeAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                            ng-i18next="[title]page.character.derivative.dodge"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/dodge.svg" class="derived tooltips">
                                         <div class="arrow-right"></div>
@@ -407,7 +431,7 @@
                                     <button class="btn btn-rounded margin-inline derived"
                                             id="generalActionPoints"
                                             ng-click="generalActionPointsAnimateRelatedAttributes($event)"
-                                            title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                            ng-i18next="[title]page.character.derivative.general_action_points"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
                                              class="derived tooltips">
@@ -420,7 +444,7 @@
                                     <button class="btn btn-rounded margin-inline derived"
                                             id="mentalActionPoints"
                                             ng-click="mentalActionPointsAnimateRelatedAttributes($event)"
-                                            title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                            ng-i18next="[title]page.character.derivative.mental_action_points"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
                                              class="derived tooltips">
@@ -431,8 +455,9 @@
 
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived"
-                                            id="endurancePoints" ng-click="endurancePointsAnimateRelatedAttributes($event)"
-                                            title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                            id="endurancePoints"
+                                            ng-click="endurancePointsAnimateRelatedAttributes($event)"
+                                            ng-i18next="[title]page.character.derivative.endurance_points"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
                                              class="derived tooltips">
@@ -444,7 +469,7 @@
                                 <div style="width: 100%;">
                                     <button class="btn btn-rounded margin-inline derived" id="initiative"
                                             ng-click="initiativeAnimateRelatedAttributes($event)"
-                                            title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                            ng-i18next="[title]page.character.derivative.initiative"
                                             rel="tooltip">
                                         <img src="/assets/common/img/erilon-icon/initiative.svg"
                                              class="derived tooltips">
@@ -474,7 +499,7 @@
                                                     <button class="btn btn-rounded btn-sm btn-secondary btn-decrease"
                                                             ng-click="decreaseAttribute(personageAttribute)"
                                                             type="button"
-                                                            ng-disabled="!isAttributeDecreasingPossible(personageAttribute)">
+                                                            ng-disabled="personageAttribute.value < 2">
                                                         <i class="icmn-minus"></i>
                                                     </button>
                                                 </div>
@@ -491,7 +516,8 @@
                                     </tr>
                                     <tr ng-show="isShowItem(personageAttribute.Attribute.id)">
                                         <td colspan="3">
-                                            <strong class="padding-left-10">Описание:</strong>
+                                            <strong class="padding-left-10"
+                                                    ng-i18next>page.character.description</strong>
                                             {{personageAttribute.Attribute.description}}
                                         </td>
                                     </tr>
@@ -503,16 +529,20 @@
 
                             <nav class="c-menu c-menu--slide-bottom">
                                 <div class="slide-down-button">
-                                    <button class="btn slide-button" id="characteristics" ng-click="openHideAttributesCategoriesFilterMenu()"
-                                            hm-swipeup="openHideAttributesCategoriesFilterMenu()" hm-swipedown="openHideAttributesCategoriesFilterMenu()">Производные
+                                    <button class="btn slide-button" id="characteristics"
+                                            ng-click="openHideAttributesCategoriesFilterMenu()"
+                                            hm-swipeup="openHideAttributesCategoriesFilterMenu()"
+                                            hm-swipedown="openHideAttributesCategoriesFilterMenu()" ng-i18next>
+                                        page.character.derivatives
                                         <i class="fa fa-angle-double-down" ng-hide="isCategoryAttributesMenuClose"></i>
-                                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i></button>
+                                        <i class="fa fa-angle-double-up" ng-show="isCategoryAttributesMenuClose"></i>
+                                    </button>
                                 </div>
                                 <hr/>
                                 <div class="row" style="margin-top: 20px">
                                     <div class="col-sm-6 col-xs-6">
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа"
+                                                ng-i18next="[title]page.character.derivative.hit_pierce_punch"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/hitPiercePunch.svg"
                                                  class="ng-scope"
@@ -522,7 +552,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа"
+                                                ng-i18next="[title]page.character.derivative.hit_chop_punch"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/hitChopPunch.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -531,7 +561,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа"
+                                                ng-i18next="[title]page.character.derivative.ranged_hit"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/rangedHit.svg"
                                                  class="ng-scope tooltips" height="40" width="40">
@@ -539,7 +569,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа"
+                                                ng-i18next="[title]page.character.derivative.parry_pierce_punch"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/parryPiercePunch.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -548,7 +578,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа"
+                                                ng-i18next="[title]page.character.derivative.parry_chop_punch"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/parryChopPunch.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -560,7 +590,7 @@
                                     <div class="col-sm-6 col-xs-6">
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа"
+                                                ng-i18next="[title]page.character.derivative.dodge"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/dodge.svg"
                                                  class="ng-scope tooltips"
@@ -569,7 +599,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа"
+                                                ng-i18next="[title]page.character.derivative.general_action_points"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/generalActionPoints.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -578,7 +608,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа"
+                                                ng-i18next="[title]page.character.derivative.mental_action_points"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/mentalActionPoints.png"
                                                  class="ng-scope tooltips" height="40"
@@ -587,7 +617,7 @@
                                         </button>
 
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20"
+                                                ng-i18next="[title]page.character.derivative.endurance_points"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/endurancePoints.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -595,7 +625,7 @@
                                             <span class="ng-binding ng-scope">{{endurancePoints}}</span>
                                         </button>
                                         <button class="btn btn-info-outline btn-rounded produced margin-inline"
-                                                title="Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+                                                ng-i18next="[title]page.character.derivative.initiative"
                                                 rel="tooltip">
                                             <img src="/assets/common/img/erilon-icon/initiative.svg"
                                                  class="ng-scope tooltips" height="40"
@@ -612,23 +642,24 @@
                     <div id="attached" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
-                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning"
+                                                                                       ng-i18next>page.character.categories_label</span>
                                 </h2>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input name="magic" type="checkbox" ng-model="filter.magic" id="magicSkillsFilter"
                                            ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
-                                    <label for="magicSkillsFilter">
-                                        Магические
+                                    <label for="magicSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.magic
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="socialSkillsFilter" name="social" type="checkbox"
                                            ng-model="filter.attached_social"
                                            ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
-                                    <label for="socialSkillsFilter">
-                                        Социальные
+                                    <label for="socialSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.social
                                     </label>
                                 </div>
                             </div>
@@ -637,16 +668,16 @@
                                     <input name="languages" type="checkbox" ng-model="filter.language"
                                            id="languageFiler"
                                            ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
-                                    <label for="languageFiler">
-                                        Языки
+                                    <label for="languageFiler" ng-i18next>
+                                        page.character.attached_skills_categories.languages
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="knowledgeSkillsFilter" name="knowledge" type="checkbox"
                                            ng-model="filter.knowledge"
                                            ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
-                                    <label for="knowledgeSkillsFilter">
-                                        Знания
+                                    <label for="knowledgeSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.lores
                                     </label>
                                 </div>
                             </div>
@@ -654,16 +685,16 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="craftsSkillsFilter" name="crafts" type="checkbox" ng-model="filter.craft"
                                            ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
-                                    <label for="craftsSkillsFilter">
-                                        Ремесла
+                                    <label for="craftsSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.crafts
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="profSkillsFilter" name="professional" type="checkbox"
                                            ng-model="filter.prof"
                                            ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
-                                    <label for="profSkillsFilter">
-                                        Профессиональные
+                                    <label for="profSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.professional
                                     </label>
                                 </div>
                             </div>
@@ -672,8 +703,8 @@
                                     <input id="defaultSkillsShow" name="default" type="checkbox"
                                            ng-model="show.default_skill"
                                            ng-change="filterAttachedSkillsByDefaultShow(show.default_skill)">
-                                    <label for="defaultSkillsShow">
-                                        По умолчанию (показывать)
+                                    <label for="defaultSkillsShow" ng-i18next>
+                                        page.character.attached_skills_categories.by_default_show
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
@@ -681,8 +712,8 @@
                                            ng-model="search.default_skill"
                                            ng-disabled="!show.default_skill"
                                            ng-change="filterAttachedSkillsByDefault(search.default_skill)">
-                                    <label for="defaultSkillsFilter">
-                                        По умолчанию (фильтровать)
+                                    <label for="defaultSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.by_default_filter
                                     </label>
                                 </div>
                             </div>
@@ -691,8 +722,8 @@
                                     <input id="theoreticalSkillsFilter" name="theoretical" type="checkbox"
                                            ng-model="search.theoretical"
                                            ng-change="filterAttachedSkillsByTheoretical(search.theoretical)">
-                                    <label for="theoreticalSkillsFilter">
-                                        Теоретические
+                                    <label for="theoreticalSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.theoretical
                                     </label>
                                 </div>
                             </div>
@@ -700,8 +731,8 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="addedAttachedSkillsFilter" name="added" type="checkbox"
                                            ng-model="addedAttachedSkillsFilter" ng-change="openDetails = []">
-                                    <label for="addedAttachedSkillsFilter">
-                                        Имеющиеся
+                                    <label for="addedAttachedSkillsFilter" ng-i18next>
+                                        page.character.attached_skills_categories.gained
                                     </label>
                                 </div>
                             </div>
@@ -710,8 +741,10 @@
                         <div class="o-wrapper-attached-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipeup="openHideAttachedSkillsCategoriesFilerMenu()" hm-swipedown="openHideAttachedSkillsCategoriesFilerMenu()">
-                                    Категория
+                                <div class="slide-down-button" ng-click="openHideAttachedSkillsCategoriesFilerMenu()"
+                                     hm-swipeup="openHideAttachedSkillsCategoriesFilerMenu()"
+                                     hm-swipedown="openHideAttachedSkillsCategoriesFilerMenu()" ng-i18next>
+                                    page.character.categories_label_mobile
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryAttachedSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryAttachedSkillsMenuClose"></i>
                                 </div>
@@ -724,18 +757,18 @@
                                             <input name="magic" type="checkbox" ng-model="filter.magic"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Магические
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.magic
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
                                         <td>
                                             <i ng-show="filter.attached_social" class="fa fa-check"></i>
                                             <input name="social" type="checkbox" ng-model="filter.attached_social"
-                                                   style="display: none;">
+                                                   style="display: none;" ng-i18next>
                                         </td>
-                                        <td class="text-left">
-                                            Социальные
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.social
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByCategory('языки', filter.language)">
@@ -744,8 +777,8 @@
                                             <input name="languages" type="checkbox" ng-model="filter.language"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Языки
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.languages
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByCategory('знания', filter.knowledge)">
@@ -754,8 +787,8 @@
                                             <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Знания
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.lores
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByCategory('ремесла', filter.craft)">
@@ -764,8 +797,8 @@
                                             <input name="crafts" type="checkbox" ng-model="filter.craft"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Ремесла
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.crafts
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
@@ -774,18 +807,18 @@
                                             <input name="professional" type="checkbox" ng-model="filter.prof"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Профессиональные
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.professional
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByDefaultShow(search.default_skill);filterAttachedSkillsByDefault(search.default_skill)">
+                                    <tr ng-click="filterAttachedSkillsByDefault(search.default_skill)">
                                         <td>
                                             <i ng-show="search.default_skill" class="fa fa-check"></i>
                                             <input name="default" type="checkbox"
                                                    ng-model="search.default_skill" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            По умолчанию
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.by_default
                                         </td>
                                     </tr>
                                     <tr ng-click="filterAttachedSkillsByTheoretical(search.theoretical)">
@@ -794,8 +827,8 @@
                                             <input name="theoretical" type="checkbox"
                                                    ng-model="search.theoretical" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Теоретические
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.theoretical
                                         </td>
                                     </tr>
                                     <tr>
@@ -804,8 +837,8 @@
                                             <input name="addedAttachedSkillsFilter" type="checkbox"
                                                    ng-model="addedAttachedSkillsFilter" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Имеющиеся
+                                        <td class="text-left" ng-i18next>
+                                            page.character.attached_skills_categories.gained
                                         </td>
                                     </tr>
                                 </table>
@@ -819,7 +852,9 @@
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
                                     <input type="text" ng-model="attachedSkillsSearch.attachedSkill.name"
-                                           class="form-control" placeholder="Имя навыка" id="attachedSkillsSearch">
+                                           class="form-control"
+                                           ng-i18next="[placeholder]page.character.search_attached_skill_placeholder"
+                                           id="attachedSkillsSearch">
                                 </div>
                             </div>
                         </div>
@@ -827,12 +862,12 @@
                         <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
-                                <th class="mobile">Навык</th>
-                                <th class="mobile text-center">Сложный</th>
-                                <th class="mobile text-center">Теоретический</th>
+                                <th class="mobile" ng-i18next>table.header.skill</th>
+                                <th class="mobile text-center" ng-i18next>table.header.difficult</th>
+                                <th class="mobile text-center" ng-i18next>table.header.theoretical</th>
                                 <th class="mobile"></th>
-                                <th class="mobile text-center">Значение</th>
-                                <th class="mobile"></th>
+                                <th class="mobile text-center" ng-i18next>table.header.value</th>
+                                <th class="mobile" ng-i18next></th>
                             </tr>
                             </thead>
                             <tbody class="mobile"
@@ -904,20 +939,21 @@
                                         <div ng-if="isDeletingAttachedSkillPossible(item.personageAttachedSkill)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
-                                                    ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)">
-                                                Удалить
+                                                    ng-click="deletePersonageAttachedSkill(item.personageAttachedSkill)"
+                                                    ng-i18next>
+                                                general.delete
                                             </button>
                                         </div>
 
                                         <div ng-if="item.personageAttachedSkill == null && !item.personageAttachedSkill.AttachedSkill.default_skill">
                                             <button class="btn btn-rounded btn-warning btn-sm"
                                                     href="javascript: void(0)"
-                                                    ng-click="addPersonageAttachedSkill(item.attachedSkill)">
-                                                Добавить
+                                                    ng-click="addPersonageAttachedSkill(item.attachedSkill)" ng-i18next>
+                                                popup.add_button
                                             </button>
                                         </div>
-                                        <div ng-if="item.personageAttachedSkill.AttachedSkill.default_skill">
-                                            По умолчанию
+                                        <div ng-if="item.personageAttachedSkill.AttachedSkill.default_skill" ng-i18next>
+                                            general.by_default
                                         </div>
                                     </div>
                                 </td>
@@ -925,14 +961,14 @@
                             <tr ng-show="isShowItem(item.attachedSkill.id)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td colspan="6">
-                                    <strong class="padding-left-10">Описание:</strong>
+                                    <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                     {{item.attachedSkill.description}}
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(item.attachedSkill.id)"
                                 ng-class="addNotAddedClass(item.personageAttachedSkill)">
                                 <td colspan="6">
-                                    <strong class="padding-left-10">Броски:</strong>
+                                    <strong class="padding-left-10" ng-i18next>page.character.rolls</strong>
                                     <div ng-repeat="attachedSkillAttribute in item.attachedSkill.AttachedSkillAttributes">
                                         {{attachedSkillAttribute.description}}:
                                         {{attachedSkillAttribute.Attribute.name}}+{{item.attachedSkill.name}}<span
@@ -947,15 +983,16 @@
                     <div id="trigger" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
-                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning"
+                                                                                       ng-i18next>page.character.categories_label</span>
                                 </h2>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilter"
                                            ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
-                                    <label for="fightFilter">
-                                        Боевые
+                                    <label for="fightFilter" ng-i18next>
+                                        page.character.trigger_skills_categories.fight
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
@@ -963,8 +1000,8 @@
                                     <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
                                            id="nonfightFilter"
                                            ng-change="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
-                                    <label for="nonfightFilter">
-                                        Небоевые
+                                    <label for="nonfightFilter" ng-i18next>
+                                        page.character.trigger_skills_categories.no_fight
                                     </label>
                                 </div>
                             </div>
@@ -972,8 +1009,8 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="addedTriggerSkillsFilter" name="added" type="checkbox"
                                            ng-model="addedTriggerSkillsFilter" ng-change="openDetails = []">
-                                    <label for="addedTriggerSkillsFilter">
-                                        Имеющиеся
+                                    <label for="addedTriggerSkillsFilter" ng-i18next>
+                                        page.character.trigger_skills_categories.gained
                                     </label>
                                 </div>
                             </div>
@@ -982,8 +1019,10 @@
                         <div class="o-wrapper-trigger-skills hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipeup="openHideTriggerSkillsCategoriesFilerMenu()" hm-swipedown="openHideTriggerSkillsCategoriesFilerMenu()">
-                                    Категория
+                                <div class="slide-down-button" ng-click="openHideTriggerSkillsCategoriesFilerMenu()"
+                                     hm-swipeup="openHideTriggerSkillsCategoriesFilerMenu()"
+                                     hm-swipedown="openHideTriggerSkillsCategoriesFilerMenu()" ng-i18next>
+                                    page.character.categories_label_mobile
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryTriggerSkillsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryTriggerSkillsMenuClose"></i>
                                 </div>
@@ -995,8 +1034,8 @@
                                             <i ng-show="filter.fight" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.fight" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Боевые
+                                        <td class="text-left" ng-i18next>
+                                            page.character.trigger_skills_categories.fight
                                         </td>
                                     </tr>
                                     <tr ng-click="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
@@ -1004,8 +1043,8 @@
                                             <i ng-show="filter.nonfight" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.nonfight" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Небоевые
+                                        <td class="text-left" ng-i18next>
+                                            page.character.trigger_skills_categories.no_fight
                                         </td>
                                     </tr>
                                     <tr>
@@ -1014,8 +1053,8 @@
                                             <input type="checkbox" ng-model="addedTriggerSkillsFilter"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Имеющиеся
+                                        <td class="text-left" ng-i18next>
+                                            page.character.trigger_skills_categories.gained
                                         </td>
                                     </tr>
                                 </table>
@@ -1029,7 +1068,9 @@
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
                                     <input type="text" ng-model="triggerSkillsSearch.triggerSkill.name"
-                                           class="form-control" placeholder="Имя навыка" id="triggerSkillsSearch">
+                                           class="form-control"
+                                           ng-i18next="[placeholder]page.character.search_trigger_skill_placeholder"
+                                           id="triggerSkillsSearch">
                                 </div>
                             </div>
                         </div>
@@ -1037,12 +1078,12 @@
                         <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
-                                <th class="mobile">Навык</th>
-                                <th class="mobile text-center">Базовык навык</th>
+                                <th class="mobile" ng-i18next>table.header.skill</th>
+                                <th class="mobile text-center" ng-i18next>table.header.basic_skill</th>
                                 <th class="mobile"></th>
-                                <th class="mobile text-center">Уровень</th>
-                                <th class="mobile text-center">Талант</th>
-                                <th class="mobile text-center">Учитель</th>
+                                <th class="mobile text-center" ng-i18next>table.header.level</th>
+                                <th class="mobile text-center" ng-i18next>table.header.talent</th>
+                                <th class="mobile text-center" ng-i18next>table.header.tutored</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
@@ -1132,16 +1173,18 @@
                                         <div ng-if="isDeletingTriggerSkillPossible(triggerSkillMixed.personageTriggerSkill)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
-                                                    ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)">
-                                                Удалить
+                                                    ng-click="deletePersonageTriggerSkill(triggerSkillMixed.personageTriggerSkill)"
+                                                    ng-i18next>
+                                                general.delete
                                             </button>
                                         </div>
                                         <div ng-if="triggerSkillMixed.personageTriggerSkill == null">
                                             <button class="btn btn-rounded btn-warning btn-sm"
                                                     href="javascript: void(0)"
                                                     ng-disabled="triggerSkillMixed.available != true"
-                                                    ng-click="addPersonageTriggerSkill(triggerSkillMixed.triggerSkill)">
-                                                Добавить
+                                                    ng-click="addPersonageTriggerSkill(triggerSkillMixed.triggerSkill)"
+                                                    ng-i18next>
+                                                popup.add_button
                                             </button>
                                         </div>
                                     </div>
@@ -1150,14 +1193,15 @@
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                 ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
                                 <td colspan="7">
-                                    <strong class="padding-left-10">Описание:</strong>
+                                    <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                     {{triggerSkillMixed.triggerSkill.description}}
                                 </td>
                             </tr>
                             <tr ng-show="isShowItem(triggerSkillMixed.triggerSkill.id)"
                                 ng-class="addDisableOrNotAddedClass(triggerSkillMixed.available, triggerSkillMixed.personageTriggerSkill)">
                                 <td colspan="7">
-                                    <strong class="padding-left-10">Уровни владения:</strong>
+                                    <strong class="padding-left-10"
+                                            ng-i18next>page.character.trigger_skill_mastery</strong>
                                     <p ng-repeat="level in triggerSkillMixed.triggerSkill.SkillLevels | orderBy: 'level'">
                                         <strong class="padding-left-20">{{getLevelName(level.level)}}: </strong>
                                         {{level.description}}
@@ -1170,22 +1214,23 @@
                     <div id="merits" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
-                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning"
+                                                                                       ng-i18next>page.character.categories_label</span>
                                 </h2>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input id="magicMeritsFilter" name="fight" type="checkbox" ng-model="merit.magic"
                                            ng-change="filterMeritByCategory('магические', merit.magic)">
-                                    <label for="magicMeritsFilter">
-                                        Магические
+                                    <label for="magicMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.magic
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="faceMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.face"
                                            ng-change="filterMeritByCategory('внешность', merit.face)">
-                                    <label for="faceMeritsFilter">
-                                        Внешность
+                                    <label for="faceMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.face
                                     </label>
                                 </div>
                             </div>
@@ -1194,15 +1239,15 @@
                                     <input id="specMeritsFilter" name="fight" type="checkbox"
                                            ng-model="merit.speciality"
                                            ng-change="filterMeritByCategory('специализация', merit.speciality)">
-                                    <label for="specMeritsFilter">
-                                        Специализация
+                                    <label for="specMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.speciality
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="fightMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.fight"
                                            ng-change="filterMeritByCategory('боевые', merit.fight)">
-                                    <label for="fightMeritsFilter">
-                                        Боевые
+                                    <label for="fightMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.fight
                                     </label>
                                 </div>
                             </div>
@@ -1210,16 +1255,16 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="talentMeritsFilter" name="fight" type="checkbox" ng-model="merit.talent"
                                            ng-change="filterMeritByCategory('талант', merit.talent)">
-                                    <label for="talentMeritsFilter">
-                                        Талант
+                                    <label for="talentMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.talent
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="othersMeritsFilter" name="nonfight" type="checkbox"
                                            ng-model="merit.others"
                                            ng-change="filterMeritByCategory('остальные', merit.others)">
-                                    <label for="othersMeritsFilter">
-                                        Остальные
+                                    <label for="othersMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.others
                                     </label>
                                 </div>
                             </div>
@@ -1228,15 +1273,15 @@
                                     <input id="availableMeritsFilter" name="fight" type="checkbox"
                                            ng-model="filter.available"
                                            ng-change="filterMeritByAvailability(filter.available)">
-                                    <label for="availableMeritsFilter">
-                                        Доступные
+                                    <label for="availableMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.available
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="addedMeritsFilter" name="added" type="checkbox"
                                            ng-model="addedMeritsFilter" ng-change="openDetails = []">
-                                    <label for="addedMeritsFilter">
-                                        Имеющиеся
+                                    <label for="addedMeritsFilter" ng-i18next>
+                                        page.character.merits_categories.gained
                                     </label>
                                 </div>
                             </div>
@@ -1245,8 +1290,10 @@
                         <div class="o-wrapper-merits hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()" hm-swipeup="openHideMeritsCategoriesFilterMenu()" hm-swipedown="openHideMeritsCategoriesFilterMenu()">
-                                    Категория
+                                <div class="slide-down-button" ng-click="openHideMeritsCategoriesFilterMenu()"
+                                     hm-swipeup="openHideMeritsCategoriesFilterMenu()"
+                                     hm-swipedown="openHideMeritsCategoriesFilterMenu()" ng-i18next>
+                                    page.character.categories_label_mobile
                                     <i class="fa fa-angle-double-down" ng-hide="isCategoryMeritsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategoryMeritsMenuClose"></i>
                                 </div>
@@ -1259,8 +1306,8 @@
                                             <input name="magic" type="checkbox" ng-model="merit.magic"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Магические
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.magic
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByCategory('внешность', merit.face)">
@@ -1269,8 +1316,8 @@
                                             <input name="face" type="checkbox" ng-model="merit.face"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Внешность
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.face
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByCategory('специализация', merit.speciality)">
@@ -1279,8 +1326,8 @@
                                             <input name="speciality" type="checkbox" ng-model="merit.speciality"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Специализация
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.speciality
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByCategory('боевые', merit.fight)">
@@ -1289,8 +1336,8 @@
                                             <input name="fight" type="checkbox" ng-model="merit.fight"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Боевые
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.fight
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByCategory('ремесла', merit.talent)">
@@ -1299,8 +1346,8 @@
                                             <input name="talent" type="checkbox" ng-model="merit.talent"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Талант
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.talent
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByCategory('остальные', merit.others)">
@@ -1309,8 +1356,8 @@
                                             <input name="others" type="checkbox" ng-model="merit.others"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Остальные
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.others
                                         </td>
                                     </tr>
                                     <tr ng-click="filterMeritByAvailability(filter.available)">
@@ -1319,8 +1366,8 @@
                                             <input name="available" type="checkbox" ng-model="filter.available"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Доступные
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.available
                                         </td>
                                     </tr>
                                     <tr>
@@ -1329,8 +1376,8 @@
                                             <input name="addedMeritsFilter" type="checkbox" ng-model="addedMeritsFilter"
                                                    style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Имеющиеся
+                                        <td class="text-left" ng-i18next>
+                                            page.character.merits_categories.gained
                                         </td>
                                     </tr>
 
@@ -1345,7 +1392,8 @@
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
                                     <input type="text" ng-model="meritSearch.merit.name" class="form-control"
-                                           placeholder="Имя достоинства" id="meritSearch">
+                                           ng-i18next="[placeholder]page.character.search_merit_placeholder"
+                                           id="meritSearch">
                                 </div>
                             </div>
                         </div>
@@ -1353,13 +1401,14 @@
                         <table class="table">
                             <thead class="mobile">
                             <tr class="mobile">
-                                <th class="mobile">Достоинство</th>
-                                <th class="mobile">Требования</th>
-                                <th class="mobile">Стоимость</th>
+                                <th class="mobile" ng-i18next>table.header.merit</th>
+                                <th class="mobile" ng-i18next>table.header.prerequisites</th>
+                                <th class="mobile" ng-i18next>table.header.cost</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="meritMixed in meritsMixed | filter: meritSearch | orderBy:'merit.name'">
+                            <tbody class="mobile"
+                                   ng-repeat="meritMixed in meritsMixed | filter: meritSearch | orderBy:'merit.name'">
                             <tr class="mobile merit"
                                 ng-hide="filteredMerit(meritMixed)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
@@ -1403,20 +1452,21 @@
                                         <div ng-if="isDeletingMeritPossible(meritMixed.personageMerit)">
                                             <button class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
-                                                    ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)">
-                                                Удалить
+                                                    ng-click="checkPrerequisitesAndDeletePersonageMerit(meritMixed.personageMerit)"
+                                                    ng-i18next>
+                                                general.delete
                                             </button>
                                         </div>
                                         <div ng-if="meritMixed.personageMerit == null">
                                             <button class="btn btn-rounded btn-warning btn-sm"
                                                     ng-disabled="meritMixed.available != true"
                                                     href="javascript: void(0)"
-                                                    ng-click="addPersonageMerit(meritMixed.merit)">
-                                                Добавить
+                                                    ng-click="addPersonageMerit(meritMixed.merit)" ng-i18next>
+                                                popup.add_button
                                             </button>
                                         </div>
-                                        <div ng-if="meritMixed.personageMerit.unremovable">
-                                            По умолчанию
+                                        <div ng-if="meritMixed.personageMerit.unremovable" ng-i18next>
+                                            general.by_default
                                         </div>
                                     </div>
                                 </td>
@@ -1424,7 +1474,8 @@
                             <tr ng-show="isShowItem(meritMixed.merit.id)"
                                 ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
                                 <td colspan="4">
-                                    <strong class="padding-left-10">Описание:</strong> {{meritMixed.merit.description}}
+                                    <strong class="padding-left-10" ng-i18next>page.character.description</strong>
+                                    {{meritMixed.merit.description}}
                                 </td>
                             </tr>
                             </tbody>
@@ -1435,8 +1486,9 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="flawSearch.personageFlaw.Flaw.name" class="form-control"
-                                           placeholder="Имя недостатка" id="flawSearch">
+                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control"
+                                           ng-i18next="[placeholder]page.character.search_flaw_placeholder"
+                                           id="flawSearch">
                                 </div>
                             </div>
                         </div>
@@ -1444,12 +1496,13 @@
                         <table class="table mobile">
                             <thead class="mobile">
                             <tr class="mobile">
-                                <th class="mobile">Недостаток</th>
-                                <th class="mobile">Стоимость</th>
+                                <th class="mobile" ng-i18next>table.header.flaw</th>
+                                <th class="mobile" ng-i18next>table.header.cost</th>
                                 <th class="mobile"></th>
                             </tr>
                             </thead>
-                            <tbody class="mobile" ng-repeat="item in flawsToShow | filter: flawSearch | orderBy:'personageFlaw.Flaw.name'">
+                            <tbody class="mobile"
+                                   ng-repeat="item in flawsToShow | filter: flawSearch | orderBy:'personageFlaw.Flaw.name'">
                             <tr class="mobile flaw">
                                 <td class="text-right mobile flaw"
                                     ng-click="showHideDescription(item.personageFlaw.Flaw)"
@@ -1473,16 +1526,16 @@
                                     <div class="text-center">
                                         <button class="btn btn-rounded btn-warning btn-sm" ng-if="item.deleted"
                                                 href="javascript: void(0)"
-                                                ng-click="addPersonageFlaw(item.personageFlaw.Flaw)">
-                                            Добавить
+                                                ng-click="addPersonageFlaw(item.personageFlaw.Flaw)" ng-i18next>
+                                            popup.add_button
                                         </button>
                                         <button class="btn btn-default-outline btn-rounded btn-sm" ng-if="!item.deleted"
                                                 style="cursor: pointer;"
-                                                ng-click="deletePersonageFlaw(item.personageFlaw)">
-                                            Удалить
+                                                ng-click="deletePersonageFlaw(item.personageFlaw)" ng-i18next>
+                                            general.delete
                                         </button>
-                                        <div ng-if="item.personageFlaw.Flaw.unremovable">
-                                            Нельзя удалить
+                                        <div ng-if="item.personageFlaw.Flaw.unremovable" ng-i18next>
+                                            page.character.flaw_cant_delete
                                         </div>
                                     </div>
                                 </td>
@@ -1490,7 +1543,7 @@
                             <tr ng-show="isShowItem(item.personageFlaw.Flaw.id)"
                                 ng-class="addNotAddedClass(item.personageFlaw)">
                                 <td colspan="3">
-                                    <strong class="padding-left-10">Описание:</strong>
+                                    <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                     {{item.personageFlaw.Flaw.description}}
                                 </td>
                             </tr>
@@ -1500,22 +1553,23 @@
                     <div id="spells" class="tab-pane" role="tabpanel" style="display: none">
                         <div class="row hidden-xs-down hidden-sm-down">
                             <div class="col-md-2">
-                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning">Категории:</span>
+                                <h2 style="padding-top: 10px; padding-left: 5px"><span class="label label-warning"
+                                                                                       ng-i18next>page.character.categories_label</span>
                                 </h2>
                             </div>
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input id="allSchoolsFilter" name="magicSchools" type="checkbox"
                                            ng-model="filter.schools">
-                                    <label for="allSchoolsFilter">
-                                        Все школы
+                                    <label for="allSchoolsFilter" ng-i18next>
+                                        page.character.spells_categories.all
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="addedSpellsFilter" name="addedSpellsFilter" type="checkbox"
                                            ng-model="addedSpellsFilter" ng-change="openDetails = []">
-                                    <label for="addedSpellsFilter">
-                                        Имеющиеся
+                                    <label for="addedSpellsFilter" ng-i18next>
+                                        page.character.spells_categories.gained
                                     </label>
                                 </div>
                             </div>
@@ -1524,8 +1578,10 @@
                         <div class="o-wrapper-spells hidden-md-up">
 
                             <nav class="c-menu c-menu--slide-bottom">
-                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()" hm-swipeup="openHideSpellsCategoriesFilterMenu()" hm-swipedown="openHideSpellsCategoriesFilterMenu()">
-                                    Категория
+                                <div class="slide-down-button" ng-click="openHideSpellsCategoriesFilterMenu()"
+                                     hm-swipeup="openHideSpellsCategoriesFilterMenu()"
+                                     hm-swipedown="openHideSpellsCategoriesFilterMenu()" ng-i18next>
+                                    page.character.categories_label_mobile
                                     <i class="fa fa-angle-double-down" ng-hide="isCategorySpellsMenuClose"></i>
                                     <i class="fa fa-angle-double-up" ng-show="isCategorySpellsMenuClose"></i>
                                 </div>
@@ -1537,8 +1593,8 @@
                                             <i ng-show="filter.schools" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.schools" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Все школы
+                                        <td class="text-left" ng-i18next>
+                                            page.character.spells_categories.all
                                         </td>
                                     </tr>
                                     <tr>
@@ -1546,8 +1602,8 @@
                                             <i ng-show="addedSpellsFilter" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="addedSpellsFilter" style="display: none;">
                                         </td>
-                                        <td class="text-left">
-                                            Имеющиеся
+                                        <td class="text-left" ng-i18next>
+                                            page.character.spells_categories.gained
                                         </td>
                                     </tr>
                                 </table>
@@ -1563,27 +1619,30 @@
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
                                     <input type="text" ng-model="spellSearch.spell.name" class="form-control"
-                                           placeholder="Заклинание" id="spellSearch">
+                                           ng-i18next="[placeholder]page.character.search_spell_placeholder"
+                                           id="spellSearch">
                                 </div>
                             </div>
                         </div>
-                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'" ng-show="isSchoolVisible(item, filter.schools)">
+                        <div ng-repeat="item in spellsBySchool | orderBy:'school.name'"
+                             ng-show="isSchoolVisible(item, filter.schools)">
                             <h3>{{item.school.name}}</h3>
                             <table class="table mobile">
                                 <thead class="mobile">
                                 <tr class="mobile">
-                                    <th>Заклинание</th>
-                                    <th>Сложность</th>
-                                    <th>Мана</th>
-                                    <th>Поддержание</th>
-                                    <th>Базовое заклинание</th>
+                                    <th ng-i18next>table.header.spell</th>
+                                    <th ng-i18next>table.header.difficulty</th>
+                                    <th ng-i18next>table.header.mana</th>
+                                    <th ng-i18next>table.header.mana_support</th>
+                                    <th ng-i18next>table.header.basic_spell</th>
                                     <th></th>
-                                    <th>Уровень</th>
-                                    <th>Стоимость</th>
+                                    <th ng-i18next>table.header.level</th>
+                                    <th ng-i18next>table.header.cost</th>
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody class="mobile" ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
+                                <tbody class="mobile"
+                                       ng-repeat="spellItem in item.spells | filter: spellSearch | orderBy:'spell.name'">
                                 <tr class="mobile spells"
                                     ng-hide="spellItem.personageSpell == null && addedSpellsFilter"
                                     ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
@@ -1669,15 +1728,17 @@
                                                 <button class="btn btn-rounded btn-warning btn-sm"
                                                         href="javascript: void(0)"
                                                         ng-click="addPersonageSpell(spellItem.spell)"
-                                                        ng-disabled="!(item.added && isBaseSpellAdded(spellItem.spell))">
-                                                    Добавить
+                                                        ng-disabled="!(item.added && isBaseSpellAdded(spellItem.spell))"
+                                                        ng-i18next>
+                                                    popup.add_button
                                                 </button>
                                             </div>
                                             <div ng-if="isDeletingSpellPossible(spellItem.personageSpell)">
                                                 <button class="btn btn-default-outline btn-rounded btn-sm"
                                                         style="cursor: pointer;"
-                                                        ng-click="deletePersonageSpell(spellItem.personageSpell)">
-                                                    Удалить
+                                                        ng-click="deletePersonageSpell(spellItem.personageSpell)"
+                                                        ng-i18next>
+                                                    general.delete
                                                 </button>
                                             </div>
                                         </div>
@@ -1686,13 +1747,14 @@
                                 <tr ng-show="isShowItem(spellItem.spell.id)" style="border-bottom: none"
                                     ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
                                     <td colspan="9">
-                                        <strong class="padding-left-10">Эффект:</strong> {{spellItem.spell.effect}}
+                                        <strong class="padding-left-10" ng-i18next>page.character.effect</strong>
+                                        {{spellItem.spell.effect}}
                                     </td>
                                 </tr>
                                 <tr ng-show="isShowItem(spellItem.spell.id)"
                                     ng-class="addDisableOrNotAddedClass(item.added && isBaseSpellAdded(spellItem.spell), spellItem.personageSpell)">
                                     <td colspan="9">
-                                        <strong class="padding-left-10">Описание:</strong>
+                                        <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                         {{spellItem.spell.description}}
                                     </td>
                                 </tr>
@@ -1701,16 +1763,12 @@
                         </div>
                     </div>
                     <div id="notes" class="tab-pane" role="tabpanel" style="display: none">
-                        <p style="margin-left: 10px">
-                            Эта страница предназначена для хранения записей о
-                            персонаже, содержащих информацию, не подпадающую под другие категории (благочестие,
-                            репутация и других). В каждой заметке есть поле EXP - указанное количество опыта
-                            снимется с вашего персонажа, если вы добавите заметку. Вы также можете добавлять записи,
-                            не с нимающие с персонажа опыт - в таком случае, просто оставьте поле EXP пустым
+                        <p style="margin-left: 10px" ng-i18next>
+                            page.character.notices_disclaimer
                         </p>
 
                         <button type="button" class="btn btn-primary btn-rounded" ng-click="addNotice()"
-                                style="margin-left: 10px">Добавить заметку
+                                style="margin-left: 10px" ng-i18next>popup.add_button
                         </button>
 
                         <div class="form-group row notice-filter">
@@ -1718,7 +1776,8 @@
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
                                     <input type="text" ng-model="noticeSearch.name" class="form-control"
-                                           placeholder="Заметка" id="noticeSearch">
+                                           ng-i18next="[placeholder]page.character.search_notice_placeholder"
+                                           id="noticeSearch">
                                 </div>
                             </div>
                         </div>

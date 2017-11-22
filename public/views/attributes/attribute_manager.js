@@ -83,17 +83,17 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
             $http.get('/attributes/' + this.value).then(function (response) {
                 var attribute = response.data.attribute;
                 swal({
-                    title: $i18next.t('edit_attribute_title'),
+                    title: $i18next.t('page.attributes.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">' + $i18next.t('edit_attribute_description') + '</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.attributes.edit.description') + '</label>' +
                     '<textarea id="description" class="form-control">' + attribute.description + '</textarea>' +
                     '</div>' +
-                    '<p>' + $i18next.t('edit_attribute_bonus') + '</p>' +
+                    '<p>' + $i18next.t('page.attributes.edit.bonus') + '</p>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: $i18next.t('cancel_button'),
-                    confirmButtonText: $i18next.t('save_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     input: 'textarea',
                     inputValue: attribute.action_level_bonus,
@@ -122,21 +122,21 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
 
         $scope.showAddDialog = function () {
             swal({
-                title: $i18next.t('add_attribute_title'),
+                title: $i18next.t('page.attributes.add.title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                '<label for="name" class="form-control-label">' + $i18next.t('add_attribute_name') + '</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.attributes.add.name') + '</label>' +
                 '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="description" class="form-control-label">' + $i18next.t('edit_attribute_description') + '</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.attributes.add.description') + '</label>' +
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
-                '<p>' + $i18next.t('edit_attribute_description') + '</p>' +
+                '<p>' + $i18next.t('page.attributes.add.bonus') + '</p>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: $i18next.t('cancel_button'),
-                confirmButtonText: $i18next.t('add_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'textarea',
                 preConfirm: function (value) {
@@ -160,13 +160,13 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                                     }
                                 });
                                 if (equal) {
-                                    reject($i18next.t('attribute_exists_error_message'))
+                                    reject($i18next.t('page.attributes.error_message.already_exists'))
                                 } else {
                                     resolve()
                                 }
                             });
                         } else {
-                            reject($i18next.t('attribute_name_empty_error_message'))
+                            reject($i18next.t('page.attributes.error_message.empty_name'))
                         }
                     })
                 },

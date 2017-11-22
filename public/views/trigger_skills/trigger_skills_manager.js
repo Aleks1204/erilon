@@ -4,7 +4,7 @@
 
 var app = angular.module("triggerSkillManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("triggerSkillListController", function ($scope, $http, $q, $localStorage) {
+app.controller("triggerSkillListController", function ($scope, $http, $q, $localStorage, $i18next) {
     var skillsTable = $('#skills');
 
     var players = $q.defer();
@@ -19,7 +19,7 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
         angular.forEach(response.data.data, function (triggerSkill) {
             $scope.triggerSkillsOptions = $scope.triggerSkillsOptions + "\"" + triggerSkill.id + "\"" + ":" + "\"" + triggerSkill.name + "\",";
         });
-        $scope.triggerSkillsOptions = $scope.triggerSkillsOptions + "\"\":\"Нет базового навыка\",";
+        $scope.triggerSkillsOptions = $scope.triggerSkillsOptions + '"":"' + $i18next.t('page.trigger_skills.options.default_option') + '",';
         $scope.triggerSkillsOptions = $scope.triggerSkillsOptions.substring(0, $scope.triggerSkillsOptions.length - 1) + "}";
         $scope.triggerSkillsOptions = JSON.parse($scope.triggerSkillsOptions);
     });
@@ -49,17 +49,19 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
         var table = skillsTable.DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
+                "search": $i18next.t('table.label.search'),
                 "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
+                    "first": $i18next.t('table.pagination.first_page'),
+                    "last": $i18next.t('table.pagination.last_page'),
+                    "next": $i18next.t('table.pagination.next_page'),
+                    "previous": $i18next.t('table.pagination.previous_page')
                 },
-                "lengthMenu": "Показать _MENU_"
+                "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                "emptyTable": $i18next.t('table.pagination.empty_table'),
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": '/triggerSkills',
             "columns": [
@@ -134,14 +136,14 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
         skillsTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данный навык?",
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.trigger_skills.delete.text'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $http.delete('/triggerSkills/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -162,42 +164,43 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                     isDifficult = 'checked';
                 }
                 swal({
-                    title: 'Изменить навык',
+                    title: $i18next.t('page.trigger_skills.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.trigger_skills.edit.name') + '</label>' +
                         '<input type="text" class="form-control" value="' + skill.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                    '<label for="cost" class="form-control-label">' + $i18next.t('page.trigger_skills.edit.cost') + '</label>' +
                         '<input type="number" class="form-control" value="' + skill.cost + '" id="cost">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                            '<option value="боевые">боевые</option>' +
-                            '<option value="небоевые">небоевые</option>' +
+                    '<label for="category" class="form-control-label">' + $i18next.t('page.trigger_skills.edit.categories') + '</label>' +
+                    '<select class="form-control" title="' + $i18next.t('page.trigger_skills.options.choose_category') + '" id="category" multiple>' +
+                    '<option value="' + $i18next.t('page.trigger_skills.options.fight') + '">' + $i18next.t('page.trigger_skills.options.fight') + '</option>' +
+                    '<option value="' + $i18next.t('page.trigger_skills.options.no_fight') + '">' + $i18next.t('page.trigger_skills.options.no_fight') + '</option>' +
                         '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.trigger_skills.edit.description') + '</label>' +
                         '<textarea id="description" class="form-control">' + skill.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                             '<input id="difficultSkill" name="difficultSkill" type="checkbox" ' + isDifficult + '>' +
-                            '<label for="difficultSkill">Сложный</label>' +
+                    '<label for="difficultSkill">' + $i18next.t('page.trigger_skills.edit.difficult') + '</label>' +
                         '</div>' +
                     '</div>' +
-                    '<p>Базовый навык:</p>' +
+                    '<p>' + $i18next.t('page.trigger_skills.edit.basic_skill') + '</p>' +
                     '</form>',
                     input: 'select',
                     inputOptions: $scope.triggerSkillsOptions,
                     inputValue: triggerSkillId.toString(),
                     inputClass: 'form-control',
+                    inputPlaceholder: $i18next.t('page.trigger_skills.add.basic_skill_place_holder'),
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     preConfirm: function (value) {
                         return new Promise(function (resolve) {
@@ -243,42 +246,42 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить навык',
+                title: $i18next.t('page.trigger_skills.add.title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.trigger_skills.add.name') + '</label>' +
                     '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                '<label for="cost" class="form-control-label">' + $i18next.t('page.trigger_skills.add.cost') + '</label>' +
                     '<input type="number" class="form-control" id="cost">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="noticeExperience" class="form-control-label">Категории:</label>' +
-                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                        '<option value="боевые">боевые</option>' +
-                        '<option value="небоевые">небоевые</option>' +
+                '<label for="category" class="form-control-label">' + $i18next.t('page.trigger_skills.add.categories') + '</label>' +
+                '<select class="form-control" title="' + $i18next.t('page.trigger_skills.options.choose_category') + '" id="category" multiple>' +
+                '<option value="' + $i18next.t('page.trigger_skills.options.fight') + '">' + $i18next.t('page.trigger_skills.options.fight') + '</option>' +
+                '<option value="' + $i18next.t('page.trigger_skills.options.no_fight') + '">' + $i18next.t('page.trigger_skills.options.no_fight') + '</option>' +
                     '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="noticeBody" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.trigger_skills.add.description') + '</label>' +
                     '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                         '<input id="difficultSkill" name="difficultSkill" type="checkbox">' +
-                        '<label for="difficultSkill">Сложный</label>' +
+                '<label for="difficultSkill">' + $i18next.t('page.trigger_skills.add.difficult') + '</label>' +
                     '</div>' +
                 '</div>' +
-                '<p>Базовый навык (не обязательно):</p>' +
+                '<p>' + $i18next.t('page.trigger_skills.add.basic_skill') + '</p>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'select',
                 inputOptions: $scope.triggerSkillsOptions,
-                inputPlaceholder: 'Выберите навык...',
+                inputPlaceholder: $i18next.t('page.trigger_skills.add.basic_skill_place_holder'),
                 inputClass: 'form-control',
                 inputValidator: function (value) {
                     return new Promise(function (resolve, reject) {
@@ -291,10 +294,10 @@ app.controller("triggerSkillListController", function ($scope, $http, $q, $local
                                 }
                             });
                             if (equal) {
-                                reject('Навык с таким именем уже существует!')
+                                reject($i18next.t('page.trigger_skills.error_message.already_exists'))
                             } else {
                                 if ($('#cost').val() === '') {
-                                    reject('Укажите базовую стоимость навыка!')
+                                    reject($i18next.t('page.trigger_skills.error_message.empty_skill_cost'))
                                 } else {
                                     resolve();
                                 }

@@ -1,67 +1,619 @@
 {
-  "cancel_button": "Отмена",
-  "save_button": "Сохранить",
-  "add_button": "Добавить",
-  "delete_button": "Удалить!",
-  "confirm_title": "Вы уверены?",
-  "by_default": "По умолчанию",
-  "brand_name": "ЭРИЛОН",
-  "login_button": "Войти",
-  "nick_name": "Имя...",
-  "enter_nick_name": "Введите имя игрока для входа:",
-  "login_label": "Войти в систему",
-  "left_menu_characters": "Персонажи",
-  "left_menu_races": "Расы",
-  "left_menu_attributes": "Атрибуты",
-  "left_menu_merits": "Достоинства",
-  "left_menu_inherents": "Врожденные особенности",
-  "left_menu_flaws": "Недостатки",
-  "left_menu_attached_skills": "Прикрепленные навыки",
-  "left_menu_trigger_skills": "Тригерные навыки",
-  "left_menu_spells": "Заклинания",
-  "top_menu_player": "Игрок:",
-  "top_menu_role": "Права:",
-  "top_menu_dropdown_profile": " Профиль",
-  "top_menu_dropdown_characters": " Мои персонажи",
-  "top_menu_dropdown_logout": " Сменить профиль",
-  "top_menu_dropdown_admin": " Управление доступом",
-  "add_character_header": "Добавить персонажа",
-  "name_label": "Имя",
-  "name_placeholder": "Имя персонажа...",
-  "race_label": "Раса",
-  "race_selection_placeholder": "Выберите расу...",
-  "experience_label": "Очки опыта",
-  "create_character_button": "Создать",
-  "my_characters_header": "Персонажаи",
-  "show_all_characters_button": "Показать всех персонажей",
-  "show_my_characters_button": "Показать моих персонажей",
-  "empty_characters_list_message": "Вы еще не создали ни одного персонажа, для создания воспользуйтесь формой выше.",
-  "alt_avatar": "Здесь должке быть аватар",
-  "character_view_button": "Просмотр",
-  "character_creation_button": "Продолжить создание",
-  "character_boost_button": "Прокачка",
-  "delete_character_button": "Удалить",
-  "attributes_header": "Атрибуты",
-  "table_header_name": "Имя",
-  "table_header_action_bonus": "Бонус на действия",
-  "table_header_description": "Описание",
-  "table_header_actions": "Действия",
-  "table_header_max_age": "Максимальный возраст",
-  "table_header_attributes_cost": "Стомость атрибутов",
-  "table_header_races_qualities": "Расовые особенности",
-  "edit_attribute_title": "Редактировать атрибут",
-  "edit_attribute_description": "Описание:",
-  "edit_attribute_bonus": "Бонус:",
-  "add_attribute_name": "Имя:",
-  "add_attribute_title": "Добавить атрибут",
-  "attribute_exists_error_message": "Атрибут с таким именем уже существует!",
-  "attribute_name_empty_error_message": "Имя атрибута не может быть пустым!",
-  "add_race_title": "Добавить расу",
-  "delete_race_title": "Вы уверены что хотите удалить данную расу?",
-  "add_race_description": "Описание:",
-  "add_race_name": "Имя:",
-  "add_race_max_age": "Максимальный возраст:",
-  "max_age_less10_error_message": "Максимальный возраст не может быть меньше 10 лет!",
-  "max_age_empty_error_message": "Укажите максимальный возраст для расы!",
-  "race_name_empty_error_message": "Имя расы не может быть пустым!"
+  "general": {
+    "by_default": "По умолчанию",
+    "present": "Присутствует",
+    "absent": "Отсутствует",
+    "brand_name": "ЭРИЛОН"
+  },
+  "popup": {
+    "cancel_button": "Отмена",
+    "save_button": "Сохранить",
+    "save_and_continue_button": "Сохранить и продолжить",
+    "add_button": "Добавить",
+    "delete_button": "Удалить!",
+    "decrease_button": "Понизить!",
+    "confirm_title": "Вы уверены?",
+    "accepted_button": "Подтвердить",
+    "yes": "Да!",
+    "no": "Нет"
+  },
+  "table": {
+    "header": {
+      "name": "Имя",
+      "action_bonus": "Бонус на действия",
+      "description": "Описание",
+      "actions": "Действия",
+      "max_age": "Максимальный возраст",
+      "attributes_cost": "Стомость атрибутов",
+      "races_qualities": "Расовые особенности",
+      "probability": "Вероятность",
+      "min": "Минимум",
+      "max": "Максимум",
+      "category": "Категория",
+      "cost": "Стоимость",
+      "creation_only": "Только при создании",
+      "prerequisites": "Пререквизиты",
+      "bonus": "Бонус",
+      "difficult": "Сложный",
+      "theoretical": "Теоретический",
+      "default": "По умолчанию",
+      "spells": "Заклинания",
+      "roll": "Roll",
+      "basic_skill": "Базовый навык",
+      "level": "Уровень",
+      "unremovable": "Неудаляемый",
+      "spell": "Заклинание",
+      "difficulty": "Сложность",
+      "creation_difficulty": "Сложность создания",
+      "mana": "Мана",
+      "mana_support": "Мана на поддержание",
+      "instant": "Мгновенное",
+      "basic_spell": "Базовое заклинание",
+      "modification_needed": "Требуется модификация",
+      "effect": "Эффект",
+      "skill": "Навык",
+      "value": "Значение",
+      "rolls": "Броски",
+      "talent": "Талант",
+      "quality": "Особенность",
+      "merit": "Достоинство",
+      "flaw": "Недостаток",
+      "notice": "Заметка",
+      "text": "Текст",
+      "tutored": "Учитель"
+    },
+    "pagination": {
+      "first_page": "Первая",
+      "last_page": "Последняя",
+      "next_page": "След.",
+      "previous_page": "Пред.",
+      "empty_search_results": "Ничего с таким именем не найдено",
+      "empty_table": "Нет ни одной записи",
+      "no_levels_found": "У данного навыка еще нет уровней владения",
+      "spells_loading": "Подождите, заклинания загружаются...",
+      "loading": "Подождите, записи загружаются...",
+      "show": "Показать",
+      "all": "Все"
+    },
+    "label": {
+      "search": "Поиск:"
+    }
+  },
+  "left_menu": {
+    "characters": "Персонажи",
+    "races": "Расы",
+    "attributes": "Атрибуты",
+    "merits": "Достоинства",
+    "inherents": "Врожденные особенности",
+    "flaws": "Недостатки",
+    "attached_skills": "Прикрепленные навыки",
+    "trigger_skills": "Тригерные навыки",
+    "spells": "Заклинания"
+  },
+  "top_menu": {
+    "player": "Игрок:",
+    "role": "Права:",
+    "dropdown": {
+      "profile": " Профиль",
+      "characters": " Мои персонажи",
+      "logout": " Сменить профиль",
+      "admin": " Управление доступом"
+    }
+  },
+  "level": {
+    "base": "База",
+    "expert": "Эксперт",
+    "master": "Мастер",
+    "magister": "Магистр",
+    "grandmaster": "Гроссмейстер",
+    "none": "Уровень не указан"
+  },
+  "character_dropdown": {
+    "race": "Раса:",
+    "age": "Возраст:",
+    "years": "лет",
+    "experience": "Опыт:"
+  },
+  "page": {
+    "login": {
+      "login_button": "Войти",
+      "nick_name": "Имя...",
+      "enter_nick_name": "Введите имя игрока для входа:",
+      "login_label": "Войти в систему"
+    },
+    "characters": {
+      "add_character_header": "Добавить персонажа",
+      "name_label": "Имя",
+      "name_placeholder": "Имя персонажа...",
+      "race_label": "Раса",
+      "race_selection_placeholder": "Выберите расу...",
+      "experience_label": "Очки опыта",
+      "create_character_button": "Создать",
+      "my_characters_header": "Персонажаи",
+      "show_all_characters_button": "Показать всех персонажей",
+      "show_my_characters_button": "Показать моих персонажей",
+      "empty_characters_list_message": "Вы еще не создали ни одного персонажа, для создания воспользуйтесь формой выше.",
+      "alt_avatar": "Здесь должке быть аватар",
+      "character_view_button": "Просмотр",
+      "continue_creation_button": "Продолжить создание",
+      "character_boost_button": "Прокачка",
+      "delete_character_button": "Удалить"
+    },
+    "character": {
+      "create_header": "Создание персонажа",
+      "edit_header": "Прокачка персонажа",
+      "inherents_disclaimer": "Врожденные особенности персонажа создаются случайным образом. По нажатию на кнопку, вы можете создать набор врожденных особенностей для вашего персонажа. Создать набор врожденных особенностей для персонажа можно только раз, и изменить их потом можно будет только по согласованию с мастером.",
+      "notices_disclaimer": "Эта страница предназначена для хранения записей о персонаже, содержащих информацию, не подпадающую под другие категории (благочестие, репутация и других). В каждой заметке есть поле EXP - указанное количество опыта снимется с вашего персонажа, если вы добавите заметку. Вы также можете добавлять записи, не с нимающие с персонажа опыт - в таком случае, просто оставьте поле EXP пустым",
+      "randomize_inherents": "Сгенерить врожденки",
+      "quality_label": "Особенности:",
+      "categories_label": "Категории:",
+      "categories_label_mobile": "Категория",
+      "quality_placeholder": "Выберите особенность...",
+      "description": "Описание:",
+      "spell_effect": "Эффект:",
+      "rolls": "Броски:",
+      "search_attached_skill_placeholder": "Имя навыка",
+      "search_trigger_skill_placeholder": "Имя навыка",
+      "search_merit_placeholder": "Имя достоинства",
+      "search_flaw_placeholder": "Имя недостатка",
+      "search_spell_placeholder": "Заклинание",
+      "search_notice_placeholder": "Заголовок заметки",
+      "trigger_skill_mastery": "Уровни владения:",
+      "flaw_cant_delete": "Нельзя удалить",
+      "edit_experience_title": "Опыт персонажа",
+      "half_elf_mage_title": "Особенные достоинства полуэльфов",
+      "half_elf_mage_text": "У вас выпала особенность \"маг\". Полуэльфы могут увеличить свою силу магии при создании персонажа, купив дополнительную особенность за опыт.",
+      "half_elf_mage_warning": "Это ваш единственный шанс выбрать!",
+      "half_elf_mage_label": "+1 к Силе Магии (10 ехр)",
+      "decrease_theoretical_skills_1": "У вас есть следующие теоретические навыки, превышающие удвоенное значение Мудрости",
+      "decrease_theoretical_skills_2": "Их значение будет понижено",
+      "delete_merits": "Данное изменение приведет к удалению достоинств",
+      "have_prerequisites": "имеет пререквизит",
+      "exceed_limit_1": "Значение",
+      "exceed_limit_2": "достигло максимума, доступного при создании персонажа",
+      "exceed_limit_3": "достигло максимума",
+      "exceed_wisdom_1": "Значение",
+      "exceed_wisdom_2": "не может быть выше, чем удвоенная Мудрость персонажа",
+      "exceed_trigger_skill_level_1": "Уровень",
+      "exceed_trigger_skill_level_2": "на данный момент максимален",
+      "exceed_base_spell_level_1": "Уровень заклинания",
+      "exceed_base_spell_level_2": "не может превышать уровень заклинания",
+      "not_mag_add_magic_skills": "У вас нет врожденной особенности \"Маг\". Вы будете ограничены в использовании магических навыков: заклинания вы сможете использовать только в виде свитков, для написания которых вам понадобятся также навыки \"Древний Язык\" и \"Каллиграфия\". Вы уверены, что хотите взять этот навык?",
+      "delete_spells": "Данное изменение приведет к удалению заклинаний из данной школы",
+      "delete_skills": "Данное изменение приведет к удалению навыков",
+      "decrease_spell_level": "При понижении уровня этого заклинания соответственно понизится уровень заклинаний",
+      "modification_needed": "Для того, чтобы использовать это заклинание, необходимо достоинство \"Модификация заклинаний\". Поскольку у вас его нет, вы не сможете пользоваться данным заклинанием. Вы уверены что хотите добавить его?",
+      "derivatives": "Производные",
+      "wisdom6_bonus_warning": "Значение мудрости 6 позволит вам приобретать прикрепленные навыки на 1 дешевле, но изменение вступит в силу только после сохранения изменений",
+      "wisdom9_bonus_warning": "Значение мудрости 9 позволит вам приобретать прикрепленные навыки на 2 дешевле, но изменение вступит в силу только после сохранения изменений",
+      "save_changes_warning": "После внесения изменений вы не сможете больше вернуться на страницу создания персонажа!",
+      "attached_skills_categories": {
+        "magic": "Магические",
+        "social": "Социальные",
+        "languages": "Языки",
+        "lores": "Знания",
+        "crafts": "Ремесла",
+        "professional": "Профессиональные",
+        "by_default_show": "По умолчанию (показать)",
+        "by_default_filter": "По умолчанию (фильтровать)",
+        "by_default": "По умолчанию",
+        "theoretical": "Теоретические",
+        "gained": "Имеющиеся"
+      },
+      "notices": {
+        "add_title": "Добавить заметку",
+        "edit_title": "Изменить заметку",
+        "title_label": "Заголовок:",
+        "text_label": "Текст:",
+        "exp_label": "Опыт:",
+        "button": {
+          "ok": "Ок",
+          "edit": "Изменить",
+          "delete": "Удалить"
+        },
+        "error": {
+          "negative_exp": "Количество опыта должно быть положительным!",
+          "empty_title": "Заголовок не может быть пустым!"
+        }
+      },
+      "merits_categories": {
+        "magic": "Магические",
+        "face": "Внешность",
+        "speciality": "Специализация",
+        "fight": "Боевые",
+        "talent": "Талант",
+        "others": "Остальные",
+        "available": "Доступные",
+        "gained": "Имеющиеся"
+      },
+      "flaws_categories": {
+        "physical": "Физические",
+        "mental": "Ментальные",
+        "social": "Социальные",
+        "codex": "Кодекс чести",
+        "face": "Внешность",
+        "mystic": "Мистические",
+        "unremovable": "Неудаляемые",
+        "gained": "Имеющиеся"
+      },
+      "trigger_skills_categories": {
+        "fight": "Боевые",
+        "no_fight": "Не боевые",
+        "gained": "Имеющиеся"
+      },
+      "spells_categories": {
+        "all": "Все заклинания",
+        "gained": "Имеющиеся"
+      },
+      "upper": {
+        "save": "СОХРАНИТЬ",
+        "inherents": "ОСОБЕННОСТИ",
+        "attributes": "АТРИБУТЫ",
+        "attached": "ПРИКРЕПЛЕННЫЕ НАВЫКИ",
+        "trigger": "ТРИГЕРНЫЕ НАВЫКИ",
+        "merits": "ДОСТОИНСТВА",
+        "flaws": "НЕДОСТАТКИ",
+        "spells": "ЗАКЛИНАНИЯ",
+        "notices": "ЗАМЕТКИ"
+      },
+      "mobile": {
+        "inherents": "Особенности",
+        "attributes": "Атрибуты",
+        "attached": "Прикрепленные",
+        "trigger": "Тригерные",
+        "merits": "Достоинства",
+        "flaws": "Недостатки",
+        "spells": "Заклинания",
+        "notices": "Заметки"
+      },
+      "advance": "Прокачать!",
+      "tab": {
+        "main": "Основные",
+        "spells": "Заклинания",
+        "notices": "Заметки"
+      },
+      "derivative": {
+        "hit_pierce_punch": "Количество кубиков на бросок попадания колющим/режущим ударом. Равно ловкости+скорости персонажа",
+        "hit_chop_punch": "Количество кубиков на бросок попадания рубящим ударом. Равно ловкости+силе персонажа",
+        "ranged_hit": "Количество кубиков на бросок попадания при стрельбе из луков, арбалетов и использовании метательного оружия. Равно ловкости+восприятию персонажа",
+        "parry_pierce_punch": "Количество кубиков на парирование колющих/режущих ударов. Равно скорости+реакции персонажа",
+        "parry_chop_punch": "Количество кубиков на парирование рубящего удара. Равно силе+реакции персонажа",
+        "dodge": "Количество кубиков на уклонение от атак. Равно ловкости+реакции персонажа",
+        "general_action_points": "Количество физических действий, совершаемых в раунд (удары, парирование, уклонение). Равно меньшему значению из скорости и интеллекта персонажа",
+        "mental_action_points": "Количество ментальных действий, совершаемых в раунд (активация способностей). Равно интеллекту персонажа",
+        "endurance_points": "Количество очков выносливости персонажа. Тратится на активацию заклинаний и способностей, бег и любые действия. Равно выносливости персонажа, умноженной на 20",
+        "initiative": "Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
+      },
+      "notice": {
+        "add_title": "Добавить заметку",
+        "edit_title": "Изменить заметку",
+        "title": "Заголовок:",
+        "text": "Текст:",
+        "error_empty_title": "Заголовок не может быть пустым!",
+        "delete_text": "Вы уверены что хотите удалить данную заметку?"
+      }
+    },
+    "attributes": {
+      "header": "Атрибуты",
+      "edit": {
+        "title": "Редактировать атрибут",
+        "description": "Описание:",
+        "bonus": "Бонус:"
+      },
+      "add": {
+        "title": "Добавить атрибут",
+        "name": "Имя:",
+        "description": "Описание:",
+        "bonus": "Бонус:"
+      },
+      "error_message": {
+        "already_exists": "Атрибут с таким именем уже существует!",
+        "empty_name": "Имя атрибута не может быть пустым!"
+      }
+    },
+    "races": {
+      "header": "Расы",
+      "add": {
+        "title": "Добавить расу",
+        "name": "Имя:",
+        "description": "Описание:",
+        "max_age": "Максимальный возраст:",
+        "bonus": "Бонус:"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данную расу?"
+      },
+      "error_message": {
+        "max_age_less10": "Максимальный возраст не может быть меньше 10 лет!",
+        "max_age_empty": "Укажите максимальный возраст для расы!",
+        "race_name_empty": "Имя расы не может быть пустым!"
+      }
+    },
+    "inherents": {
+      "header": "Врожденные особенности",
+      "add": {
+        "title": "Добавить врожденную особенность",
+        "name": "Имя:",
+        "probability": "Вероятность:",
+        "min": "Минимум:",
+        "max": "Максимум:",
+        "description": "Описание:",
+        "bonus": "Бонус:"
+      },
+      "edit": {
+        "title": "Изменить врожденную особенность",
+        "name": "Имя:",
+        "probability": "Вероятность:",
+        "min": "Минимум:",
+        "max": "Максимум:",
+        "description": "Описание:",
+        "bonus": "Бонус:",
+        "back": "Назад"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данную врожденную особенность?"
+      },
+      "error_message": {
+        "already_exists": "Врожденная особенность с таким именем уже существует!"
+      }
+    },
+    "merits": {
+      "header": "Достоинства",
+      "add": {
+        "title": "Добавить достоинство",
+        "name": "Имя:",
+        "cost": "Стоимость:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "bonus": "Бонус:",
+        "creation_only": "Только при создании"
+      },
+      "edit": {
+        "title": "Изменить достоинство",
+        "name": "Имя:",
+        "cost": "Стоимость:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "bonus": "Бонус:",
+        "creation_only": "Только при создании"
+      },
+      "options": {
+        "choose_category": "Выберите категорию...",
+        "magic": "магические",
+        "speciality": "специализация",
+        "talent": "талант",
+        "fight": "боевые",
+        "appearance": "внешность",
+        "other": "остальные"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данное достоинство?"
+      },
+      "error_message": {
+        "already_exists": "Достоинство с таким именем уже существует!"
+      }
+    },
+    "merit_prerequisites": {
+      "header": "Создать пререквизит",
+      "label": {
+        "type": "Тип пререквизита:",
+        "attribute": "Атрибут:",
+        "skill": "Навык:",
+        "not_less_than": "Не меньше чем:",
+        "sum_not_less_than": "Сумма не меньше чем:",
+        "level": "Уровень:",
+        "inherent": "Врожденная особенность:",
+        "not_less": "Не меньше:",
+        "equal": "Равно:",
+        "not_more": "Не больше:",
+        "flaw": "Недостаток:",
+        "merit": "Достоинство:"
+      },
+      "place_holder": {
+        "type": "Выберите тип...",
+        "merit": "Выберите достоинство...",
+        "flaw": "Выберите недостаток...",
+        "inherent": "Выберите врожденную особенность...",
+        "level": "Выберите уровень навыка...",
+        "skill": "Выберите навык...",
+        "attribute": "Выберите атрибут..."
+      },
+      "type": {
+        "attribute": "Атриубут",
+        "attached_skill": "Прикрепленный навык",
+        "attribute_skill": "Атрибут+навык",
+        "trigger_skill": "Тригерный навык",
+        "inherent": "Врожденная особенность",
+        "merit": "Достоинство",
+        "flaw": "Недостаток"
+      }
+    },
+    "attached_skills": {
+      "header": "Прикрепленные навыки",
+      "add": {
+        "title": "Добавить прикрепленный навык",
+        "name": "Имя:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "difficult": "Сложный",
+        "default": "По умолчанию",
+        "theoretical": "Теоретический"
+      },
+      "edit": {
+        "title": "Изменить прикрепленный навык",
+        "name": "Имя:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "difficult": "Сложный",
+        "default": "По умолчанию",
+        "theoretical": "Теоретический"
+      },
+      "options": {
+        "choose_category": "Выберите категорию...",
+        "magic": "магические",
+        "social": "социальные",
+        "languages": "языки",
+        "lores": "знания",
+        "crafts": "ремесла",
+        "professional": "профессиональные"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данный приклепленный навык?"
+      },
+      "error_message": {
+        "already_exists": "Прикрепленный навык с таким именем уже существует!"
+      }
+    },
+    "attached_skill": {
+      "header": "Базовые броски для",
+      "add": {
+        "title": "Добавить бросок",
+        "description": "Описание броска:",
+        "attribute": "Атрибут:",
+        "attribute_place_holder": "Выберите атрибут..."
+      },
+      "edit": {
+        "title": "Изменить описание броска для"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данный бросок?"
+      },
+      "error_message": {
+        "empty_attribute": "Выберите атрибут!"
+      }
+    },
+    "trigger_skills": {
+      "header": "Тригерные навыки",
+      "add": {
+        "title": "Добавить тригерный навык",
+        "name": "Имя:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "difficult": "Сложный",
+        "cost": "Цена:",
+        "basic_skill_place_holder": "Выберите навык...",
+        "basic_skill": "Базовый навык:"
+      },
+      "edit": {
+        "title": "Изменить тригерный навык",
+        "name": "Имя:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "difficult": "Сложный",
+        "cost": "Цена:",
+        "basic_skill_place_holder": "Выберите навык...",
+        "basic_skill": "Базовый навык:"
+      },
+      "options": {
+        "choose_category": "Выберите категорию...",
+        "fight": "боевые",
+        "no_fight": "не боевые",
+        "default_option": "Нет базового навыка"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данный тригерный навык?"
+      },
+      "error_message": {
+        "already_exists": "Тригерный навык с таким именем уже существует!",
+        "empty_skill_cost": "Укажите базовую стоимость навыка!"
+      }
+    },
+    "trigger_skill": {
+      "header": "Уровни владения навыком",
+      "add": {
+        "title": "Добавить уровень",
+        "description": "Описание:",
+        "cost": "Стоимость:",
+        "level": "Уровень:",
+        "level_placeholder": "Выберите уровень..."
+      },
+      "edit": {
+        "title": "Изменить уровень",
+        "description": "Описание:",
+        "cost": "Стоимость:"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данный уровень?"
+      },
+      "error_message": {
+        "empty_description": "Описание не может быть пустым!",
+        "empty_cost": "Укажите стоимость уровня!",
+        "empty_level": "Выберите уровень!"
+      }
+    },
+    "flaws": {
+      "header": "Недостатки",
+      "add": {
+        "title": "Добавить недостаток",
+        "name": "Имя:",
+        "cost": "Стоимость:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "bonus": "Бонус:",
+        "unremovable": "Неудаляемый"
+      },
+      "edit": {
+        "title": "Изменить недостаток",
+        "name": "Имя:",
+        "cost": "Стоимость:",
+        "categories": "Категории:",
+        "description": "Описание:",
+        "bonus": "Бонус:",
+        "unremovable": "Неудаляемый"
+      },
+      "options": {
+        "choose_category": "Выберите категорию...",
+        "physical": "физические",
+        "social": "социальные",
+        "mental": "ментальные",
+        "codex_of_honor": "кодекс чести",
+        "appearance": "внешность",
+        "mystical": "мистические"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данный недостаток?"
+      },
+      "error_message": {
+        "already_exists": "Недостаток с таким именем уже существует!"
+      }
+    },
+    "spells": {
+      "header": "Spells",
+      "form": {
+        "add_title": "Add spell",
+        "edit_title": "Edit spell",
+        "name": "Name:",
+        "magic_school": "Magic school:",
+        "choose_school": "Select school...",
+        "cost": "Cost:",
+        "complexity": "Difficulty:",
+        "creating_complexity": "Creation difficulty:",
+        "instant": "Instant",
+        "modification_needed": "Modification needed",
+        "mana": "Mana:",
+        "mana_support": "Mana for support:",
+        "basic_spell": "Basic spell:",
+        "effect": "Effect:",
+        "description": "Description:"
+      },
+      "options": {
+        "default_option": "No basic spell",
+        "per_round": "per round",
+        "per_minute": "per minute",
+        "per_hour": "per hour"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данное заклинание?"
+      },
+      "error_message": {
+        "already_exists": "Заклинание с таким именем уже существует!",
+        "basic_itself": "Заклинание не может быть базовым для самого себя!"
+      }
+    },
+    "profile": {
+      "header": "Личные настройки",
+      "stub": "Тут будут какие то личные настройки",
+      "attribute_sequence": "Последовательность отображения атрибутов"
+    }
+  }
 }

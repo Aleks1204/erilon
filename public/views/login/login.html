@@ -22,30 +22,30 @@
             <div class="row">
                 <div class="col-lg-12">
                 <span class="text-center logo">
-                    <h1><h1 ng-i18next>brand_name</h1></h1>
+                    <h1 ng-i18next>general.brand_name</h1>
                 </span>
                 </div>
             </div>
             <div class="single-page-block-inner effect-3d-element">
                 <div class="blur-placeholder"><!-- --></div>
                 <div class="single-page-block-form">
-                    <h3 class="text-center"><span ng-i18next>login_label</span>
+                    <h3 class="text-center"><span ng-i18next>page.login.login_label</span>
                         <i class="fa fa-key pull-right"></i>
                     </h3>
-                    <small ng-i18next>enter_nick_name</small>
+                    <small ng-i18next>page.login.enter_nick_name</small>
                     <br/>
                     <form id="form-validation" name="form-validation" method="POST">
                         <div class="form-group">
                             <input id="validation-name" ng-model="nickName"
                                    class="form-control"
-                                   ng-i18next="[placeholder]nick_name"
+                                   ng-i18next="[placeholder]page.login.nick_name"
                                    name="validation[name]"
                                    type="text"
                                    data-validation="[NAME]">
                         </div>
 
                         <button type="submit" class="btn btn-success btn-lg btn-block" ng-click="login()" ng-i18next>
-                            login_button
+                            page.login.login_button
                         </button>
                     </form>
                 </div>

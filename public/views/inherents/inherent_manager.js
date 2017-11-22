@@ -4,7 +4,7 @@
 
 var app = angular.module("inherentManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("inherentListController", function ($scope, $http, $q, $localStorage) {
+app.controller("inherentListController", function ($scope, $http, $q, $localStorage, $i18next) {
 
     var inherentsTable = $('#inherents');
 
@@ -40,17 +40,17 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
         var table = inherentsTable.DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
+                "search": $i18next.t('table.label.search'),
                 "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
+                    "first": $i18next.t('table.pagination.first_page'),
+                    "last": $i18next.t('table.pagination.last_page'),
+                    "next": $i18next.t('table.pagination.next_page'),
+                    "previous": $i18next.t('table.pagination.previous_page')
                 },
-                "lengthMenu": "Показать _MENU_"
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": '/inherents',
             "columns": [
@@ -121,7 +121,7 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
             var tr = $(this).closest('tr');
             var row = table.row( tr );
 
-            if (tr.find('td').length < 7 && $(this).index() === 0) {
+            if (tr.find('td').length < 7 && $(this).index() === 0 && tr.find('td').attr('class') !== 'child') {
                 if (row.child.isShown()) {
                     $(this).find('.icmn-circle-down2').remove();
                     $(this).prepend('<i class="icmn-circle-up2 margin-right-10"></i>');
@@ -136,14 +136,14 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
         inherentsTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данную особенность?",
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.inherents.delete.text'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $http.delete('/inherents/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -157,36 +157,36 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                 var inherent = response.data.inherent;
 
                 swal({
-                    title: 'Изменить особенность',
+                    title: $i18next.t('page.inherents.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                        '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.inherents.edit.name') + '</label>' +
                         '<input type="text" class="form-control" id="name" value="' + inherent.name + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="probability" class="form-control-label">Вероятность:</label>' +
+                    '<label for="probability" class="form-control-label">' + $i18next.t('page.inherents.edit.probability') + '</label>' +
                         '1/<input type="number" class="form-control" id="probability" value="' + inherent.probability + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="min_limit" class="form-control-label">Минимум:</label>' +
+                    '<label for="min_limit" class="form-control-label">' + $i18next.t('page.inherents.edit.min') + '</label>' +
                         '<input type="number" class="form-control" id="min_limit" value="' + inherent.min_limit + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="max_limit" class="form-control-label">Максимум:</label>' +
+                    '<label for="max_limit" class="form-control-label">' + $i18next.t('page.inherents.edit.max') + '</label>' +
                         '<input type="number" class="form-control" id="max_limit" value="' + inherent.max_limit + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.inherents.edit.description') + '</label>' +
                         '<textarea id="description" class="form-control">' + inherent.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                        '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                    '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.inherents.edit.bonus') + '</label>' +
                         '<textarea id="action_level_bonus" class="form-control">' + inherent.action_level_bonus + '</textarea>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     preConfirm: function () {
                         return new Promise(function (resolve) {
@@ -231,36 +231,36 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить особенность',
+                title: $i18next.t('page.inherents.add.title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.inherents.add.name') + '</label>' +
                     '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="probability" class="form-control-label">Вероятность:</label>' +
+                '<label for="probability" class="form-control-label">' + $i18next.t('page.inherents.add.probability') + '</label>' +
                     '1/<input type="number" class="form-control" id="probability">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="min_limit" class="form-control-label">Минимум:</label>' +
+                '<label for="min_limit" class="form-control-label">' + $i18next.t('page.inherents.add.min') + '</label>' +
                     '<input type="number" class="form-control" id="min_limit">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="max_limit" class="form-control-label">Максимум:</label>' +
+                '<label for="max_limit" class="form-control-label">' + $i18next.t('page.inherents.add.max') + '</label>' +
                     '<input type="number" class="form-control" id="max_limit">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.inherents.add.description') + '</label>' +
                     '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.inherents.add.bonus') + '</label>' +
                     '<textarea id="action_level_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'text',
                 inputClass: 'hide',
@@ -275,7 +275,7 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                                 }
                             });
                             if (equal) {
-                                reject('Врожденная особенность с таким именем уже существует!')
+                                reject($i18next.t('page.inherents.error_message.already_exists'))
                             } else {
                                 resolve()
                             }

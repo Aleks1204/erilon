@@ -1,6 +1,6 @@
 var app = angular.module("spells", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("spellsController", function ($scope, $http, $q, $localStorage, $timeout, $window) {
+app.controller("spellsController", function ($scope, $http, $q, $localStorage, $timeout, $window, $i18next) {
 
     var players = $q.defer();
     var schools = $q.defer();
@@ -55,18 +55,19 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                 responsive: true,
                 stateSave: true,
                 "language": {
-                    "emptyTable": "Здесь еще нет заклинаний",
-                    "loadingRecords": "Подождите, заклинания загружаются...",
-                    "search": "Поиск:",
+                    "search": $i18next.t('table.label.search'),
                     "paginate": {
-                        "first": "Первая",
-                        "last": "Последняя",
-                        "next": "След.",
-                        "previous": "Пред."
+                        "first": $i18next.t('table.pagination.first_page'),
+                        "last": $i18next.t('table.pagination.last_page'),
+                        "next": $i18next.t('table.pagination.next_page'),
+                        "previous": $i18next.t('table.pagination.previous_page')
                     },
-                    "lengthMenu": "Показать _MENU_"
+                    "zeroRecords": $i18next.t('table.pagination.empty_search_results'),
+                    "emptyTable": $i18next.t('table.pagination.empty_table'),
+                    "loadingRecords": $i18next.t('table.pagination.spells_loading'),
+                    "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
                 },
-                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
                 "info": false,
                 "ajax": '/spellsBySchoolId/' + school.id,
                 columns: [
@@ -144,7 +145,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                         orderable: false,
                         render: function (data, type, row) {
                             return '<a href="javascript:void(0);' + row.id + '" class="link-underlined link-blue hidden-md-up effect">' +
-                                'Эффект' +
+                                $i18next.t('table.header.effect') +
                                 '</a>' +
                                 '<div id="spellEffect' + row.id + '" style="display: none">' +
                                 '<br>' +
@@ -157,7 +158,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                         orderable: false,
                         render: function (data, type, row) {
                             return '<a href="javascript:void(0);' + row.id + '" class="link-underlined link-blue hidden-md-up description">' +
-                                'Описание' +
+                                $i18next.t('table.header.description') +
                                 '</a>' +
                                 '<div id="spellDescription' + row.id + '" style="display: none">' +
                                 '<br>' +
@@ -216,14 +217,14 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
             currentMagicTableSelector.on('click', '.delete', function () {
                 var id = this.value;
                 swal({
-                    title: "Вы уверены?",
-                    text: "Вы уверены что хотите удалить данное заклинание?",
+                    title: $i18next.t('popup.confirm_title'),
+                    text: $i18next.t('page.spells.delete.text'),
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: "Удалить!",
-                    cancelButtonText: "Отменить"
+                    confirmButtonText: $i18next.t('popup.delete_button'),
+                    cancelButtonText: $i18next.t('popup.cancel_button')
                 }).then(function success() {
                     $http.delete('/spells/' + id).then(function () {
                         currentMagicTable.ajax.reload(null, false);
@@ -244,6 +245,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
 
             currentMagicTableSelector.on('click', '.edit', function () {
                 $scope.showEditForm = true;
+                $scope.form_header = $i18next.t('page.spells.form.edit_title');
                 $http.get('/spells/' + this.value).then(function (response) {
                     $window.scrollTo(0, 0);
                     $('#addFormPanel').show();
@@ -262,8 +264,8 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
                         $('#mana_sup_time').selectpicker('val', spell.mana_sup_time);
                     } else {
                         $scope.mana_support = '';
-                        $('#mana_sup_time').selectpicker('val', 'в раунд');
-                        $scope.mana_sup_time = 'в раунд';
+                        $('#mana_sup_time').selectpicker('val', $i18next.t('page.spells.options.per_round'));
+                        $scope.mana_sup_time = $i18next.t('page.spells.options.per_round');
                     }
                     $scope.modification_needed = spell.modification_needed;
                     $scope.effect = spell.effect;
@@ -282,7 +284,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
         $scope.updateSpell = function () {
             if ($scope.current_spell_id === $scope.spell_id) {
                 swal({
-                    text: "Заклинание не может быть базовым для самого себя!",
+                    text: $i18next.t('page.spells.error_message.basic_itself'),
                     type: "warning"
                 });
             } else {
@@ -336,9 +338,11 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
             });
         }
 
+        $scope.form_header = $i18next.t('page.spells.form.add_title');
+
         $scope.showSpellForm = function () {
-            $('#mana_sup_time').selectpicker('val', 'в раунд');
-            $scope.mana_sup_time = 'в раунд';
+            $('#mana_sup_time').selectpicker('val', $i18next.t('page.spells.options.per_round'));
+            $scope.mana_sup_time = $i18next.t('page.spells.options.per_round');
             $('#spell_id').selectpicker({liveSearch: true});
             $('#school_id').selectpicker();
             $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
@@ -374,7 +378,7 @@ app.controller("spellsController", function ($scope, $http, $q, $localStorage, $
         $scope.addSpell = function () {
             if (isSpellAlreadyExist($scope.name)) {
                 swal({
-                    text: "Заклинание с таким именем уже существует!",
+                    text: $i18next.t('page.spells.error_message.already_exists'),
                     type: "warning"
                 });
             } else {

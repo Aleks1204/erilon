@@ -1,69 +1,622 @@
 {
-  "cancel_button": "Cancel",
-  "save_button": "Save",
-  "add_button": "Add",
-  "delete_button": "Delete!",
-  "confirm_title": "Are you sure?",
-  "by_default": "Default",
-
-  "brand_name": "ERILON",
-  "login_button": "Log in",
-  "nick_name": "Player name...",
-  "enter_nick_name": "Enter player name to log in:",
-  "login_label": "Login to the system",
-
-  "left_menu_characters": "Characters",
-  "left_menu_races": "Races",
-  "left_menu_attributes": "Attributes",
-  "left_menu_merits": "Merits",
-  "left_menu_inherents": "Inherent qualities",
-  "left_menu_flaws": "Flaws",
-  "left_menu_attached_skills": "Attached skills",
-  "left_menu_trigger_skills": "Trigger skills",
-  "left_menu_spells": "Spells",
-  "top_menu_player": "Player:",
-  "top_menu_role": "Role:",
-  "top_menu_dropdown_profile": " Profile",
-  "top_menu_dropdown_characters": " My characters",
-  "top_menu_dropdown_logout": " Logout",
-  "top_menu_dropdown_admin": " Access management",
-  "add_character_header": "Add character",
-  "name_label": "Name",
-  "name_placeholder": "Character's name...",
-  "race_label": "Race",
-  "race_selection_placeholder": "Select race...",
-  "experience_label": "Experience points",
-  "create_character_button": "Create",
-  "my_characters_header": "Characters",
-  "show_all_characters_button": "Show all characters",
-  "show_my_characters_button": "Show my characters",
-  "empty_characters_list_message": "You haven`t created any characters. To create a character please use a form above.",
-  "alt_avatar": "Avatar should be here",
-  "character_view_button": "View",
-  "character_creation_button": "Continue creation",
-  "character_boost_button": "Advancement",
-  "delete_character_button": "Delete",
-  "attributes_header": "Attributes",
-  "table_header_name": "Name",
-  "table_header_action_bonus": "Action bonus",
-  "table_header_description": "Description",
-  "table_header_actions": "Actions",
-  "table_header_max_age": "Max age",
-  "table_header_attributes_cost": "Attributes cost",
-  "table_header_races_qualities": "Races qualities",
-  "edit_attribute_title": "Edit attribute",
-  "edit_attribute_description": "Description:",
-  "edit_attribute_bonus": "Bonus:",
-  "add_attribute_name": "Name:",
-  "add_attribute_title": "Add attribute",
-  "attribute_exists_error_message": "The attribute with this name already exists!",
-  "attribute_name_empty_error_message": "Attribute name cannot be empty!",
-  "add_race_title": "Add race",
-  "delete_race_title": "Are you sure you want to delete this race?",
-  "add_race_description": "Description:",
-  "add_race_name": "Name:",
-  "add_race_max_age": "Max age:",
-  "max_age_less10_error_message": "Minimal age cannot be less then 10 years!",
-  "max_age_empty_error_message": "Set maximum age for race!",
-  "race_name_empty_error_message": "Race name cannot be empty!"
+  "general": {
+    "by_default": "Default",
+    "brand_name": "ERILON",
+    "present": "Present",
+    "absent": "Absent",
+    "back": "Back",
+    "delete": "Delete"
+  },
+  "popup": {
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "save_and_continue_button": "Save and continue",
+    "add_button": "Add",
+    "delete_button": "Delete!",
+    "decrease_button": "Decrease!",
+    "confirm_title": "Are you sure?",
+    "accepted_button": "Confirm",
+    "yes": "Yes!",
+    "no": "No"
+  },
+  "table": {
+    "header": {
+      "name": "Name",
+      "action_bonus": "Action bonus",
+      "description": "Description",
+      "actions": "Actions",
+      "max_age": "Max age",
+      "attributes_cost": "Attributes cost",
+      "races_qualities": "Races qualities",
+      "probability": "Probability",
+      "min": "Minimum",
+      "max": "Maximum",
+      "category": "Category",
+      "cost": "Cost",
+      "creation_only": "Creation only",
+      "prerequisites": "Prerequisites",
+      "bonus": "Bonus",
+      "difficult": "Difficult",
+      "theoretical": "Theoretical",
+      "default": "Default",
+      "spells": "Spells",
+      "roll": "Roll",
+      "basic_skill": "Basic skill",
+      "level": "Level",
+      "unremovable": "Unremovable",
+      "spell": "Spell",
+      "difficulty": "Difficulty",
+      "creation_difficulty": "Creation difficulty",
+      "mana": "Mana",
+      "mana_support": "Mana for support",
+      "instant": "Instant",
+      "basic_spell": "Basic spell",
+      "modification_needed": "Modification needed",
+      "effect": "Effect",
+      "skill": "Skill",
+      "value": "Value",
+      "rolls": "Rolls",
+      "talent": "Talent",
+      "quality": "Quality",
+      "merit": "Merit",
+      "flaw": "Flaw",
+      "notice": "Notice",
+      "text": "Text",
+      "tutored": "Tutored"
+    },
+    "pagination": {
+      "first_page": "First",
+      "last_page": "Last",
+      "next_page": "Next",
+      "previous_page": "Prev.",
+      "empty_search_results": "No matching records found",
+      "empty_table": "No records found",
+      "no_levels_found": "This skill doesn`t have mastery levels",
+      "spells_loading": "Please wait, spells are loading...",
+      "loading": "Please wait, records are loading...",
+      "show": "Show",
+      "all": "All"
+    },
+    "label": {
+      "search": "Search:"
+    }
+  },
+  "left_menu": {
+    "characters": "Characters",
+    "races": "Races",
+    "attributes": "Attributes",
+    "merits": "Merits",
+    "inherents": "Inherent qualities",
+    "flaws": "Flaws",
+    "attached_skills": "Attached skills",
+    "trigger_skills": "Trigger skills",
+    "spells": "Spells"
+  },
+  "top_menu": {
+    "player": "Player:",
+    "role": "Role:",
+    "dropdown": {
+      "profile": " Profile",
+      "characters": " My characters",
+      "logout": " Logout",
+      "admin": " Access management"
+    }
+  },
+  "level": {
+    "base": "Base",
+    "expert": "Expert",
+    "master": "Master",
+    "magister": "Magister",
+    "grandmaster": "Grandmaster",
+    "none": "Level not specified"
+  },
+  "character_dropdown": {
+    "race": "Race:",
+    "age": "Age:",
+    "years": "years",
+    "experience": "Experience:"
+  },
+  "page": {
+    "login": {
+      "login_button": "Log in",
+      "nick_name": "Player name...",
+      "enter_nick_name": "Enter player name to log in:",
+      "login_label": "Login to the system"
+    },
+    "characters": {
+      "add_character_header": "Add character",
+      "name_label": "Name",
+      "name_placeholder": "Character's name...",
+      "race_label": "Race",
+      "race_selection_placeholder": "Select race...",
+      "experience_label": "Experience points",
+      "create_character_button": "Create",
+      "my_characters_header": "Characters",
+      "show_all_characters_button": "Show all characters",
+      "show_my_characters_button": "Show my characters",
+      "empty_characters_list_message": "You haven`t created any characters. To create a character please use a form above.",
+      "alt_avatar": "Avatar should be here",
+      "character_view_button": "View",
+      "continue_creation_button": "Continue creation",
+      "character_boost_button": "Advancement",
+      "delete_character_button": "Delete"
+    },
+    "character": {
+      "create_header": "Character creation",
+      "edit_header": "Character advancement",
+      "inherents_disclaimer": "Inherent qualities of the character are created randomly. By clicking on the button, you can create a set of innate features for your character. You can create a set of innate features for the character only once, and you can change them later only by agreement with the wizard.",
+      "notices_disclaimer": "This page is meant for storing your character`s info, which doesn`t fall under any other category (piety, reputation, etc). In every note there is an \"EXP\" field - if you add a note, set amount of EXP will be substracted from your character`s EXP pool. You can also create notes which doesn`t cost any EXP - in that case, just leave the field empty",
+      "randomize_inherents": "Generate inherents",
+      "quality_label": "Quality:",
+      "categories_label": "Categories:",
+      "categories_label_mobile": "Category",
+      "quality_placeholder": "Select quality...",
+      "description": "Description:",
+      "spell_effect": "Effect:",
+      "rolls": "Rolls:",
+      "search_attached_skill_placeholder": "Skill name",
+      "search_trigger_skill_placeholder": "Skill name",
+      "search_merit_placeholder": "Merit name",
+      "search_flaw_placeholder": "Flaw name",
+      "search_spell_placeholder": "Spell name",
+      "search_notice_placeholder": "Notice title",
+      "trigger_skill_mastery": "Mastery:",
+      "flaw_cant_delete": "Cannot be deleted",
+      "edit_experience_title": "Character's experience",
+      "half_elf_mage_title": "Special qualities of half-elves",
+      "half_elf_mage_text": "You rolled inherent quality \"mage\". Half-elves can increase their magic power when creating a character, buying an additional feature for the experience.",
+      "half_elf_mage_warning": "This is your only chance to choose!",
+      "half_elf_mage_label": "+1 to Magic Power (10 ехр)",
+      "decrease_theoretical_skills_1": "You have the following theoretical skills that exceed twice value of Wisdom",
+      "decrease_theoretical_skills_2": "Its value will be lowered",
+      "delete_merits": "This change leads removing the merits",
+      "have_prerequisites": "имеет пререквизит",
+      "exceed_limit_1": "Value of",
+      "exceed_limit_2": "has reached the maximum for character creation",
+      "exceed_limit_3": "has reached the maximum",
+      "exceed_wisdom_1": "Value of",
+      "exceed_wisdom_2": "can not be higher than the doubled Wisdom of the character",
+      "exceed_trigger_skill_level_1": "Level of",
+      "exceed_trigger_skill_level_2": "has reached the maximum for the moment",
+      "exceed_base_spell_level_1": "Spell level of",
+      "exceed_base_spell_level_2": "can not exceed the spell level of",
+      "not_mag_add_magic_skills": "You do not have the innate features of \"Mage\". You will be limited in using magic skills: spells you can use only as scrolls, for writing which you will also need the skills of \"Ancient Language\" and \"Calligraphy\". Are you sure you want to take this skill?",
+      "delete_spells": "This change will result in the removal of spells from this school",
+      "delete_skills": "This change will result in the removal of skills",
+      "decrease_spell_level": "When the level of this spell is lowered, the spell level will accordingly decrease",
+      "modification_needed": "In order to use this spell, you need to have merit \"Spell modification\". Since you do not have one, you will not be able to use this spell. Are you sure you want to add it?",
+      "derivatives": "Derivatives",
+      "wisdom6_bonus_warning": "The value of Wisdom 6 will allow you to acquire the attached skills at 1 cheaper, but the change will take effect only after the changes are saved",
+      "wisdom9_bonus_warning": "The value of Wisdom 9 will allow you to acquire the attached skills at 2 cheaper, but the change will take effect only after the changes are saved",
+      "save_changes_warning": "After making changes, you will not be able to return to the character creation page!",
+      "notices": {
+        "add_title": "Add notice",
+        "edit_title": "Edit notice",
+        "title_label": "Title:",
+        "text_label": "Text:",
+        "exp_label": "Experience:",
+        "button": {
+          "ok": "Ok",
+          "edit": "Edit",
+          "delete": "Delete"
+        },
+        "error": {
+          "negative_exp": "Amount of experience must be positive!",
+          "empty_title": "Title cannot be empty!"
+        }
+      },
+      "attached_skills_categories": {
+        "magic": "Magic",
+        "social": "Social",
+        "languages": "Languages",
+        "lores": "Lores",
+        "crafts": "Crafts",
+        "professional": "Professional",
+        "by_default_show": "By default (show)",
+        "by_default_filter": "By default (filter)",
+        "by_default": "By default",
+        "theoretical": "Theoretical",
+        "gained": "Gained"
+      },
+      "merits_categories": {
+        "magic": "Magic",
+        "face": "Appearance",
+        "speciality": "Speciality",
+        "fight": "Combat",
+        "talent": "Talent",
+        "others": "Others",
+        "available": "Available",
+        "gained": "Gained"
+      },
+      "flaws_categories": {
+        "physical": "Phycical",
+        "mental": "Mental",
+        "social": "Social",
+        "codex": "Codex of honor",
+        "face": "Appearance",
+        "mystic": "Mystic",
+        "unremovable": "Unremovable",
+        "gained": "Gained"
+      },
+      "trigger_skills_categories": {
+        "fight": "Combat",
+        "no_fight": "Non-combat",
+        "gained": "Gained"
+      },
+      "spells_categories": {
+        "all": "All spells",
+        "gained": "Gained"
+      },
+      "upper": {
+        "save": "SAVE",
+        "inherents": "QUALITIES",
+        "attributes": "ATTRIBUTES",
+        "attached": "ATTACHED SKILLS",
+        "trigger": "TRIGGER SKILLS",
+        "merits": "MERITS",
+        "flaws": "FLAWS",
+        "spells": "SPELLS",
+        "notices": "NOTICES"
+      },
+      "mobile": {
+        "inherents": "Qualities",
+        "attributes": "Attributes",
+        "attached": "Attached",
+        "trigger": "Trigger",
+        "merits": "Merits",
+        "flaws": "Flaws",
+        "spells": "Spells",
+        "notices": "Notices"
+      },
+      "advance": "Advance!",
+      "tab": {
+        "main": "Main",
+        "spells": "Spells",
+        "notices": "Notices"
+      },
+      "derivative": {
+        "hit_pierce_punch": "Dice amount to roll to hit with stabbing/cutting attack. Equals to character`s dexterity+speed",
+        "hit_chop_punch": "Dice amount to roll to hit with slashing attack. Equals to character`s dexterity+strenth",
+        "ranged_hit": "Dice amount to roll to hit with ranged attack with bow, crossbow or throwing weapon. Equals to character`s dexterity+perception",
+        "parry_pierce_punch": "Dice amount to roll to parry stabbing/cutting attack. Equals to character`s speed+reaction",
+        "parry_chop_punch": "Dice amount to roll to parry slashing attack. Equals to character`s strength+reaction",
+        "dodge": "Dice amount to roll to dodge. Equals to character`s dexterity+reaction",
+        "general_action_points": "Amount of physical actions per round (hit, parry, dodge). Equals to lesser from character's speed and intelligence",
+        "mental_action_points": "Amount of mental actions per round (ability activation). Equals to character`s intelligence",
+        "endurance_points": "Amount of character`s stamina points. They are spent on spells. abilities, running and any action. Equals to character`s stamina multiplied by 20",
+        "initiative": "Dice amount to roll initiative. Equals to character`s reaction"
+      },
+      "notice": {
+        "add_title": "Add notice",
+        "edit_title": "Edit notice",
+        "title": "Title:",
+        "text": "Text:",
+        "error_empty_title": "Title cannot be empty!",
+        "delete_text": "Are you sure you want to delete this notice?"
+      }
+    },
+    "attributes": {
+      "header": "Attributes",
+      "edit": {
+        "title": "Edit attribute",
+        "description": "Description:",
+        "bonus": "Bonus:"
+      },
+      "add": {
+        "title": "Add attribute",
+        "name": "Name:",
+        "description": "Description:",
+        "bonus": "Bonus:"
+      },
+      "error_message": {
+        "already_exists": "The attribute with this name already exists!",
+        "empty_name": "Attribute name cannot be empty!"
+      }
+    },
+    "races": {
+      "header": "Races",
+      "add": {
+        "title": "Add race",
+        "name": "Name:",
+        "description": "Description:",
+        "max_age": "Max age:"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this race?"
+      },
+      "error_message": {
+        "max_age_less10": "Minimal age cannot be less then 10 years!",
+        "max_age_empty": "Set maximum age for race!",
+        "race_name_empty": "Race name cannot be empty!"
+      }
+    },
+    "inherents": {
+      "header": "Inherent qualities",
+      "add": {
+        "title": "Add inherent quality",
+        "name": "Name:",
+        "probability": "Probability:",
+        "min": "Minimum:",
+        "max": "Maximum:",
+        "description": "Description:",
+        "bonus": "Bonus:"
+      },
+      "edit": {
+        "title": "Edit inherent quality",
+        "name": "Name:",
+        "probability": "Probability:",
+        "min": "Minimum:",
+        "max": "Maximum:",
+        "description": "Description:",
+        "bonus": "Bonus:"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this inherent quality?"
+      },
+      "error_message": {
+        "already_exists": "The inherent quality with this name already exists!"
+      }
+    },
+    "merits": {
+      "header": "Merits",
+      "add": {
+        "title": "Add merit",
+        "name": "Name:",
+        "cost": "Cost:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "bonus": "Bonus:",
+        "creation_only": "Creation only"
+      },
+      "edit": {
+        "title": "Edit merit",
+        "name": "Name:",
+        "cost": "Cost:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "bonus": "Bonus:",
+        "creation_only": "Creation only"
+      },
+      "options": {
+        "choose_category": "Select category...",
+        "magic": "magic",
+        "speciality": "speciality",
+        "talent": "talent",
+        "fight": "fight",
+        "appearance": "appearance",
+        "other": "other"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this merit?"
+      },
+      "error_message": {
+        "already_exists": "The merit with this name already exists!"
+      }
+    },
+    "merit_prerequisites": {
+      "header": "Create prerequisite",
+      "form": {
+        "create_button": "Create",
+        "label": {
+          "type": "Prerequisite type:",
+          "attribute": "Attribute:",
+          "skill": "Skill:",
+          "not_less_than": "Not less than:",
+          "sum_not_less_than": "Sum not less than:",
+          "level": "Level:",
+          "inherent": "Inherent quality:",
+          "not_less": "Not less:",
+          "equal": "Equal:",
+          "not_more": "Not more:",
+          "flaw": "Flaw:",
+          "merit": "Merit:"
+        },
+        "place_holder": {
+          "type": "Select type...",
+          "merit": "Select merit...",
+          "flaw": "Select flaw...",
+          "inherent": "Select inherent quality...",
+          "level": "Select skill level...",
+          "skill": "Select skill...",
+          "attribute": "Select attribute..."
+        }
+      },
+      "type": {
+        "attribute": "Attribute",
+        "attached_skill": "Attached skill",
+        "attribute_skill": "Attribute+skill",
+        "trigger_skill": "Trigger skill",
+        "inherent": "Inherent quality",
+        "merit": "Merit",
+        "flaw": "Flaw"
+      }
+    },
+    "attached_skills": {
+      "header": "Attached skills",
+      "add": {
+        "title": "Add attached skill",
+        "name": "Name:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "difficult": "Difficult",
+        "default": "Default",
+        "theoretical": "Theoretical"
+      },
+      "edit": {
+        "title": "Edit attached skill",
+        "name": "Name:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "difficult": "Difficult",
+        "default": "Default",
+        "theoretical": "Theoretical"
+      },
+      "options": {
+        "choose_category": "Select category...",
+        "magic": "magic",
+        "social": "social",
+        "languages": "languages",
+        "lores": "lores",
+        "crafts": "crafts",
+        "professional": "professional"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this attached skill?"
+      },
+      "error_message": {
+        "already_exists": "The attached skill with this name already exists!"
+      }
+    },
+    "attached_skill": {
+      "header": "Basic rolls for",
+      "add": {
+        "title": "Add roll",
+        "description": "Roll description:",
+        "attribute": "Attribute:",
+        "attribute_place_holder": "Select attribute..."
+      },
+      "edit": {
+        "title": "Edit roll description for"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this roll?"
+      },
+      "error_message": {
+        "empty_attribute": "Set an attribute!"
+      }
+    },
+    "trigger_skills": {
+      "header": "Trigger skills",
+      "add": {
+        "title": "Add trigger skill",
+        "name": "Name:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "difficult": "Difficult",
+        "cost": "Cost:",
+        "basic_skill_place_holder": "Select skill...",
+        "basic_skill": "Basic skill:"
+      },
+      "edit": {
+        "title": "Edit trigger skill",
+        "name": "Name:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "difficult": "Difficult",
+        "cost": "Cost:",
+        "basic_skill_place_holder": "Select skill...",
+        "basic_skill": "Basic skill:"
+      },
+      "options": {
+        "choose_category": "Select category...",
+        "fight": "combat",
+        "no_fight": "non-combat",
+        "default_option": "No basic skill"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this trigger skill?"
+      },
+      "error_message": {
+        "already_exists": "The trigger skill with this name already exists!",
+        "empty_skill_cost": "Set basic skill cost!"
+      }
+    },
+    "trigger_skill": {
+      "header": "Mastery of",
+      "add": {
+        "title": "Add level",
+        "description": "Description:",
+        "cost": "Cost:",
+        "level": "Level:",
+        "level_placeholder": "Select level..."
+      },
+      "edit": {
+        "title": "Edit level",
+        "description": "Description:",
+        "cost": "Cost:"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this level?"
+      },
+      "error_message": {
+        "empty_description": "Description cannot be empty!",
+        "empty_cost": "Set level cost!",
+        "empty_level": "Select level!"
+      }
+    },
+    "flaws": {
+      "header": "Flaws",
+      "add": {
+        "title": "Add flaw",
+        "name": "Name:",
+        "cost": "Cost:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "bonus": "Bonus:",
+        "unremovable": "Unremovable"
+      },
+      "edit": {
+        "title": "Edit flaw",
+        "name": "Name:",
+        "cost": "Cost:",
+        "categories": "Categories:",
+        "description": "Description:",
+        "bonus": "Bonus:",
+        "unremovable": "Unremovable"
+      },
+      "options": {
+        "choose_category": "Select category...",
+        "physical": "physical",
+        "social": "social",
+        "mental": "mental",
+        "codex_of_honor": "codex of honor",
+        "appearance": "appearance",
+        "mystical": "mystical"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this flaw?"
+      },
+      "error_message": {
+        "already_exists": "The flaw with this name already exists!"
+      }
+    },
+    "spells": {
+      "header": "Spells",
+      "form": {
+        "add_title": "Add spell",
+        "edit_title": "Edit spell",
+        "name": "Name:",
+        "magic_school": "Magic school:",
+        "choose_school": "Select school...",
+        "cost": "Cost:",
+        "complexity": "Difficulty:",
+        "creating_complexity": "Creation difficulty:",
+        "instant": "Instant",
+        "modification_needed": "Modification needed",
+        "mana": "Mana:",
+        "mana_support": "Mana for support:",
+        "basic_spell": "Basic spell:",
+        "effect": "Effect:",
+        "description": "Description:"
+      },
+      "options": {
+        "default_option": "No basic spell",
+        "per_round": "per round",
+        "per_minute": "per minute",
+        "per_hour": "per hour"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this spell?"
+      },
+      "error_message": {
+        "already_exists": "The spell with this name already exists!",
+        "basic_itself": "The spell cannot be basic for itself!"
+      }
+    },
+    "profile": {
+      "header": "Private settings",
+      "stub": "Here will be some kind of personal settings",
+      "attribute_sequence": "Sequence of attributes"
+    }
+  }
 }

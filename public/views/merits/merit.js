@@ -1,73 +1,30 @@
 var meritId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("meritApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("prerequisitesListController", function ($scope, $http, $timeout) {
+app.controller("prerequisitesListController", function ($scope, $http, $timeout, $i18next) {
     $scope.lessMoreEqual = 0;
     $scope.presentAbsent = false;
-    $scope.types = [
-        {
-            "name": "Атрибут",
-            "id": 1
-        }, {
-            "name": "Прикрепленный навык",
-            "id": 2
-        }, {
-            "name": "Атрибут+навык",
-            "id": 3
-        }, {
-            "name": "Тригерный навык",
-            "id": 4
-        }, {
-            "name": "Врожденная особенность",
-            "id": 5
-        }, {
-            "name": "Достоинство",
-            "id": 6
-        }, {
-            "name": "Недостаток",
-            "id": 7
-        }
-    ];
-
-    $scope.levels = [
-        {
-            "name": "База",
-            "id": 0
-        }, {
-            "name": "Эксперт",
-            "id": 1
-        }, {
-            "name": "Мастер",
-            "id": 2
-        }, {
-            "name": "Магистр",
-            "id": 3
-        }, {
-            "name": "ГроссМейстер",
-            "id": 4
-        }
-    ];
 
     function getLevelName(levelNumber) {
         var levelName = '';
         switch (levelNumber) {
             case 0:
-                levelName = 'База';
+                levelName = $i18next.t('level.base');
                 break;
             case 1:
-                levelName = 'Эксперт';
+                levelName = $i18next.t('level.expert');
                 break;
             case 2:
-                levelName = 'Мастер';
+                levelName = $i18next.t('level.master');
                 break;
             case 3:
-                levelName = 'Магистр';
+                levelName = $i18next.t('level.magister');
                 break;
             case 4:
-                levelName = 'Гроссмейстер';
+                levelName = $i18next.t('level.grandmaster');
                 break;
             default:
-                levelName = 'Уровень не указан';
+                levelName = $i18next.t('level.none');
                 break;
         }
         return levelName;
@@ -114,24 +71,24 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
                 }
 
                 if (meritInherent.value === null) {
-                    addPrerequisitesElement(meritInherent.Inherent.name, 'Присутствует', '/meritInherents/' + meritInherent.id);
+                    addPrerequisitesElement(meritInherent.Inherent.name, $i18next.t('general.present'), '/meritInherents/' + meritInherent.id);
                 } else {
                     addPrerequisitesElement(meritInherent.Inherent.name, meritInherent.value, '/meritInherents/' + meritInherent.id, sign);
                 }
             });
 
             angular.forEach(response.data.merit.MeritFlaws, function (meritFlaw) {
-                var presence = 'Отсутствует';
+                var presence = $i18next.t('general.absent');
                 if (meritFlaw.presentAbsent) {
-                    presence = 'Присутствует';
+                    presence = $i18next.t('general.present');
                 }
                 addPrerequisitesElement(meritFlaw.Flaw.name, presence, '/meritFlaws/' + meritFlaw.id);
             });
 
             angular.forEach(response.data.merit.MeritMerits, function (meritMerit) {
-                var presence = 'Отсутствует';
+                var presence = $i18next.t('general.absent');
                 if (meritMerit.presentAbsent) {
-                    presence = 'Присутствует';
+                    presence = $i18next.t('general.present');
                 }
                 addPrerequisitesElement(meritMerit.MeritPrerequisite.name, presence, '/meritMerits/' + meritMerit.id);
             });
@@ -223,7 +180,7 @@ app.controller("prerequisitesListController", function ($scope, $http, $timeout)
     });
 
     $scope.createPrerequisite = function () {
-        switch ($scope.type) {
+        switch (parseInt($scope.type)) {
             case 1:
                 $http.post('/meritAttributes', {
                     merit_id: meritId,

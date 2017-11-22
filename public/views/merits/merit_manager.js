@@ -4,7 +4,7 @@
 
 var app = angular.module("meritManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("meritListController", function ($scope, $http, $q, $localStorage) {
+app.controller("meritListController", function ($scope, $http, $q, $localStorage, $i18next) {
 
     var meritsTable = $('#merits');
 
@@ -14,22 +14,22 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
         var levelName = '';
         switch (levelNumber) {
             case 0:
-                levelName = 'База';
+                levelName = $i18next.t('level.base');
                 break;
             case 1:
-                levelName = 'Эксперт';
+                levelName = $i18next.t('level.expert');
                 break;
             case 2:
-                levelName = 'Мастер';
+                levelName = $i18next.t('level.master');
                 break;
             case 3:
-                levelName = 'Магистр';
+                levelName = $i18next.t('level.magister');
                 break;
             case 4:
-                levelName = 'Гроссмейстер';
+                levelName = $i18next.t('level.grandmaster');
                 break;
             default:
-                levelName = 'Уровень не указан';
+                levelName = $i18next.t('level.none');
                 break;
         }
         return levelName;
@@ -65,17 +65,17 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
         var table = meritsTable.DataTable({
             responsive: true,
             "language": {
-                "search": "Поиск:",
+                "search": $i18next.t('table.label.search'),
                 "paginate": {
-                    "first": "Первая",
-                    "last": "Последняя",
-                    "next": "След.",
-                    "previous": "Пред."
+                    "first": $i18next.t('table.pagination.first_page'),
+                    "last": $i18next.t('table.pagination.last_page'),
+                    "next": $i18next.t('table.pagination.next_page'),
+                    "previous": $i18next.t('table.pagination.previous_page')
                 },
-                "lengthMenu": "Показать _MENU_"
+                "lengthMenu": $i18next.t('table.pagination.show') + " _MENU_"
             },
             stateSave: true,
-            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "Все"]],
+            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, $i18next.t('table.pagination.all')]],
             "info": false,
             "ajax": '/merits',
             "columns": [
@@ -138,24 +138,24 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                             }
 
                             if (meritInherent.value === null) {
-                                returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritInherent.Inherent.name + ': присутствует</span>';
+                                returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritInherent.Inherent.name + ': ' + $i18next.t('general.present') + '</span>';
                             } else {
                                 returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritInherent.Inherent.name + ': ' + sign + meritInherent.value + '</span>';
                             }
                         });
 
                         angular.forEach(row.MeritFlaws, function (meritFlaw) {
-                            var presence = 'Отсутствует';
+                            var presence = $i18next.t('general.absent');
                             if (meritFlaw.presentAbsent) {
-                                presence = 'Присутствует';
+                                presence = $i18next.t('general.present');
                             }
                             returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritFlaw.Flaw.name + ': ' + presence + '</span>';
                         });
 
                         angular.forEach(row.MeritMerits, function (meritMerit) {
-                            var presence = 'Отсутствует';
+                            var presence = $i18next.t('general.absent');
                             if (meritMerit.presentAbsent) {
-                                presence = 'Присутствует';
+                                presence = $i18next.t('general.present');
                             }
                             returned = returned + '<span class="label label-pill label-warning font-size-16 margin-inline">' + meritMerit.MeritPrerequisite.name + ': ' + presence + '</span>';
                         });
@@ -201,14 +201,14 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
         meritsTable.on('click', '.delete', function () {
             var id = this.value;
             swal({
-                title: "Вы уверены?",
-                text: "Вы уверены что хотите удалить данный недостаток?",
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.merits.delete.text'),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: "Удалить!",
-                cancelButtonText: "Отменить"
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $http.delete('/merits/' + id).then(function () {
                     table.ajax.reload(null, false)
@@ -225,45 +225,45 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     creation_only = 'checked';
                 }
                 swal({
-                    title: 'Изменить достоинство',
+                    title: $i18next.t('page.merits.edit.title'),
                     html: '<form>' +
                     '<div class="form-group">' +
-                    '<label for="name" class="form-control-label">Имя:</label>' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.merits.edit.name') + '</label>' +
                     '<input type="text" class="form-control" value="' + merit.name + '" id="name">' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                    '<label for="cost" class="form-control-label">' + $i18next.t('page.merits.edit.cost') + '</label>' +
                     '<input type="number" class="form-control" id="cost" value="' + merit.cost + '">' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="category" class="form-control-label">Категории:</label>' +
-                        '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                            '<option value="магические">магические</option>' +
-                            '<option value="специализация">специализация</option>' +
-                            '<option value="талант">талант</option>' +
-                            '<option value="боевые">боевые</option>' +
-                            '<option value="внешность">внешность</option>' +
-                            '<option value="остальные">остальные</option>' +
+                    '<label for="category" class="form-control-label">' + $i18next.t('page.merits.edit.categories') + '</label>' +
+                    '<select class="form-control" title="' + $i18next.t('page.merits.options.choose_category') + '" id="category" multiple>' +
+                    '<option value="' + $i18next.t('page.merits.options.magic') + '">' + $i18next.t('page.merits.options.magic') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.speciality') + '">' + $i18next.t('page.merits.options.speciality') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.talent') + '">' + $i18next.t('page.merits.options.talent') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.fight') + '">' + $i18next.t('page.merits.options.fight') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.appearance') + '">' + $i18next.t('page.merits.options.appearance') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.other') + '">' + $i18next.t('page.merits.options.other') + '</option>' +
                         '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="description" class="form-control-label">Описание:</label>' +
+                    '<label for="description" class="form-control-label">' + $i18next.t('page.merits.edit.description') + '</label>' +
                     '<textarea id="description" class="form-control">' + merit.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                    '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.merits.edit.bonus') + '</label>' +
                     '<textarea id="action_level_bonus" class="form-control">' + merit.action_level_bonus + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                     '<input id="creation_only" name="creation_only" type="checkbox" ' + creation_only + '>' +
-                    '<label for="creation_only">Только при создании</label>' +
+                    '<label for="creation_only">' + $i18next.t('page.merits.edit.creation_only') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
-                    cancelButtonText: "Отменить",
-                    confirmButtonText: "Сохранить",
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
                     showLoaderOnConfirm: true,
                     preConfirm: function () {
                         return new Promise(function (resolve) {
@@ -306,45 +306,45 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
 
         $scope.showAddDialog = function () {
             swal({
-                title: 'Добавить достоинство',
+                title: $i18next.t('page.merits.add.title'),
                 html: '<form>' +
                 '<div class="form-group">' +
-                '<label for="name" class="form-control-label">Имя:</label>' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.merits.add.name') + '</label>' +
                 '<input type="text" class="form-control" id="name">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="cost" class="form-control-label">Стоимость:</label>' +
+                '<label for="cost" class="form-control-label">' + $i18next.t('page.merits.add.cost') + '</label>' +
                 '<input type="number" class="form-control" id="cost">' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="category" class="form-control-label">Категории:</label>' +
-                    '<select class="form-control" title="Выберите категорию..." id="category" multiple>' +
-                        '<option value="магические">магические</option>' +
-                        '<option value="специализация">специализация</option>' +
-                        '<option value="талант">талант</option>' +
-                        '<option value="боевые">боевые</option>' +
-                        '<option value="внешность">внешность</option>' +
-                        '<option value="остальные">остальные</option>' +
-                    '</select>' +
+                '<label for="category" class="form-control-label">' + $i18next.t('page.merits.add.categories') + '</label>' +
+                '<select class="form-control" title="' + $i18next.t('page.merits.options.choose_category') + '" id="category" multiple>' +
+                '<option value="' + $i18next.t('page.merits.options.magic') + '">' + $i18next.t('page.merits.options.magic') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.speciality') + '">' + $i18next.t('page.merits.options.speciality') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.talent') + '">' + $i18next.t('page.merits.options.talent') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.fight') + '">' + $i18next.t('page.merits.options.fight') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.appearance') + '">' + $i18next.t('page.merits.options.appearance') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.other') + '">' + $i18next.t('page.merits.options.other') + '</option>' +
+                '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="description" class="form-control-label">Описание:</label>' +
+                '<label for="description" class="form-control-label">' + $i18next.t('page.merits.add.description') + '</label>' +
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="action_level_bonus" class="form-control-label">Бонус:</label>' +
+                '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.merits.add.bonus') + '</label>' +
                 '<textarea id="action_level_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
                 '<input id="creation_only" name="creation_only" type="checkbox">' +
-                '<label for="creation_only">Только при создании</label>' +
+                '<label for="creation_only">' + $i18next.t('page.merits.add.creation_only') + '</label>' +
                 '</div>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Добавить",
+                cancelButtonText: $i18next.t('popup.cancel_button'),
+                confirmButtonText: $i18next.t('popup.add_button'),
                 showLoaderOnConfirm: true,
                 input: 'text',
                 inputClass: 'hide',
@@ -359,7 +359,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                                 }
                             });
                             if (equal) {
-                                reject('Достоинство с таким именем уже существует!')
+                                reject($i18next.t('page.merits.error_message.already_exists'))
                             } else {
                                 resolve()
                             }
