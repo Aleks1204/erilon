@@ -1,21 +1,246 @@
 var raceId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("raceManagerApp", ['ngStorage', 'ngSanitize', 'jm.i18next']);
 
-app.controller("raceListController", function ($scope, $http, $timeout) {
+app.controller("raceListController", function ($scope, $http, $timeout, $i18next) {
     $http.get('/races/' + raceId).then(function (response) {
         $scope.race = response.data.race;
+        var raceAttributesTableSelector = $('#racesAttributesTable');
+
+        var raceAttributesTable = raceAttributesTableSelector.DataTable({
+            responsive: true,
+            info: false,
+            paging: false,
+            searching: false,
+            "ajax": '/raceAttributesByRaceId/' + raceId,
+            "columns": [
+                {"data": "Attribute.name"},
+                {"data": "base_cost"},
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-success btn-sm btn-rounded icmn-pencil3 margin-right-10 edit" value="'
+                            + data + '"  type="button"></button>';
+                    }
+                }
+            ]
+        });
+
+        raceAttributesTableSelector.on('click', '.edit', function () {
+            $http.get('/raceAttributes/' + this.value).then(function (response) {
+                var raceAttribute = response.data.raceAttribute;
+                swal({
+                    title: $i18next.t('page.race.edit_attribute_base_cost') + ' "' + raceAttribute.Attribute.name + '"',
+                    showCancelButton: true,
+                    cancelButtonText: $i18next.t('popup.cancel_button'),
+                    confirmButtonText: $i18next.t('popup.save_button'),
+                    input: 'number',
+                    inputValue: raceAttribute.base_cost,
+                    inputValidator: function (value) {
+                        return new Promise(function (resolve, reject) {
+                            if (value !== '') {
+                                if (parseInt(value) > 0) {
+                                    resolve()
+                                } else {
+                                    reject($i18next.t('page.race.edit_attribute_less_one'))
+                                }
+                            } else {
+                                reject($i18next.t('page.race.edit_attribute_empty_cost'))
+                            }
+                        })
+                    }
+                }).then(function success(result) {
+                    $http.put('/raceAttributes/' + raceAttribute.id, {
+                        base_cost: result[0]
+                    }).then(function () {
+                        raceAttributesTable.ajax.reload(null, false)
+                    });
+                });
+            });
+        });
     });
 
     $http.get('/merits').then(function (response) {
         $scope.merits = response.data.data;
+        var raceMeritsTableSelector = $('#racesMeritsTable');
+
+        var raceMeritsTable = raceMeritsTableSelector.DataTable({
+            responsive: true,
+            info: false,
+            paging: false,
+            searching: false,
+            "language": {
+                "emptyTable": $i18next.t('page.race.empty_merits_table')
+            },
+            "ajax": '/raceMeritsByRaceId/' + raceId,
+            "columns": [
+                {"data": "Merit.name"},
+                {
+                    data: "race_default",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if (data) {
+                            return $i18next.t('general.by_default')
+                        } else {
+                            return row.race_cost;
+                        }
+                    }
+
+                },
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-merit" value="' + data + '" type="button"></button>';
+                    }
+                }
+            ]
+        });
+
+        raceMeritsTableSelector.on('click', '.delete-race-merit', function () {
+            var id = this.value;
+            swal({
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.race.delete_merit_text'),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
+            }).then(function success() {
+                $http.delete('/raceMerits/' + id).then(function () {
+                    raceMeritsTable.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
     });
 
     $http.get('/flaws').then(function (response) {
         $scope.flaws = response.data.data;
+        var raceFlawsTableSelector = $('#racesFlawsTable');
+
+        var raceFlawsTable = raceFlawsTableSelector.DataTable({
+            responsive: true,
+            info: false,
+            paging: false,
+            searching: false,
+            "language": {
+                "emptyTable": $i18next.t('page.race.empty_flaws_table')
+            },
+            "ajax": '/raceFlawsByRaceId/' + raceId,
+            "columns": [
+                {"data": "Flaw.name"},
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-flaw" value="' + data + '" type="button"></button>';
+                    }
+                }
+            ]
+        });
+
+        raceFlawsTableSelector.on('click', '.delete-race-flaw', function () {
+            var id = this.value;
+            swal({
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.race.delete_flaw_text'),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
+            }).then(function success() {
+                $http.delete('/raceFlaws/' + id).then(function () {
+                    raceFlawsTable.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
     });
 
     $http.get('/inherents').then(function (response) {
         $scope.inherents = response.data.data;
+        var raceInherentsTableSelector = $('#racesInherentsTable');
+
+        var raceInherentsTable = raceInherentsTableSelector.DataTable({
+            responsive: true,
+            info: false,
+            paging: false,
+            searching: false,
+            "language": {
+                "emptyTable": $i18next.t('page.race.empty_inherents_table')
+            },
+            "ajax": '/raceInherentsByRaceId/' + raceId,
+            "columns": [
+                {"data": "Inherent.name"},
+                {
+                    data: "race_probability",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if (data === 1) {
+                            return $i18next.t('general.by_default')
+                        } else {
+                            return '1/' + data;
+                        }
+                    }
+
+                },
+                {
+                    data: "race_min",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if (data === null) {
+                            return $i18next.t('general.by_default')
+                        } else {
+                            return data;
+                        }
+                    }
+
+                },
+                {
+                    data: "race_max",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if (data === null) {
+                            return $i18next.t('general.by_default')
+                        } else {
+                            return data;
+                        }
+                    }
+
+                },
+                {
+                    data: "id",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-inherent" value="' + data + '" type="button"></button>';
+                    }
+                }
+            ]
+        });
+
+        raceInherentsTableSelector.on('click', '.delete-race-inherent', function () {
+            var id = this.value;
+            swal({
+                title: $i18next.t('popup.confirm_title'),
+                text: $i18next.t('page.race.delete_inherent_text'),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: $i18next.t('popup.delete_button'),
+                cancelButtonText: $i18next.t('popup.cancel_button')
+            }).then(function success() {
+                $http.delete('/raceInherents/' + id).then(function () {
+                    raceInherentsTable.ajax.reload(null, false)
+                });
+            }, function cancel() {
+            });
+        });
     });
 
     autosize($('#raceDescription'));
@@ -46,115 +271,6 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
         });
     };
 
-    var raceAttributesTableSelector = $('#racesAttributesTable');
-
-    var raceAttributesTable = raceAttributesTableSelector.DataTable({
-        responsive: true,
-        info: false,
-        paging: false,
-        searching: false,
-        "ajax": '/raceAttributesByRaceId/' + raceId,
-        "columns": [
-            {"data": "Attribute.name"},
-            {"data": "base_cost"},
-            {
-                data: "id",
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-icon btn-success btn-sm btn-rounded icmn-pencil3 margin-right-10 edit" value="'
-                        + data + '"  type="button"></button>';
-                }
-            }
-        ]
-    });
-
-    raceAttributesTableSelector.on('click', '.edit', function () {
-        $http.get('/raceAttributes/' + this.value).then(function (response) {
-            var raceAttribute = response.data.raceAttribute;
-            swal({
-                title: 'Изменить базовую стоимость атрибута "' + raceAttribute.Attribute.name + '"',
-                showCancelButton: true,
-                cancelButtonText: "Отменить",
-                confirmButtonText: "Сохранить",
-                input: 'number',
-                inputValue: raceAttribute.base_cost,
-                inputValidator: function (value) {
-                    return new Promise(function (resolve, reject) {
-                        if (value !== '') {
-                            if (parseInt(value) > 0) {
-                                resolve()
-                            } else {
-                                reject('Стоимость не может быть меньше 1!')
-                            }
-                        } else {
-                            reject('Укажите базовую стоимость!')
-                        }
-                    })
-                }
-            }).then(function success(result) {
-                $http.put('/raceAttributes/' + raceAttribute.id, {
-                    base_cost: result[0]
-                }).then(function () {
-                    raceAttributesTable.ajax.reload(null, false)
-                });
-            });
-        });
-    });
-
-    var raceMeritsTableSelector = $('#racesMeritsTable');
-
-    var raceMeritsTable = raceMeritsTableSelector.DataTable({
-        responsive: true,
-        info: false,
-        paging: false,
-        searching: false,
-        "language": {
-            "emptyTable": 'У данной расы нет расовых достоинств'
-        },
-        "ajax": '/raceMeritsByRaceId/' + raceId,
-        "columns": [
-            {"data": "Merit.name"},
-            {
-                data: "race_default",
-                orderable: false,
-                render: function (data, type, row) {
-                    if (data) {
-                        return 'По умолчанию'
-                    } else {
-                        return row.race_cost;
-                    }
-                }
-
-            },
-            {
-                data: "id",
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-merit" value="' + data + '" type="button"></button>';
-                }
-            }
-        ]
-    });
-
-    raceMeritsTableSelector.on('click', '.delete-race-merit', function () {
-        var id = this.value;
-        swal({
-            title: "Вы уверены?",
-            text: "Вы уверены что хотите удалить расовое достоинство?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: "Удалить!",
-            cancelButtonText: "Отменить"
-        }).then(function success() {
-            $http.delete('/raceMerits/' + id).then(function () {
-                raceMeritsTable.ajax.reload(null, false)
-            });
-        }, function cancel() {
-        });
-    });
-
     $scope.clearRaceMeritForm = function () {
         $scope.merit_race_cost = '';
         $scope.merit_race_default = false;
@@ -177,48 +293,6 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
         });
     };
 
-    var raceFlawsTableSelector = $('#racesFlawsTable');
-
-    var raceFlawsTable = raceFlawsTableSelector.DataTable({
-        responsive: true,
-        info: false,
-        paging: false,
-        searching: false,
-        "language": {
-            "emptyTable": 'У данной расы нет расовых недостатков'
-        },
-        "ajax": '/raceFlawsByRaceId/' + raceId,
-        "columns": [
-            {"data": "Flaw.name"},
-            {
-                data: "id",
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-flaw" value="' + data + '" type="button"></button>';
-                }
-            }
-        ]
-    });
-
-    raceFlawsTableSelector.on('click', '.delete-race-flaw', function () {
-        var id = this.value;
-        swal({
-            title: "Вы уверены?",
-            text: "Вы уверены что хотите удалить расовый недостаток?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: "Удалить!",
-            cancelButtonText: "Отменить"
-        }).then(function success() {
-            $http.delete('/raceFlaws/' + id).then(function () {
-                raceFlawsTable.ajax.reload(null, false)
-            });
-        }, function cancel() {
-        });
-    });
-
     $scope.addRaceFlaw = function () {
         $http.post('/raceFlaws', {
             race_id: raceId,
@@ -230,84 +304,6 @@ app.controller("raceListController", function ($scope, $http, $timeout) {
             });
         });
     };
-
-    var raceInherentsTableSelector = $('#racesInherentsTable');
-
-    var raceInherentsTable = raceInherentsTableSelector.DataTable({
-        responsive: true,
-        info: false,
-        paging: false,
-        searching: false,
-        "language": {
-            "emptyTable": 'У данной расы нет расовых врожденных особенностей'
-        },
-        "ajax": '/raceInherentsByRaceId/' + raceId,
-        "columns": [
-            {"data": "Inherent.name"},
-            {
-                data: "race_probability",
-                orderable: false,
-                render: function (data, type, row) {
-                    if (data === 1) {
-                        return 'По умолчанию'
-                    } else {
-                        return '1/' + data;
-                    }
-                }
-
-            },
-            {
-                data: "race_min",
-                orderable: false,
-                render: function (data, type, row) {
-                    if (data === null) {
-                        return 'По умолчанию'
-                    } else {
-                        return data;
-                    }
-                }
-
-            },
-            {
-                data: "race_max",
-                orderable: false,
-                render: function (data, type, row) {
-                    if (data === null) {
-                        return 'По умолчанию'
-                    } else {
-                        return data;
-                    }
-                }
-
-            },
-            {
-                data: "id",
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<button class="btn btn-icon btn-danger btn-sm btn-rounded fa fa-close delete-race-inherent" value="' + data + '" type="button"></button>';
-                }
-            }
-        ]
-    });
-
-    raceInherentsTableSelector.on('click', '.delete-race-inherent', function () {
-        var id = this.value;
-        swal({
-            title: "Вы уверены?",
-            text: "Вы уверены что хотите удалить расовую врожденную особенность?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: "Удалить!",
-            cancelButtonText: "Отменить"
-        }).then(function success() {
-            $http.delete('/raceInherents/' + id).then(function () {
-                raceInherentsTable.ajax.reload(null, false)
-            });
-        }, function cancel() {
-        });
-    });
 
     $scope.clearRaceInherentForm = function () {
         $scope.inherent_race_probability = '';

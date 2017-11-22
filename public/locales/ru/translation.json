@@ -348,6 +348,35 @@
         "race_name_empty": "Имя расы не может быть пустым!"
       }
     },
+    "race": {
+      "attributes_header": "Стоимость атрибутов для расы",
+      "merits_header": "Расовые достоинства",
+      "flaws_header": "Расовые недостатки",
+      "inherents_header": "Расовые врожденные особенности",
+      "add_merit_title": "Добавить расовое достоинство",
+      "add_merit_label_name": "Достоинство:",
+      "add_merit_place_holder": "Выберите достоинство...",
+      "add_merit_label_cost": "Стоимость:",
+      "add_merit_label_by_default": "По умолчанию",
+      "add_flaw_title": "Добавить расовый недостаток",
+      "add_flaw_label_name": "Недостаток:",
+      "add_flaw_place_holder": "Выберите недостаток...",
+      "add_inherent_title": "Добавить расовую врожденную особенность",
+      "add_inherent_label_name": "Особенность:",
+      "add_inherent_place_holder": "Выберите особенность...",
+      "add_inherent_label_probability": "Вероятность:",
+      "add_inherent_label_min": "Минимум:",
+      "add_inherent_label_max": "Максимум:",
+      "edit_attribute_base_cost": "Изменить базовую стоимость атрибута",
+      "edit_attribute_empty_cost": "Стоимость не может быть меньше 1!",
+      "edit_attribute_less_one": "Укажите базовую стоимость!",
+      "empty_merits_table": "У данной расы нет расовых достоинств",
+      "empty_flaws_table": "У данной расы нет расовых недостатков",
+      "empty_inherents_table": "У данной расы нет расовых врожденных особенностей",
+      "delete_merit_text": "Вы уверены что хотите удалить расовое достоинство?",
+      "delete_flaw_text": "Вы уверены что хотите удалить расовый недостаток?",
+      "delete_inherent_text": "Вы уверены что хотите удалить расовую врожденную особенность?"
+    },
     "inherents": {
       "header": "Врожденные особенности",
       "add": {

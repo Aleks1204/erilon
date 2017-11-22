@@ -166,11 +166,18 @@
         <section class="page-content">
             <div class="panel">
                 <div class="panel-heading" style="padding-bottom: 0">
-                    <h3 class="text-center" ng-show="hideEditBlock"><a href="race_manager.html" class="pull-left link-underlined link-blue"><i class="icmn-arrow-left2"></i> Назад</a>{{race.name}}<a ng-click="hideEditBlock = false" class="btn btn-icon icmn-unlocked btn-link" href="javascript: void(0);"></a></h3>
+                    <h3 class="text-center" ng-show="hideEditBlock"><a href="race_manager.html"
+                                                                       class="pull-left link-underlined link-blue"><i
+                            class="icmn-arrow-left2"></i>
+                        <span ng-i18next>general.back</span>
+                    </a>{{race.name}}<a ng-click="hideEditBlock = false" class="btn btn-icon icmn-unlocked btn-link"
+                                        href="javascript: void(0);"></a></h3>
                     <div class="row" ng-hide="hideEditBlock">
                         <div class="input-group col-md-2">
-                            <input id="raceName" class="form-control" type="text" ng-model="race.name" style="font-size: 20px">
-                            <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i class="icmn-lock4"></i> </span>
+                            <input id="raceName" class="form-control" type="text" ng-model="race.name"
+                                   style="font-size: 20px">
+                            <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i
+                                    class="icmn-lock4"></i> </span>
                         </div>
                     </div>
                 </div>
@@ -184,22 +191,25 @@
                         <textarea id="raceDescription" class="form-control" ng-model="race.description">
                             &emsp;&emsp;{{race.description}}
                         </textarea>
-                        <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i class="icmn-lock4"></i> </span>
+                        <span style="cursor: pointer" ng-click="saveRace()" class="input-group-addon"><i
+                                class="icmn-lock4"></i> </span>
                     </div>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Стоимость атрибутов для расы "{{race.name}}"</h3>
+                    <h3 class="display-inline margin-inline">
+                        <span ng-i18next>page.race.attributes_header</span>
+                        "{{race.name}}"</h3>
                 </div>
                 <div class="panel-body">
                     <table id="racesAttributesTable" class="table table-hover nowrap" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Имя</th>
-                            <th>Стоимость</th>
-                            <th>Действия</th>
+                            <th ng-i18next>table.header.name</th>
+                            <th ng-i18next>table.header.cost</th>
+                            <th ng-i18next>table.header.actions</th>
                         </tr>
                         </thead>
                     </table>
@@ -208,11 +218,13 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Расовые достоинства "{{race.name}}" <a href="#"
-                                                                                                    class="link-underlined link-blue"
-                                                                                                    data-toggle="modal"
-                                                                                                    data-target="#addRaceMeritModal"
-                                                                                                    ng-click="clearRaceMeritForm()">Добавить</a>
+                    <h3 class="display-inline margin-inline">
+                        <span ng-i18next>page.race.merits_header</span>
+                        "{{race.name}}" <a href="#"
+                                           class="link-underlined link-blue"
+                                           data-toggle="modal"
+                                           data-target="#addRaceMeritModal"
+                                           ng-click="clearRaceMeritForm()" ng-i18next>popup.add_button</a>
                     </h3>
                 </div>
 
@@ -220,9 +232,9 @@
                     <table id="racesMeritsTable" class="table table-hover nowrap" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Имя</th>
-                            <th>Стоимость</th>
-                            <th>Действия</th>
+                            <th ng-i18next>table.header.name</th>
+                            <th ng-i18next>table.header.cost</th>
+                            <th ng-i18next>table.header.actions</th>
                         </tr>
                         </thead>
                     </table>
@@ -235,21 +247,23 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                     &times;
                                 </button>
-                                <h4 class="modal-title">Добавить расовое достоинство</h4>
+                                <h4 class="modal-title" ng-i18next>page.race.add_merit_title</h4>
                             </div>
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
-                                        <label for="merit_id" class="form-control-label">Достоинство:</label>
+                                        <label for="merit_id" class="form-control-label" ng-i18next>page.race.add_merit_label_name</label>
                                         <select class="form-control"
                                                 name="merit"
                                                 ng-model="merit_id" id="merit_id"
                                                 ng-options="merit.id as merit.name for merit in merits" required>
-                                            <option style="display:none" value="">Выберите достоинство...</option>
+                                            <option style="display:none" value="" ng-i18next>
+                                                page.race.add_merit_place_holder
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="merit_race_cost" class="form-control-label">Стоимость:</label>
+                                        <label for="merit_race_cost" class="form-control-label" ng-i18next>page.race.add_merit_label_cost</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="merit_race_cost" ng-model="merit_race_cost">
                                     </div>
@@ -257,17 +271,19 @@
                                         <div class="checkbox checkbox-info">
                                             <input id="merit_race_default" ng-model="merit_race_default"
                                                    name="merit_race_default" type="checkbox">
-                                            <label for="merit_race_default">По умолчанию</label>
+                                            <label for="merit_race_default" ng-i18next>page.race.add_merit_label_by_default</label>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceMerit()">
-                                    Добавить
+                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceMerit()"
+                                        ng-i18next>
+                                    popup.add_button
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">
-                                    Отменить
+                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal"
+                                        ng-i18next>
+                                    popup.cancel_button
                                 </button>
                             </div>
                         </div>
@@ -277,18 +293,20 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Расовые недостатки "{{race.name}}" <a href="#"
-                                                                                                   class="link-underlined link-blue"
-                                                                                                   data-toggle="modal"
-                                                                                                   data-target="#addRaceFlawModal">Добавить</a>
+                    <h3 class="display-inline margin-inline">
+                        <span ng-i18next>page.race.flaws_header</span>
+                        "{{race.name}}" <a href="#"
+                                           class="link-underlined link-blue"
+                                           data-toggle="modal"
+                                           data-target="#addRaceFlawModal" ng-i18next>popup.add_button</a>
                     </h3>
                 </div>
                 <div class="panel-body">
                     <table id="racesFlawsTable" class="table table-hover nowrap" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Имя</th>
-                            <th>Действия</th>
+                            <th ng-i18next>table.header.name</th>
+                            <th ng-i18next>table.header.actions</th>
                         </tr>
                         </thead>
                     </table>
@@ -301,27 +319,31 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                     &times;
                                 </button>
-                                <h4 class="modal-title">Добавить расовый недостаток</h4>
+                                <h4 class="modal-title" ng-i18next>page.race.add_flaw_title</h4>
                             </div>
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group" style="border-radius: 0 !important;">
-                                        <label for="flaw_id" class="form-control-label">Недостаток:</label>
+                                        <label for="flaw_id" class="form-control-label" ng-i18next>page.race.add_flaw_label_name</label>
                                         <select class="form-control"
                                                 name="flaw"
                                                 ng-model="flaw_id" id="flaw_id"
                                                 ng-options="flaw.id as flaw.name for flaw in flaws" required>
-                                            <option style="display:none" value="">Выберите недостаток...</option>
+                                            <option style="display:none" value="" ng-i18next>
+                                                page.race.add_flaw_place_holder
+                                            </option>
                                         </select>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceFlaw()">
-                                    Добавить
+                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceFlaw()"
+                                        ng-i18next>
+                                    popup.add_button
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">
-                                    Отменить
+                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal"
+                                        ng-i18next>
+                                    popup.cancel_button
                                 </button>
                             </div>
                         </div>
@@ -331,11 +353,13 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="display-inline margin-inline">Расовые врожденные особенности "{{race.name}}" <a href="#"
-                                                                                                               class="link-underlined link-blue"
-                                                                                                               data-toggle="modal"
-                                                                                                               data-target="#addRaceInherentModal"
-                                                                                                               ng-click="clearRaceInherentForm()">Добавить</a>
+                    <h3 class="display-inline margin-inline">
+                        <span ng-i18next>page.race.inherents_header</span>
+                        "{{race.name}}" <a href="#"
+                                           class="link-underlined link-blue"
+                                           data-toggle="modal"
+                                           data-target="#addRaceInherentModal"
+                                           ng-click="clearRaceInherentForm()" ng-i18next>popup.add_button</a>
                     </h3>
                 </div>
 
@@ -343,11 +367,11 @@
                     <table id="racesInherentsTable" class="table table-hover nowrap" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Имя</th>
-                            <th>Вероятность</th>
-                            <th>Мин</th>
-                            <th>Макс</th>
-                            <th>Действия</th>
+                            <th ng-i18next>table.header.name</th>
+                            <th ng-i18next>table.header.probability</th>
+                            <th ng-i18next>table.header.min</th>
+                            <th ng-i18next>table.header.max</th>
+                            <th ng-i18next>table.header.actions</th>
                         </tr>
                         </thead>
                     </table>
@@ -360,47 +384,53 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                     &times;
                                 </button>
-                                <h4 class="modal-title">Добавить расовую врожденную особенность</h4>
+                                <h4 class="modal-title" ng-i18next>page.race.add_inherent_title</h4>
                             </div>
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
-                                        <label for="inherent_id" class="form-control-label">Особенность:</label>
+                                        <label for="inherent_id" class="form-control-label" ng-i18next>page.race.add_inherent_label_name</label>
                                         <select class="form-control"
                                                 name="inherent"
                                                 ng-model="inherent_id" id="inherent_id"
                                                 ng-options="inherent.id as inherent.name for inherent in inherents"
                                                 ng-change="checkInherentValues(inherent_id)"
                                                 required>
-                                            <option style="display:none" value="">Выберите особенность...</option>
+                                            <option style="display:none" value="" ng-i18next="">
+                                                page.race.add_inherent_place_holder
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="inherent_race_probability"
-                                               class="form-control-label">Вероятность:</label>
+                                               class="form-control-label" ng-i18next>page.race.add_inherent_label_probability</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="inherent_race_probability" ng-model="inherent_race_probability">
                                     </div>
                                     <div class="form-group" ng-show="inherentHasValue">
                                         <label for="race_min"
-                                               class="form-control-label">Минимум:</label>
+                                               class="form-control-label"
+                                               ng-i18next>page.race.add_inherent_label_min</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="race_min" ng-model="race_min">
                                     </div>
                                     <div class="form-group" ng-show="inherentHasValue">
                                         <label for="race_max"
-                                               class="form-control-label">Максимум:</label>
+                                               class="form-control-label"
+                                               ng-i18next>page.race.add_inherent_label_max</label>
                                         <input type="number" class="form-control form-control-rounded"
                                                id="race_max" ng-model="race_max">
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceInherent()">
-                                    Добавить
+                                <button type="button" class="btn btn-primary btn-rounded" ng-click="addRaceInherent()"
+                                        ng-i18next>
+                                    popup.add_button
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">
-                                    Отменить
+                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal"
+                                        ng-i18next>
+                                    popup.cancel_button
                                 </button>
                             </div>
                         </div>

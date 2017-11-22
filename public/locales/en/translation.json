@@ -347,6 +347,35 @@
         "race_name_empty": "Race name cannot be empty!"
       }
     },
+    "race": {
+      "attributes_header": "Attributes' cost for the race",
+      "merits_header": "Race merits",
+      "flaws_header": "Race flaws",
+      "inherents_header": "Race inherent qualities",
+      "add_merit_title": "Add race merit",
+      "add_merit_label_name": "Merit:",
+      "add_merit_place_holder": "Select merit...",
+      "add_merit_label_cost": "Cost:",
+      "add_merit_label_by_default": "By default",
+      "add_flaw_title": "Add race flaw",
+      "add_flaw_label_name": "Flaw:",
+      "add_flaw_place_holder": "Select flaw...",
+      "add_inherent_title": "Add race inherent quality",
+      "add_inherent_label_name": "Quality:",
+      "add_inherent_place_holder": "Select quality...",
+      "add_inherent_label_probability": "Probability:",
+      "add_inherent_label_min": "Minimum:",
+      "add_inherent_label_max": "Maximum:",
+      "edit_attribute_base_cost": "Edit attribute base cost",
+      "edit_attribute_empty_cost": "Base cost cannot be less than 1!",
+      "edit_attribute_less_one": "Set base cost!",
+      "empty_inherents_table": "There are no race inherent qualities for this race",
+      "empty_merits_table": "There are no race merits for this race",
+      "empty_flaws_table": "There are no race flaws for this race",
+      "delete_merit_text": "Are you sure you want to delete race merit?",
+      "delete_flaw_text": "Are you sure you want to delete race flaw?",
+      "delete_inherent_text": "Are you sure you want to delete race inherent quality?"
+    },
     "inherents": {
       "header": "Inherent qualities",
       "add": {
