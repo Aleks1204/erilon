@@ -1,4 +1,4 @@
-// var language = 'en';
+var language = 'ru';
 // console.log(window.location.hostname);
 if (window.location.hostname.match('en') !== null) {
     language = 'en';
