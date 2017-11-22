@@ -3,7 +3,9 @@
     "by_default": "По умолчанию",
     "present": "Присутствует",
     "absent": "Отсутствует",
-    "brand_name": "ЭРИЛОН"
+    "brand_name": "ЭРИЛОН",
+    "back": "Назад",
+    "delete": "Удалить"
   },
   "popup": {
     "cancel_button": "Отмена",
