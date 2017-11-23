@@ -243,7 +243,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     '<option value="' + $i18next.t('page.merits.options.talent') + '">' + $i18next.t('page.merits.options.talent') + '</option>' +
                     '<option value="' + $i18next.t('page.merits.options.fight') + '">' + $i18next.t('page.merits.options.fight') + '</option>' +
                     '<option value="' + $i18next.t('page.merits.options.appearance') + '">' + $i18next.t('page.merits.options.appearance') + '</option>' +
-                    '<option value="' + $i18next.t('page.merits.options.other') + '">' + $i18next.t('page.merits.options.other') + '</option>' +
+                    '<option value="' + $i18next.t('page.merits.options.others') + '">' + $i18next.t('page.merits.options.others') + '</option>' +
                         '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
@@ -324,7 +324,7 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 '<option value="' + $i18next.t('page.merits.options.talent') + '">' + $i18next.t('page.merits.options.talent') + '</option>' +
                 '<option value="' + $i18next.t('page.merits.options.fight') + '">' + $i18next.t('page.merits.options.fight') + '</option>' +
                 '<option value="' + $i18next.t('page.merits.options.appearance') + '">' + $i18next.t('page.merits.options.appearance') + '</option>' +
-                '<option value="' + $i18next.t('page.merits.options.other') + '">' + $i18next.t('page.merits.options.other') + '</option>' +
+                '<option value="' + $i18next.t('page.merits.options.others') + '">' + $i18next.t('page.merits.options.others') + '</option>' +
                 '</select>' +
                 '</div>' +
                 '<div class="form-group">' +

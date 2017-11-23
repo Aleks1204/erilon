@@ -430,7 +430,7 @@
         "talent": "talent",
         "fight": "fight",
         "appearance": "appearance",
-        "other": "other"
+        "others": "others"
       },
       "delete": {
         "text": "Are you sure you want to delete this merit?"
