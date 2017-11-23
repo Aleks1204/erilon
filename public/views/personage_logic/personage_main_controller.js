@@ -426,7 +426,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         }
     };
 
-    $scope.filterFlawsByCategory = function (category, selected) {
+    $scope.filterFlawsByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredFlawsCategories.push(category);
         } else {
