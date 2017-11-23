@@ -649,7 +649,7 @@
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input name="magic" type="checkbox" ng-model="filter.magic" id="magicSkillsFilter"
-                                           ng-change="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.magic', filter.magic)">
                                     <label for="magicSkillsFilter" ng-i18next>
                                         page.character.attached_skills_categories.magic
                                     </label>
@@ -657,7 +657,7 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="socialSkillsFilter" name="social" type="checkbox"
                                            ng-model="filter.attached_social"
-                                           ng-change="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.social', filter.attached_social)">
                                     <label for="socialSkillsFilter" ng-i18next>
                                         page.character.attached_skills_categories.social
                                     </label>
@@ -667,7 +667,7 @@
                                 <div class="checkbox checkbox-info">
                                     <input name="languages" type="checkbox" ng-model="filter.language"
                                            id="languageFiler"
-                                           ng-change="filterAttachedSkillsByCategory('языки', filter.language)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.languages', filter.language)">
                                     <label for="languageFiler" ng-i18next>
                                         page.character.attached_skills_categories.languages
                                     </label>
@@ -675,7 +675,7 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="knowledgeSkillsFilter" name="knowledge" type="checkbox"
                                            ng-model="filter.knowledge"
-                                           ng-change="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.lores', filter.knowledge)">
                                     <label for="knowledgeSkillsFilter" ng-i18next>
                                         page.character.attached_skills_categories.lores
                                     </label>
@@ -684,7 +684,7 @@
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input id="craftsSkillsFilter" name="crafts" type="checkbox" ng-model="filter.craft"
-                                           ng-change="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.crafts', filter.craft)">
                                     <label for="craftsSkillsFilter" ng-i18next>
                                         page.character.attached_skills_categories.crafts
                                     </label>
@@ -692,7 +692,7 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="profSkillsFilter" name="professional" type="checkbox"
                                            ng-model="filter.prof"
-                                           ng-change="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                           ng-change="filterAttachedSkillsByCategory('page.character.attached_skills_categories.professional', filter.prof)">
                                     <label for="profSkillsFilter" ng-i18next>
                                         page.character.attached_skills_categories.professional
                                     </label>
@@ -751,7 +751,7 @@
                                 <hr/>
                                 <table class="table table-hover category-table"
                                        style="margin-bottom: 0">
-                                    <tr ng-click="filterAttachedSkillsByCategory('магические', filter.magic)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.magic', filter.magic)">
                                         <td style="width: 15%;">
                                             <i ng-show="filter.magic" class="fa fa-check"></i>
                                             <input name="magic" type="checkbox" ng-model="filter.magic"
@@ -761,7 +761,7 @@
                                             page.character.attached_skills_categories.magic
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('социальные', filter.attached_social)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.social', filter.attached_social)">
                                         <td>
                                             <i ng-show="filter.attached_social" class="fa fa-check"></i>
                                             <input name="social" type="checkbox" ng-model="filter.attached_social"
@@ -771,7 +771,7 @@
                                             page.character.attached_skills_categories.social
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('языки', filter.language)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.languages', filter.language)">
                                         <td>
                                             <i ng-show="filter.language" class="fa fa-check"></i>
                                             <input name="languages" type="checkbox" ng-model="filter.language"
@@ -781,7 +781,7 @@
                                             page.character.attached_skills_categories.languages
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('знания', filter.knowledge)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.lores', filter.knowledge)">
                                         <td>
                                             <i ng-show="filter.knowledge" class="fa fa-check"></i>
                                             <input name="knowledge" type="checkbox" ng-model="filter.knowledge"
@@ -791,7 +791,7 @@
                                             page.character.attached_skills_categories.lores
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('ремесла', filter.craft)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.crafts', filter.craft)">
                                         <td>
                                             <i ng-show="filter.craft" class="fa fa-check"></i>
                                             <input name="crafts" type="checkbox" ng-model="filter.craft"
@@ -801,7 +801,7 @@
                                             page.character.attached_skills_categories.crafts
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterAttachedSkillsByCategory('профессиональные', filter.prof)">
+                                    <tr ng-click="filterAttachedSkillsByCategory('page.character.attached_skills_categories.professional', filter.prof)">
                                         <td>
                                             <i ng-show="filter.prof" class="fa fa-check"></i>
                                             <input name="professional" type="checkbox" ng-model="filter.prof"

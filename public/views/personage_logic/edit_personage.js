@@ -378,7 +378,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.addedAttachedSkillsFilter = false;
 
-    $scope.filterAttachedSkillsByCategory = function (category, selected) {
+    $scope.filterAttachedSkillsByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredAttachedSkillsCategories.push(category);
         } else {
@@ -518,7 +519,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.filteredTriggerSkillsCategories = [];
 
-    $scope.filterTriggerSkillsByCategory = function (category, selected) {
+    $scope.filterTriggerSkillsByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredTriggerSkillsCategories.push(category);
         } else {
@@ -658,7 +660,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         $scope.openDetails = [];
     };
 
-    $scope.filterMeritByCategory = function (category, selected) {
+    $scope.filterMeritByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredMeritCategories.push(category);
         } else {
