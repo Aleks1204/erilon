@@ -320,7 +320,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.addedAttachedSkillsFilter = false;
 
-    $scope.filterAttachedSkillsByCategory = function (category, selected) {
+    $scope.filterAttachedSkillsByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredAttachedSkillsCategories.push(category);
         } else {
