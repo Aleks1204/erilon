@@ -540,7 +540,8 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.filteredTriggerSkillsCategories = [];
 
-    $scope.filterTriggerSkillsByCategory = function (category, selected) {
+    $scope.filterTriggerSkillsByCategory = function (categoryKey, selected) {
+        var category = $i18next.t(categoryKey).toLowerCase();
         if (selected) {
             $scope.filteredTriggerSkillsCategories.push(category);
         } else {
