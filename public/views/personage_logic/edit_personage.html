@@ -990,7 +990,7 @@
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input name="fight" type="checkbox" ng-model="filter.fight" id="fightFilter"
-                                           ng-change="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                           ng-change="filterTriggerSkillsByCategory('page.character.trigger_skills_categories.fight', filter.fight)">
                                     <label for="fightFilter" ng-i18next>
                                         page.character.trigger_skills_categories.fight
                                     </label>
@@ -999,7 +999,7 @@
 
                                     <input name="nonfight" type="checkbox" ng-model="filter.nonfight"
                                            id="nonfightFilter"
-                                           ng-change="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
+                                           ng-change="filterTriggerSkillsByCategory('page.character.trigger_skills_categories.no_fight', filter.nonfight)">
                                     <label for="nonfightFilter" ng-i18next>
                                         page.character.trigger_skills_categories.no_fight
                                     </label>
@@ -1029,7 +1029,7 @@
                                 <hr/>
                                 <table class="table table-hover category-table"
                                        style="margin-bottom: 0">
-                                    <tr ng-click="filterTriggerSkillsByCategory('боевые', filter.fight)">
+                                    <tr ng-click="filterTriggerSkillsByCategory('page.character.trigger_skills_categories.fight', filter.fight)">
                                         <td style="width: 15%;">
                                             <i ng-show="filter.fight" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.fight" style="display: none;">
@@ -1038,7 +1038,7 @@
                                             page.character.trigger_skills_categories.fight
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterTriggerSkillsByCategory('небоевые', filter.nonfight)">
+                                    <tr ng-click="filterTriggerSkillsByCategory('page.character.trigger_skills_categories.no_fight', filter.nonfight)">
                                         <td>
                                             <i ng-show="filter.nonfight" class="fa fa-check"></i>
                                             <input type="checkbox" ng-model="filter.nonfight" style="display: none;">
@@ -1221,14 +1221,14 @@
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input id="magicMeritsFilter" name="fight" type="checkbox" ng-model="merit.magic"
-                                           ng-change="filterMeritByCategory('магические', merit.magic)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.magic', merit.magic)">
                                     <label for="magicMeritsFilter" ng-i18next>
                                         page.character.merits_categories.magic
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="faceMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.face"
-                                           ng-change="filterMeritByCategory('внешность', merit.face)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.face', merit.face)">
                                     <label for="faceMeritsFilter" ng-i18next>
                                         page.character.merits_categories.face
                                     </label>
@@ -1238,14 +1238,14 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="specMeritsFilter" name="fight" type="checkbox"
                                            ng-model="merit.speciality"
-                                           ng-change="filterMeritByCategory('специализация', merit.speciality)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.speciality', merit.speciality)">
                                     <label for="specMeritsFilter" ng-i18next>
                                         page.character.merits_categories.speciality
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-info">
                                     <input id="fightMeritsFilter" name="nonfight" type="checkbox" ng-model="merit.fight"
-                                           ng-change="filterMeritByCategory('боевые', merit.fight)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.fight', merit.fight)">
                                     <label for="fightMeritsFilter" ng-i18next>
                                         page.character.merits_categories.fight
                                     </label>
@@ -1254,7 +1254,7 @@
                             <div class="col-md-2">
                                 <div class="checkbox checkbox-info">
                                     <input id="talentMeritsFilter" name="fight" type="checkbox" ng-model="merit.talent"
-                                           ng-change="filterMeritByCategory('талант', merit.talent)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.talent', merit.talent)">
                                     <label for="talentMeritsFilter" ng-i18next>
                                         page.character.merits_categories.talent
                                     </label>
@@ -1262,7 +1262,7 @@
                                 <div class="checkbox checkbox-info">
                                     <input id="othersMeritsFilter" name="nonfight" type="checkbox"
                                            ng-model="merit.others"
-                                           ng-change="filterMeritByCategory('остальные', merit.others)">
+                                           ng-change="filterMeritByCategory('page.character.merits_categories.others', merit.others)">
                                     <label for="othersMeritsFilter" ng-i18next>
                                         page.character.merits_categories.others
                                     </label>
@@ -1300,7 +1300,7 @@
                                 <hr/>
                                 <table class="table table-hover category-table"
                                        style="margin-bottom: 0">
-                                    <tr ng-click="filterMeritByCategory('магические', merit.magic)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.magic', merit.magic)">
                                         <td style="width: 15%;">
                                             <i ng-show="merit.magic" class="fa fa-check"></i>
                                             <input name="magic" type="checkbox" ng-model="merit.magic"
@@ -1310,7 +1310,7 @@
                                             page.character.merits_categories.magic
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterMeritByCategory('внешность', merit.face)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.face', merit.face)">
                                         <td>
                                             <i ng-show="merit.face" class="fa fa-check"></i>
                                             <input name="face" type="checkbox" ng-model="merit.face"
@@ -1320,7 +1320,7 @@
                                             page.character.merits_categories.face
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterMeritByCategory('специализация', merit.speciality)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.speciality', merit.speciality)">
                                         <td>
                                             <i ng-show="merit.speciality" class="fa fa-check"></i>
                                             <input name="speciality" type="checkbox" ng-model="merit.speciality"
@@ -1330,7 +1330,7 @@
                                             page.character.merits_categories.speciality
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterMeritByCategory('боевые', merit.fight)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.fight', merit.fight)">
                                         <td>
                                             <i ng-show="merit.fight" class="fa fa-check"></i>
                                             <input name="fight" type="checkbox" ng-model="merit.fight"
@@ -1340,7 +1340,7 @@
                                             page.character.merits_categories.fight
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterMeritByCategory('ремесла', merit.talent)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.talent', merit.talent)">
                                         <td>
                                             <i ng-show="merit.talent" class="fa fa-check"></i>
                                             <input name="talent" type="checkbox" ng-model="merit.talent"
@@ -1350,7 +1350,7 @@
                                             page.character.merits_categories.talent
                                         </td>
                                     </tr>
-                                    <tr ng-click="filterMeritByCategory('остальные', merit.others)">
+                                    <tr ng-click="filterMeritByCategory('page.character.merits_categories.others', merit.others)">
                                         <td>
                                             <i ng-show="merit.others" class="fa fa-check"></i>
                                             <input name="others" type="checkbox" ng-model="merit.others"
