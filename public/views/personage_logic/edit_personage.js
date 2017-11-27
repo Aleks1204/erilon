@@ -673,11 +673,11 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addedMeritsFilter = false;
 
     $scope.filteredMerit = function (meritMixed) {
-        if (meritMixed.merit.name === 'Симпатичность' ||
-            meritMixed.merit.name === 'Эльфийская ловкость' ||
-            meritMixed.merit.name === 'Эльфийская скорость' ||
-            meritMixed.merit.name === 'Эльфийская харизма' ||
-            meritMixed.merit.name === 'Эльфийское восприятие') {
+        if (meritMixed.merit.name === $i18next.t('page.character.elven_pretty') ||
+            meritMixed.merit.name === $i18next.t('page.character.elven_dexterity') ||
+            meritMixed.merit.name === $i18next.t('page.character.elven_speed') ||
+            meritMixed.merit.name === $i18next.t('page.character.elven_charisma') ||
+            meritMixed.merit.name === $i18next.t('page.character.elven_perception')) {
             return true;
         }
 
@@ -937,7 +937,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         var buttonsToAnimate = [];
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
-                case "Сила":
+                case $i18next.t('page.character.power'):
                     if ($scope.power !== personageAttribute.value) {
                         buttonsToAnimate.push($('#hitChopPunch'));
                         buttonsToAnimate.push($('#parryChopPunch'));
@@ -945,7 +945,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         $scope.power = personageAttribute.value;
                     }
                     break;
-                case "Ловкость":
+                case $i18next.t('page.character.dexterity'):
                     if ($scope.dexterity !== personageAttribute.value) {
                         $scope.dexterity = personageAttribute.value;
                         buttonsToAnimate.push($('#hitPiercePunch'));
@@ -955,7 +955,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Скорость":
+                case $i18next.t('page.character.speed'):
                     if ($scope.speed !== personageAttribute.value) {
                         $scope.speed = personageAttribute.value;
                         buttonsToAnimate.push($('#hitPiercePunch'));
@@ -964,7 +964,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Реакция":
+                case $i18next.t('page.character.reaction'):
                     if ($scope.reaction !== personageAttribute.value) {
                         $scope.reaction = personageAttribute.value;
                         buttonsToAnimate.push($('parryPiercePunch'));
@@ -974,31 +974,31 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Восприятие":
+                case $i18next.t('page.character.perception'):
                     if ($scope.perception !== personageAttribute.value) {
                         $scope.perception = personageAttribute.value;
                         buttonsToAnimate.push($('#rangedHit'));
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Выносливость":
+                case $i18next.t('page.character.endurance'):
                     if ($scope.endurance !== personageAttribute.value) {
                         $scope.endurance = personageAttribute.value;
                         buttonsToAnimate.push($('#endurancePoints'));
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Живучесть":
+                case $i18next.t('page.character.vitality'):
                     if ($scope.vitality !== personageAttribute.value) {
                         $scope.vitality = personageAttribute.value;
                     }
                     break;
-                case "Мудрость":
+                case $i18next.t('page.character.wisdom'):
                     if ($scope.wisdom !== personageAttribute.value) {
                         $scope.wisdom = personageAttribute.value;
                     }
                     break;
-                case "Интеллект":
+                case $i18next.t('page.character.intelligence'):
                     if ($scope.intelligence !== personageAttribute.value) {
                         $scope.intelligence = personageAttribute.value;
                         buttonsToAnimate.push($('#mentalActionPoints'));
@@ -1006,12 +1006,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         animateButtons([$('#characteristics')], 'rubberBand');
                     }
                     break;
-                case "Воля":
+                case $i18next.t('page.character.will'):
                     if ($scope.will !== personageAttribute.value) {
                         $scope.will = personageAttribute.value;
                     }
                     break;
-                case "Харизма":
+                case $i18next.t('page.character.charisma'):
                     if ($scope.charisma !== personageAttribute.value) {
                         $scope.charisma = personageAttribute.value;
                     }
@@ -1060,22 +1060,22 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     $scope.ifMagic = function (personageAttribute) {
-        return personageAttribute.Attribute.name === 'Магия' && personageAttribute.value === 0;
+        return personageAttribute.Attribute.name === $i18next.t('page.character.magic') && personageAttribute.value === 0;
     };
 
     function getAttributeModifier(attribute) {
         var modifier = 0;
         angular.forEach($scope.personageMerits, function (personageMerit) {
-            if (personageMerit.Merit.name === 'Эльфийская ловкость' && attribute.name === 'Ловкость') {
+            if (personageMerit.Merit.name === $i18next.t('page.character.elven_dexterity') && attribute.name === $i18next.t('page.character.dexterity')) {
                 modifier = 1;
             }
-            if (personageMerit.Merit.name === 'Эльфийская скорость' && attribute.name === 'Скорость') {
+            if (personageMerit.Merit.name === $i18next.t('page.character.elven_speed') && attribute.name === $i18next.t('page.character.speed')) {
                 modifier = 1;
             }
-            if (personageMerit.Merit.name === 'Эльфийское восприятие' && attribute.name === 'Восприятие') {
+            if (personageMerit.Merit.name === $i18next.t('page.character.elven_perception') && attribute.name === $i18next.t('page.character.perception')) {
                 modifier = 1;
             }
-            if (personageMerit.Merit.name === 'Эльфийская харизма' && attribute.name === 'Харизма') {
+            if (personageMerit.Merit.name === $i18next.t('page.character.elven_charisma') && attribute.name === $i18next.t('page.character.charisma')) {
                 modifier = 1;
             }
         });
@@ -1109,12 +1109,12 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                         });
                     }
                     personageAttribute.value++;
-                    if (personageAttribute.Attribute.name === 'Мудрость' && personageAttribute.value === 6) {
+                    if (personageAttribute.Attribute.name === $i18next.t('page.character.wisdom') && personageAttribute.value === 6) {
                         swal({
                             text: $i18next.t('page.character.wisdom6_bonus_warning')
                         });
                     }
-                    if (personageAttribute.Attribute.name === 'Мудрость' && personageAttribute.value === 9) {
+                    if (personageAttribute.Attribute.name === $i18next.t('page.character.wisdom') && personageAttribute.value === 9) {
                         swal({
                             text: $i18next.t('page.character.wisdom9_bonus_warning')
                         });
@@ -1392,7 +1392,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             cost = cost * 2;
         }
 
-        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_Мудрость");
+        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_" + $i18next.t('page.character.wisdom'));
         if (wisdomInitialValue === null) {
             if ($scope.wisdom > 5) {
                 cost--;
@@ -1571,7 +1571,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
             cost = cost * 2;
         }
 
-        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_Мудрость");
+        var wisdomInitialValue = returnInitialValueIfWasIncreased("Attribute_" + $i18next.t('page.character.wisdom'));
         if (wisdomInitialValue === null) {
             if ($scope.wisdom > 5) {
                 cost--;
@@ -1941,75 +1941,68 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     $scope.hitPiercePunchAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Ловкость'),
-            $('#Скорость')
+            $('#' + $i18next.t('page.character.dexterity')),
+            $('#' + $i18next.t('page.character.speed'))
         ], 'shake');
     };
 
     $scope.hitChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Ловкость'),
-            $('#Силa')
-        ], 'shake');
-    };
-
-    $scope.hitChopPunchAnimateRelatedAttributes = function () {
-        animateButtons([
-            $('#Ловкость'),
-            $('#Сила')
+            $('#' + $i18next.t('page.character.dexterity')),
+            $('#' + $i18next.t('page.character.power'))
         ], 'shake');
     };
 
     $scope.rangedHitAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Ловкость'),
-            $('#Восприятие')
+            $('#' + $i18next.t('page.character.dexterity')),
+            $('#' + $i18next.t('page.character.perception'))
         ], 'shake');
     };
 
     $scope.parryPiercePunchAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Скорость'),
-            $('#Реакция')
+            $('#' + $i18next.t('page.character.speed')),
+            $('#' + $i18next.t('page.character.reaction'))
         ], 'shake');
     };
 
     $scope.parryChopPunchAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Реакция'),
-            $('#Сила')
+            $('#' + $i18next.t('page.character.reaction')),
+            $('#' + $i18next.t('page.character.power'))
         ], 'shake');
     };
 
     $scope.dodgeAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Реакция'),
-            $('#Ловкость')
+            $('#' + $i18next.t('page.character.dexterity')),
+            $('#' + $i18next.t('page.character.reaction'))
         ], 'shake');
     };
 
     $scope.generalActionPointsAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Интеллект'),
-            $('#Скорость')
+            $('#' + $i18next.t('page.character.intelligence')),
+            $('#' + $i18next.t('page.character.speed'))
         ], 'shake');
     };
 
     $scope.mentalActionPointsAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Интеллект')
+            $('#' + $i18next.t('page.character.intelligence'))
         ], 'shake');
     };
 
     $scope.endurancePointsAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Выносливость')
+            $('#' + $i18next.t('page.character.endurance'))
         ], 'shake');
     };
 
     $scope.initiativeAnimateRelatedAttributes = function () {
         animateButtons([
-            $('#Реакция')
+            $('#' + $i18next.t('page.character.reaction'))
         ], 'shake');
     };
 
@@ -2172,7 +2165,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     };
 
     function deletePersonageMerit(personageMerit) {
-        if (personageMerit.Merit.name.indexOf('Талант') > -1) {
+        if (personageMerit.Merit.name.toLowerCase().indexOf($i18next.t('page.character.talent')) > -1) {
             angular.forEach($scope.personageTriggerSkills, function (personageTriggerSkill) {
                 if (personageMerit.Merit.name.indexOf(personageTriggerSkill.TriggerSkill.name) > -1) {
                     personageTriggerSkill.talented = false;
@@ -2306,7 +2299,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
     $scope.addPersonageAttachedSkill = function (attachedSkill) {
         var wizardDefer = $q.defer();
         var isWizard = false;
-        if (attachedSkill.name.toLowerCase().includes('магия') || attachedSkill.name === 'Алхимия') {
+        if (attachedSkill.name.toLowerCase().includes($i18next.t('page.character.magic').toLowerCase()) || attachedSkill.name === $i18next.t('page.character.alchemy')) {
             angular.forEach($scope.personageInherents, function (personageInherent) {
                 if (personageInherent.Inherent.name === 'Маг') {
                     isWizard = true;
@@ -2726,7 +2719,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
     function checkIfModificationNeeded(spell) {
         var grepResult = $.grep($scope.personageMerits, function (personageMerit) {
-            return personageMerit.Merit.name === 'Модификация заклинаний';
+            return personageMerit.Merit.name === $i18next.t('page.character.modification_merit');
         });
 
         var result = $q.defer();

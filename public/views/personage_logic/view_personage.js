@@ -16,34 +16,34 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     $scope.setActive = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Ловкость') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.dexterity')) {
             $('#hitPiercePunch').addClass('derivedActive');
             $('#hitChopPunch').addClass('derivedActive');
             $('#rangedHit').addClass('derivedActive');
             $('#dodge').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Скорость') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.speed')) {
             $('#hitPiercePunch').addClass('derivedActive');
             $('#parryPiercePunch').addClass('derivedActive');
             $('#generalActionPoints').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Сила') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.power')) {
             $('#hitChopPunch').addClass('derivedActive');
             $('#parryChopPunch').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Восприятие') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.perception')) {
             $('#rangedHit').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Реакция') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.reaction')) {
             $('#parryPiercePunch').addClass('derivedActive');
             $('#parryChopPunch').addClass('derivedActive');
             $('#dodge').addClass('derivedActive');
             $('#initiative').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Выносливость') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.endurance')) {
             $('#endurancePoints').addClass('derivedActive');
         }
-        if ($($event.currentTarget).find('td:eq(0)').attr('id') === 'Интеллект') {
+        if ($($event.currentTarget).find('td:eq(0)').attr('id') === $i18next.t('page.character.intelligence')) {
             $('#mentalActionPoints').addClass('derivedActive');
             $('#generalActionPoints').addClass('derivedActive');
         }
@@ -52,68 +52,68 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     $scope.hitPiercePunchAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Ловкость').parent('tr').addClass('derivedActive');
-        $('#Скорость').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.speed')).parent('tr').addClass('derivedActive');
     };
 
     $scope.hitChopPunchAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Ловкость').parent('tr').addClass('derivedActive');
-        $('#Сила').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.power')).parent('tr').addClass('derivedActive');
     };
 
     $scope.rangedHitAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Ловкость').parent('tr').addClass('derivedActive');
-        $('#Восприятие').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.perception')).parent('tr').addClass('derivedActive');
     };
 
     $scope.parryPiercePunchAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Скорость').parent('tr').addClass('derivedActive');
-        $('#Реакция').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.speed')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.reaction')).parent('tr').addClass('derivedActive');
     };
 
     $scope.parryChopPunchAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Реакция').parent('tr').addClass('derivedActive');
-        $('#Сила').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.reaction')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.power')).parent('tr').addClass('derivedActive');
     };
 
     $scope.dodgeAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Ловкость').parent('tr').addClass('derivedActive');
-        $('#Реакция').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.reaction')).parent('tr').addClass('derivedActive');
     };
 
     $scope.generalActionPointsAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Интеллект').parent('tr').addClass('derivedActive');
-        $('#Скорость').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.intelligence')).parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.speed')).parent('tr').addClass('derivedActive');
     };
 
     $scope.mentalActionPointsAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Интеллект').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.intelligence')).parent('tr').addClass('derivedActive');
     };
 
     $scope.endurancePointsAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Выносливость').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.endurance')).parent('tr').addClass('derivedActive');
     };
 
     $scope.initiativeAnimateRelatedAttributes = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
-        $('#Реакция').parent('tr').addClass('derivedActive');
+        $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
     };
 
     function success() {
@@ -188,16 +188,16 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                         return "";
                     }
                     if (row.currentLevel === 1) {
-                        return "Эксперт";
+                        return getLevelName(1);
                     }
                     if (row.currentLevel === 2) {
-                        return "Мастер";
+                        return getLevelName(2);
                     }
                     if (row.currentLevel === 3) {
-                        return "Магистр";
+                        return getLevelName(3);
                     }
                     if (row.currentLevel === 4) {
-                        return "Гроссмейтер";
+                        return getLevelName(4);
                     }
                 }
             },
@@ -205,7 +205,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 "targets": 0,
                 "data": function (row, type, val, meta) {
                     if (row.talented) {
-                        return "Да";
+                        return $i18next.t('general.yes');
                     } else {
                         return "";
                     }
@@ -213,6 +213,31 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             },
             {"data": "TriggerSkill.description"}
         ], 4);
+    }
+
+    function getLevelName(levelNumber) {
+        var levelName = '';
+        switch (levelNumber) {
+            case 0:
+                levelName = $i18next.t('level.base');
+                break;
+            case 1:
+                levelName = $i18next.t('level.expert');
+                break;
+            case 2:
+                levelName = $i18next.t('level.master');
+                break;
+            case 3:
+                levelName = $i18next.t('level.magister');
+                break;
+            case 4:
+                levelName = $i18next.t('level.grandmaster');
+                break;
+            default:
+                levelName = $i18next.t('level.none');
+                break;
+        }
+        return levelName;
     }
 
     function table(dataUrl, tableId, columns, maxSize) {
@@ -349,9 +374,9 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     data: 'spell.instant',
                     render: function (data, type, row) {
                         if (data) {
-                            return "Да";
+                            return $i18next.t('general.yes');
                         } else {
-                            return "Нет";
+                            return $i18next.t('popup.no');
                         }
                     }
                 },
@@ -423,51 +448,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         angular.forEach(buffer, function (attachedSkillId) {
             $http.get('/attachedSkills/' + attachedSkillId).then(function (response) {
                 $scope.schools.push(response.data.attachedSkill);
-                if (response.data.attachedSkill.name === 'Магия воздуха') {
-                    magicTable('air', 'Воздух', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия земли') {
-                    magicTable('earth', 'Земля', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия огня') {
-                    magicTable('fire', 'Огонь', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия воды') {
-                    magicTable('aqua', 'Вода', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия смерти') {
-                    magicTable('death', 'Смерть', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия духа') {
-                    magicTable('astral', 'Дух', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия иллюзий') {
-                    magicTable('illusion', 'Иллюзии', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия призыва') {
-                    magicTable('call', 'Призыв', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия природы') {
-                    magicTable('nature', 'Природа', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия разума') {
-                    magicTable('mind', 'Разум', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия тела') {
-                    magicTable('body', 'Тело', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Магия тени') {
-                    magicTable('shadow', 'Тень', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Начертательная магия') {
-                    magicTable('pentagram', 'Начертательная магия', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Знахарство') {
-                    magicTable('herbs', 'Знахарство', response.data.attachedSkill);
-                }
-                if (response.data.attachedSkill.name === 'Алхимия') {
-                    magicTable('alchemy', 'Алхимия', response.data.attachedSkill);
-                }
+                magicTable(response.data.attachedSkill.id, response.data.attachedSkill.name, response.data.attachedSkill);
             });
         });
     };
@@ -494,37 +475,37 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     function calculateBasicCharacteristics() {
         angular.forEach($scope.personageAttributes, function (personageAttribute) {
             switch (personageAttribute.Attribute.name) {
-                case "Сила":
+                case $i18next.t('page.character.power'):
                     $scope.power = personageAttribute.value;
                     break;
-                case "Ловкость":
+                case $i18next.t('page.character.dexterity'):
                     $scope.dexterity = personageAttribute.value;
                     break;
-                case "Скорость":
+                case $i18next.t('page.character.speed'):
                     $scope.speed = personageAttribute.value;
                     break;
-                case "Реакция":
+                case $i18next.t('page.character.reaction'):
                     $scope.reaction = personageAttribute.value;
                     break;
-                case "Восприятие":
+                case $i18next.t('page.character.perception'):
                     $scope.perception = personageAttribute.value;
                     break;
-                case "Выносливость":
+                case $i18next.t('page.character.endurance'):
                     $scope.endurance = personageAttribute.value;
                     break;
-                case "Живучесть":
+                case $i18next.t('page.character.vitality'):
                     $scope.vitality = personageAttribute.value;
                     break;
-                case "Мудрость":
+                case $i18next.t('page.character.wisdom'):
                     $scope.wisdom = personageAttribute.value;
                     break;
-                case "Интеллект":
+                case $i18next.t('page.character.intelligence'):
                     $scope.intelligence = personageAttribute.value;
                     break;
-                case "Воля":
+                case $i18next.t('page.character.will'):
                     $scope.will = personageAttribute.value;
                     break;
-                case "Харизма":
+                case $i18next.t('page.character.charisma'):
                     $scope.charisma = personageAttribute.value;
                     break;
             }
@@ -557,7 +538,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     };
 
     $scope.ifMagic = function (personageAttribute) {
-        return personageAttribute.Attribute.name === 'Магия' && personageAttribute.value === 0;
+        return personageAttribute.Attribute.name === $i18next.t('page.character.magic') && personageAttribute.value === 0;
     };
 
     function getPersonageAttributeValue(attribute) {

@@ -5,7 +5,8 @@
     "present": "Present",
     "absent": "Absent",
     "back": "Back",
-    "delete": "Delete"
+    "delete": "Delete",
+    "yes": "Yes"
   },
   "popup": {
     "cancel_button": "Cancel",
@@ -143,6 +144,25 @@
       "delete_character_button": "Delete"
     },
     "character": {
+      "power": "Power",
+      "dexterity": "Dexterity",
+      "speed": "Speed",
+      "reaction": "Reaction",
+      "perception": "Perception",
+      "endurance": "Endurance",
+      "vitality": "Vitality",
+      "wisdom": "Wisdom",
+      "intelligence": "Intelligence",
+      "will": "Will",
+      "charisma": "Charisma",
+      "magic": "Magic",
+      "appearance": "Appearance",
+      "luck": "Luck",
+      "mage": "Mage",
+      "half_elf": "Half elf",
+      "talent": "talent",
+      "alchemy": "Alchemy",
+      "modification_merit": "Spell modification",
       "create_header": "Character creation",
       "edit_header": "Character advancement",
       "inherents_disclaimer": "Inherent qualities of the character are created randomly. By clicking on the button, you can create a set of innate features for your character. You can create a set of innate features for the character only once, and you can change them later only by agreement with the wizard.",
