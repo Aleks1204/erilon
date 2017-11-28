@@ -1117,7 +1117,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 '</div>' +
                 '</form>',
                 showCancelButton: false,
-                confirmButtonText: $i18next.t('popup.confirm_button'),
+                confirmButtonText: $i18next.t('popup.ok'),
                 showLoaderOnConfirm: true,
                 preConfirm: function () {
                     return new Promise(function (resolve) {

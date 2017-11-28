@@ -22,7 +22,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
     function checkHalElfMerits() {
         var returned = $q.defer();
 
-        if ($('#race_id').find('option:selected').text() === 'Полуэльф') {
+        if ($('#race_id').find('option:selected').text() === $i18next.t('page.character.half_elf')) {
             swal({
                 title: $i18next.t('page.character.half_elf_mage_title'),
                 html: '<p>' + $i18next.t('page.character.half_elf_attributes_text') +
@@ -129,7 +129,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
                         var raceAttributePromises = [];
                         for (var i = 0; i < raceAttributes[0].length; i++) {
                             var value = 1;
-                            if (raceAttributes[0][i].Attribute.name === 'Магия') {
+                            if (raceAttributes[0][i].Attribute.name === $i18next.t('page.character.magic')) {
                                 value = 0;
                             }
                             raceAttributePromises.push(

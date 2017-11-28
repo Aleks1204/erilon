@@ -19,7 +19,8 @@
     "confirm_title": "Are you sure?",
     "accepted_button": "Confirm",
     "yes": "Yes!",
-    "no": "No"
+    "no": "No",
+    "ok": "OK"
   },
   "table": {
     "header": {

@@ -19,7 +19,8 @@
     "confirm_title": "Вы уверены?",
     "accepted_button": "Подтвердить",
     "yes": "Да!",
-    "no": "Нет"
+    "no": "Нет",
+    "ok": "OK"
   },
   "table": {
     "header": {
