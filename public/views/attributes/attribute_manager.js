@@ -41,11 +41,11 @@ app.controller("attributeListController", function ($scope, $http, $q, $localSto
                     }
                 },
                 {
-                    data: 'action_level_bonus',
+                    data: 'description',
                     orderable: false
                 },
                 {
-                    data: 'description',
+                    data: 'action_level_bonus',
                     orderable: false
                 },
                 {
