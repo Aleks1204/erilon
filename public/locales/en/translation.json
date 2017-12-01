@@ -215,8 +215,8 @@
       "decrease_spell_level": "When the level of this spell is lowered the level of a basic spell  will accordingly decrease",
       "modification_needed": "In order to use this spell, you need to have merit \"Spell modification\". Since you don't have one, you will not be able to use this spell. Are you sure you want to add it?",
       "derivatives": "Derivatives",
-      "wisdom6_bonus_warning": "The value of Wisdom 6 will allow you to acquire the attached skills at 1 cheaper, but the change will take effect only after the changes are saved",
-      "wisdom9_bonus_warning": "The value of Wisdom 9 will allow you to acquire the attached skills at 2 cheaper, but the change will take effect only after the changes are saved",
+      "wisdom6_bonus_warning": "The value of Wisdom 6 will allow you to acquire the attached skills at 1 EXP cheaper, but the change will take effect only after the changes are saved",
+      "wisdom9_bonus_warning": "The value of Wisdom 9 will allow you to acquire the attached skills at 2 EXP cheaper, but the change will take effect only after the changes are saved",
       "save_changes_warning": "After making changes, you will not be able to return to the character creation page!",
       "delete_character": "Are you sure you want to delete the character? It can not be restored!",
       "avatar": {
