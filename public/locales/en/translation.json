@@ -145,7 +145,7 @@
       "delete_character_button": "Delete"
     },
     "character": {
-      "power": "Power",
+      "power": "Strength",
       "dexterity": "Dexterity",
       "speed": "Speed",
       "reaction": "Reaction",
