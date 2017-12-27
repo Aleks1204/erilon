@@ -1,0 +1,8 @@
+{
+  "name": "vowsJSTests",
+  "version": "0.0.1",
+  "dependencies": {
+    "request": "^2.83.0",
+    "vows": "^0.8.1"
+  }
+}
