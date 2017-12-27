@@ -1,0 +1,123 @@
+@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px) {
+    table.mobile, tbody.mobile, td.mobile, th.mobile, thead.mobile, tr.mobile {
+        display: block
+    }
+
+    thead.mobile tr.mobile {
+        position: absolute;
+        top: -9999px;
+        left: -9999px
+    }
+
+    tr.mobile {
+        border: 1px solid #ccc;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0
+    }
+
+    td.mobile {
+        border: none;
+        border-bottom: 1px solid #eceff4;
+        position: relative;
+        padding-left: 50%
+    }
+
+    td.mobile.actions {
+        padding-left: 0
+    }
+
+    td.mobile.attached:nth-of-type(1), td.mobile.flaw:nth-of-type(1), td.mobile.merit:nth-of-type(1), td.mobile.spell:nth-of-type(1), td.mobile.trigger:nth-of-type(1):before {
+        padding-left: 10%;
+        border: none
+    }
+
+    td.mobile:before {
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap
+    }
+
+    td.mobile.trigger:nth-of-type(2):before {
+        content: "Basic skill"
+    }
+
+    td.mobile.trigger:nth-of-type(3):before {
+        content: "Buttons"
+    }
+
+    td.mobile.trigger:nth-of-type(4):before {
+        content: "Level"
+    }
+
+    td.mobile.trigger:nth-of-type(5):before {
+        content: "Talent"
+    }
+
+    td.mobile.trigger:nth-of-type(6):before {
+        content: "Tutor"
+    }
+
+    td.mobile.attached:nth-of-type(2):before {
+        content: "Сложность"
+    }
+
+    td.mobile.attached:nth-of-type(3):before {
+        content: "Theoretical"
+    }
+
+    td.mobile.attached:nth-of-type(4):before {
+        content: "Buttons"
+    }
+
+    td.mobile.attached:nth-of-type(5):before {
+        content: "Value"
+    }
+
+    td.mobile.flaw:nth-of-type(2):before {
+        content: "Cost"
+    }
+
+    td.mobile.merit:nth-of-type(2):before {
+        content: "Prerequisites"
+    }
+
+    td.mobile.merit:nth-of-type(3):before {
+        content: "Cost"
+    }
+
+    td.mobile.spell:nth-of-type(2):before {
+        content: "Difficulty"
+    }
+
+    td.mobile.spell:nth-of-type(3):before {
+        content: "Mana"
+    }
+
+    td.mobile.spell:nth-of-type(4):before {
+        content: "Support"
+    }
+
+    td.mobile.spell:nth-of-type(5):before {
+        content: "Basic spell"
+    }
+
+    td.mobile.spell:nth-of-type(6):before {
+        content: "Buttons"
+    }
+
+    td.mobile.spell:nth-of-type(7):before {
+        content: "Level"
+    }
+
+    td.mobile.spell:nth-of-type(8):before {
+        content: "Cost"
+    }
+
+    table tr.not_added td {
+        background-color: #eceeef;
+        border-bottom: 2px solid #fff
+    }
+}

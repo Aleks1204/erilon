@@ -9,11 +9,17 @@ function isMobile() {
 }
 
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
-var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next']);
+var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next', 'angularLoad']);
 
-app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $localStorage, $i18next) {
+app.controller("personageController", function ($scope, $http, $q, $timeout, $window, $localStorage, $i18next, angularLoad) {
     $scope.hideEditBlock = true;
     $scope.hideEditDescriptionBlock = true;
+
+    angularLoad.loadCSS('/assets/common/css/table_headers_en.css').then(function () {
+
+    }).catch(function () {
+        // There was some error loading the script. Meh
+    });
 
     $scope.savePersonageName = function () {
         var newName = $('input.name-material-form');
