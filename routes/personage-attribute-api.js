@@ -76,7 +76,7 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                     } else if (modifier.charAt(0) === '*') {
                         diceAmount = personageAttribute.value * parseInt(modifier.slice(1));
                     }
-                    modifierText = ' и модификатором ' + modifier + ' итого ' + diceAmount + ' кубиков';
+                    modifierText = ' и модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
                 }
                 var dice = roll.roll({
                     quantity: diceAmount,
