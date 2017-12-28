@@ -55,12 +55,7 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
             }).then(function (personageAttribute) {
                 return res.send({
                     "response_type": "in_channel",
-                    "text": "Значение атрибута " + attributeName + " для персонажа" + personageName,
-                    "attachments": [
-                        {
-                            "text": personageAttribute.value
-                        }
-                    ]
+                    "text": "/roll " + personageAttribute.value + "d6"
                 });
             });
         });
