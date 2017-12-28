@@ -35,7 +35,7 @@ router.post('/personageAttributes', function (req, res) {
 
 router.post('/slackPersonageAttributeValue', function (req, res) {
     var parameters = req.body.text.split(' ');
-    var personageName  = parameters[0];
+    var personageName = parameters[0];
     var attributeName = parameters[1];
     models.Personage.findOne({
         where: {
@@ -53,7 +53,15 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                     AttributeId: attribute.id
                 }
             }).then(function (personageAttribute) {
-                return res.send({personageAttributeValue: personageAttribute.value});
+                return res.send({
+                    "response_type": "in_channel",
+                    "text": "Значение атрибута " + attributeName + " для персонажа" + personageName,
+                    "attachments": [
+                        {
+                            "text": personageAttribute.value
+                        }
+                    ]
+                });
             });
         });
     });
