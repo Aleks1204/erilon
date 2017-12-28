@@ -33,6 +33,32 @@ router.post('/personageAttributes', function (req, res) {
     });
 });
 
+router.post('/slackPersonageAttributeValue', function (req, res) {
+    var parameters = req.body.text.split(' ');
+    var personageName  = parameters[0];
+    var attributeName = parameters[1];
+    models.Personage.findOne({
+        where: {
+            name: personageName
+        }
+    }).then(function (personage) {
+        models.Attribute.findOne({
+            where: {
+                name: attributeName
+            }
+        }).then(function (attribute) {
+            models.PersonageAttribute.findOne({
+                where: {
+                    PersonageId: personage.id,
+                    AttributeId: attribute.id
+                }
+            }).then(function (personageAttribute) {
+                return res.send({personageAttributeValue: personageAttribute.value});
+            });
+        });
+    });
+});
+
 router.delete('/personageAttributes/:id', function (req, res) {
     models.PersonageAttribute.findById(req.params.id).then(function (personageAttributes) {
         if (!personageAttributes) {
