@@ -51,7 +51,8 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
         where: {
             name: {
                 $like: '%' + personageName + '%'
-            }
+            },
+            deleted: false
         }
     }).then(function (personage) {
         models.Attribute.findOne({
