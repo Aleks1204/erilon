@@ -1,7 +1,8 @@
 var models = require('../models');
 var express = require('express');
 var router = express.Router();
-var log = require('../log')(module);
+var Roll = require('roll'),
+    roll = new Roll();
 
 router.get('/personageAttributes', function (req, res) {
     models.PersonageAttribute.findAll({
@@ -53,9 +54,10 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                     AttributeId: attribute.id
                 }
             }).then(function (personageAttribute) {
+                var yahtzee = roll.roll(personageAttribute.value + 'd6');
                 return res.send({
                     "response_type": "in_channel",
-                    "text": "/roll " + personageAttribute.value + "d6"
+                    "text": "Результат: " + yahtzee.result + ". На кубиках " + yahtzee.rolled
                 });
             });
         });
