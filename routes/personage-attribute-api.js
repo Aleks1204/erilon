@@ -34,10 +34,19 @@ router.post('/personageAttributes', function (req, res) {
     });
 });
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 router.post('/slackPersonageAttributeValue', function (req, res) {
-    var parameters = req.body.text.split('-');
-    var personageName = parameters[0];
-    var attributeName = parameters[1];
+    var parameters = req.body.text.split(',');
+    var personageName = capitalizeFirstLetter(parameters[0].trim());
+    var attributeName = capitalizeFirstLetter(parameters[1].trim());
+    var modifier = null;
+    var modifierText = '';
+    if (parameters.length > 2) {
+        modifier = parameters[2].trim();
+    }
     models.Personage.findOne({
         where: {
             name: {
@@ -58,10 +67,25 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                     AttributeId: attribute.id
                 }
             }).then(function (personageAttribute) {
-                var yahtzee = roll.roll(personageAttribute.value + 'd6');
+                var diceAmount = personageAttribute.value;
+                if (modifier != null) {
+                    if (modifier.charAt(0) === '+') {
+                        diceAmount = personageAttribute.value + parseInt(modifier.slice(1));
+                    } else if (modifier.charAt(0) === '-') {
+                        diceAmount = personageAttribute.value - parseInt(modifier.slice(1));
+                    } else if (modifier.charAt(0) === '*') {
+                        diceAmount = personageAttribute.value * parseInt(modifier.slice(1));
+                    }
+                    modifierText = ' и модификатором ' + modifier + ' итого ' + diceAmount + ' кубиков';
+                }
+                var dice = roll.roll({
+                    quantity: diceAmount,
+                    sides: 6,
+                    transformations: ['sum']
+                });
                 return res.send({
                     "response_type": "in_channel",
-                    "text": "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "' с результатом: *" + yahtzee.result + "*. На кубиках *" + yahtzee.rolled + "*"
+                    "text": "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "'" + modifierText + " с результатом: *" + dice.result + "*. На кубиках *" + dice.rolled + "*"
                 });
             });
         });
