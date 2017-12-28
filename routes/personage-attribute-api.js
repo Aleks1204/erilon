@@ -35,17 +35,21 @@ router.post('/personageAttributes', function (req, res) {
 });
 
 router.post('/slackPersonageAttributeValue', function (req, res) {
-    var parameters = req.body.text.split(' ');
+    var parameters = req.body.text.split('-');
     var personageName = parameters[0];
     var attributeName = parameters[1];
     models.Personage.findOne({
         where: {
-            name: personageName
+            name: {
+                $like: '%' + personageName + '%'
+            }
         }
     }).then(function (personage) {
         models.Attribute.findOne({
             where: {
-                name: attributeName
+                name: {
+                    $like: '%' + attributeName + '%'
+                }
             }
         }).then(function (attribute) {
             models.PersonageAttribute.findOne({
@@ -57,7 +61,7 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                 var yahtzee = roll.roll(personageAttribute.value + 'd6');
                 return res.send({
                     "response_type": "in_channel",
-                    "text": "Результат: " + yahtzee.result + ". На кубиках " + yahtzee.rolled
+                    "text": "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "' с результатом: *" + yahtzee.result + "*. На кубиках *" + yahtzee.rolled + "*"
                 });
             });
         });
