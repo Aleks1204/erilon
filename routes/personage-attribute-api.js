@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Roll = require('roll'),
     roll = new Roll();
+var q = require('q');
 
 router.get('/personageAttributes', function (req, res) {
     models.PersonageAttribute.findAll({
@@ -41,9 +42,10 @@ function capitalizeFirstLetter(string) {
 router.post('/slackPersonageAttributeValue', function (req, res) {
     var parameters = req.body.text.split(',');
     var personageName = capitalizeFirstLetter(parameters[0].trim());
-    var attributeName = capitalizeFirstLetter(parameters[1].trim());
+    var attributesNames = capitalizeFirstLetter(parameters[1].trim());
     var modifier = null;
     var modifierText = '';
+    var getValues = q.defer();
     if (parameters.length > 2) {
         modifier = parameters[2].trim();
     }
@@ -54,39 +56,97 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
             }
         }
     }).then(function (personage) {
-        models.Attribute.findOne({
-            where: {
-                name: {
-                    $like: '%' + attributeName + '%'
-                }
-            }
-        }).then(function (attribute) {
-            models.PersonageAttribute.findOne({
-                where: {
-                    PersonageId: personage.id,
-                    AttributeId: attribute.id
-                }
-            }).then(function (personageAttribute) {
-                var diceAmount = personageAttribute.value;
+
+
+        if (attributesNames.includes('+')) {
+            var personageAttributes = [];
+            var attributePromises = [];
+            var attributesNamesArray = attributesNames.split('+');
+            attributesNamesArray.forEach(function (attributeName) {
+                var attributePromise = q.defer();
+                attributePromises.push(attributePromise);
+                models.Attribute.findOne({
+                    where: {
+                        name: {
+                            $like: '%' + attributeName + '%'
+                        }
+                    }
+                }).then(function (attribute) {
+                    models.PersonageAttribute.findOne({
+                        where: {
+                            PersonageId: personage.id,
+                            AttributeId: attribute.id
+                        }
+                    }).then(function (personageAttribute) {
+                        personageAttributes.push(personageAttribute);
+                        attributePromise.resolve();
+                    })
+                })
+            });
+
+            q.all(attributePromises).then(function () {
+                var attributesSum = 0;
+                var attributesText = '';
+                personageAttributes.forEach(function (personageAttribute) {
+                    attributesSum = attributesSum + personageAttribute.value;
+                    attributesText = attributesText + ', ' + personageAttribute.Attribute.name;
+                });
+                attributesText = attributesText.substring(2);
+                var diceAmount = attributesSum;
                 if (modifier != null) {
                     if (modifier.charAt(0) === '+') {
-                        diceAmount = personageAttribute.value + parseInt(modifier.slice(1));
+                        diceAmount = attributesSum + parseInt(modifier.slice(1));
                     } else if (modifier.charAt(0) === '-') {
-                        diceAmount = personageAttribute.value - parseInt(modifier.slice(1));
+                        diceAmount = attributesSum - parseInt(modifier.slice(1));
                     } else if (modifier.charAt(0) === '*') {
-                        diceAmount = personageAttribute.value * parseInt(modifier.slice(1));
+                        diceAmount = attributesSum * parseInt(modifier.slice(1));
                     }
                     modifierText = ' и модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
                 }
-                var dice = roll.roll({
-                    quantity: diceAmount,
-                    sides: 6,
-                    transformations: ['sum']
+                var text = "Персонаж '" + personage.name + "' бросает атрибут '" + attributesText + "' значение которого '" + personageAttribute.value + "'" + modifierText;
+                getValues.resolve([diceAmount, text]);
+            });
+        } else {
+            models.Attribute.findOne({
+                where: {
+                    name: {
+                        $like: '%' + attributesNames + '%'
+                    }
+                }
+            }).then(function (attribute) {
+                models.PersonageAttribute.findOne({
+                    where: {
+                        PersonageId: personage.id,
+                        AttributeId: attribute.id
+                    }
+                }).then(function (personageAttribute) {
+                    var diceAmount = personageAttribute.value;
+                    if (modifier != null) {
+                        if (modifier.charAt(0) === '+') {
+                            diceAmount = personageAttribute.value + parseInt(modifier.slice(1));
+                        } else if (modifier.charAt(0) === '-') {
+                            diceAmount = personageAttribute.value - parseInt(modifier.slice(1));
+                        } else if (modifier.charAt(0) === '*') {
+                            diceAmount = personageAttribute.value * parseInt(modifier.slice(1));
+                        }
+                        modifierText = ' и модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+                    }
+                    var text = "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "'" + modifierText;
+                    getValues.resolve([diceAmount, text]);
                 });
-                return res.send({
-                    "response_type": "in_channel",
-                    "text": "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "'" + modifierText + " с результатом: *" + dice.result + "*. На кубиках *" + dice.rolled + "*"
-                });
+            });
+        }
+
+
+        return getValues.promise.then(function (result) {
+            var dice = roll.roll({
+                quantity: result[0],
+                sides: 6,
+                transformations: ['sum']
+            });
+            return res.send({
+                "response_type": "in_channel",
+                "text": result[1] + " с результатом: *" + dice.result + "*. На кубиках *" + dice.rolled + "*"
             });
         });
     });
