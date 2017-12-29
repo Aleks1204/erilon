@@ -140,28 +140,31 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             {"data": "Merit.description"}
         ], 2);
 
-        table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
-            {
-                data: "AttachedSkill.name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {"data": "value"},
-            {
-                data: "AttachedSkill",
-                orderable: false,
-                render: function (data, type, row) {
-                    var returned = '';
-                    angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
-                        var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
-                        returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + '=' + value + ':</small></h4>' + attachedSkillAttribute.description;
-                    });
-                    return returned;
-                }
-            },
-            {"data": "AttachedSkill.description"}
-        ], 4);
+        $http.get('/byKey/' + 'show_default_skills' + $localStorage.playerId).then(function (response) {
+            $scope.defaultSkills = response.data.result != null;
+            table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
+                {
+                    data: "AttachedSkill.name",
+                    render: function (data, type, row) {
+                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                    }
+                },
+                {"data": "value"},
+                {
+                    data: "AttachedSkill",
+                    orderable: false,
+                    render: function (data, type, row) {
+                        var returned = '';
+                        angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
+                            var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
+                            returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + '=' + value + ':</small></h4>' + attachedSkillAttribute.description;
+                        });
+                        return returned;
+                    }
+                },
+                {"data": "AttachedSkill.description"}
+            ], 4);
+        });
 
         table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
             {
@@ -278,6 +281,12 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         table.columns().iterator('column', function (ctx, idx) {
             $(table.column(idx).header()).append('<span class="sort-icon"/>');
         });
+
+        if (tableId === '#attachedSkills' && !$scope.defaultSkills) {
+            $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
+                return aData[1] !== '0';
+            });
+        }
         return table;
     }
 

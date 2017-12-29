@@ -683,6 +683,7 @@
     "profile": {
       "header": "Private settings",
       "stub": "Here will be some kind of personal settings",
+      "default_skills_label": "Show default skills with 0 value on view character page",
       "attribute_sequence": "Sequence of attributes"
     }
   }

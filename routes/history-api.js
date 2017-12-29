@@ -40,5 +40,18 @@ router.delete('/history/:id', function (req, res){
     });
 });
 
+router.delete('/historyDeleteByKey/:key', function (req, res) {
+    models.History.findOne({
+        where: {
+            key: req.params.key
+        },
+        order: [['updatedAt', 'DESC']]
+    }).then(function (history) {
+        return history.destroy().then(function () {
+            return res.send({status: 'REMOVED'});
+        });
+    });
+});
+
 module.exports = router;
 

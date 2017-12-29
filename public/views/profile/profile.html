@@ -180,8 +180,14 @@
                         <div class="panel-heading">
                             <h3 ng-i18next>page.profile.header</h3>
                         </div>
-                        <div class="panel-body" ng-i18next>
-                            page.profile.stub
+                        <div class="panel-body">
+                            <div class="checkbox checkbox-info">
+                                <input name="defaultSkills" type="checkbox" ng-model="defaultSkills" id="defaultSkills"
+                                       ng-change="changeDefaultSkillsVisibility()">
+                                <label for="defaultSkills" ng-i18next>
+                                    page.profile.default_skills_label
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel">

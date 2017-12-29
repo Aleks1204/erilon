@@ -2922,7 +2922,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
                 text: $i18next.t('page.character.save_changes_warning'),
                 type: "warning",
                 showCancelButton: true,
-                confirmButtonText: $i18next.t('page.character.save_and_continue_button'),
+                confirmButtonText: $i18next.t('popup.save_and_continue_button'),
                 cancelButtonText: $i18next.t('popup.cancel_button')
             }).then(function success() {
                 $scope.personage.generated = true;

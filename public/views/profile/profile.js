@@ -23,6 +23,21 @@ app.controller("profileController", function ($scope, $http, $q, $localStorage) 
         });
     });
 
+    $http.get('/byKey/' + 'show_default_skills' + $localStorage.playerId).then(function (response) {
+        $scope.defaultSkills = response.data.result != null;
+    });
+
+    $scope.changeDefaultSkillsVisibility = function () {
+        if ($scope.defaultSkills) {
+            $http.post('/history', {
+                key: 'show_default_skills' + $localStorage.playerId,
+                value: true
+            });
+        } else {
+            $http.delete('/historyDeleteByKey/' + 'show_default_skills' + $localStorage.playerId);
+        }
+    };
+
     $scope.uploadPlayerAvatar = function (player_id) {
         var file = '';
         var date = new Date();
