@@ -118,7 +118,9 @@ function diceAmountSingleAttribute(attributeName, personage, getValues, modifier
             }
         }).then(function (personageAttribute) {
             var diceAmount = addModifier(personageAttribute.value, modifier);
-            modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+            if (modifier != null) {
+                modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+            }
             var text = "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "'" + modifierText;
             getValues.resolve([diceAmount, text]);
         });
@@ -155,8 +157,9 @@ function diceAmountFewAttributes(attributesNames, personage, getValues, modifier
             attributesSum = attributesSum + personageAttribute.value;
         });
         var diceAmount = addModifier(attributesSum, modifier);
-
-        modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+        if (modifier != null) {
+            modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+        }
         var text = "Персонаж '" + personage.name + "' бросает сумму атрибутов '" + attributesText.substring(1) + "' значение которой '" + attributesSum + "'" + modifierText;
         getValues.resolve([diceAmount, text]);
     });
