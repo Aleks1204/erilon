@@ -25,6 +25,15 @@ router.post('/slackRollAttributes', function (req, res) {
     rollAttributesForPersonage(parameters[0], parameters[1], modifier, res)
 });
 
+router.post('/slackRollAttributeAttachedSkill', function (req, res) {
+    var parameters = req.body.text.split(',');
+    var modifier = null;
+    if (parameters.length > 3) {
+        modifier = parameters[3].trim();
+    }
+    rollAttributeAttachedSkillForPersonage(parameters[0], parameters[1], parameters[2], modifier, res)
+});
+
 router.post('/slackRollDodge', function (req, res) {
     var parameters = req.body.text.split(',');
     var modifier = null;
@@ -99,7 +108,8 @@ function rollAttributesForPersonage(personageName, attributesNames, modifier, re
         where: {
             name: {
                 $like: '%' + personageName + '%'
-            }
+            },
+            deleted: false
         }
     }).then(function (personage) {
         if (attributesNames.includes('+')) {
@@ -112,6 +122,64 @@ function rollAttributesForPersonage(personageName, attributesNames, modifier, re
             rollDice(result[0], result[1], res)
         });
     });
+}
+
+function rollAttributeAttachedSkillForPersonage(personageName, attributeName, skillName, modifier, res) {
+    personageName = capitalizeFirstLetter(personageName.trim());
+    attributeName = capitalizeFirstLetter(attributeName.trim());
+    skillName = capitalizeFirstLetter(skillName.trim());
+    var getValues = q.defer();
+    models.Personage.findOne({
+        where: {
+            name: {
+                $like: '%' + personageName + '%'
+            },
+            deleted: false
+        }
+    }).then(function (personage) {
+        var modifierText = '';
+        models.Attribute.findOne({
+            where: {
+                name: {
+                    $like: '%' + attributeName + '%'
+                }
+            }
+        }).then(function (attribute) {
+            models.PersonageAttribute.findOne({
+                where: {
+                    PersonageId: personage.id,
+                    AttributeId: attribute.id
+                }
+            }).then(function (personageAttribute) {
+                models.AttachedSkill.findOne({
+                    where: {
+                        name: {
+                            $like: '%' + skillName + '%'
+                        }
+                    }
+                }).then(function (attachedSkill) {
+                    models.PersonageAttachedSkill.findOne({
+                        where: {
+                            PersonageId: personage.id,
+                            AttachedSkillId: attachedSkill.id
+                        }
+                    }).then(function (personageAttachedSkill) {
+                        var sum = personageAttribute.value + personageAttachedSkill.value;
+                        var diceAmount = addModifier(sum, modifier);
+                        if (modifier != null) {
+                            modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+                        }
+                        var text = "Персонаж '" + personage.name + "' бросает сумму '" + attribute.name + "+" + attachedSkill.name + "' значение которой '" + sum + "'" + modifierText;
+                        getValues.resolve([diceAmount, text]);
+                    })
+                });
+            });
+
+            return getValues.promise.then(function (result) {
+                rollDice(result[0], result[1], res)
+            });
+        });
+    })
 }
 
 function diceAmountSingleAttribute(attributeName, personage, getValues, modifier) {
