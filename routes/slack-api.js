@@ -78,6 +78,18 @@ router.post('/slackRollRange', function (req, res) {
     }
     rollAttributesForPersonage(parameters[0], range, modifier, res)
 });
+router.post('/slackHelp', function (req, res) {
+    return res.send({
+        "response_type": "in_channel",
+        "text": "/rollattribute - Бросок одного или нескольких атрибутов, формат /rollattribute Имя перса, атрибут1+атрибут2+..., модификатор(не обязательно)" +
+        "\n/dodge - Уклонение, формат /dodge - Имя перса, модификатор(не обязательно)" +
+        "\n/stab - Колющий удар, формат /stab - Имя перса, модификатор(не обязательно)" +
+        "\n/slash - Рубящий удар, формат /slash - Имя перса, модификатор(не обязательно)" +
+        "\n/range - Выстрел (дальнобойная атака), формат /range - Имя перса, модификатор(не обязательно)" +
+        "\n/parryslash - Парирование рубящего удара, формат /parryslash - Имя перса, модификатор(не обязательно)" +
+        "\n/parrystab - Парирование колющего удара удара, формат /parrystab - Имя перса, модификатор(не обязательно)"
+    });
+});
 
 function rollAttributesForPersonage(personageName, attributesNames, modifier, res) {
     personageName = capitalizeFirstLetter(personageName.trim());
