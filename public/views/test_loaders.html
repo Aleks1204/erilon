@@ -136,9 +136,9 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
                                     class="dropdown-icon icmn-exit"></i> Сменить профиль</a>
-                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <div class="dropdown-divider" ng-show="isMaster()"></div>
                             <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"
-                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i> Управление
+                               ng-show="isMaster()"><i class="dropdown-icon icmn-cog2"></i> Управление
                                 доступом</a>
                         </ul>
                     </div>

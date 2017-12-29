@@ -36,7 +36,7 @@ app.controller("permissionsController", function ($scope, $http, $localStorage, 
             delete $localStorage.playerId;
         };
 
-        $scope.hasManagePermissionsAccess = function () {
+        $scope.isMaster = function () {
             return hasActionPermission('managePermissions', data[0].player.Role)
         };
 

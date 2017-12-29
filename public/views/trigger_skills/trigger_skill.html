@@ -137,9 +137,9 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
                                     class="dropdown-icon icmn-exit"></i><span ng-i18next>top_menu.dropdown.logout</span></a>
-                            <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                            <div class="dropdown-divider" ng-show="isMaster()"></div>
                             <a class="dropdown-item" href="/views/permissions/managePermissions.html"
-                               ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i><span
+                               ng-show="isMaster()"><i class="dropdown-icon icmn-cog2"></i><span
                                     ng-i18next>top_menu.dropdown.admin</span></a>
                         </ul>
                     </div>

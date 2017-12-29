@@ -113,9 +113,9 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/" ng-click="deleteUserCookie()"><i
                                 class="dropdown-icon icmn-exit"></i><span ng-i18next>top_menu.dropdown.logout</span></a>
-                        <div class="dropdown-divider" ng-show="hasManagePermissionsAccess()"></div>
+                        <div class="dropdown-divider" ng-show="isMaster()"></div>
                         <a class="dropdown-item" href="/views/permissions/managePermissions.html"
-                           ng-show="hasManagePermissionsAccess()"><i class="dropdown-icon icmn-cog2"></i><span
+                           ng-show="isMaster()"><i class="dropdown-icon icmn-cog2"></i><span
                                 ng-i18next>top_menu.dropdown.admin</span></a>
                     </ul>
                 </div>
@@ -223,7 +223,8 @@
                                          ng-i18next="[alt]page.characters.alt_avatar">
                                 </div>
                                 <div class="s2">
-                                    <h4>{{personage.name}}</h4>
+                                    <h4>{{personage.name}} <span ng-show="isMaster()&&showPlayerName">| Имя игрока: {{personage.Player.name}}</span>
+                                    </h4>
                                     <a href="/views/personage_logic/view_personage.html?id={{personage.id}}">
                                         <button class="btn btn-rounded btn-sm btn-success-outline margin-inline">
                                             <i class="icmn-eye4"></i>

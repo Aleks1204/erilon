@@ -22,7 +22,10 @@ router.post('/personages', function (req, res) {
 
 router.get('/personages', function (req, res) {
     models.Personage.findAll({
-        include: [models.Race],
+        include: [
+            models.Race,
+            models.Player
+        ],
         where: {
             deleted: false
         }

@@ -222,6 +222,7 @@ app.controller("addPersonageController", function ($scope, $http, $window, $q, $
 });
 
 app.controller("personageListController", function ($scope, $http, $localStorage, $i18next) {
+    $scope.showPlayerName = false;
     $scope.avatar = function (personage_id) {
         var avatar = 'avatar.png';
         angular.forEach($scope.personages, function (personage) {
@@ -293,6 +294,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.showMyPersonages = function () {
         $scope.loader = true;
+        $scope.showPlayerName = false;
         $http.get('/personagesByPlayerId/' + $localStorage.playerId).then(function (response) {
             $scope.personages = response.data.personages;
             $scope.loader = false;
@@ -301,6 +303,7 @@ app.controller("personageListController", function ($scope, $http, $localStorage
 
     $scope.showAllPersonages = function () {
         $scope.loader = true;
+        $scope.showPlayerName = true;
         $http.get('/personages').then(function (response) {
             $scope.personages = response.data.personages;
             $scope.loader = false;
