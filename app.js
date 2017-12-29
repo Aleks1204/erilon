@@ -43,6 +43,7 @@ var noticeApi = require('./routes/notice-api');
 var attributeAttachedSkillApi = require('./routes/attribute-attached-skill-api');
 var imageApi = require('./routes/image-api');
 var playerAttributeApi = require('./routes/player-attribute-api');
+var slackApi = require('./routes/slack-api');
 
 var app = express();
 
@@ -97,6 +98,7 @@ app.use('', noticeApi);
 app.use('', attributeAttachedSkillApi);
 app.use('', imageApi);
 app.use('', playerAttributeApi);
+app.use('', slackApi);
 
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(__dirname + '../public'));
