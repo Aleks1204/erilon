@@ -56,42 +56,34 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
             }
         }
     }).then(function (personage) {
-
-
         if (attributesNames.includes('+')) {
-            var personageAttributes = [];
-            var attributePromises = [];
             var attributesNamesArray = attributesNames.split('+');
-            attributesNamesArray.forEach(function (attributeName) {
-                var attributePromise = q.defer();
-                attributePromises.push(attributePromise);
-                models.Attribute.findOne({
+            var attributesText = '';
+            var attributePromises = attributesNamesArray.map(function (attributeName) {
+                attributeName = capitalizeFirstLetter(attributeName);
+                return models.Attribute.findOne({
                     where: {
                         name: {
                             $like: '%' + attributeName + '%'
                         }
                     }
                 }).then(function (attribute) {
-                    models.PersonageAttribute.findOne({
+                    attributesText = attributesText + '+' + attribute.name;
+                    return models.PersonageAttribute.findOne({
                         where: {
                             PersonageId: personage.id,
                             AttributeId: attribute.id
                         }
-                    }).then(function (personageAttribute) {
-                        personageAttributes.push(personageAttribute);
-                        attributePromise.resolve();
                     })
                 })
             });
 
-            q.all(attributePromises).then(function () {
+
+            q.all(attributePromises).then(function (personageAttributes) {
                 var attributesSum = 0;
-                var attributesText = '';
                 personageAttributes.forEach(function (personageAttribute) {
                     attributesSum = attributesSum + personageAttribute.value;
-                    attributesText = attributesText + ', ' + personageAttribute.Attribute.name;
                 });
-                attributesText = attributesText.substring(2);
                 var diceAmount = attributesSum;
                 if (modifier != null) {
                     if (modifier.charAt(0) === '+') {
@@ -101,9 +93,9 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                     } else if (modifier.charAt(0) === '*') {
                         diceAmount = attributesSum * parseInt(modifier.slice(1));
                     }
-                    modifierText = ' и модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+                    modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
                 }
-                var text = "Персонаж '" + personage.name + "' бросает атрибут '" + attributesText + "' значение которого '" + personageAttribute.value + "'" + modifierText;
+                var text = "Персонаж '" + personage.name + "' бросает сумму атрибутов '" + attributesText.substring(1) + "' значение которой '" + attributesSum + "'" + modifierText;
                 getValues.resolve([diceAmount, text]);
             });
         } else {
@@ -129,7 +121,7 @@ router.post('/slackPersonageAttributeValue', function (req, res) {
                         } else if (modifier.charAt(0) === '*') {
                             diceAmount = personageAttribute.value * parseInt(modifier.slice(1));
                         }
-                        modifierText = ' и модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
+                        modifierText = ' с модификатором `' + modifier + '` итого ' + diceAmount + ' кубиков';
                     }
                     var text = "Персонаж '" + personage.name + "' бросает атрибут '" + attribute.name + "' значение которого '" + personageAttribute.value + "'" + modifierText;
                     getValues.resolve([diceAmount, text]);
