@@ -5,14 +5,6 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     var personage = $q.defer();
     var raceAttributes = $q.defer();
 
-    function animateButtons(buttons, animatedStyle) {
-        angular.forEach(buttons, function (button) {
-            button.removeClass(animatedStyle + ' animated').addClass(animatedStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $(this).removeClass(animatedStyle + ' animated');
-            });
-        });
-    }
-
     $scope.setActive = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
         $($event.currentTarget).addClass('derivedActive');
@@ -118,6 +110,31 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
     function success() {
         calculateBasicCharacteristics();
+
+        $scope.weight1 = $scope.power;
+        $scope.weight2 = $scope.power * 2;
+        $scope.weight3 = $scope.power * 3;
+        $scope.weight4 = $scope.power * 5;
+        $scope.weight5 = $scope.power * 10;
+        $scope.weight6 = $scope.power * 15;
+
+        $scope.watchfulness_vision = $scope.perception;
+        $scope.watchfulness_hearing = $scope.perception;
+        $scope.bounce = $scope.dexterity;
+        $scope.falling_damage_coefficient = "Пока не ясно откуда его брать";
+        $scope.balance_check = "";
+        $scope.poise_check = "";
+
+        $http.get("/personageInherentsByPersonageId/" + personageId).then(function (response) {
+            var getAppearance = $.grep(response.data.data, function (personageInherent) {
+                return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
+            });
+            $scope.appearance = getAppearance[0].value;
+        });
+
+        $scope.cloaking_moving = $scope.dexterity;
+        $scope.cloaking_not_moving = $scope.will;
+
         $('#loader').hide();
         $('section').removeClass('hide');
         table('/personageFlawsByPersonageId/' + personageId, '#flaws', [

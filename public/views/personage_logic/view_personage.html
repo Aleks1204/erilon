@@ -447,6 +447,11 @@
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#notices"
                                role="tab" ng-click="showNotices()" ng-i18next>page.character.tab.notices</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
+                               data-target="#additionalDerived"
+                               role="tab" ng-i18next>page.character.tab.additional_derived</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="main_skills" role="tabpanel">
@@ -556,6 +561,65 @@
                                         </tr>
                                         </thead>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="additionalDerived" role="tabpanel">
+                            <div class="panel">
+                                <h3 class="panel-heading" style="margin-bottom: 0">
+                                    <span ng-i18next>page.character.tab.additional_derived</span>
+                                </h3>
+                                <div class="panel-body">
+                                    <p ng-i18next>page.character.additional_derivatives.weight.header</p>
+
+                                    <ul>
+                                        <li>
+                                            <span>{{weight1}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.1</span>
+                                        </li>
+                                        <li>
+                                            <span>{{weight2}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.2</span>
+                                        </li>
+                                        <li>
+                                            <span>{{weight3}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.3</span>
+                                        </li>
+                                        <li>
+                                            <span>{{weight4}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.4</span>
+                                        </li>
+                                        <li>
+                                            <span>{{weight5}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.5</span>
+                                        </li>
+                                        <li>
+                                            <span>{{weight6}}</span><span ng-i18next>page.character.additional_derivatives.weight.kg</span><span
+                                                ng-i18next>page.character.additional_derivatives.weight.6</span>
+                                        </li>
+                                    </ul>
+
+                                    <p><span ng-i18next>page.character.additional_derivatives.watchfulness_vision</span>
+                                        - {{watchfulness_vision}}d</p>
+                                    <p><span
+                                            ng-i18next>page.character.additional_derivatives.watchfulness_hearing</span>
+                                        - {{watchfulness_hearing}}d</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.bounce</span> - {{bounce}}
+                                    </p>
+                                    <p><span
+                                            ng-i18next>page.character.additional_derivatives.falling_damage_coefficient</span>
+                                        - {{falling_damage_coefficient}}</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.balance_check</span> -
+                                        {{balance_check}}</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.poise_check</span> -
+                                        {{poise_check}}</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.appearance</span> -
+                                        {{appearance}}</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.cloaking_moving</span> -
+                                        {{cloaking_moving}}</p>
+                                    <p><span ng-i18next>page.character.additional_derivatives.cloaking_not_moving</span>
+                                        - {{cloaking_not_moving}}</p>
                                 </div>
                             </div>
                         </div>

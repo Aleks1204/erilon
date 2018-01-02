@@ -310,7 +310,8 @@
       "tab": {
         "main": "Main",
         "spells": "Spells",
-        "notices": "Notices"
+        "notices": "Notices",
+        "additional_derived": "Derived"
       },
       "derivative": {
         "hit_pierce_punch": "Dice amount to roll to hit with stabbing/cutting attack. Equals to character`s dexterity+speed",
@@ -323,6 +324,27 @@
         "mental_action_points": "Amount of mental actions per round (ability activation). Equals to character`s intelligence",
         "endurance_points": "Amount of character`s stamina points. They are spent on spells. abilities, running and any action. Equals to character`s stamina multiplied by 20",
         "initiative": "Dice amount to roll initiative. Equals to character`s reaction"
+      },
+      "additional_derivatives": {
+        "weight": {
+          "header": "Weight",
+          "kg": "kg",
+          "1": ": (-1d) for jumping, maintaining balance and climbing for every exceeding of the limit. Costs of fatigue for mountaineering are doubled",
+          "2": ": (-1 unit) to speed on sprint run / fast running and (-1d) for stability and disguise for each exceeding limit",
+          "3": ": (-1 unit) to the speed of running for each exceeding limit",
+          "4": ": (-1 unit) to the step speed for each exceeding of the limit. The costs of fatigue to move double",
+          "5": ": fatigue costs are increased three-fold (that is, the costs of fatigue for displacement increase 6-fold)",
+          "6": ": fatigue costs increase six times. In non-combat situations, the character spends 1 EU per minute."
+        },
+        "watchfulness_vision": "Watchfulness (vision)",
+        "watchfulness_hearing": "Watchfulness (hearing)",
+        "bounce": "Bounce",
+        "falling_damage_coefficient": "Falling damage coefficient",
+        "balance_check": "Balance check",
+        "poise_check": "Poise check",
+        "appearance": "Appearance",
+        "cloaking_moving": "Cloaking (moving)",
+        "cloaking_not_moving": "Cloaking (not moving)"
       },
       "notice": {
         "add_title": "Add notice",
