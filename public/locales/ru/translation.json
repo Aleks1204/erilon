@@ -158,7 +158,7 @@
       "charisma": "Харизма",
       "magic": "Магия",
       "appearance": "Внешность",
-      "luck": "Удача",
+      "luck": "Везение",
       "mage": "Маг",
       "half_elf": "Полуэльф",
       "talent": "талант",
@@ -376,7 +376,6 @@
         "falling_damage_coefficient": "Коэффициент падучести",
         "balance_check": "Устойчивость",
         "poise_check": "Равновесие",
-        "appearance": "Внешность",
         "cloaking_moving": "Маскировка (движение)",
         "cloaking_not_moving": "Маскировка (неподвижность)",
         "saving_throws": {

@@ -162,6 +162,13 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             $scope.appearance = getAppearance[0].value;
         });
 
+        $http.get("/personageInherentsByPersonageId/" + personageId).then(function (response) {
+            var getLuck = $.grep(response.data.data, function (personageInherent) {
+                return personageInherent.Inherent.name === $i18next.t('page.character.luck');
+            });
+            $scope.luck = getLuck[0].value;
+        });
+
         $scope.cloaking_moving = $scope.dexterity;
         $scope.cloaking_not_moving = $scope.will;
 
