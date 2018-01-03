@@ -124,6 +124,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.falling_damage_coefficient = $scope.personage.Race.falling_damage_coefficient;
         $scope.balance_check = $scope.dexterity;
         $scope.poise_check = $scope.power;
+        $scope.mana_refresh = 5;
 
         $scope.step = $scope.speed;
         $scope.run = $scope.speed * 2;
