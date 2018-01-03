@@ -150,6 +150,11 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.cut = 0;
         $scope.blunt = 0;
 
+        $scope.horror = $scope.will;
+        $scope.persuasion = $scope.intelligence;
+        $scope.seduction = $scope.charisma;
+        $scope.oppression = $scope.will;
+
         $http.get("/personageInherentsByPersonageId/" + personageId).then(function (response) {
             var getAppearance = $.grep(response.data.data, function (personageInherent) {
                 return personageInherent.Inherent.name === $i18next.t('page.character.appearance');

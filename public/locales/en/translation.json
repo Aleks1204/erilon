@@ -369,6 +369,13 @@
           "cut": "Cutting",
           "blunt": "Blunting"
         },
+        "saving_throws": {
+          "header": "Saving throws",
+          "horror": "Horror",
+          "persuasion": "Persuasion",
+          "seduction": "Seduction",
+          "oppression": "Oppression"
+        },
         "mana_refresh": "Mana regeneration",
         "watchfulness_vision": "Watchfulness (vision)",
         "watchfulness_hearing": "Watchfulness (hearing)",

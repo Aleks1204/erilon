@@ -378,7 +378,14 @@
         "poise_check": "Равновесие",
         "appearance": "Внешность",
         "cloaking_moving": "Маскировка (движение)",
-        "cloaking_not_moving": "Маскировка (неподвижность)"
+        "cloaking_not_moving": "Маскировка (неподвижность)",
+        "saving_throws": {
+          "header": "Спасброски",
+          "horror": "Ужас",
+          "persuasion": "Угнетение",
+          "seduction": "Убеждение",
+          "oppression": "Соблазнение"
+        }
       },
 
       "notice": {
