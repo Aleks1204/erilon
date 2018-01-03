@@ -56,3 +56,4 @@ CREATE TABLE "PlayerAttributes"
 CREATE UNIQUE INDEX "PlayerAttributes_id_uindex" ON "PlayerAttributes" (id);
 ALTER TABLE "Players" ADD avatar VARCHAR(255) NULL;
 ALTER TABLE "Notices" ALTER COLUMN description TYPE TEXT;
+ALTER TABLE "Races" ADD COLUMN falling_damage_coefficient INTEGER;

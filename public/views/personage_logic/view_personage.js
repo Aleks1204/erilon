@@ -121,7 +121,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.watchfulness_vision = $scope.perception;
         $scope.watchfulness_hearing = $scope.perception;
         $scope.bounce = $scope.dexterity;
-        $scope.falling_damage_coefficient = "Пока не ясно откуда его брать";
+        $scope.falling_damage_coefficient = $scope.personage.Race.falling_damage_coefficient;
         $scope.balance_check = $scope.dexterity;
         $scope.poise_check = $scope.power;
 

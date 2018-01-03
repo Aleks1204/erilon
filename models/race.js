@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     var Race = sequelize.define("Race", {
         name: DataTypes.STRING,
         max_age: DataTypes.INTEGER,
+        falling_damage_coefficient: DataTypes.INTEGER,
         description: DataTypes.STRING
     }, {
         classMethods: {
