@@ -336,6 +336,39 @@
           "5": ": fatigue costs are increased three-fold (that is, the costs of fatigue for displacement increase 6-fold)",
           "6": ": fatigue costs increase six times. In non-combat situations, the character spends 1 EU per minute."
         },
+        "move": {
+          "jard": "jard",
+          "header": "Move",
+          "step": "Step",
+          "run": "Run",
+          "sprint": "Sprint",
+          "climbing": "Climbing",
+          "swimming": "Swimming"
+        },
+        "injury_boundaries": {
+          "header": "Injury boundaries",
+          "scratches": "Scratches",
+          "light": "Light injuries",
+          "medium": "Medium injuries",
+          "heavy": "Heavy injuries",
+          "deadly": "Deadly injuries",
+          "death": "Death"
+        },
+        "hit_points": {
+          "header": "Hit points",
+          "scratches": "Scratches",
+          "light": "Light injuries",
+          "medium": "Medium injuries",
+          "heavy": "Heavy injuries",
+          "deadly": "Deadly injuries"
+        },
+        "damage_absorption": {
+          "header": "Damage absorption",
+          "stub": "Stabbing",
+          "slash": "Slashing",
+          "cut": "Cutting",
+          "blunt": "Blunting"
+        },
         "watchfulness_vision": "Watchfulness (vision)",
         "watchfulness_hearing": "Watchfulness (hearing)",
         "bounce": "Bounce",

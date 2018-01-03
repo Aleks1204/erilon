@@ -125,6 +125,30 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.balance_check = $scope.dexterity;
         $scope.poise_check = $scope.power;
 
+        $scope.step = $scope.speed;
+        $scope.run = $scope.speed * 2;
+        $scope.sprint = $scope.speed * 4;
+        $scope.climbing = $scope.dexterity;
+        $scope.swimming = $scope.speed;
+
+        $scope.scratches = 2;
+        $scope.light_injuries = 10;
+        $scope.medium_injuries = 15;
+        $scope.heavy_injuries = 30;
+        $scope.deadly_injuries = 30 + $scope.vitality * 2;
+        $scope.death = 30 + $scope.vitality * 3;
+
+        $scope.hp_scratches = $scope.vitality * 20;
+        $scope.hp_light_injuries = $scope.vitality * 10;
+        $scope.hp_medium_injuries = $scope.vitality * 5;
+        $scope.hp_heavy_injuries = $scope.vitality * 2;
+        $scope.hp_deadly_injuries = $scope.vitality;
+
+        $scope.stub = 0;
+        $scope.slash = 0;
+        $scope.cut = 0;
+        $scope.blunt = 0;
+
         $http.get("/personageInherentsByPersonageId/" + personageId).then(function (response) {
             var getAppearance = $.grep(response.data.data, function (personageInherent) {
                 return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
