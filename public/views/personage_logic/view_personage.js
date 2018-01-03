@@ -122,8 +122,8 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.watchfulness_hearing = $scope.perception;
         $scope.bounce = $scope.dexterity;
         $scope.falling_damage_coefficient = "Пока не ясно откуда его брать";
-        $scope.balance_check = "";
-        $scope.poise_check = "";
+        $scope.balance_check = $scope.dexterity;
+        $scope.poise_check = $scope.power;
 
         $http.get("/personageInherentsByPersonageId/" + personageId).then(function (response) {
             var getAppearance = $.grep(response.data.data, function (personageInherent) {
