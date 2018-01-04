@@ -181,14 +181,14 @@
                 <div class="panel-body">
                     <form name="addPrerequisiteForm">
                         <div class="form-group row">
-                            <label class="control-label col-sm-2" for="type" ng-i18next>page.merit_prerequisites.form.label.type</label>
+                            <label class="control-label col-sm-2" for="type" ng-i18next>page.merit_prerequisites.label.type</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
                                         ng-model="type" ng-change="isInherentValueRequired = false" id="type"
                                         required>
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.type
+                                        page.merit_prerequisites.place_holder.type
                                     </option>
                                     <option value="1" ng-i18next>page.merit_prerequisites.type.attribute</option>
                                     <option value="2" ng-i18next>page.merit_prerequisites.type.attached_skill</option>
@@ -202,7 +202,7 @@
                         </div>
 
                         <div class="form-group row" ng-show="type == 1 || type == 3">
-                            <label class="control-label col-sm-2" for="attribute_id" ng-i18next>page.merit_prerequisites.form.label.attribute</label>
+                            <label class="control-label col-sm-2" for="attribute_id" ng-i18next>page.merit_prerequisites.label.attribute</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
@@ -210,14 +210,14 @@
                                         ng-required="type == 1"
                                         ng-options="attribute.id as attribute.name for attribute in attributes  | orderBy : 'name'">
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.attribute
+                                        page.merit_prerequisites.place_holder.attribute
                                     </option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group row" ng-show="type == 2 || type == 3">
-                            <label class="control-label col-sm-2" for="attached_skill_id" ng-i18next>page.merit_prerequisites.form.label.skill</label>
+                            <label class="control-label col-sm-2" for="attached_skill_id" ng-i18next>page.merit_prerequisites.label.skill</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
@@ -225,7 +225,7 @@
                                         ng-required="type == 2"
                                         ng-options="attachedSkill.id as attachedSkill.name for attachedSkill in attachedSkills  | orderBy : 'name'">
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.skill
+                                        page.merit_prerequisites.place_holder.skill
                                     </option>
                                 </select>
                             </div>
@@ -233,8 +233,8 @@
 
                         <div class="form-group row" ng-show="type == 1 || type == 2 || type == 3">
                             <label class="control-label col-sm-2" for="value" ng-show="type == 1 || type == 2"
-                                   ng-i18next>page.merit_prerequisites.form.label.not_less_than</label>
-                            <label class="control-label col-sm-2" for="value" ng-show="type == 3" ng-i18next>page.merit_prerequisites.form.label.sum_not_less_than</label>
+                                   ng-i18next>page.merit_prerequisites.label.not_less_than</label>
+                            <label class="control-label col-sm-2" for="value" ng-show="type == 3" ng-i18next>page.merit_prerequisites.label.sum_not_less_than</label>
 
                             <div class="col-sm-10">
                                 <input type="number" ng-model="value" class="form-control form-control-rounded" id="value" placeholder="2"
@@ -244,7 +244,7 @@
 
                         <div ng-show="type == 4">
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="trigger_skill_id" ng-i18next>page.merit_prerequisites.form.label.skill</label>
+                                <label class="control-label col-sm-2" for="trigger_skill_id" ng-i18next>page.merit_prerequisites.label.skill</label>
 
                                 <div class="col-sm-10">
                                     <select class="form-control"
@@ -252,21 +252,21 @@
                                             ng-required="type == 4"
                                             ng-options="triggerSkill.id as triggerSkill.name for triggerSkill in triggerSkills  | orderBy : 'name'">
                                         <option style="display:none" value="" ng-i18next>
-                                            page.merit_prerequisites.form.place_holder.skill
+                                            page.merit_prerequisites.place_holder.skill
                                         </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="level" ng-i18next>page.merit_prerequisites.form.label.level</label>
+                                <label class="control-label col-sm-2" for="level" ng-i18next>page.merit_prerequisites.label.level</label>
 
                                 <div class="col-sm-10">
                                     <select class="form-control"
                                             ng-model="level" id="level"
                                             ng-required="type == 4">
                                         <option style="display:none" value="" ng-i18next>
-                                            page.merit_prerequisites.form.place_holder.level
+                                            page.merit_prerequisites.place_holder.level
                                         </option>
                                         <option value="0" ng-i18next>level.base</option>
                                         <option value="1" ng-i18next>level.expert</option>
@@ -279,7 +279,7 @@
                         </div>
 
                         <div class="form-group row" ng-show="type == 5">
-                            <label class="control-label col-sm-2" for="inherent_id" ng-i18next>page.merit_prerequisites.form.label.inherent</label>
+                            <label class="control-label col-sm-2" for="inherent_id" ng-i18next>page.merit_prerequisites.label.inherent</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
@@ -288,7 +288,7 @@
                                         ng-change="isValuePresent()"
                                         ng-options="inherent.id as inherent.name for inherent in inherents  | orderBy : 'name'">
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.inherent
+                                        page.merit_prerequisites.place_holder.inherent
                                     </option>
                                 </select>
                             </div>
@@ -301,21 +301,21 @@
                                         <input type="radio" ng-model="lessMoreEqual" class="form-control" id="more"
                                                ng-value="1"/>
                                         <label for="more"
-                                               ng-i18next>page.merit_prerequisites.form.label.not_less</label>
+                                               ng-i18next>page.merit_prerequisites.label.not_less</label>
                                     </div>
 
                                     <div class="radio radio-info radio-inline">
                                         <input type="radio" ng-model="lessMoreEqual" class="form-control" id="equal"
                                                ng-value="0"
                                                checked/>
-                                        <label for="equal" ng-i18next>page.merit_prerequisites.form.label.equal</label>
+                                        <label for="equal" ng-i18next>page.merit_prerequisites.label.equal</label>
                                     </div>
 
                                     <div class="radio radio-info radio-inline">
                                         <input type="radio" ng-model="lessMoreEqual" class="form-control" id="less"
                                                ng-value="-1"/>
                                         <label for="less"
-                                               ng-i18next>page.merit_prerequisites.form.label.not_more</label>
+                                               ng-i18next>page.merit_prerequisites.label.not_more</label>
                                     </div>
                                 </div>
 
@@ -329,7 +329,7 @@
                         </div>
 
                         <div class="form-group row" ng-show="type == 7">
-                            <label class="control-label col-sm-2" for="flaw_id" ng-i18next>page.merit_prerequisites.form.label.flaw</label>
+                            <label class="control-label col-sm-2" for="flaw_id" ng-i18next>page.merit_prerequisites.label.flaw</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
@@ -337,14 +337,14 @@
                                         ng-required="type == 7"
                                         ng-options="flaw.id as flaw.name for flaw in flaws  | orderBy : 'name'">
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.flaw
+                                        page.merit_prerequisites.place_holder.flaw
                                     </option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group row" ng-show="type == 6">
-                            <label class="control-label col-sm-2" for="merit_id" ng-i18next>page.merit_prerequisites.form.label.merit</label>
+                            <label class="control-label col-sm-2" for="merit_id" ng-i18next>page.merit_prerequisites.label.merit</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control"
@@ -352,7 +352,7 @@
                                         ng-required="type == 6"
                                         ng-options="merit.id as merit.name for merit in merits  | orderBy : 'name'">
                                     <option style="display:none" value="" ng-i18next>
-                                        page.merit_prerequisites.form.place_holder.merit
+                                        page.merit_prerequisites.place_holder.merit
                                     </option>
                                 </select>
                             </div>
@@ -380,7 +380,7 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-info" ng-click="createPrerequisite()"
                                         ng-disabled="addPrerequisiteForm.$invalid" ng-i18next>
-                                    page.merit_prerequisites.form.create_button
+                                    popup.create_button
                                 </button>
                             </div>
                         </div>
