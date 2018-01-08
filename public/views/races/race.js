@@ -97,6 +97,23 @@ app.controller("raceListController", function ($scope, $http, $timeout, $i18next
             ]
         });
 
+        $scope.addRaceMerit = function () {
+            if ($scope.merit_race_cost === '') {
+                $scope.merit_race_cost = 0;
+            }
+            $http.post('/raceMerits', {
+                race_id: raceId,
+                merit_id: $scope.merit_id,
+                race_cost: $scope.merit_race_cost,
+                race_default: $scope.merit_race_default
+            }).then(function () {
+                jQuery('#addRaceMeritModal').modal('hide');
+                $('#addRaceMeritModal').on('hidden.bs.modal', function () {
+                    raceMeritsTable.ajax.reload(null, false);
+                });
+            });
+        };
+
         raceMeritsTableSelector.on('click', '.delete-race-merit', function () {
             var id = this.value;
             swal({
@@ -141,6 +158,18 @@ app.controller("raceListController", function ($scope, $http, $timeout, $i18next
                 }
             ]
         });
+
+        $scope.addRaceFlaw = function () {
+            $http.post('/raceFlaws', {
+                race_id: raceId,
+                flaw_id: $scope.flaw_id
+            }).then(function () {
+                jQuery('#addRaceFlawModal').modal('hide');
+                $('#addRaceFlawModal').on('hidden.bs.modal', function () {
+                    raceFlawsTable.ajax.reload(null, false);
+                });
+            });
+        };
 
         raceFlawsTableSelector.on('click', '.delete-race-flaw', function () {
             var id = this.value;
@@ -223,6 +252,30 @@ app.controller("raceListController", function ($scope, $http, $timeout, $i18next
             ]
         });
 
+        $scope.addRaceInherent = function () {
+            if ($scope.inherent_race_probability === '') {
+                $scope.inherent_race_probability = 1;
+            }
+            if ($scope.race_min === '') {
+                $scope.race_min = null;
+            }
+            if ($scope.race_max === '') {
+                $scope.race_max = null;
+            }
+            $http.post('/raceInherents', {
+                race_id: raceId,
+                inherent_id: $scope.inherent_id,
+                race_probability: $scope.inherent_race_probability,
+                race_min: $scope.race_min,
+                race_max: $scope.race_max
+            }).then(function () {
+                jQuery('#addRaceInherentModal').modal('hide');
+                $('#addRaceInherentModal').on('hidden.bs.modal', function () {
+                    raceInherentsTable.ajax.reload(null, false);
+                });
+            });
+        };
+
         raceInherentsTableSelector.on('click', '.delete-race-inherent', function () {
             var id = this.value;
             swal({
@@ -276,35 +329,6 @@ app.controller("raceListController", function ($scope, $http, $timeout, $i18next
         $scope.merit_race_default = false;
     };
 
-    $scope.addRaceMerit = function () {
-        if ($scope.merit_race_cost === '') {
-            $scope.merit_race_cost = 0;
-        }
-        $http.post('/raceMerits', {
-            race_id: raceId,
-            merit_id: $scope.merit_id,
-            race_cost: $scope.merit_race_cost,
-            race_default: $scope.merit_race_default
-        }).then(function () {
-            jQuery('#addRaceMeritModal').modal('hide');
-            $('#addRaceMeritModal').on('hidden.bs.modal', function () {
-                raceMeritsTable.ajax.reload(null, false);
-            });
-        });
-    };
-
-    $scope.addRaceFlaw = function () {
-        $http.post('/raceFlaws', {
-            race_id: raceId,
-            flaw_id: $scope.flaw_id
-        }).then(function () {
-            jQuery('#addRaceFlawModal').modal('hide');
-            $('#addRaceFlawModal').on('hidden.bs.modal', function () {
-                raceFlawsTable.ajax.reload(null, false);
-            });
-        });
-    };
-
     $scope.clearRaceInherentForm = function () {
         $scope.inherent_race_probability = '';
     };
@@ -318,30 +342,6 @@ app.controller("raceListController", function ($scope, $http, $timeout, $i18next
                     $scope.inherentHasValue = true;
                 }
             }
-        });
-    };
-
-    $scope.addRaceInherent = function () {
-        if ($scope.inherent_race_probability === '') {
-            $scope.inherent_race_probability = 1;
-        }
-        if ($scope.race_min === '') {
-            $scope.race_min = null;
-        }
-        if ($scope.race_max === '') {
-            $scope.race_max = null;
-        }
-        $http.post('/raceInherents', {
-            race_id: raceId,
-            inherent_id: $scope.inherent_id,
-            race_probability: $scope.inherent_race_probability,
-            race_min: $scope.race_min,
-            race_max: $scope.race_max
-        }).then(function () {
-            jQuery('#addRaceInherentModal').modal('hide');
-            $('#addRaceInherentModal').on('hidden.bs.modal', function () {
-                raceInherentsTable.ajax.reload(null, false);
-            });
         });
     };
 });

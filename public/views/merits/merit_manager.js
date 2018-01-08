@@ -104,7 +104,11 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     orderable: false
                 },
                 {
-                    data: 'action_level_bonus',
+                    data: 'permanent_bonus',
+                    orderable: false
+                },
+                {
+                    data: 'situation_bonus',
                     orderable: false
                 },
                 {
@@ -251,8 +255,12 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     '<textarea id="description" class="form-control">' + merit.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.merits.edit.bonus') + '</label>' +
-                    '<textarea id="action_level_bonus" class="form-control">' + merit.action_level_bonus + '</textarea>' +
+                    '<label for="permanent_bonus" class="form-control-label">' + $i18next.t('page.merits.edit.permanent_bonus') + '</label>' +
+                    '<textarea id="permanent_bonus" class="form-control">' + merit.permanent_bonus + '</textarea>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="situation_bonus" class="form-control-label">' + $i18next.t('page.merits.edit.situation_bonus') + '</label>' +
+                    '<textarea id="situation_bonus" class="form-control">' + merit.situation_bonus + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
                     '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
@@ -272,7 +280,8 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                                 $('#category').val().toString(),
                                 $('#cost').val(),
                                 $('#description').val(),
-                                $('#action_level_bonus').val(),
+                                $('#permanent_bonus').val(),
+                                $('#situation_bonus').val(),
                                 $('#creation_only').prop("checked")
                             ])
                         })
@@ -280,7 +289,6 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     onOpen: function () {
                         $('#name').focus();
 
-                        autosize($('#action_level_bonus'));
                         if (merit.category === null) {
                             $('#category').selectpicker();
                         } else {
@@ -294,8 +302,9 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                         category: result[1],
                         cost: result[2],
                         description: result[3],
-                        action_level_bonus: result[4],
-                        creation_only: result[5]
+                        permanent_bonus: result[4],
+                        situation_bonus: result[5],
+                        creation_only: result[6]
                     }).then(function () {
                         table.ajax.reload(null, false)
                     });
@@ -332,8 +341,12 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.merits.add.bonus') + '</label>' +
-                '<textarea id="action_level_bonus" class="form-control"></textarea>' +
+                '<label for="permanent_bonus" class="form-control-label">' + $i18next.t('page.merits.add.permanent_bonus') + '</label>' +
+                '<textarea id="permanent_bonus" class="form-control"></textarea>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="situation_bonus" class="form-control-label">' + $i18next.t('page.merits.add.situation_bonus') + '</label>' +
+                '<textarea id="situation_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
                 '<div class="checkbox checkbox-info" style="font-size: 14px;line-height: 1.3;">' +
@@ -373,7 +386,8 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                             $('#category').val().toString(),
                             $('#cost').val(),
                             $('#description').val(),
-                            $('#action_level_bonus').val(),
+                            $('#permanent_bonus').val(),
+                            $('#situation_bonus').val(),
                             $('#creation_only').prop("checked")
                         ])
                     })
@@ -381,7 +395,6 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                 onOpen: function () {
                     $('#name').focus();
 
-                    autosize($('#action_level_bonus'));
                     $('#category').selectpicker();
                     $('.bootstrap-select .btn-default').css('border-radius', '.25rem');
                 }
@@ -391,8 +404,9 @@ app.controller("meritListController", function ($scope, $http, $q, $localStorage
                     category: result[1],
                     cost: result[2],
                     description: result[3],
-                    action_level_bonus: result[4],
-                    creation_only: result[5]
+                    permanent_bonus: result[4],
+                    situation_bonus: result[5],
+                    creation_only: result[6]
                 }).then(function () {
                     table.ajax.reload(null, false)
                 });

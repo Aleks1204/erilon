@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
         unremovable: DataTypes.BOOLEAN,
         description: DataTypes.STRING,
         category: DataTypes.STRING,
-        action_level_bonus: DataTypes.STRING
+        permanent_bonus: DataTypes.STRING,
+        situation_bonus: DataTypes.STRING
     }, {
         classMethods: {
             associate: function(models) {

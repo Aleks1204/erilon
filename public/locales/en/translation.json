@@ -39,6 +39,8 @@
       "creation_only": "Creation only",
       "prerequisites": "Prerequisites",
       "bonus": "Bonus",
+      "situation_bonus": "Situation bonus",
+      "permanent_bonus": "Permanent bonus",
       "difficult": "Difficult",
       "theoretical": "Theoretical",
       "default": "Default",
@@ -167,6 +169,7 @@
       "create_header": "Character creation",
       "edit_header": "Character advancement",
       "inherents_disclaimer": "Inherent qualities of the character are created randomly. By clicking on the button, you can create a set of innate features for your character. You can create a set of innate features for the character only once, and you can change them later only by agreement with the wizard.",
+      "view_inherents_disclaimer": "The page displays only the basic meaning of innate features. The characteristic value after applying all the modifiers should be looked at the tab of derived characteristics or attributes on the view page",
       "notices_disclaimer": "This page is meant for storing your character`s info, which doesn`t fall under any other category (piety, reputation, etc). In every note there is an \"EXP\" field - if you add a note, set amount of EXP will be substracted from your character`s EXP pool. You can also create notes which doesn`t cost any EXP - in that case, just leave the field empty",
       "randomize_inherents": "Generate inherents",
       "quality_label": "Quality:",
@@ -174,6 +177,8 @@
       "categories_label_mobile": "Category",
       "quality_placeholder": "Select quality...",
       "description": "Description:",
+      "situation_bonus": "Situation bonus:",
+      "permanent_bonus": "Permanent bonus:",
       "spell_effect": "Effect:",
       "rolls": "Rolls:",
       "search_attached_skill_placeholder": "Skill name",
@@ -385,7 +390,8 @@
         "poise_check": "Poise check",
         "appearance": "Appearance",
         "cloaking_moving": "Cloaking (moving)",
-        "cloaking_not_moving": "Cloaking (not moving)"
+        "cloaking_not_moving": "Cloaking (not moving)",
+        "poisons_resistance": "Poisons resistance"
       },
       "notice": {
         "add_title": "Add notice",
@@ -469,7 +475,8 @@
         "min": "Minimum:",
         "max": "Maximum:",
         "description": "Description:",
-        "bonus": "Bonus:"
+        "permanent_bonus": "Постоянный бонус:",
+        "situation_bonus": "Ситуативный бонус:"
       },
       "edit": {
         "title": "Edit inherent quality",
@@ -478,7 +485,8 @@
         "min": "Minimum:",
         "max": "Maximum:",
         "description": "Description:",
-        "bonus": "Bonus:"
+        "permanent_bonus": "Постоянный бонус:",
+        "situation_bonus": "Ситуативный бонус:"
       },
       "delete": {
         "text": "Are you sure you want to delete this inherent quality?"
@@ -495,7 +503,8 @@
         "cost": "Cost:",
         "categories": "Categories:",
         "description": "Description:",
-        "bonus": "Bonus:",
+        "permanent_bonus": "Permanent bonus:",
+        "situation_bonus": "Situation bonus:",
         "creation_only": "Creation only"
       },
       "edit": {
@@ -504,7 +513,8 @@
         "cost": "Cost:",
         "categories": "Categories:",
         "description": "Description:",
-        "bonus": "Bonus:",
+        "permanent_bonus": "Permanent bonus:",
+        "situation_bonus": "Situation bonus:",
         "creation_only": "Creation only"
       },
       "options": {
@@ -682,7 +692,8 @@
         "cost": "Cost:",
         "categories": "Categories:",
         "description": "Description:",
-        "bonus": "Bonus:",
+        "permanent_bonus": "Permanent bonus:",
+        "situation_bonus": "Situation bonus:",
         "unremovable": "Unremovable"
       },
       "edit": {
@@ -691,7 +702,8 @@
         "cost": "Cost:",
         "categories": "Categories:",
         "description": "Description:",
-        "bonus": "Bonus:",
+        "permanent_bonus": "Permanent bonus:",
+        "situation_bonus": "Situation bonus:",
         "unremovable": "Unremovable"
       },
       "options": {

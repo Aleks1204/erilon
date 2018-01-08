@@ -10,7 +10,8 @@ router.post('/inherents', function(req, res) {
         min_limit: req.body.min_limit,
         max_limit: req.body.max_limit,
         description: req.body.description,
-        action_level_bonus: req.body.action_level_bonus
+        permanent_bonus: req.body.permanent_bonus,
+        situation_bonus: req.body.situation_bonus
     }).then(function(inherent) {
         res.send({ status: 'CREATED', inherent:inherent })
     });
@@ -45,14 +46,16 @@ router.put('/inherents/:id', function (req, res){
         inherent.description = req.body.description;
         inherent.max_limit = req.body.max_limit;
         inherent.min_limit = req.body.min_limit;
-        inherent.action_level_bonus = req.body.action_level_bonus;
+        inherent.permanent_bonus = req.body.permanent_bonus;
+        inherent.situation_bonus = req.body.situation_bonus;
         return inherent.update({
             name: req.body.name,
             probability: req.body.probability,
             max_limit: req.body.max_limit,
             min_limit: req.body.min_limit,
             description: req.body.description,
-            action_level_bonus: req.body.action_level_bonus
+            permanent_bonus: req.body.permanent_bonus,
+            situation_bonus: req.body.situation_bonus
         }).then(function(inherent) {
             res.send({ status: 'UPDATED', inherent:inherent })
         });

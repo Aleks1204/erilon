@@ -1478,6 +1478,20 @@
                                     {{meritMixed.merit.description}}
                                 </td>
                             </tr>
+                            <tr ng-show="isShowItem(meritMixed.merit.id)"
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
+                                <td colspan="4">
+                                    <strong class="padding-left-10" ng-i18next>page.character.permanent_bonus</strong>
+                                    {{meritMixed.merit.permanent_bonus}}
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(meritMixed.merit.id)"
+                                ng-class="addDisableOrNotAddedClass(meritMixed.available, meritMixed.personageMerit)">
+                                <td colspan="4">
+                                    <strong class="padding-left-10" ng-i18next>page.character.situation_bonus</strong>
+                                    {{meritMixed.merit.situation_bonus}}
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1545,6 +1559,20 @@
                                 <td colspan="3">
                                     <strong class="padding-left-10" ng-i18next>page.character.description</strong>
                                     {{item.personageFlaw.Flaw.description}}
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(item.personageFlaw.Flaw.id)"
+                                ng-class="addNotAddedClass(item.personageFlaw)">
+                                <td colspan="3">
+                                    <strong class="padding-left-10" ng-i18next>page.character.permanent_bonus</strong>
+                                    {{item.personageFlaw.Flaw.permanent_bonus}}
+                                </td>
+                            </tr>
+                            <tr ng-show="isShowItem(item.personageFlaw.Flaw.id)"
+                                ng-class="addNotAddedClass(item.personageFlaw)">
+                                <td colspan="3">
+                                    <strong class="padding-left-10" ng-i18next>page.character.situation_bonus</strong>
+                                    {{item.personageFlaw.Flaw.situation_bonus}}
                                 </td>
                             </tr>
                             </tbody>

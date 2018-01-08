@@ -97,7 +97,11 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                     orderable: false
                 },
                 {
-                    data: 'action_level_bonus',
+                    data: 'permanent_bonus',
+                    orderable: false
+                },
+                {
+                    data: 'situation_bonus',
                     orderable: false
                 },
                 {
@@ -180,8 +184,12 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                         '<textarea id="description" class="form-control">' + inherent.description + '</textarea>' +
                     '</div>' +
                     '<div class="form-group">' +
-                    '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.inherents.edit.bonus') + '</label>' +
-                        '<textarea id="action_level_bonus" class="form-control">' + inherent.action_level_bonus + '</textarea>' +
+                    '<label for="permanent_bonus" class="form-control-label">' + $i18next.t('page.inherents.edit.permanent_bonus') + '</label>' +
+                    '<textarea id="permanent_bonus" class="form-control">' + inherent.permanent_bonus + '</textarea>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="situation_bonus" class="form-control-label">' + $i18next.t('page.inherents.edit.situation_bonus') + '</label>' +
+                    '<textarea id="situation_bonus" class="form-control">' + inherent.situation_bonus + '</textarea>' +
                     '</div>' +
                     '</form>',
                     showCancelButton: true,
@@ -196,14 +204,13 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                                 $('#min_limit').val(),
                                 $('#max_limit').val(),
                                 $('#description').val(),
-                                $('#action_level_bonus').val()
+                                $('#permanent_bonus').val(),
+                                $('#situation_bonus').val()
                             ])
                         })
                     },
                     onOpen: function () {
                         $('#name').focus();
-
-                        autosize($('#action_level_bonus'));
                     }
                 }).then(function success(result) {
                     var min = null;
@@ -220,7 +227,8 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                         min_limit: min,
                         max_limit: max,
                         description: result[4],
-                        action_level_bonus: result[5]
+                        permanent_bonus: result[5],
+                        situation_bonus: result[6]
                     }).then(function () {
                         table.ajax.reload(null, false)
                     });
@@ -254,8 +262,12 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                     '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
                 '<div class="form-group">' +
-                '<label for="action_level_bonus" class="form-control-label">' + $i18next.t('page.inherents.add.bonus') + '</label>' +
-                    '<textarea id="action_level_bonus" class="form-control"></textarea>' +
+                '<label for="permanent_bonus" class="form-control-label">' + $i18next.t('page.inherents.add.permanent_bonus') + '</label>' +
+                '<textarea id="permanent_bonus" class="form-control"></textarea>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label for="situation_bonus" class="form-control-label">' + $i18next.t('page.inherents.add.situation_bonus') + '</label>' +
+                '<textarea id="situation_bonus" class="form-control"></textarea>' +
                 '</div>' +
                 '</form>',
                 showCancelButton: true,
@@ -290,14 +302,13 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                             $('#min_limit').val(),
                             $('#max_limit').val(),
                             $('#description').val(),
-                            $('#action_level_bonus').val()
+                            $('#permanent_bonus').val(),
+                            $('#situation_bonus').val()
                         ])
                     })
                 },
                 onOpen: function () {
                     $('#name').focus();
-
-                    autosize($('#action_level_bonus'));
                 }
             }).then(function success(result) {
                 var min = null;
@@ -314,7 +325,8 @@ app.controller("inherentListController", function ($scope, $http, $q, $localStor
                     min_limit: min,
                     max_limit: max,
                     description: result[4],
-                    action_level_bonus: result[5]
+                    permanent_bonus: result[5],
+                    situation_bonus: result[6]
                 }).then(function () {
                     table.ajax.reload(null, false)
                 });

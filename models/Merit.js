@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
         creation_only: DataTypes.BOOLEAN,
         category: DataTypes.STRING,
         description: DataTypes.STRING,
-        action_level_bonus: DataTypes.STRING
+        permanent_bonus: DataTypes.STRING,
+        situation_bonus: DataTypes.STRING
     }, {
         classMethods: {
             associate: function(models) {

@@ -14,7 +14,8 @@ router.post('/flaws', function(req, res) {
         unremovable: req.body.unremovable,
         description: req.body.description,
         category: req.body.category,
-        action_level_bonus: req.body.action_level_bonus
+        permanent_bonus: req.body.permanent_bonus,
+        situation_bonus: req.body.situation_bonus
     }).then(function(flaw) {
         res.send({ status: 'CREATED', flaw:flaw })
     });
@@ -49,14 +50,16 @@ router.put('/flaws/:id', function (req, res){
         flaw.unremovable = req.body.unremovable;
         flaw.description = req.body.description;
         flaw.category = req.body.category;
-        flaw.action_level_bonus = req.body.action_level_bonus;
+        flaw.permanent_bonus = req.body.permanent_bonus;
+        flaw.situation_bonus = req.body.situation_bonus;
         return flaw.update({
             name: req.body.name,
             cost: req.body.cost,
             unremovable: req.body.unremovable,
             description: req.body.description,
             category: req.body.category,
-            action_level_bonus: req.body.action_level_bonus
+            permanent_bonus: req.body.permanent_bonus,
+            situation_bonus: req.body.situation_bonus
         }).then(function(flaw) {
             res.send({ status: 'UPDATED', flaw:flaw })
         });
