@@ -117,14 +117,22 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             var bonuses_description = personageMerit.Merit.permanent_bonus.toLowerCase();
             if (bonuses_description.includes(name)) {
                 angular.forEach(bonuses_description.split(","), function (bonus) {
-                    if (bonus.replace(/([a-я]*[А-Я]*[a-z]*[A-Z]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
-                        modifierString = bonus.replace(/[a-я]*[А-Я]*[a-z]*[A-Z]*\s*([+]?[-]?\d+).*/g, "$1");
-                        if (modifierString.includes("-")) {
-                            finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
-                        } else {
-                            finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                    if (bonus.includes("%")) {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
+                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            descriptionString = descriptionString + personageMerit.Merit.name + ": " + modifierString + ", ";
                         }
-                        descriptionString = descriptionString + personageMerit.Merit.name + ": " + modifierString + ", ";
+                    } else {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*([+]?[-]?\d+).*/g, "$1");
+                            if (modifierString.includes("-")) {
+                                finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
+                            } else {
+                                finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                            }
+                            descriptionString = descriptionString + personageMerit.Merit.name + ": " + modifierString + ", ";
+                        }
                     }
                 });
             }
@@ -134,14 +142,22 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             var bonuses_description = personageFlaw.Flaw.permanent_bonus.toLowerCase();
             if (bonuses_description.includes(name)) {
                 angular.forEach(bonuses_description.split(","), function (bonus) {
-                    if (bonus.replace(/([a-я]*[А-Я]*[a-z]*[A-Z]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
-                        modifierString = bonus.replace(/[a-я]*[А-Я]*[a-z]*[A-Z]*\s*([+]?[-]?\d+).*/g, "$1");
-                        if (modifierString.includes("-")) {
-                            finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
-                        } else {
-                            finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                    if (bonus.includes("%")) {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
+                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            descriptionString = descriptionString + personageFlaw.Flaw.name + ": " + modifierString + ", ";
                         }
-                        descriptionString = descriptionString + personageFlaw.Flaw.name + ": " + modifierString + ", ";
+                    } else {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*([+]?[-]?\d+).*/g, "$1");
+                            if (modifierString.includes("-")) {
+                                finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
+                            } else {
+                                finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                            }
+                            descriptionString = descriptionString + personageFlaw.Flaw.name + ": " + modifierString + ", ";
+                        }
                     }
                 });
             }
@@ -151,14 +167,22 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             var bonuses_description = personageInherent.Inherent.permanent_bonus.toLowerCase();
             if (bonuses_description.includes(name)) {
                 angular.forEach(bonuses_description.split(","), function (bonus) {
-                    if (bonus.replace(/([a-я]*[А-Я]*[a-z]*[A-Z]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
-                        modifierString = bonus.replace(/[a-я]*[А-Я]*[a-z]*[A-Z]*\s*([+]?[-]?\d+).*/g, "$1");
-                        if (modifierString.includes("-")) {
-                            finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
-                        } else {
-                            finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                    if (bonus.includes("%")) {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
+                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            descriptionString = descriptionString + personageInherent.Inherent.name + ": " + modifierString + ", ";
                         }
-                        descriptionString = descriptionString + personageInherent.Inherent.name + ": " + modifierString + ", ";
+                    } else {
+                        if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*[+]?[-]?\d+\s*(.*)/, '$1$2').trim() === name) {
+                            modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*([+]?[-]?\d+).*/g, "$1");
+                            if (modifierString.includes("-")) {
+                                finalValue = finalValue - parseInt(modifierString.replace(/\D*/, ""));
+                            } else {
+                                finalValue = finalValue + parseInt(modifierString.replace(/\D*/, ""));
+                            }
+                            descriptionString = descriptionString + personageInherent.Inherent.name + ": " + modifierString + ", ";
+                        }
                     }
                 });
             }
