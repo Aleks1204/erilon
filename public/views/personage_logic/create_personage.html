@@ -1735,7 +1735,8 @@
                                             </button>
                                         </div>
                                         <div ng-if="flawMixed.personageFlaw != null">
-                                            <button class="btn btn-default-outline btn-rounded btn-sm"
+                                            <button ng-hide="flawMixed.personageFlaw.personage_race_default && flawMixed.personageFlaw.Flaw.unremovable"
+                                                    class="btn btn-default-outline btn-rounded btn-sm"
                                                     style="cursor: pointer;"
                                                     ng-click="deletePersonageFlaw(flawMixed.personageFlaw)" ng-i18next>
                                                 general.delete
