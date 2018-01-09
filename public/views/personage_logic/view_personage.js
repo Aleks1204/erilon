@@ -214,8 +214,10 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity);
         $scope.bounce = bounce.value + 'd ' + bounce.text;
         var falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient);
+        falling_damage_coefficient.value = falling_damage_coefficient.value + Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.falling_damage_coefficient = falling_damage_coefficient.value + falling_damage_coefficient.text;
         var balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity);
+        balance_check.value = balance_check.value + Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
         var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
         $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
