@@ -221,7 +221,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
         var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
         $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
-        $scope.mana_refresh = 5;
+        $scope.mana_refresh = 5 + Math.floor(Math.abs(($scope.endurance - 3) / 3));
 
         var step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed);
         $scope.step = step.value + step.text;
