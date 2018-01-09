@@ -387,6 +387,8 @@
         "cloaking_moving": "Маскировка (движение)",
         "cloaking_not_moving": "Маскировка (неподвижность)",
         "poisons_resistance": "Сопротивление ядам",
+        "intimidation_strength": "Запугивание (силовое)",
+        "intimidation": "Запугивание",
         "saving_throws": {
           "header": "Спасброски",
           "horror": "Ужас",

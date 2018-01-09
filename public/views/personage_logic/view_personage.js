@@ -287,6 +287,18 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will);
         $scope.cloaking_not_moving = cloaking_not_moving.value + 'd ' + cloaking_not_moving.text;
 
+        var getIntimidation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
+            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.intimidation');
+        });
+
+        var intimidationModifier = 0;
+        if (getIntimidation.length === 0) {
+            intimidationModifier = 4;
+        }
+        var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $scope.will + $scope.power - intimidationModifier);
+
+        $scope.intimidation = intimidation.value + 'd ' + intimidation.text;
+
         $('#loader').hide();
         $('section').removeClass('hide');
         table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
@@ -462,10 +474,12 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     var personageMeritsPromise = $q.defer();
     var personageFlawsPromise = $q.defer();
     var personageInherentsPromise = $q.defer();
+    var personageTriggerSkillsPromise = $q.defer();
 
     var playerAttributes = $q.defer();
     var all = $q.all([personage.promise, raceAttributes.promise, playerAttributes.promise,
-        personageMeritsPromise.promise, personageFlawsPromise.promise, personageInherentsPromise.promise]);
+        personageMeritsPromise.promise, personageFlawsPromise.promise, personageInherentsPromise.promise,
+        personageTriggerSkillsPromise.promise]);
 
     all.then(success);
 
@@ -503,6 +517,11 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     $http.get("/personageFlawsByPersonageId/" + personageId).then(function (response) {
         $scope.personageFlaws = response.data.data;
         personageFlawsPromise.resolve();
+    });
+
+    $http.get("/personageTriggerSkillsByPersonageId/" + personageId).then(function (response) {
+        $scope.personageTriggerSkills = response.data.data;
+        personageTriggerSkillsPromise.resolve();
     });
 
     function magicTable(id, name, attachedSkill) {

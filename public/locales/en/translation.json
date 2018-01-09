@@ -384,6 +384,8 @@
           "seduction": "Seduction",
           "oppression": "Oppression"
         },
+        "intimidation_strength": "Intimidation (strength)",
+        "intimidation": "Intimidation",
         "mana_refresh": "Mana regeneration",
         "watchfulness_vision": "Watchfulness (vision)",
         "watchfulness_hearing": "Watchfulness (hearing)",
