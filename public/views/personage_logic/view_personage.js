@@ -264,6 +264,8 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
         });
         var appearance = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value);
+        if ($scope.charisma > 3)
+            appearance.value = appearance.value + Math.floor(Math.abs(($scope.charisma - 3) / 3));
         $scope.appearance = appearance.value + 'd ' + appearance.text;
 
         var getLuck = $.grep($scope.personageInherents, function (personageInherent) {
