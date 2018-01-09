@@ -246,9 +246,9 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.hp_deadly_injuries = $scope.vitality;
 
         $scope.stub = 0;
-        $scope.slash = 0;
+        $scope.slash = Math.floor(Math.abs(($scope.power - 3) / 6));
         $scope.cut = 0;
-        $scope.blunt = 0;
+        $scope.blunt = Math.floor(Math.abs(($scope.power - 3) / 3));
 
         var horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will);
         $scope.horror = horror.value + 'd ' + horror.text;
