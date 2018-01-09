@@ -711,17 +711,19 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         $scope.hitPiercePunch = $scope.dexterity + $scope.speed;
         $scope.hitChopPunch = $scope.dexterity + $scope.power;
-        $scope.rangedHit = $scope.dexterity + $scope.perception;
+        $scope.rangedHit = addAllModifiers($i18next.t('page.character.ranged_hit'), $scope.dexterity + $scope.perception).value;
         $scope.parryPiercePunch = $scope.reaction + $scope.speed;
         $scope.parryChopPunch = $scope.power + $scope.reaction;
-        $scope.dodge = $scope.dexterity + $scope.reaction;
+
+        $scope.dodge = addAllModifiers($i18next.t('page.character.dodge'), $scope.dexterity + $scope.reaction).value;
+
         if ($scope.speed < $scope.intelligence) {
             $scope.generalActionPoints = $scope.speed;
         } else {
             $scope.generalActionPoints = $scope.intelligence;
         }
         $scope.mentalActionPoints = $scope.intelligence;
-        $scope.initiative = $scope.reaction;
+        $scope.initiative = addAllModifiers($i18next.t('page.character.initiative'), $scope.reaction).value;
         $scope.endurancePoints = $scope.endurance * 20;
     }
 

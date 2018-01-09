@@ -318,6 +318,9 @@
         "notices": "Notices",
         "additional_derived": "Derived"
       },
+      "dodge": "Dodge",
+      "ranged_hit": "Ranged hit",
+      "initiative": "Initiative",
       "derivative": {
         "hit_pierce_punch": "Dice amount to roll to hit with stabbing/cutting attack. Equals to character`s dexterity+speed",
         "hit_chop_punch": "Dice amount to roll to hit with slashing attack. Equals to character`s dexterity+strenth",
