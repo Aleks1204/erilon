@@ -234,12 +234,16 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed);
         $scope.swimming = swimming.value + swimming.text;
 
-        $scope.scratches = 2;
-        $scope.light_injuries = 10;
-        $scope.medium_injuries = 15;
-        $scope.heavy_injuries = 30;
-        $scope.deadly_injuries = 30 + $scope.vitality * 2;
-        $scope.death = 30 + $scope.vitality * 3;
+        var vitalityBonus = 0;
+        if ($scope.vitality > 5) {
+            vitalityBonus = $scope.vitality - 5;
+        }
+        $scope.scratches = 2 + vitalityBonus;
+        $scope.light_injuries = 10 + vitalityBonus;
+        $scope.medium_injuries = 15 + vitalityBonus;
+        $scope.heavy_injuries = 30 + vitalityBonus;
+        $scope.deadly_injuries = 30 + $scope.vitality * 2 + vitalityBonus;
+        $scope.death = 30 + $scope.vitality * 3 + vitalityBonus;
 
         $scope.hp_scratches = $scope.vitality * 20;
         $scope.hp_light_injuries = $scope.vitality * 10;
