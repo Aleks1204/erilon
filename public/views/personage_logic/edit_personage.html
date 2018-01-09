@@ -1500,7 +1500,8 @@
                             <div class="col-md-12">
                                 <div class="form-input-icon">
                                     <i class="icmn-search"></i>
-                                    <input type="text" ng-model="flawSearch.flaw.name" class="form-control"
+                                    <input type="text" ng-model="flawSearch.personageFlaw.Flaw.name"
+                                           class="form-control"
                                            ng-i18next="[placeholder]page.character.search_flaw_placeholder"
                                            id="flawSearch">
                                 </div>
@@ -1543,7 +1544,8 @@
                                                 ng-click="addPersonageFlaw(item.personageFlaw.Flaw)" ng-i18next>
                                             popup.add_button
                                         </button>
-                                        <button class="btn btn-default-outline btn-rounded btn-sm" ng-if="!item.deleted"
+                                        <button class="btn btn-default-outline btn-rounded btn-sm"
+                                                ng-if="!item.deleted && !item.personageFlaw.Flaw.unremovable"
                                                 style="cursor: pointer;"
                                                 ng-click="deletePersonageFlaw(item.personageFlaw)" ng-i18next>
                                             general.delete
