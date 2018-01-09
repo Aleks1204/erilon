@@ -111,6 +111,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     function addAllModifiers(targetName, initialValue) {
         var name = targetName.toLowerCase();
         var finalValue = initialValue;
+        var percentage = 1;
         var descriptionString = "база: " + initialValue + ", ";
         var modifierString = '';
         angular.forEach($scope.personageMerits, function (personageMerit) {
@@ -120,7 +121,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     if (bonus.includes("%")) {
                         if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
                             modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
-                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            percentage = percentage * parseInt(modifierString.replace(/\D*/, "")) / 100;
                             descriptionString = descriptionString + personageMerit.Merit.name + ": " + modifierString + ", ";
                         }
                     } else {
@@ -145,7 +146,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     if (bonus.includes("%")) {
                         if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
                             modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
-                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            percentage = percentage * parseInt(modifierString.replace(/\D*/, "")) / 100;
                             descriptionString = descriptionString + personageFlaw.Flaw.name + ": " + modifierString + ", ";
                         }
                     } else {
@@ -170,7 +171,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                     if (bonus.includes("%")) {
                         if (bonus.replace(/([a-я ]*[А-Я ]*[a-z ]*[A-Z ]*)\s*\d+[%]\s*(.*)/, '$1$2').trim() === name) {
                             modifierString = bonus.replace(/[a-я ]*[А-Я ]*[a-z ]*[A-Z ]*\s*(\d+[%]).*/g, "$1");
-                            finalValue = finalValue * parseInt(modifierString.replace(/\D*/, "")) / 100;
+                            percentage = percentage * parseInt(modifierString.replace(/\D*/, "")) / 100;
                             descriptionString = descriptionString + personageInherent.Inherent.name + ": " + modifierString + ", ";
                         }
                     } else {
@@ -190,7 +191,10 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         descriptionString = descriptionString.slice(0, -2);
 
-        return finalValue + " (" + descriptionString + ")";
+        return {
+            value: Math.floor(finalValue * percentage),
+            text: " (" + descriptionString + ")"
+        };
     }
 
     function success() {
@@ -203,19 +207,30 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.weight5 = $scope.power * 10;
         $scope.weight6 = $scope.power * 15;
 
-        $scope.watchfulness_vision = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_vision'), $scope.perception);
-        $scope.watchfulness_hearing = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_hearing'), $scope.perception);
-        $scope.bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity);
-        $scope.falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient);
-        $scope.balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity);
-        $scope.poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
+        var watchfulness_vision = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_vision'), $scope.perception);
+        $scope.watchfulness_vision = watchfulness_vision.value + 'd ' + watchfulness_vision.text;
+        var watchfulness_hearing = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_hearing'), $scope.perception);
+        $scope.watchfulness_hearing = watchfulness_hearing.value + 'd ' + watchfulness_hearing.text;
+        var bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity);
+        $scope.bounce = bounce.value + 'd ' + bounce.text;
+        var falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient);
+        $scope.falling_damage_coefficient = falling_damage_coefficient.value + falling_damage_coefficient.text;
+        var balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity);
+        $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
+        var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
+        $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
         $scope.mana_refresh = 5;
 
-        $scope.step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed);
-        $scope.run = addAllModifiers($i18next.t('page.character.additional_derivatives.move.run'), $scope.speed * 2);
-        $scope.sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed * 4);
-        $scope.climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity);
-        $scope.swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed);
+        var step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed);
+        $scope.step = step.value + step.text;
+        var run = addAllModifiers($i18next.t('page.character.additional_derivatives.move.run'), $scope.speed);
+        $scope.run = run.value * 2 + run.text;
+        var sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed);
+        $scope.sprint = sprint.value * 4 + sprint.text;
+        var climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity);
+        $scope.climbing = climbing.value + 'd ' + climbing.text;
+        var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed);
+        $scope.swimming = swimming.value + swimming.text;
 
         $scope.scratches = 2;
         $scope.light_injuries = 10;
@@ -235,21 +250,27 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.cut = 0;
         $scope.blunt = 0;
 
-        $scope.horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will);
-        $scope.persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence);
-        $scope.seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma);
-        $scope.oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will);
+        var horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will);
+        $scope.horror = horror.value + 'd ' + horror.text;
+        var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence);
+        $scope.persuasion = persuasion.value + 'd ' + persuasion.text;
+        var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma);
+        $scope.seduction = seduction.value + 'd ' + seduction.text;
+        var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will);
+        $scope.oppression = oppression.value + 'd ' + oppression.text;
 
 
         var getAppearance = $.grep($scope.personageInherents, function (personageInherent) {
             return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
         });
-        $scope.appearance = $scope.luck = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value);
+        var appearance = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value);
+        $scope.appearance = appearance.value + 'd ' + appearance.text;
 
         var getLuck = $.grep($scope.personageInherents, function (personageInherent) {
             return personageInherent.Inherent.name === $i18next.t('page.character.luck');
         });
-        $scope.luck = addAllModifiers($i18next.t('page.character.luck'), getLuck[0].value);
+        var luck = addAllModifiers($i18next.t('page.character.luck'), getLuck[0].value);
+        $scope.luck = luck.value + 'd ' + luck.text;
 
         $scope.poisons_resistance = 0;
         var getPoisonsResistance = $.grep($scope.personageInherents, function (personageInherent) {
@@ -258,10 +279,13 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         if (getPoisonsResistance.length !== 0) {
             $scope.poisons_resistance = 1;
         }
-        $scope.poisons_resistance = addAllModifiers($i18next.t('page.character.additional_derivatives.poisons_resistance'), $scope.poisons_resistance);
+        var poisons_resistance = addAllModifiers($i18next.t('page.character.additional_derivatives.poisons_resistance'), $scope.poisons_resistance);
+        $scope.poisons_resistance = poisons_resistance.value + 'd ' + poisons_resistance.text;
 
-        $scope.cloaking_moving = $scope.dexterity;
-        $scope.cloaking_not_moving = $scope.will;
+        var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity);
+        $scope.cloaking_moving = cloaking_moving.value + 'd ' + cloaking_moving.text;
+        var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will);
+        $scope.cloaking_not_moving = cloaking_not_moving.value + 'd ' + cloaking_not_moving.text;
 
         $('#loader').hide();
         $('section').removeClass('hide');
