@@ -255,10 +255,13 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will);
         $scope.horror = horror.value + 'd ' + horror.text;
         var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence);
+        persuasion.value = persuasion.value + Math.floor(Math.abs(($scope.will - 3) / 3));
         $scope.persuasion = persuasion.value + 'd ' + persuasion.text;
         var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma);
+        seduction.value = seduction.value + Math.floor(Math.abs(($scope.will - 3) / 3));
         $scope.seduction = seduction.value + 'd ' + seduction.text;
         var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will);
+        oppression.value = oppression.value + Math.floor(Math.abs(($scope.will - 3) / 3));
         $scope.oppression = oppression.value + 'd ' + oppression.text;
 
 
