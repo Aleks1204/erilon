@@ -5,6 +5,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     var AttachedSkillAttribute = sequelize.define("AttachedSkillAttribute", {
+        name: DataTypes.STRING,
         description: DataTypes.STRING
     }, {
         classMethods: {

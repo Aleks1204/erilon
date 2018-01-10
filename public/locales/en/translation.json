@@ -616,6 +616,7 @@
       "header": "Basic rolls for",
       "add": {
         "title": "Add roll",
+        "name": "Name:",
         "description": "Roll description:",
         "attribute": "Attribute:",
         "attribute_place_holder": "Select attribute..."

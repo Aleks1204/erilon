@@ -14,6 +14,7 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
         $scope.attributesOptions = $scope.attributesOptions.substring(0, $scope.attributesOptions.length - 1) + "}";
         $scope.attributesOptions = JSON.parse($scope.attributesOptions);
 
+        $scope.table_header_name = $i18next.t('table.header.name');
         $scope.table_header_roll = $i18next.t('table.header.roll');
         $scope.table_header_description = $i18next.t('table.header.description');
         $scope.table_header_actions = $i18next.t('table.header.actions');
@@ -45,6 +46,7 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
             "info": false,
             "ajax": '/attachedSkillAttributesByAttachedSKillId/' + attachedSkillId,
             "columns": [
+                {"data": "name"},
                 {
                     data: "Attribute.name",
                     render: function (data, type, row) {
@@ -93,6 +95,10 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
             swal({
                 title: $i18next.t('page.attached_skill.add.title'),
                 html: '<div class="form-group">' +
+                '<label for="name" class="form-control-label">' + $i18next.t('page.attached_skill.add.name') + '</label>' +
+                '<input id="name" class="form-control"/>' +
+                '</div>' +
+                '<div class="form-group">' +
                 '<label for="description" class="form-control-label">' + $i18next.t('page.attached_skill.add.description') + '</label>' +
                 '<textarea id="description" class="form-control"></textarea>' +
                 '</div>' +
@@ -114,13 +120,14 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
                     })
                 },
                 onOpen: function () {
-                    $('#description').focus();
+                    $('#name').focus();
 
                 },
                 preConfirm: function (value) {
                     return new Promise(function (resolve) {
                         resolve([
                             value,
+                            $('#name').val(),
                             $('#description').val()
                         ])
                     })
@@ -129,7 +136,8 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
                 $http.post('/attachedSkillAttributes', {
                     attribute_id: result[0],
                     attached_skill_id: attachedSkillId,
-                    description: result[1]
+                    name: result[1],
+                    description: result[2]
                 }).then(function () {
                     rollsTable.ajax.reload(null, false)
                 });
@@ -141,14 +149,31 @@ app.controller("attachedSkillController", function ($scope, $http, $timeout, $q,
                 var rollItem = response.data.attachedSkillAttribute;
                 swal({
                     title: $i18next.t('page.attached_skill.edit.title') + ' "' + rollItem.Attribute.name + '" + "' + rollItem.AttachedSkill.name + '"',
+                    html: '<div class="form-group">' +
+                    '<label for="name" class="form-control-label">' + $i18next.t('page.attached_skill.add.name') + '</label>' +
+                    '<input type="text" class="form-control" value="' + rollItem.name + '" id="name">' +
+                    '</div>',
                     showCancelButton: true,
                     cancelButtonText: $i18next.t('popup.cancel_button'),
                     confirmButtonText: $i18next.t('popup.save_button'),
                     input: 'textarea',
-                    inputValue: rollItem.description
+                    inputValue: rollItem.description,
+                    onOpen: function () {
+                        $('#name').focus();
+
+                    },
+                    preConfirm: function (value) {
+                        return new Promise(function (resolve) {
+                            resolve([
+                                value,
+                                $('#name').val()
+                            ])
+                        })
+                    }
                 }).then(function success(result) {
                     $http.put('/attachedSkillAttributes/' + rollItem.id, {
-                        description: result
+                        description: result[0],
+                        name: result[1]
                     }).then(function () {
                         rollsTable.ajax.reload(null, false)
                     });

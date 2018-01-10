@@ -614,6 +614,7 @@
       "header": "Базовые броски для",
       "add": {
         "title": "Добавить бросок",
+        "name": "Имя:",
         "description": "Описание броска:",
         "attribute": "Атрибут:",
         "attribute_place_holder": "Выберите атрибут..."

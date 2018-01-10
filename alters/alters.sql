@@ -63,3 +63,4 @@ ALTER TABLE "Merits" ADD COLUMN situation_bonus TEXT;
 ALTER TABLE "Flaws" ADD COLUMN situation_bonus TEXT;
 ALTER TABLE "Inherents" RENAME COLUMN action_level_bonus TO permanent_bonus;
 ALTER TABLE "Inherents" ADD COLUMN situation_bonus TEXT;
+ALTER TABLE "AttachedSkillAttributes" ADD COLUMN name TEXT DEFAULT '' NOT NULL;

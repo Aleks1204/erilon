@@ -41,8 +41,10 @@ router.put('/attachedSkillAttributes/:id', function (req, res) {
         }
 
         attachedSkillAttribute.description = req.body.description;
+        attachedSkillAttribute.name = req.body.name;
         return attachedSkillAttribute.update({
-            description: req.body.description
+            description: req.body.description,
+            name: req.body.name
         }).then(function (attribute) {
             res.send({status: 'UPDATED', attachedSkillAttribute: attachedSkillAttribute})
         });
@@ -67,7 +69,8 @@ router.post('/attachedSkillAttributes', function (req, res) {
     models.AttachedSkillAttribute.create({
         AttributeId: req.body.attribute_id,
         AttachedSkillId: req.body.attached_skill_id,
-        description: req.body.description
+        description: req.body.description,
+        name: req.body.name
     }).then(function (attachedSkillAttribute) {
         res.send({status: 'CREATED', attachedSkillAttribute: attachedSkillAttribute})
     });
