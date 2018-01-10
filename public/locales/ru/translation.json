@@ -391,10 +391,10 @@
         "intimidation": "Запугивание",
         "saving_throws": {
           "header": "Спасброски",
-          "horror": "Ужас",
-          "persuasion": "Угнетение",
-          "seduction": "Убеждение",
-          "oppression": "Соблазнение"
+          "horror": "Спасбросок:ужас",
+          "persuasion": "Спасбросок:угнетение",
+          "seduction": "Спасбросок:убеждение",
+          "oppression": "Спасбросок:соблазнение"
         }
       },
 
