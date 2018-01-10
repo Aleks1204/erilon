@@ -379,10 +379,10 @@
         },
         "saving_throws": {
           "header": "Saving throws",
-          "horror": "Horror",
-          "persuasion": "Persuasion",
-          "seduction": "Seduction",
-          "oppression": "Oppression"
+          "horror": "Savingthrows:horror",
+          "persuasion": "Savingthrows:persuasion",
+          "seduction": "Savingthrows:seduction",
+          "oppression": "Savingthrows:oppression"
         },
         "intimidation_strength": "Intimidation (strength)",
         "intimidation": "Intimidation",
