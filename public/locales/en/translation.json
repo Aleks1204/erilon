@@ -224,6 +224,7 @@
       "wisdom9_bonus_warning": "The value of Wisdom 9 will allow you to acquire the attached skills at 2 EXP cheaper, but the change will take effect only after the changes are saved",
       "save_changes_warning": "After making changes, you will not be able to return to the character creation page!",
       "delete_character": "Are you sure you want to delete the character? It can not be restored!",
+      "karate": "Karate",
       "avatar": {
         "title": "Upload character's avatar",
         "default_message": "Drag picture to the area or click for upload",

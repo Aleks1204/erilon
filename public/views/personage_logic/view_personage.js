@@ -211,8 +211,38 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.watchfulness_vision = watchfulness_vision.value + 'd ' + watchfulness_vision.text;
         var watchfulness_hearing = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_hearing'), $scope.perception);
         $scope.watchfulness_hearing = watchfulness_hearing.value + 'd ' + watchfulness_hearing.text;
+
+        var getKarate = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
+            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.karate');
+        });
+
+        var karateBonus = 0;
+        var karateText = '';
+        if (getKarate.length !== 0) {
+            if (getKarate[0].currentLevel >= 2) {
+                karateBonus = karateBonus + 2;
+                karateText = '+2 мастер Карате';
+            }
+            if (getKarate[0].currentLevel >= 3) {
+                karateBonus = karateBonus + 1;
+                karateText = '+3 магистр Карате';
+            }
+            if (getKarate[0].currentLevel === 4) {
+                karateBonus = karateBonus + 2;
+                karateText = '+5 гроссмейтер Карате';
+            }
+        }
+
         var bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity);
-        $scope.bounce = bounce.value + 'd ' + bounce.text;
+        bounce.value = bounce.value + karateBonus;
+        if (karateText === '') {
+            $scope.bounce = bounce.value + 'd ' + bounce.text;
+        } else {
+            $scope.bounce = bounce.value + 'd ' + bounce.text.slice(0, -1) + ', ' + karateText + ')';
+        }
+
+
+
         var falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient);
         falling_damage_coefficient.value = falling_damage_coefficient.value + Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.falling_damage_coefficient = falling_damage_coefficient.value + falling_damage_coefficient.text;
