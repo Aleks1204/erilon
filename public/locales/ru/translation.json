@@ -384,6 +384,7 @@
         "falling_damage_coefficient": "Коэффициент падучести",
         "balance_check": "Устойчивость",
         "poise_check": "Равновесие",
+        "cloaking": "Маскировка",
         "cloaking_moving": "Маскировка (движение)",
         "cloaking_not_moving": "Маскировка (неподвижность)",
         "poisons_resistance": "Сопротивление ядам",

@@ -394,6 +394,7 @@
         "balance_check": "Balance check",
         "poise_check": "Poise check",
         "appearance": "Appearance",
+        "cloaking": "Cloaking",
         "cloaking_moving": "Cloaking (moving)",
         "cloaking_not_moving": "Cloaking (not moving)",
         "poisons_resistance": "Poisons resistance"

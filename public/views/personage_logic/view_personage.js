@@ -231,7 +231,16 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.sprint = sprint.value * 4 + sprint.text;
         var climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity);
         $scope.climbing = climbing.value + 'd ' + climbing.text;
-        var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed);
+
+        var getSwimming = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
+            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.move.swimming');
+        });
+
+        var swimmingModifier = 0;
+        if (getSwimming.length === 0) {
+            swimmingModifier = 2;
+        }
+        var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed - swimmingModifier);
         $scope.swimming = swimming.value + swimming.text;
 
         var vitalityBonus = 0;
@@ -292,9 +301,18 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var poisons_resistance = addAllModifiers($i18next.t('page.character.additional_derivatives.poisons_resistance'), $scope.poisons_resistance);
         $scope.poisons_resistance = poisons_resistance.value + 'd ' + poisons_resistance.text;
 
-        var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity);
+        var getCloaking = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
+            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.cloaking');
+        });
+
+        var cloakingModifier = 0;
+        if (getCloaking.length === 0) {
+            cloakingModifier = 2;
+        }
+
+        var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity - cloakingModifier);
         $scope.cloaking_moving = cloaking_moving.value + 'd ' + cloaking_moving.text;
-        var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will);
+        var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will - cloakingModifier);
         $scope.cloaking_not_moving = cloaking_not_moving.value + 'd ' + cloaking_not_moving.text;
 
         var getIntimidation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
