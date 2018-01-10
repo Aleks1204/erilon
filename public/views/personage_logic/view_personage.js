@@ -348,7 +348,8 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                         var returned = '';
                         angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
                             var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
-                            returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + '=' + value + ':</small></h4>' + attachedSkillAttribute.description;
+                            var withModifiers = addAllModifiers(attachedSkillAttribute.name, value);
+                            returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + withModifiers.text + '=' + withModifiers.value + ':</small></h4>' + attachedSkillAttribute.description;
                         });
                         return returned;
                     }
