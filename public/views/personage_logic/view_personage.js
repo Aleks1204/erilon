@@ -321,7 +321,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         var intimidationModifier = 0;
         if (getIntimidation.length === 0) {
-            intimidationModifier = 4;
+            intimidationModifier = 2;
         }
         var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $scope.will + $scope.power - intimidationModifier);
 
