@@ -1918,7 +1918,7 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
 
             $q.all(checkMeritPromises).then(function () {
                 swal({
-                    title: $i18next.t('popup.confim_title'),
+                    title: $i18next.t('popup.confirm_title'),
                     html: $i18next.t('page.character.delete_merits') + ": " + stringValue,
                     type: "warning",
                     showCancelButton: true,
