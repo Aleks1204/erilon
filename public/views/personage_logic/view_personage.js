@@ -409,7 +409,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         var zigunBonus = 0;
         var zigunBonusText = '';
-        if (getZigun.length >= 0) {
+        if (getZigun.length > 0) {
             if (getZigun[0].currentLevel >= 1) {
                 zigunBonus = zigunBonus + 1;
                 zigunBonusText = '+' + zigunBonus + ' ' + $i18next.t('page.character.additional_derivatives.zigun_expert') + ')';
