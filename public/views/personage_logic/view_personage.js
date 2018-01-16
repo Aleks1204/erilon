@@ -389,14 +389,27 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             vitalityBonusText = ', +' + vitalityBonus + ' ' + $i18next.t('page.character.additional_derivatives.vitality_bonus');
         }
 
-        $scope.scratches = 2 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 2' + vitalityBonusText + ')';
-        $scope.light_injuries = 10 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 10' + vitalityBonusText + ')';
-        $scope.medium_injuries = 15 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 15' + vitalityBonusText + ')';
-        $scope.heavy_injuries = 30 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 30' + vitalityBonusText + ')';
-        var deadlyInjuries = 30 + $scope.vitality * 2;
-        $scope.deadly_injuries = deadlyInjuries + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + deadlyInjuries + vitalityBonusText + ')';
-        var death = 30 + $scope.vitality * 3;
-        $scope.death = death + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + death + vitalityBonusText + ')';
+        var deadlyInjuries = 0;
+        var death = 0;
+        if ($scope.personage.Race.name.toLowerCase() === 'гном') {
+            $scope.scratches = 7 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 2' + vitalityBonusText + ', +5 раса гном)';
+            $scope.light_injuries = 15 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 10' + vitalityBonusText + ', +5 раса гном)';
+            $scope.medium_injuries = 20 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 15' + vitalityBonusText + ', +5 раса гном)';
+            $scope.heavy_injuries = 35 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 30' + vitalityBonusText + ', +5 раса гном)';
+            deadlyInjuries = 30 + $scope.vitality * 2;
+            $scope.deadly_injuries = deadlyInjuries + 5 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + deadlyInjuries + vitalityBonusText + ', +5 раса гном)';
+            death = 30 + $scope.vitality * 3;
+            $scope.death = death + 5 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + death + vitalityBonusText + ', +5 раса гном)';
+        } else {
+            $scope.scratches = 2 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 2' + vitalityBonusText + ')';
+            $scope.light_injuries = 10 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 10' + vitalityBonusText + ')';
+            $scope.medium_injuries = 15 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 15' + vitalityBonusText + ')';
+            $scope.heavy_injuries = 30 + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' 30' + vitalityBonusText + ')';
+            deadlyInjuries = 30 + $scope.vitality * 2;
+            $scope.deadly_injuries = deadlyInjuries + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + deadlyInjuries + vitalityBonusText + ')';
+            death = 30 + $scope.vitality * 3;
+            $scope.death = death + vitalityBonus + ' (' + $i18next.t('page.character.additional_derivatives.base_value') + ' ' + death + vitalityBonusText + ')';
+        }
 
         $scope.hp_scratches = $scope.vitality * 20;
         $scope.hp_light_injuries = $scope.vitality * 10;
