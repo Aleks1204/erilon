@@ -295,9 +295,6 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.falling_damage_coefficient = falling_damage_coefficient.value + falling_damage_coefficient.text;
 
         var balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity);
-        if (dexterityLevel > 0) {
-            balance_check.text = balance_check.text.slice(0, -1) + ', +' + dexterityLevel + ' ' + $i18next.t('page.character.additional_derivatives.dexterity_bonus') + ')';
-        }
         if ($scope.cloakingLevel !== null) {
             balance_check.text = balance_check.text.slice(0, -1) + ', +' + balanceCloakingCheckModifier + ' ' + cloakingText + ')';
         }
@@ -305,6 +302,10 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
 
         var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
+        if (dexterityLevel > 0) {
+            poise_check.text = poise_check.text.slice(0, -1) + ', +' + dexterityLevel + ' ' + $i18next.t('page.character.additional_derivatives.dexterity_bonus') + ')';
+        }
+        poise_check.value = poise_check.value + dexterityLevel;
         $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
 
         var getMeditation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
