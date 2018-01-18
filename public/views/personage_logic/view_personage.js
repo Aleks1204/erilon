@@ -108,11 +108,11 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $('#' + $i18next.t('page.character.dexterity')).parent('tr').addClass('derivedActive');
     };
 
-    function addAllModifiers(targetName, initialValue) {
+    function addAllModifiers(targetName, initialValue, baseParametersString) {
         var name = targetName.toLowerCase();
         var finalValue = initialValue;
         var percentage = 1;
-        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + initialValue + ", ";
+        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + ' [' + baseParametersString + ']: ' + initialValue + ", ";
         var modifierString = '';
         angular.forEach($scope.personageMerits, function (personageMerit) {
             var bonuses_description = personageMerit.Merit.permanent_bonus.toLowerCase();
@@ -218,16 +218,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     function success() {
         calculateBasicCharacteristics();
 
-        $http.get('/byKey/' + $scope.personage.name + '_weight').then(function (response) {
-            if (response.data.result === null) {
-                $scope.current_weight = 0;
-            } else {
-                $scope.current_weight = parseInt(response.data.result.value);
-            }
-        });
-
-        var weight_modifier = Math.floor($scope.current_weight / $scope.power);
-        console.log('Модификатор веса: ' + weight_modifier);
+        var weightModifier = Math.floor($scope.current_weight / $scope.power);
 
         var dexterityLevel = Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.cloakingLevel = null;
@@ -278,9 +269,9 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.weight5 = $scope.power * 10;
         $scope.weight6 = $scope.power * 15;
 
-        var watchfulness_vision = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_vision'), $scope.perception);
+        var watchfulness_vision = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_vision'), $scope.perception, $i18next.t('page.character.perception'));
         $scope.watchfulness_vision = watchfulness_vision.value + 'd ' + watchfulness_vision.text;
-        var watchfulness_hearing = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_hearing'), $scope.perception);
+        var watchfulness_hearing = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_hearing'), $scope.perception, $i18next.t('page.character.perception'));
         $scope.watchfulness_hearing = watchfulness_hearing.value + 'd ' + watchfulness_hearing.text;
 
         var getKarate = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
@@ -304,17 +295,23 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             }
         }
 
-        var bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity);
+        var bounce = addAllModifiers($i18next.t('page.character.additional_derivatives.bounce'), $scope.dexterity, $i18next.t('page.character.dexterity'));
         if (karateText !== '') {
             bounce.text = bounce.text.slice(0, -1) + ', ' + karateText + ')';
         }
         if ($scope.cloakingLevel !== null) {
             bounce.text = bounce.text.slice(0, -1) + ', +' + bounceCloakingModifier + ' ' + cloakingText + ')';
         }
-        bounce.value = bounce.value + karateBonus + bounceCloakingModifier;
+        if (weightModifier > 0) {
+            bounce.text = bounce.text.slice(0, -1) + ', -' + weightModifier + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        bounce.value = bounce.value + karateBonus + bounceCloakingModifier - weightModifier;
+        if (bounce.value < 0) {
+            bounce.value = 0;
+        }
         $scope.bounce = bounce.value + 'd ' + bounce.text;
 
-        var falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient);
+        var falling_damage_coefficient = addAllModifiers($i18next.t('page.character.additional_derivatives.falling_damage_coefficient'), $scope.personage.Race.falling_damage_coefficient, $i18next.t('page.character.additional_derivatives.falling_damage_coefficient'));
         if (dexterityLevel > 0) {
             falling_damage_coefficient.text = falling_damage_coefficient.text.slice(0, -1) + ', +' + dexterityLevel + ' ' + $i18next.t('page.character.additional_derivatives.dexterity_bonus') + ')';
         }
@@ -324,18 +321,30 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         falling_damage_coefficient.value = falling_damage_coefficient.value + dexterityLevel + fallingDamageCoefficientCloakingModifier;
         $scope.falling_damage_coefficient = falling_damage_coefficient.value + falling_damage_coefficient.text;
 
-        var balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity);
+        var balance_check = addAllModifiers($i18next.t('page.character.additional_derivatives.balance_check'), $scope.dexterity, $i18next.t('page.character.dexterity'));
         if ($scope.cloakingLevel !== null) {
             balance_check.text = balance_check.text.slice(0, -1) + ', +' + balanceCloakingCheckModifier + ' ' + cloakingText + ')';
         }
-        balance_check.value = balance_check.value + balanceCloakingCheckModifier;
+        if (weightModifier > 0) {
+            balance_check.text = balance_check.text.slice(0, -1) + ', -' + weightModifier + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        balance_check.value = balance_check.value + balanceCloakingCheckModifier - weightModifier;
+        if (balance_check.value < 0) {
+            balance_check.value = 0;
+        }
         $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
 
-        var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
+        var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power, $i18next.t('page.character.power'));
         if (dexterityLevel > 0) {
             poise_check.text = poise_check.text.slice(0, -1) + ', +' + dexterityLevel + ' ' + $i18next.t('page.character.additional_derivatives.dexterity_bonus') + ')';
         }
-        poise_check.value = poise_check.value + dexterityLevel;
+        if (weightModifier > 0) {
+            poise_check.text = poise_check.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        poise_check.value = poise_check.value + dexterityLevel - Math.floor(weightModifier / 2);
+        if (poise_check.value < 0) {
+            poise_check.value = 0;
+        }
         $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
 
         var getMeditation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
@@ -345,7 +354,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         var baseLevelOfManaRefresh = 5;
         var enduranceLevel = Math.floor(Math.abs(($scope.endurance - 3) / 3));
-        var energyRefresh = addAllModifiers($i18next.t('page.character.additional_derivatives.energy_refresh'), baseLevelOfManaRefresh);
+        var energyRefresh = addAllModifiers($i18next.t('page.character.additional_derivatives.energy_refresh'), baseLevelOfManaRefresh, $i18next.t('page.character.additional_derivatives.energy_refresh'));
 
         if (enduranceLevel > 0) {
             energyRefresh.text = energyRefresh.text.slice(0, -1) + ', +' + enduranceLevel + ' ' + $i18next.t('page.character.additional_derivatives.endurance_bonus') + ')';
@@ -384,17 +393,44 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.energy_refresh = energyRefresh.value + ' ' + $i18next.t('page.character.additional_derivatives.in_min') + ' ' + energyRefresh.text;
 
 
-        var step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed);
+        var step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed, $i18next.t('page.character.speed'));
+        if (weightModifier > 0) {
+            step.text = step.text.slice(0, -1) + ', -' + Math.floor(0.2 * weightModifier) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        step.value = step.value - Math.floor(0.2 * weightModifier);
+        if (step.value < 0) {
+            step.value = 0;
+        }
         $scope.step = step.value + step.text;
-        var run = addAllModifiers($i18next.t('page.character.additional_derivatives.move.run'), $scope.speed);
+        var run = addAllModifiers($i18next.t('page.character.additional_derivatives.move.run'), $scope.speed, $i18next.t('page.character.speed'));
+        if (weightModifier > 0) {
+            run.text = run.text.slice(0, -1) + ', -' + Math.floor(0.33 * weightModifier) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        run.value = run.value - Math.floor(0.33 * weightModifier);
+        if (run.value < 0) {
+            run.value = 0;
+        }
         $scope.run = run.value * 2 + run.text;
-        var sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed);
+        var sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed, $i18next.t('page.character.speed'));
+        if (weightModifier > 0) {
+            sprint.text = sprint.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        sprint.value = sprint.value - Math.floor(weightModifier / 2);
+        if (sprint.value < 0) {
+            sprint.value = 0;
+        }
         $scope.sprint = sprint.value * 4 + sprint.text;
 
-        var climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity);
-        climbing.value = climbing.value + climbingCloakingModifier;
+        var climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity, $i18next.t('page.character.dexterity'));
+        climbing.value = climbing.value + climbingCloakingModifier - weightModifier;
         if ($scope.cloakingLevel !== null) {
             climbing.text = climbing.text.slice(0, -1) + ', +' + climbingCloakingModifier + ' ' + cloakingText + ')';
+        }
+        if (weightModifier > 0) {
+            climbing.text = climbing.text.slice(0, -1) + ', -' + weightModifier + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        if (climbing.value < 0) {
+            climbing.value = 0;
         }
         $scope.climbing = climbing.value + 'd ' + climbing.text;
 
@@ -402,10 +438,17 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.move.swimming');
         });
 
-        var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed);
+        var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed, $i18next.t('page.character.speed'));
         if (getSwimming.length === 0) {
             swimming.value = swimming.value - 2;
             swimming.text = swimming.text.slice(0, -1) + ', -2 ' + $i18next.t('page.character.additional_derivatives.skill_absent') + ')';
+        }
+        if (weightModifier > 0) {
+            swimming.text = swimming.text.slice(0, -1) + ', -' + weightModifier + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        swimming.value = swimming.value - weightModifier;
+        if (swimming.value < 0) {
+            swimming.value = 0;
         }
         $scope.swimming = swimming.value + swimming.text;
 
@@ -508,26 +551,26 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.slash = zigunBonus + doublePowerLevel + 'd ' + doublePowerBonusText;
         $scope.blunt = zigunBonus + powerLevel + 'd ' + powerBonusText;
 
-        var horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will);
+        var horror = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.horror'), $scope.will, $i18next.t('page.character.will'));
         $scope.horror = horror.value + 'd ' + horror.text;
 
         var willLevel = Math.floor(Math.abs(($scope.will - 3) / 3));
 
-        var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence);
+        var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence, $i18next.t('page.character.intelligence'));
         if (willLevel > 0) {
             persuasion.text = persuasion.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
         persuasion.value = persuasion.value + willLevel;
         $scope.persuasion = persuasion.value + 'd ' + persuasion.text;
 
-        var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma);
+        var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma, $i18next.t('page.character.charisma'));
         if (willLevel > 0) {
             seduction.text = seduction.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
         seduction.value = seduction.value + willLevel;
         $scope.seduction = seduction.value + 'd ' + seduction.text;
 
-        var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will);
+        var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will, $i18next.t('page.character.will'));
         if (willLevel > 0) {
             oppression.text = oppression.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
@@ -539,7 +582,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var getAppearance = $.grep($scope.personageInherents, function (personageInherent) {
             return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
         });
-        var appearance = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value);
+        var appearance = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value, $i18next.t('page.character.appearance'));
         appearance.value = appearance.value + charismaLevel;
         if (willLevel > 0) {
             appearance.text = appearance.text.slice(0, -1) + ', +' + charismaLevel + ' ' + $i18next.t('page.character.additional_derivatives.charisma_bonus') + ')';
@@ -549,7 +592,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var getLuck = $.grep($scope.personageInherents, function (personageInherent) {
             return personageInherent.Inherent.name === $i18next.t('page.character.luck');
         });
-        var luck = addAllModifiers($i18next.t('page.character.luck'), getLuck[0].value);
+        var luck = addAllModifiers($i18next.t('page.character.luck'), getLuck[0].value, $i18next.t('page.character.luck'));
         $scope.luck = luck.value + 'd ' + luck.text;
 
         $scope.poisons_resistance = 0;
@@ -559,12 +602,24 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         if (getPoisonsResistance.length !== 0) {
             $scope.poisons_resistance = 1;
         }
-        var poisons_resistance = addAllModifiers($i18next.t('page.character.additional_derivatives.poisons_resistance'), $scope.poisons_resistance);
+        var poisons_resistance = addAllModifiers($i18next.t('page.character.additional_derivatives.poisons_resistance'), $scope.poisons_resistance, $i18next.t('page.character.additional_derivatives.poisons_resistance'));
         $scope.poisons_resistance = poisons_resistance.value + 'd ' + poisons_resistance.text;
 
-        var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity);
-        var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will);
+        var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity, $i18next.t('page.character.dexterity'));
+        var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will, $i18next.t('page.character.will'));
 
+        if (weightModifier > 0) {
+            cloaking_moving.text = cloaking_moving.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+            cloaking_not_moving.text = cloaking_not_moving.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
+        }
+        cloaking_moving.value = cloaking_moving.value - Math.floor(weightModifier / 2);
+        cloaking_not_moving.value = cloaking_not_moving.value - Math.floor(weightModifier / 2);
+        if (cloaking_moving.value < 0) {
+            cloaking_moving.value = 0;
+        }
+        if (cloaking_not_moving.value < 0) {
+            cloaking_not_moving.value = 0;
+        }
         if (cloakingText === '') {
             $scope.cloaking_moving = cloaking_moving.value + 'd ' + cloaking_moving.text;
             $scope.cloaking_not_moving = cloaking_not_moving.value + 'd ' + cloaking_not_moving.text;
@@ -583,7 +638,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.intimidation');
         });
 
-        var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $scope.will + $scope.power);
+        var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $i18next.t('page.character.will') + '+' + $i18next.t('page.character.power'));
         if (getIntimidation.length === 0) {
             intimidation.value = intimidation.value - 4;
             intimidation.text = intimidation.text.slice(0, -1) + ', ' + '-4 ' + $i18next.t('page.character.additional_derivatives.skill_absent') + ')';
@@ -788,7 +843,14 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             raceAttributes.resolve();
         });
         $scope.personageAttributes = response.data.personage.PersonageAttributes;
-        personage.resolve();
+        $http.get('/byKey/' + $scope.personage.name + '_weight').then(function (response) {
+            if (response.data.result === null) {
+                $scope.current_weight = 0;
+            } else {
+                $scope.current_weight = parseInt(response.data.result.value);
+            }
+            personage.resolve();
+        });
     });
 
     $http.get('/playerAttributesByPlayerId/' + $localStorage.playerId).then(function (response) {

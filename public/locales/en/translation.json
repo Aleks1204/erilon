@@ -338,8 +338,9 @@
         "initiative": "Dice amount to roll initiative. Equals to character`s reaction"
       },
       "additional_derivatives": {
-        "base_value": "Base: ",
+        "base_value": "Base",
         "in_min": "per min.",
+        "weight_modifier": "weight modifier",
         "dexterity_bonus": "dexterity bonus",
         "endurance_bonus": "endurance bonus",
         "vitality_bonus": "vitality bonus",

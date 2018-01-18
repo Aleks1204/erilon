@@ -338,8 +338,9 @@
         "initiative": "Количество кубиков на определение очередности хода в раунде. Равно реакции персонажа"
       },
       "additional_derivatives": {
-        "base_value": "База: ",
+        "base_value": "База",
         "in_min": "в мин.",
+        "weight_modifier": "модификатор веса",
         "dexterity_bonus": "бонус Ловкости",
         "endurance_bonus": "бонус Выносливости",
         "vitality_bonus": "бонус Живучести",
