@@ -328,7 +328,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         if ($scope.cloakingLevel !== null) {
             balance_check.text = balance_check.text.slice(0, -1) + ', +' + balanceCloakingCheckModifier + ' ' + cloakingText + ')';
         }
-        balance_check.value = balance_check.value + dexterityLevel + balanceCloakingCheckModifier;
+        balance_check.value = balance_check.value + balanceCloakingCheckModifier;
         $scope.balance_check = balance_check.value + 'd ' + balance_check.text;
 
         var poise_check = addAllModifiers($i18next.t('page.character.additional_derivatives.poise_check'), $scope.power);
