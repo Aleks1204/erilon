@@ -112,7 +112,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var name = targetName.toLowerCase();
         var finalValue = initialValue;
         var percentage = 1;
-        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + ' [' + baseParametersString + ']: ' + initialValue + ", ";
+        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + ' [' + baseParametersString + '] : ' + initialValue + ", ";
         var modifierString = '';
         angular.forEach($scope.personageMerits, function (personageMerit) {
             var bonuses_description = personageMerit.Merit.permanent_bonus.toLowerCase();
@@ -638,7 +638,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.intimidation');
         });
 
-        var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $i18next.t('page.character.will') + '+' + $i18next.t('page.character.power'));
+        var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $scope.will + $scope.power, $i18next.t('page.character.will') + '+' + $i18next.t('page.character.power'));
         if (getIntimidation.length === 0) {
             intimidation.value = intimidation.value - 4;
             intimidation.text = intimidation.text.slice(0, -1) + ', ' + '-4 ' + $i18next.t('page.character.additional_derivatives.skill_absent') + ')';
