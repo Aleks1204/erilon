@@ -197,8 +197,38 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         };
     }
 
+    $scope.setWeight = function () {
+        swal({
+            title: $i18next.t('page.character.edit_weight_title'),
+            input: "text",
+            inputValue: 0,
+            showCancelButton: true,
+            confirmButtonText: $i18next.t('popup.save_button'),
+            cancelButtonText: $i18next.t('popup.cancel_button')
+        }).then(function success(result) {
+            $http.post('/history', {
+                key: $scope.personage.name + '_weight',
+                value: parseInt(result)
+            }).then(function () {
+                $scope.current_weight = parseInt(result);
+            });
+        });
+    };
+
     function success() {
         calculateBasicCharacteristics();
+
+        $http.get('/byKey/' + $scope.personage.name + '_weight').then(function (response) {
+            if (response.data.result === null) {
+                $scope.current_weight = 0;
+            } else {
+                $scope.current_weight = parseInt(response.data.result.value);
+            }
+        });
+
+        var weight_modifier = Math.floor($scope.current_weight / $scope.power);
+        console.log('Модификатор веса: ' + weight_modifier);
+
         var dexterityLevel = Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.cloakingLevel = null;
         var getCloaking = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {

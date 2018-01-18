@@ -572,7 +572,11 @@
                                     <span ng-i18next>page.character.tab.additional_derived</span>
                                 </h3>
                                 <div class="panel-body">
-                                    <p ng-i18next>page.character.additional_derivatives.weight.header</p>
+                                    <button class="btn btn-info margin-inline btn-small btn-rounded"
+                                            ng-click="setWeight()">
+                                        <span ng-i18next>page.character.additional_derivatives.weight.header</span>
+                                        <span>{{current_weight}}</span>
+                                    </button>
 
                                     <ul>
                                         <li>

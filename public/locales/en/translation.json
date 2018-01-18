@@ -190,6 +190,7 @@
       "trigger_skill_mastery": "Mastery:",
       "flaw_cant_delete": "Cannot be deleted",
       "edit_experience_title": "Character's experience",
+      "edit_weight_title": "Current weight",
       "half_elf_mage_title": "Special qualities of half-elves",
       "half_elf_mage_text": "You rolled inherent quality \"mage\". Half-elves can increase their magic power when creating a character, buying an additional feature for the experience.",
       "half_elf_attributes_text": "Half-elves have the ability to purchase the following attributes at a price of 1 exp cheaper on creation. You can select one or more attributes, or select none of them. Each selected attribute will cost you 10 exp right now, but, perhaps, it will save you on further advancement. ",
@@ -361,7 +362,7 @@
         "zigun_master": "zigun master",
         "zigun_magister": "zigun magister",
         "weight": {
-          "header": "Weight",
+          "header": "Weight:",
           "kg": "kg",
           "1": ": (-1d) for jumping, maintaining balance and climbing for every exceeding of the limit. Costs of fatigue for mountaineering are doubled",
           "2": ": (-1 unit) to speed on sprint run / fast running and (-1d) for stability and disguise for each exceeding limit",
