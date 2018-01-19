@@ -275,12 +275,12 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             }
         }
 
-        $scope.weight1 = $scope.power;
-        $scope.weight2 = $scope.power * 2;
-        $scope.weight3 = $scope.power * 3;
-        $scope.weight4 = $scope.power * 5;
-        $scope.weight5 = $scope.power * 10;
-        $scope.weight6 = $scope.power * 15;
+        $scope.weight1 = $scope.power + suffolkPunchBonus;
+        $scope.weight2 = ($scope.power + suffolkPunchBonus) * 2;
+        $scope.weight3 = ($scope.power + suffolkPunchBonus) * 3;
+        $scope.weight4 = ($scope.power + suffolkPunchBonus) * 5;
+        $scope.weight5 = ($scope.power + suffolkPunchBonus) * 10;
+        $scope.weight6 = ($scope.power + suffolkPunchBonus) * 15;
 
         var watchfulness_vision = addAllModifiers($i18next.t('page.character.additional_derivatives.watchfulness_vision'), $scope.perception, $i18next.t('page.character.perception'));
         $scope.watchfulness_vision = watchfulness_vision.value + 'd ' + watchfulness_vision.text;
