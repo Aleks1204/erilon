@@ -219,7 +219,16 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
     function success() {
         calculateBasicCharacteristics();
 
-        var weightModifier = Math.floor($scope.current_weight / $scope.power);
+        var getSuffolkPunch = $.grep($scope.personageMerits, function (personageMerit) {
+            return personageMerit.Merit.name.toLowerCase() === $i18next.t('page.character.suffolk_punch').toLowerCase();
+        });
+
+        var suffolkPunchBonus = 0;
+        if (getSuffolkPunch.length > 0) {
+            suffolkPunchBonus = 3;
+        }
+
+        var weightModifier = Math.floor($scope.current_weight / ($scope.power + suffolkPunchBonus));
         if ($scope.current_weight % $scope.power === 0) {
             weightModifier = weightModifier - 1;
         }
@@ -227,7 +236,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var dexterityLevel = Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.cloakingLevel = null;
         var getCloaking = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.cloaking');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.additional_derivatives.cloaking').toLowerCase();
         });
 
         if (getCloaking.length !== 0) {
@@ -279,7 +288,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.watchfulness_hearing = watchfulness_hearing.value + 'd ' + watchfulness_hearing.text;
 
         var getKarate = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.karate');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.karate').toLowerCase();
         });
 
         var karateBonus = 0;
@@ -352,7 +361,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.poise_check = poise_check.value + 'd ' + poise_check.text;
 
         var getMeditation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.meditation');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.meditation').toLowerCase();
         });
 
 
@@ -439,7 +448,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.climbing = climbing.value + 'd ' + climbing.text;
 
         var getSwimming = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.move.swimming');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.additional_derivatives.move.swimming').toLowerCase();
         });
 
         var swimming = addAllModifiers($i18next.t('page.character.additional_derivatives.move.swimming'), $scope.speed, $i18next.t('page.character.speed'));
@@ -495,7 +504,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.hp_deadly_injuries = $scope.vitality;
 
         var getZigun = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.zigun');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.zigun').toLowerCase();
         });
 
         var zigunBonus = 0;
@@ -584,7 +593,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         var charismaLevel = Math.floor(Math.abs(($scope.charisma - 3) / 3));
         var getAppearance = $.grep($scope.personageInherents, function (personageInherent) {
-            return personageInherent.Inherent.name === $i18next.t('page.character.appearance');
+            return personageInherent.Inherent.name.toLowerCase() === $i18next.t('page.character.appearance').toLowerCase();
         });
         var appearance = addAllModifiers($i18next.t('page.character.appearance'), getAppearance[0].value, $i18next.t('page.character.appearance'));
         appearance.value = appearance.value + charismaLevel;
@@ -594,14 +603,14 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         $scope.appearance = appearance.value + 'd ' + appearance.text;
 
         var getLuck = $.grep($scope.personageInherents, function (personageInherent) {
-            return personageInherent.Inherent.name === $i18next.t('page.character.luck');
+            return personageInherent.Inherent.name.toLowerCase() === $i18next.t('page.character.luck').toLowerCase();
         });
         var luck = addAllModifiers($i18next.t('page.character.luck'), getLuck[0].value, $i18next.t('page.character.luck'));
         $scope.luck = luck.value + 'd ' + luck.text;
 
         $scope.poisons_resistance = 0;
         var getPoisonsResistance = $.grep($scope.personageInherents, function (personageInherent) {
-            return personageInherent.Inherent.name === $i18next.t('page.character.additional_derivatives.poisons_resistance');
+            return personageInherent.Inherent.name.toLowerCase() === $i18next.t('page.character.additional_derivatives.poisons_resistance').toLowerCase();
         });
         if (getPoisonsResistance.length !== 0) {
             $scope.poisons_resistance = 1;
@@ -639,7 +648,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         }
 
         var getIntimidation = $.grep($scope.personageTriggerSkills, function (personageTriggerSkill) {
-            return personageTriggerSkill.TriggerSkill.name === $i18next.t('page.character.additional_derivatives.intimidation');
+            return personageTriggerSkill.TriggerSkill.name.toLowerCase() === $i18next.t('page.character.additional_derivatives.intimidation').toLowerCase();
         });
 
         var intimidation = addAllModifiers($i18next.t('page.character.additional_derivatives.intimidation_strength'), $scope.will + $scope.power, $i18next.t('page.character.will') + '+' + $i18next.t('page.character.power'));
