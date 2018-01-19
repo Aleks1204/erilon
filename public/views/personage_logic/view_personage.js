@@ -410,20 +410,20 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         if (Math.floor(0.33 * weightModifier) > 0) {
             run.text = run.text.slice(0, -1) + ', -' + Math.floor(0.33 * weightModifier) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
-        run.value = run.value - Math.floor(0.33 * weightModifier);
+        run.value = run.value * 2 - Math.floor(0.33 * weightModifier);
         if (run.value < 0) {
             run.value = 0;
         }
-        $scope.run = run.value * 2 + run.text;
+        $scope.run = run.value + run.text;
         var sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed, $i18next.t('page.character.speed'));
         if (Math.floor(weightModifier / 2) > 0) {
             sprint.text = sprint.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
-        sprint.value = sprint.value - Math.floor(weightModifier / 2);
+        sprint.value = sprint.value * 4 - Math.floor(weightModifier / 2);
         if (sprint.value < 0) {
             sprint.value = 0;
         }
-        $scope.sprint = sprint.value * 4 + sprint.text;
+        $scope.sprint = sprint.value + sprint.text;
 
         var climbing = addAllModifiers($i18next.t('page.character.additional_derivatives.move.climbing'), $scope.dexterity, $i18next.t('page.character.dexterity'));
         climbing.value = climbing.value + climbingCloakingModifier - weightModifier;
