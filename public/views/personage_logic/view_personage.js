@@ -211,6 +211,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                 value: parseInt(result)
             }).then(function () {
                 $scope.current_weight = parseInt(result);
+                location.reload();
             });
         });
     };
