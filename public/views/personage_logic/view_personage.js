@@ -556,21 +556,21 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         var willLevel = Math.floor(Math.abs(($scope.will - 3) / 3));
 
-        var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.intelligence, $i18next.t('page.character.intelligence'));
+        var persuasion = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.persuasion'), $scope.will, $i18next.t('page.character.will'));
         if (willLevel > 0) {
             persuasion.text = persuasion.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
         persuasion.value = persuasion.value + willLevel;
         $scope.persuasion = persuasion.value + 'd ' + persuasion.text;
 
-        var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.charisma, $i18next.t('page.character.charisma'));
+        var seduction = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.seduction'), $scope.intelligence, $i18next.t('page.character.intelligence'));
         if (willLevel > 0) {
             seduction.text = seduction.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
         seduction.value = seduction.value + willLevel;
         $scope.seduction = seduction.value + 'd ' + seduction.text;
 
-        var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.will, $i18next.t('page.character.will'));
+        var oppression = addAllModifiers($i18next.t('page.character.additional_derivatives.saving_throws.oppression'), $scope.charisma, $i18next.t('page.character.charisma'));
         if (willLevel > 0) {
             oppression.text = oppression.text.slice(0, -1) + ', +' + willLevel + ' ' + $i18next.t('page.character.additional_derivatives.will_bonus') + ')';
         }
