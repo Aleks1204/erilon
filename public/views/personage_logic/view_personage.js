@@ -220,6 +220,9 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         calculateBasicCharacteristics();
 
         var weightModifier = Math.floor($scope.current_weight / $scope.power);
+        if ($scope.current_weight % $scope.power === 0) {
+            weightModifier = weightModifier - 1;
+        }
 
         var dexterityLevel = Math.floor(Math.abs(($scope.dexterity - 3) / 3));
         $scope.cloakingLevel = null;
@@ -339,7 +342,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         if (dexterityLevel > 0) {
             poise_check.text = poise_check.text.slice(0, -1) + ', +' + dexterityLevel + ' ' + $i18next.t('page.character.additional_derivatives.dexterity_bonus') + ')';
         }
-        if (weightModifier > 0) {
+        if (Math.floor(weightModifier / 2) > 0) {
             poise_check.text = poise_check.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
         poise_check.value = poise_check.value + dexterityLevel - Math.floor(weightModifier / 2);
@@ -395,7 +398,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
 
         var step = addAllModifiers($i18next.t('page.character.additional_derivatives.move.step'), $scope.speed, $i18next.t('page.character.speed'));
-        if (weightModifier > 0) {
+        if (Math.floor(0.2 * weightModifier) > 0) {
             step.text = step.text.slice(0, -1) + ', -' + Math.floor(0.2 * weightModifier) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
         step.value = step.value - Math.floor(0.2 * weightModifier);
@@ -404,7 +407,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         }
         $scope.step = step.value + step.text;
         var run = addAllModifiers($i18next.t('page.character.additional_derivatives.move.run'), $scope.speed, $i18next.t('page.character.speed'));
-        if (weightModifier > 0) {
+        if (Math.floor(0.33 * weightModifier) > 0) {
             run.text = run.text.slice(0, -1) + ', -' + Math.floor(0.33 * weightModifier) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
         run.value = run.value - Math.floor(0.33 * weightModifier);
@@ -413,7 +416,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         }
         $scope.run = run.value * 2 + run.text;
         var sprint = addAllModifiers($i18next.t('page.character.additional_derivatives.move.sprint'), $scope.speed, $i18next.t('page.character.speed'));
-        if (weightModifier > 0) {
+        if (Math.floor(weightModifier / 2) > 0) {
             sprint.text = sprint.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
         sprint.value = sprint.value - Math.floor(weightModifier / 2);
@@ -609,7 +612,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var cloaking_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_moving'), $scope.dexterity, $i18next.t('page.character.dexterity'));
         var cloaking_not_moving = addAllModifiers($i18next.t('page.character.additional_derivatives.cloaking_not_moving'), $scope.will, $i18next.t('page.character.will'));
 
-        if (weightModifier > 0) {
+        if (Math.floor(weightModifier / 2) > 0) {
             cloaking_moving.text = cloaking_moving.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
             cloaking_not_moving.text = cloaking_not_moving.text.slice(0, -1) + ', -' + Math.floor(weightModifier / 2) + ' ' + $i18next.t('page.character.additional_derivatives.weight_modifier') + ')';
         }
