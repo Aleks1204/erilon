@@ -1,9 +1,13 @@
 var personageId = /id=(\d+)/.exec(window.location.href)[1];
 var app = angular.module("personageApp", ['ngStorage', 'hmTouchEvents', 'ngSanitize', 'jm.i18next']);
 
-app.controller("personageController", function ($scope, $http, $q, $localStorage, $i18next) {
+app.controller("personageController", function ($scope, $http, $q, $localStorage, $i18next, $timeout) {
     var personage = $q.defer();
     var raceAttributes = $q.defer();
+
+    $scope.saveActiveTab = function (tabId) {
+        $localStorage.activeTab = tabId;
+    };
 
     $scope.setActive = function ($event) {
         $('.derivedActive').removeClass('derivedActive');
@@ -196,6 +200,112 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             text: " (" + descriptionString + ")"
         };
     }
+
+    var mainParametersClicked = false;
+    $scope.getMainParameters = function () {
+        if (!mainParametersClicked) {
+            mainParametersClicked = true;
+            $timeout(function () {
+                table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
+                    {
+                        data: "Flaw.name",
+                        render: function (data, type, row) {
+                            return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                        }
+                    },
+                    {"data": "Flaw.description"}
+                ], 2);
+
+                table('/personageMeritsByPersonageId/' + personageId, '#merits', [
+                    {
+                        data: "Merit.name",
+                        render: function (data, type, row) {
+                            return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                        }
+                    },
+                    {"data": "Merit.description"}
+                ], 2);
+
+                $http.get('/byKey/' + 'show_default_skills' + $localStorage.playerId).then(function (response) {
+                    $scope.defaultSkills = response.data.result != null;
+                    table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
+                        {
+                            data: "AttachedSkill.name",
+                            render: function (data, type, row) {
+                                return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                            }
+                        },
+                        {"data": "value"},
+                        {
+                            data: "AttachedSkill",
+                            orderable: false,
+                            render: function (data, type, row) {
+                                var returned = '';
+                                angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
+                                    var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
+                                    var withModifiers = addAllModifiers(attachedSkillAttribute.name, value);
+                                    returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + withModifiers.text + '=' + withModifiers.value + ':</small></h4>' + attachedSkillAttribute.description;
+                                });
+                                return returned;
+                            }
+                        },
+                        {"data": "AttachedSkill.description"}
+                    ], 4);
+                });
+
+                table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
+                    {
+                        data: "Inherent.name",
+                        render: function (data, type, row) {
+                            return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                        }
+                    },
+                    {"data": "value"},
+                    {"data": "Inherent.description"}
+                ], 3);
+
+                table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
+                    {
+                        data: "TriggerSkill.name",
+                        render: function (data, type, row) {
+                            return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "data": function (row, type, val, meta) {
+                            if (row.currentLevel === 0) {
+                                return "";
+                            }
+                            if (row.currentLevel === 1) {
+                                return getLevelName(1);
+                            }
+                            if (row.currentLevel === 2) {
+                                return getLevelName(2);
+                            }
+                            if (row.currentLevel === 3) {
+                                return getLevelName(3);
+                            }
+                            if (row.currentLevel === 4) {
+                                return getLevelName(4);
+                            }
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "data": function (row, type, val, meta) {
+                            if (row.talented) {
+                                return $i18next.t('general.yes');
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {"data": "TriggerSkill.description"}
+                ], 4);
+            }, 500);
+        }
+    };
 
     $scope.setWeight = function () {
         swal({
@@ -660,103 +770,6 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
 
         $('#loader').hide();
         $('section').removeClass('hide');
-        table('/personageFlawsByPersonageId/' + personageId, '#flaws', [
-            {
-                data: "Flaw.name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {"data": "Flaw.description"}
-        ], 2);
-
-        table('/personageMeritsByPersonageId/' + personageId, '#merits', [
-            {
-                data: "Merit.name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {"data": "Merit.description"}
-        ], 2);
-
-        $http.get('/byKey/' + 'show_default_skills' + $localStorage.playerId).then(function (response) {
-            $scope.defaultSkills = response.data.result != null;
-            table('/personageAttachedSkillsByPersonageId/' + personageId, '#attachedSkills', [
-                {
-                    data: "AttachedSkill.name",
-                    render: function (data, type, row) {
-                        return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                    }
-                },
-                {"data": "value"},
-                {
-                    data: "AttachedSkill",
-                    orderable: false,
-                    render: function (data, type, row) {
-                        var returned = '';
-                        angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
-                            var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
-                            var withModifiers = addAllModifiers(attachedSkillAttribute.name, value);
-                            returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + withModifiers.text + '=' + withModifiers.value + ':</small></h4>' + attachedSkillAttribute.description;
-                        });
-                        return returned;
-                    }
-                },
-                {"data": "AttachedSkill.description"}
-            ], 4);
-        });
-
-        table('/personageInherentsByPersonageId/' + personageId, '#inherents', [
-            {
-                data: "Inherent.name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {"data": "value"},
-            {"data": "Inherent.description"}
-        ], 3);
-
-        table('/personageTriggerSkillsByPersonageId/' + personageId, '#triggerSkills', [
-            {
-                data: "TriggerSkill.name",
-                render: function (data, type, row) {
-                    return '<i class="icmn-circle-down2 margin-inline"></i>' + data;
-                }
-            },
-            {
-                "targets": 0,
-                "data": function (row, type, val, meta) {
-                    if (row.currentLevel === 0) {
-                        return "";
-                    }
-                    if (row.currentLevel === 1) {
-                        return getLevelName(1);
-                    }
-                    if (row.currentLevel === 2) {
-                        return getLevelName(2);
-                    }
-                    if (row.currentLevel === 3) {
-                        return getLevelName(3);
-                    }
-                    if (row.currentLevel === 4) {
-                        return getLevelName(4);
-                    }
-                }
-            },
-            {
-                "targets": 0,
-                "data": function (row, type, val, meta) {
-                    if (row.talented) {
-                        return $i18next.t('general.yes');
-                    } else {
-                        return "";
-                    }
-                }
-            },
-            {"data": "TriggerSkill.description"}
-        ], 4);
     }
 
     function getLevelName(levelNumber) {
@@ -1290,4 +1303,25 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
             });
         });
     };
+    if ($localStorage.activeTab !== undefined) {
+        $('#' + $localStorage.activeTab).click();
+        if ($localStorage.activeTab === 'spells_tab') {
+            $scope.getPersonageSpells();
+        }
+        if ($localStorage.activeTab === 'notices_tab') {
+            $timeout(function () {
+                $scope.showNotices();
+            }, 500);
+        }
+        if ($localStorage.activeTab === 'main_skills_tab') {
+            $timeout(function () {
+                $scope.getMainParameters();
+            }, 500);
+        }
+    } else {
+        $('#main_skills_tab').addClass('active');
+        $timeout(function () {
+            $scope.getMainParameters();
+        }, 500);
+    }
 });

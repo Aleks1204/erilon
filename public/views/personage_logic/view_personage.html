@@ -434,22 +434,26 @@
         <div class="panel" style="box-shadow: 0px 0px">
             <div class="custom-panel-body">
                 <div class="nav-tabs-horizontal">
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="nav nav-tabs" role="tablist" id="tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab"
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" id="main_skills_tab"
+                               ng-click="getMainParameters();saveActiveTab('main_skills_tab')"
                                data-target="#main_skills" role="tab" ng-i18next>page.character.tab.main</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#spells"
-                               role="tab" ng-click="getPersonageSpells()" ng-i18next>page.character.tab.spells</a>
+                               id="spells_tab"
+                               role="tab" ng-click="getPersonageSpells();saveActiveTab('spells_tab')" ng-i18next>page.character.tab.spells</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#notices"
-                               role="tab" ng-click="showNotices()" ng-i18next>page.character.tab.notices</a>
+                               id="notices_tab"
+                               role="tab" ng-click="showNotices();saveActiveTab('notices_tab')" ng-i18next>page.character.tab.notices</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab"
-                               data-target="#additionalDerived"
+                               id="additional_derived_tab" ng-click="saveActiveTab('additional_derived_tab')"
+                               data-target="#additional_derived"
                                role="tab" ng-i18next>page.character.tab.additional_derived</a>
                         </li>
                     </ul>
@@ -566,7 +570,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="additionalDerived" role="tabpanel">
+                        <div class="tab-pane" id="additional_derived" role="tabpanel">
                             <div class="panel">
                                 <h3 class="panel-heading" style="margin-bottom: 0">
                                     <span ng-i18next>page.character.tab.additional_derived</span>
