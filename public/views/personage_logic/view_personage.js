@@ -116,7 +116,13 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
         var name = targetName.toLowerCase();
         var finalValue = initialValue;
         var percentage = 1;
-        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + ' [' + baseParametersString + '] : ' + initialValue + ", ";
+
+        if (baseParametersString === null) {
+            baseParametersString = ':';
+        } else {
+            baseParametersString = ' [' + baseParametersString + ']: ';
+        }
+        var descriptionString = $i18next.t('page.character.additional_derivatives.base_value') + baseParametersString + initialValue + ", ";
         var modifierString = '';
         angular.forEach($scope.personageMerits, function (personageMerit) {
             var bonuses_description = personageMerit.Merit.permanent_bonus.toLowerCase();
@@ -243,7 +249,7 @@ app.controller("personageController", function ($scope, $http, $q, $localStorage
                                 var returned = '';
                                 angular.forEach(data.AttachedSkillAttributes, function (attachedSkillAttribute) {
                                     var value = getPersonageAttributeValue(attachedSkillAttribute.Attribute) + row.value;
-                                    var withModifiers = addAllModifiers(attachedSkillAttribute.name, value, attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name);
+                                    var withModifiers = addAllModifiers(attachedSkillAttribute.name, value, null);
                                     returned = returned + '<h4 class="margin-bottom-0"><small>' + attachedSkillAttribute.Attribute.name + '+' + attachedSkillAttribute.AttachedSkill.name + withModifiers.text + '=' + withModifiers.value + ':</small></h4>' + attachedSkillAttribute.description;
                                 });
                                 return returned;
