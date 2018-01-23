@@ -3067,6 +3067,26 @@ app.controller("personageController", function ($scope, $http, $q, $timeout, $wi
         location.reload();
     };
 
+    $scope.saveActiveTabButton = function (tabId) {
+        $localStorage.activeTabButton = tabId;
+    };
+
+    if ($localStorage.activeTabButton !== undefined) {
+        $('#' + $localStorage.activeTabButton).click();
+    } else {
+        $('#inherentsButton').addClass('active');
+    }
+
+    $scope.saveActiveTabButtonMobile = function (tabId) {
+        $localStorage.activeTabButton = tabId;
+    };
+
+    if ($localStorage.activeTabButton !== undefined) {
+        $('#' + $localStorage.activeTabButton).click();
+    } else {
+        $('#inherentsButton').addClass('active');
+    }
+
     $scope.savePersonage = function () {
         $('#loader').show();
         $('section').addClass('hide');

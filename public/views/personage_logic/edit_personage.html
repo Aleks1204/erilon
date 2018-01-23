@@ -222,66 +222,95 @@
                         <table id="buttons" class="table">
                             <tr>
                                 <td>
-                                    <button class="btn inherentsButton active" ng-i18next>
+                                    <button id="inherentsButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('inherentsButtonMobile')"
+                                            class="btn inherentsButton" ng-i18next>
                                         page.character.mobile.inherents
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn attributesButton" ng-i18next>page.character.mobile.attributes
+                                    <button id="attributesButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('attributesButtonMobile')"
+                                            class="btn attributesButton" ng-i18next>page.character.mobile.attributes
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn attachedButton" ng-i18next>page.character.mobile.attached
+                                    <button id="attachedButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('attachedButtonMobile')"
+                                            class="btn attachedButton" ng-i18next>page.character.mobile.attached
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn triggerButton" ng-i18next>page.character.mobile.trigger</button>
+                                    <button id="triggerButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('triggerButtonMobile')"
+                                            class="btn triggerButton" ng-i18next>page.character.mobile.trigger
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn meritsButton" ng-i18next>page.character.mobile.merits</button>
+                                    <button id="meritsButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('meritsButtonMobile')"
+                                            class="btn meritsButton" ng-i18next>page.character.mobile.merits
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn flawsButton" ng-i18next>page.character.mobile.flaws</button>
+                                    <button id="flawsButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('flawsButtonMobile')"
+                                            class="btn flawsButton" ng-i18next>page.character.mobile.flaws
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn spellsButton" ng-i18next>page.character.mobile.spells</button>
+                                    <button id="spellsButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('spellsButtonMobile')"
+                                            class="btn spellsButton" ng-i18next>page.character.mobile.spells
+                                    </button>
                                 </td>
                                 <td>
-                                    <button class="btn notesButton" ng-i18next>page.character.mobile.notices</button>
+                                    <button id="notesButtonMobile"
+                                            ng-click="saveActiveTabButtonMobile('notesButtonMobile')"
+                                            class="btn notesButton" ng-i18next>page.character.mobile.notices
+                                    </button>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="hidden-xs-down hidden-sm-down createEditDiv">
-                        <button class="btn createEditTabs inherentsButton active">
+                        <button id="inherentsButton" ng-click="saveActiveTabButton('inherentsButton')"
+                                class="btn createEditTabs inherentsButton active">
                             <span ng-i18next>page.character.upper.inherents</span>
                             <div class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs attributesButton">
+                        <button id="attributesButton" ng-click="saveActiveTabButton('attributesButton')"
+                                class="btn createEditTabs attributesButton">
                             <span ng-i18next>page.character.upper.attributes</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs attachedButton">
+                        <button id="attachedButton" ng-click="saveActiveTabButton('attachedButton')"
+                                class="btn createEditTabs attachedButton">
                             <span ng-i18next>page.character.upper.attached</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs triggerButton">
+                        <button id="triggerButton" ng-click="saveActiveTabButton('triggerButton')"
+                                class="btn createEditTabs triggerButton">
                             <span ng-i18next>page.character.upper.trigger</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs meritsButton">
+                        <button id="meritsButton" ng-click="saveActiveTabButton('meritsButton')"
+                                class="btn createEditTabs meritsButton">
                             <span ng-i18next>page.character.upper.merits</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs flawsButton">
+                        <button id="flawsButton" ng-click="saveActiveTabButton('flawsButton')"
+                                class="btn createEditTabs flawsButton">
                             <span ng-i18next>page.character.upper.flaws</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs spellsButton">
+                        <button id="spellsButton" ng-click="saveActiveTabButton('spellsButton')"
+                                class="btn createEditTabs spellsButton">
                             <span ng-i18next>page.character.upper.spells</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
-                        <button class="btn createEditTabs notesButton">
+                        <button id="notesButton" ng-click="saveActiveTabButton('notesButton')"
+                                class="btn createEditTabs notesButton">
                             <span ng-i18next>page.character.upper.notices</span>
                             <div style="display: none" class="arrow-down"></div>
                         </button>
