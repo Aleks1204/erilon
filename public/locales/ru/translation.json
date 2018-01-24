@@ -88,6 +88,7 @@
   },
   "left_menu": {
     "characters": "Персонажи",
+    "rooms": "Комнаты",
     "races": "Расы",
     "attributes": "Атрибуты",
     "merits": "Достоинства",
@@ -127,6 +128,33 @@
       "nick_name": "Имя...",
       "enter_nick_name": "Введите имя игрока для входа:",
       "login_label": "Войти в систему"
+    },
+    "room": {
+      "connect_personage": "Добавить в комнату",
+      "personage_placeholder": "Введите имя персонажа",
+      "personages_in_room": "Персонажи в комнате",
+      "disconnect_personage": "Отключить",
+      "change_owner": "Передать права создателя другому игроку",
+      "player_placeholder": "Введите имя игрока",
+      "change_owner_button": "Передать"
+    },
+    "rooms": {
+      "header": "Игровые комнаты",
+      "in_room": "В комнату",
+      "add": {
+        "title": "Создать комнату",
+        "name": "Имя:",
+        "description": "Описание:"
+      },
+      "edit": {
+        "title": "Изменить комнату"
+      },
+      "delete": {
+        "text": "Вы уверены что хотите удалить данную комнату?"
+      },
+      "error_message": {
+        "empty_name": "Имя комнаты не может быть пустым!"
+      }
     },
     "characters": {
       "add_character_header": "Добавить персонажа",
@@ -427,7 +455,6 @@
           "oppression": "Спасбросок:соблазнение"
         }
       },
-
       "notice": {
         "add_title": "Добавить заметку",
         "edit_title": "Изменить заметку",

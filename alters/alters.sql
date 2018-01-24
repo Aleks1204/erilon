@@ -64,3 +64,16 @@ ALTER TABLE "Flaws" ADD COLUMN situation_bonus TEXT DEFAULT '' NOT NULL;
 ALTER TABLE "Inherents" RENAME COLUMN action_level_bonus TO permanent_bonus;
 ALTER TABLE "Inherents" ADD COLUMN situation_bonus TEXT DEFAULT '' NOT NULL;
 ALTER TABLE "AttachedSkillAttributes" ADD COLUMN name TEXT DEFAULT '' NOT NULL;
+ALTER TABLE "Personages" ADD "RoomId" INT NULL;
+ALTER TABLE "Personages" ADD CONSTRAINT Personages_Rooms_id_fk FOREIGN KEY ("RoomId") REFERENCES "Rooms" (id);
+CREATE TABLE "Rooms"
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name TEXT,
+    description TEXT,
+    "PlayerId" INT,
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    CONSTRAINT Rooms_Players_id_fk FOREIGN KEY ("PlayerId") REFERENCES "Players" (id)
+);
+CREATE UNIQUE INDEX Rooms_id_uindex ON "Rooms" (id);

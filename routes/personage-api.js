@@ -40,7 +40,25 @@ router.get('/personagesByPlayerId/:id', function (req, res) {
             PlayerId: req.params.id,
             deleted: false
         },
-        include: [models.Race]
+        include: [
+            models.Race,
+            models.Player
+        ]
+    }).then(function (personages) {
+        return res.send({personages: personages});
+    });
+});
+
+router.get('/personagesByRoomId/:id', function (req, res) {
+    models.Personage.findAll({
+        where: {
+            RoomId: req.params.id,
+            deleted: false
+        },
+        include: [
+            models.Race,
+            models.Player
+        ]
     }).then(function (personages) {
         return res.send({personages: personages});
     });
@@ -85,6 +103,22 @@ router.put('/personages/:id', function (req, res) {
             generated: req.body.generated,
             experience: req.body.experience,
             avatar: req.body.avatar
+        }).then(function (personage) {
+            res.send({status: 'UPDATED', personage: personage})
+        });
+    });
+});
+
+router.put('/setPersonageRoom/:id', function (req, res) {
+    models.Personage.findById(req.params.id).then(function (personage) {
+        if (!personage) {
+            res.statusCode = 404;
+            return res.send({error: 'Not found'});
+        }
+
+        personage.RoomId = req.body.room_id;
+        return personage.update({
+            RoomId: req.body.room_id
         }).then(function (personage) {
             res.send({status: 'UPDATED', personage: personage})
         });

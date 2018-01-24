@@ -88,6 +88,7 @@
   },
   "left_menu": {
     "characters": "Characters",
+    "rooms": "Rooms",
     "races": "Races",
     "attributes": "Attributes",
     "merits": "Merits",
@@ -127,6 +128,33 @@
       "nick_name": "Player name...",
       "enter_nick_name": "Enter player name to log in:",
       "login_label": "Login to the system"
+    },
+    "romm": {
+      "connect_personage": "Add to the room",
+      "personage_placeholder": "Enter personage name",
+      "personages_in_room": "Characters in the room",
+      "disconnect_personage": "Disconnect",
+      "change_owner": "Pass right for this room to another player",
+      "player_placeholder": "Enter player name",
+      "change_owner_button": "Change"
+    },
+    "rooms": {
+      "header": "Playing rooms",
+      "in_room": "Into room",
+      "add": {
+        "title": "Create room",
+        "name": "Name:",
+        "description": "Description:"
+      },
+      "edit": {
+        "title": "Edit room"
+      },
+      "delete": {
+        "text": "Are you sure you want to delete this room?"
+      },
+      "error_message": {
+        "empty_name": "Room name cannot be empty!"
+      }
     },
     "characters": {
       "add_character_header": "Add character",
